@@ -1,12 +1,5 @@
-group = "tech.skot"
-version = "0.1"
-
-repositories {
-    google()
-    jcenter()
-    mavenCentral()
-}
-
+group = Versions.group
+version = Versions.version
 
 plugins {
     kotlin("multiplatform")
@@ -14,7 +7,6 @@ plugins {
     id("kotlin-android-extensions")
     id("maven-publish")
 }
-
 
 
 dependencies {
@@ -56,7 +48,6 @@ kotlin {
 
     sourceSets["androidMain"].dependencies {
     }
-
 
 
 }

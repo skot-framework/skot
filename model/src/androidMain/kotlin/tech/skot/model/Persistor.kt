@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
+import tech.skot.model.persist.PersistDb
 
 class AndroidPersistor(context: Context, dbFilename: String) : Persistor {
     val db = PersistDb(

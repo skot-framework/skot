@@ -1,5 +1,8 @@
 object Versions {
 
+    val group = "tech.skot"
+    val version = "0.0.1"
+
     val kotlin = "1.3.61"
     val kotlinCoroutines = "1.3.3"
     val ktor = "1.2.6"
@@ -12,4 +15,7 @@ object Versions {
     //android
     val timber = "4.7.1"
     val appcompat = "1.1.0"
+
+
+    val kotlinpoet = "1.4.0"
 }

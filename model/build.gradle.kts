@@ -1,11 +1,5 @@
-group = "tech.skot"
-version = "0.1"
-
-repositories {
-    google()
-    jcenter()
-    mavenCentral()
-}
+group = Versions.group
+version = Versions.version
 
 
 plugins {
@@ -19,7 +13,6 @@ plugins {
 
 
 dependencies {
-//    api("androidx.appcompat:appcompat:${Versions.appcompat}")
     implementation("com.squareup.sqldelight:android-driver:${Versions.sqldelight}")
 }
 

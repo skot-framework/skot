@@ -2,8 +2,10 @@ package tech.skot.generator
 
 import org.w3c.dom.Element
 import java.nio.file.Path
+import java.nio.file.Paths
 import javax.xml.parsers.DocumentBuilderFactory
 import kotlin.reflect.KClass
+import kotlin.reflect.KType
 
 fun getPackageName(path: Path): String {
     val manifest = path.resolve("AndroidManifest.xml")
@@ -25,3 +27,9 @@ fun Element.childElements(): List<Element> {
 }
 
 fun KClass<*>.`package`() = this.java.`package`
+fun KClass<*>.packageName() = this.java.`package`.name
+fun KType.isAny() = this.classifier == Any::class
+
+val appPackageName by lazy {
+    getPackageName(Paths.get("../app/src/main"))
+}

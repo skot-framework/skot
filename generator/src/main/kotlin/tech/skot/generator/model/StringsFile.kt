@@ -1,6 +1,7 @@
 package tech.skot.generator.model
 
 import com.squareup.kotlinpoet.*
+import tech.skot.generator.appPackageName
 import tech.skot.generator.childElements
 import tech.skot.generator.getDocumentElement
 import tech.skot.generator.getPackageName
@@ -11,14 +12,7 @@ import java.util.stream.Collectors
 fun buildStringsFile(moduleName:String) {
     val module = Paths.get("../$moduleName")
     val values = module.resolve("src/main/res/values")
-    val appPackageName = getPackageName(Paths.get("../app/src/main"))
     val modulePackageName = getPackageName(Paths.get("../$moduleName/src/androidMain"))
-
-    class Data(val items: List<String>)
-
-    val data = listOf(Data(listOf("a", "b", "c")), Data(listOf("1", "2", "3")))
-    val items: List<String> = data.flatMap { it.items } //[a, b, c, 1, 2, 3]
-    val items2: List<List<String>> = data.map { it.items }
 
 
     val strings =
@@ -29,7 +23,6 @@ fun buildStringsFile(moduleName:String) {
 
 
     //Construction du fichier
-    val classe = ClassName("$appPackageName.model", "StringsGen")
     val contextClassName = ClassName("android.content", "Context")
 
 

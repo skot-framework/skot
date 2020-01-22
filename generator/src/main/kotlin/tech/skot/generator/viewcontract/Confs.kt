@@ -2,56 +2,105 @@ package tech.skot.generator.viewcontract
 
 import com.squareup.kotlinpoet.*
 import tech.skot.contract.viewcontract.ComponentView
-import kotlin.reflect.*
-import kotlin.reflect.full.createType
-import kotlin.reflect.full.isSubtypeOf
-import kotlin.reflect.full.superclasses
+import tech.skot.generator.*
+import java.io.File
+import java.nio.file.Paths
+import kotlin.reflect.KClass
+import kotlin.reflect.KProperty
 
-fun KClass<out ComponentView>.buildConf(): FileSpec {
+fun ViewNode.buildConfsFilesAndInjector(moduleName: String) {
+    val viewInjectorInterface = TypeSpec.interfaceBuilder("ViewInjector")
 
-    val confClassName = "${simpleName}Conf"
+    val srcFile = Paths.get("../$moduleName/generated/commonMain/kotlin").toFile()
+    buildConfsFiles(srcFile, mutableSetOf(), viewInjectorInterface)
+
+    FileSpec.builder(appPackageName, "ViewInjector")
+            .apply {
+                addType(viewInjectorInterface.build())
+            }.build().writeTo(srcFile)
+}
+
+fun ViewNode.buildConfsFiles(srcFile: File, alreadyDone: MutableSet<KClass<out ComponentView>>, viewInjectorInterface: TypeSpec.Builder) {
+    viewClass.buildConfs(srcFile, alreadyDone, viewInjectorInterface)
+    children?.forEach {
+        it.buildConfsFiles(srcFile, alreadyDone, viewInjectorInterface)
+    }
+}
+
+fun KClass<out ComponentView>.buildConfs(srcFile: File, alreadyDone: MutableSet<KClass<out ComponentView>>, viewInjectorInterface: TypeSpec.Builder) {
+    val packageName = packageName()
+    val confClassName = "${simpleName!!.substringBefore("View")}Conf"
+    val confSpec = buildConf(confClassName)
+    confSpec?.let {
+        FileSpec.builder(packageName, confClassName)
+                .apply {
+                    addType(it)
+                }.build().writeTo(srcFile)
+    }
+    val funBuilder = FunSpec.builder("${simpleName!!.substringBefore("View").decapitalize()}")
+    funBuilder.returns(this)
+    funBuilder.addModifiers(KModifier.ABSTRACT)
+    confSpec?.let {
+        funBuilder.addParameter(ParameterSpec("conf", ClassName(packageName, confClassName)))
+    }
+    ownMembers()
+            .filter { it is KProperty }
+            .filter {
+                it.returnType.isComponentView() || it.returnType.isCollectionOfComponentView()
+            }
+            .forEach {
+                funBuilder.addParameter(ParameterSpec(it.name, it.returnType.asTypeName()))
+            }
+
+
+    alreadyDone.add(this)
+    subComponents()
+            .fromApp()
+            .forEach {
+                if (!alreadyDone.contains(it)) {
+                    it.buildConfs(srcFile, alreadyDone, viewInjectorInterface)
+                }
+            }
+    viewInjectorInterface.addFunction(funBuilder.build())
+
+}
+
+fun KClass<out ComponentView>.buildConf(confClassName: String): TypeSpec? {
+
     val properties =
             ownMembers()
                     .filter { it is KProperty }
                     .filter {
                         !it.returnType.isComponentView() && !it.returnType.isCollectionOfComponentView()
                     }
-    val confClass =
-            TypeSpec.classBuilder(confClassName)
-                    .primaryConstructor(
-                            FunSpec.constructorBuilder()
-                                    .addParameters(
-                                            properties.map {
-                                                ParameterSpec(it.name, it.returnType.asTypeName())
-                                            }
-                                    ).build()
-                    )
-                    .addProperties(
-                            properties
-                                    .map {
-                                        PropertySpec.builder(it.name, it.returnType.asTypeName())
-                                                .initializer(it.name)
-                                                .build()
-                                    }
-                    )
 
+    return if (properties.isNotEmpty()) {
 
+        TypeSpec.classBuilder(confClassName)
+                .primaryConstructor(
+                        FunSpec.constructorBuilder()
+                                .addParameters(
+                                        properties.map {
+                                            ParameterSpec(it.name, it.returnType.asTypeName())
+                                        }
+                                ).build()
+                )
+                .addProperties(
+                        properties
+                                .map {
+                                    PropertySpec.builder(it.name, it.returnType.asTypeName())
+                                            .initializer(it.name)
+                                            .build()
+                                }
+                ).build()
 
-    return FileSpec.builder(packageName(), confClassName)
-            .apply {
-                addType(confClass.build())
-            }.build()
+//        FileSpec.builder(packageName(), confClassName)
+//                .apply {
+//                    addType(confClass.build())
+//                }.build()
+    } else null
+
 }
 
 
-fun KClass<*>.packageName() = this.java.`package`.name
-fun KType.isAny() = this.classifier == Any::class
-fun KClass<*>.ownMembers(): List<KCallable<*>> {
-    val superMembersNames = superclasses[0].members.map { it.name }
-    return members.filter { !superMembersNames.contains(it.name) }
-}
 
-val componentViewType = ComponentView::class.createType()
-val collectionType = Collection::class.createType(arguments = listOf(KTypeProjection(KVariance.OUT, componentViewType)))
-fun KType.isComponentView() = isSubtypeOf(componentViewType)
-fun KType.isCollectionOfComponentView() = isSubtypeOf(collectionType)

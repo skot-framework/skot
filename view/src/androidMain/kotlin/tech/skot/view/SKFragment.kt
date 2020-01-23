@@ -5,33 +5,48 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import tech.skot.components.ScreenViewImpl
 
-abstract class SKFragment : Fragment() {
+interface SKFragment {
 
     companion object {
         const val ARG_VIEW_KEY = "ARG_VIEW_KEY"
 
         inline fun <reified F : SKFragment> getInstance(viewKey: Long) =
                 F::class.java.newInstance().apply {
-                    arguments = Bundle().apply {
+                    fragment.arguments = Bundle().apply {
                         putLong(ARG_VIEW_KEY, viewKey)
                     }
                 }
     }
 
+    fun getScreenViewForKey(key: Long, inflater: LayoutInflater): View?
 
-    abstract fun getScreenViewForKey(key: Long, inflater: LayoutInflater): View?
+    val fragment: Fragment
+
+    fun onCreateViewSK(inflater: LayoutInflater,
+                       container: ViewGroup?,
+                       savedInstanceState: Bundle?
+    ) = (fragment.activity as? SKActivity)?.let { _ ->
+        val viewKey = fragment.arguments?.getLong(ARG_VIEW_KEY)
+        getScreenViewForKey(viewKey ?: throw Exception("BaseFragment sans viewKey"), inflater)
+    }
+
+}
+
+abstract class SKFragmentImpl : Fragment(), SKFragment {
+
+    override fun getScreenViewForKey(key: Long, inflater: LayoutInflater) = (activity as? SKActivityImpl)?.let {
+        ScreenViewImpl.getInstance<ScreenViewImpl<*, SKActivity, SKFragment>>(key)
+                .inflate(layoutInflater, Container(it, this))
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-
-        return (activity as? SKActivity)?.let { _ ->
-            val viewKey = arguments?.getLong(ARG_VIEW_KEY)
-            getScreenViewForKey(viewKey ?: throw Exception("BaseFragment sans viewKey"), inflater)
-        }
+        return onCreateViewSK(inflater, container, savedInstanceState)
     }
 
 

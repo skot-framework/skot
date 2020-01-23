@@ -1,11 +1,13 @@
-package tech.skot.view.frame
+package tech.skot.components
 
+import tech.skot.contract.components.FrameObserverInterface
 import tech.skot.contract.components.FrameView
 import tech.skot.contract.components.ScreenView
 import tech.skot.view.Action
-import tech.skot.view.component.ComponentViewImpl
+import tech.skot.view.SKActivity
+import tech.skot.view.SKFragment
 
-class FrameViewImpl : ComponentViewImpl<FrameObserverInterface>(), FrameView {
+class FrameViewImpl : ComponentViewImpl<FrameObserverInterface, SKActivity, SKFragment>(), FrameView {
 
     data class SetScreen(val screen: ScreenView) : Action()
 

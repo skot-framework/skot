@@ -1,11 +1,14 @@
-package tech.skot.view.component
+package tech.skot.components
 
 import androidx.lifecycle.LifecycleOwner
+import tech.skot.contract.components.ComponentObserverInterface
 import tech.skot.contract.components.ComponentView
 import tech.skot.view.Action
+import tech.skot.view.SKActivity
+import tech.skot.view.SKFragment
 import tech.skot.view.live.SKMessage
 
-abstract class ComponentViewImpl<O : ComponentObserverInterface> : ComponentView {
+abstract class ComponentViewImpl<O : ComponentObserverInterface, A : SKActivity, F : SKFragment> : ComponentView {
 
     protected val messages =
             SKMessage<Action>()

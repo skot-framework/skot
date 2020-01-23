@@ -1,18 +1,20 @@
-package tech.skot.view.screen
+package tech.skot.components
 
+import android.view.LayoutInflater
+import android.view.View
 import androidx.lifecycle.LifecycleOwner
+import tech.skot.contract.components.ScreenObserverInterface
 import tech.skot.contract.components.ScreenView
-import tech.skot.view.Action
-import tech.skot.view.OpenScreen
-import tech.skot.view.component.ComponentViewImpl
+import tech.skot.view.*
 import tech.skot.view.live.MutableSKLiveData
 
-abstract class ScreenViewImpl<O : ScreenObserverInterface> : ComponentViewImpl<O>(),
+
+abstract class ScreenViewImpl<O : ScreenObserverInterface, A : SKActivity, F : SKFragment> : ComponentViewImpl<O, A, F>(),
         ScreenView {
 
     companion object {
         var counter: Long = 0
-        val instances: MutableMap<Long, Any> = mutableMapOf()
+        val instances: MutableMap<Long, ScreenViewImpl<*, *, *>> = mutableMapOf()
 
         fun <S> getInstance(key: Long): S {
             return (instances[key] as S?)!!
@@ -67,4 +69,7 @@ abstract class ScreenViewImpl<O : ScreenObserverInterface> : ComponentViewImpl<O
             observer.onOnBack(it)
         }
     }
+
+    abstract fun inflate(layoutInflater: LayoutInflater,
+                         container: Container<out A, out F>): View
 }

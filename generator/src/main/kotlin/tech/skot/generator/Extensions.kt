@@ -1,6 +1,7 @@
 package tech.skot.generator
 
 import org.w3c.dom.Element
+import tech.skot.contract.components.ComponentView
 import java.nio.file.Path
 import java.nio.file.Paths
 import javax.xml.parsers.DocumentBuilderFactory
@@ -33,3 +34,9 @@ fun KType.isAny() = this.classifier == Any::class
 val appPackageName by lazy {
     getPackageName(Paths.get("../app/src/main"))
 }
+
+fun cleanGenerated(moduleName:String) {
+    Paths.get("../$moduleName/generated").toFile().deleteRecursively()
+}
+
+fun KClass<out ComponentView>.compName() = simpleName!!.substringBefore("View")

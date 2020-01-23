@@ -1,7 +1,7 @@
 package tech.skot.generator.viewcontract
 
 import com.squareup.kotlinpoet.*
-import tech.skot.contract.viewcontract.ComponentView
+import tech.skot.contract.components.ComponentView
 import tech.skot.generator.*
 import java.io.File
 import java.nio.file.Paths
@@ -29,7 +29,7 @@ fun ViewNode.buildConfsFiles(srcFile: File, alreadyDone: MutableSet<KClass<out C
 
 fun KClass<out ComponentView>.buildConfs(srcFile: File, alreadyDone: MutableSet<KClass<out ComponentView>>, viewInjectorInterface: TypeSpec.Builder) {
     val packageName = packageName()
-    val confClassName = "${simpleName!!.substringBefore("View")}Conf"
+    val confClassName = "${compName()}Conf"
     val confSpec = buildConf(confClassName)
     confSpec?.let {
         FileSpec.builder(packageName, confClassName)
@@ -94,10 +94,6 @@ fun KClass<out ComponentView>.buildConf(confClassName: String): TypeSpec? {
                                 }
                 ).build()
 
-//        FileSpec.builder(packageName(), confClassName)
-//                .apply {
-//                    addType(confClass.build())
-//                }.build()
     } else null
 
 }

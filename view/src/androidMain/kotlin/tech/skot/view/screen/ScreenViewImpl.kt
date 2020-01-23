@@ -1,7 +1,7 @@
 package tech.skot.view.screen
 
 import androidx.lifecycle.LifecycleOwner
-import tech.skot.contract.viewcontract.ScreenView
+import tech.skot.contract.components.ScreenView
 import tech.skot.view.Action
 import tech.skot.view.OpenScreen
 import tech.skot.view.component.ComponentViewImpl

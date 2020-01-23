@@ -1,7 +1,7 @@
 package tech.skot.view.component
 
 import androidx.lifecycle.LifecycleOwner
-import tech.skot.contract.viewcontract.ComponentView
+import tech.skot.contract.components.ComponentView
 import tech.skot.view.Action
 import tech.skot.view.live.SKMessage
 

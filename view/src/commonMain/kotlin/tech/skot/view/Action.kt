@@ -1,6 +1,6 @@
 package tech.skot.view
 
-import tech.skot.contract.viewcontract.ScreenView
+import tech.skot.contract.components.ScreenView
 
 open class Action
 object Remove:Action()

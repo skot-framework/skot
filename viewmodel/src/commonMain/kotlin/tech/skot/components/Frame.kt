@@ -1,7 +1,7 @@
-package tech.skot.viewmodel
+package tech.skot.components
 
-import tech.skot.contract.viewcontract.FrameView
-import tech.skot.contract.viewcontract.ScreenView
+import tech.skot.contract.components.FrameView
+import tech.skot.contract.components.ScreenView
 
 abstract class Frame : Component<FrameView>() {
 

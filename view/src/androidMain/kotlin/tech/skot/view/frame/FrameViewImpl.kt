@@ -1,7 +1,7 @@
 package tech.skot.view.frame
 
-import tech.skot.contract.viewcontract.FrameView
-import tech.skot.contract.viewcontract.ScreenView
+import tech.skot.contract.components.FrameView
+import tech.skot.contract.components.ScreenView
 import tech.skot.view.Action
 import tech.skot.view.component.ComponentViewImpl
 

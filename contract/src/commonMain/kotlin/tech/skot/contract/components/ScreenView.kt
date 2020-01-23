@@ -1,4 +1,4 @@
-package tech.skot.contract.viewcontract
+package tech.skot.contract.components
 
 interface ScreenView : ComponentView {
     var loading: Boolean

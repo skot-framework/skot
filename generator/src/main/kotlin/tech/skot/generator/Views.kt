@@ -1,6 +1,6 @@
 package tech.skot.generator
 
-import tech.skot.contract.viewcontract.ComponentView
+import tech.skot.contract.components.ComponentView
 import kotlin.reflect.*
 import kotlin.reflect.full.createType
 import kotlin.reflect.full.isSubtypeOf
@@ -19,6 +19,7 @@ fun KClass<*>.ownMembers(): List<KCallable<*>> {
 
 val componentViewType = ComponentView::class.createType()
 val collectionType = Collection::class.createType(arguments = listOf(KTypeProjection(KVariance.OUT, componentViewType)))
+
 fun KType.isComponentView() = isSubtypeOf(componentViewType)
 fun KType.isCollectionOfComponentView() = isSubtypeOf(collectionType)
 
@@ -26,6 +27,8 @@ fun KClass<out ComponentView>.subComponents() =
         ownMembers()
                 .map { it.returnType }
                 .mapNotNull { it.componentView() }
+
+fun KClass<out ComponentView>.superComponent() = superclasses[0] as KClass<out ComponentView>
 
 fun KType.componentView(): KClass<out ComponentView>? {
     if (isComponentView()) {
@@ -37,4 +40,4 @@ fun KType.componentView(): KClass<out ComponentView>? {
     }
 }
 
-fun <V:Any>List<KClass<out V>>.fromApp() = filter { it?.packageName()?.startsWith(appPackageName) == true}
+fun <V : Any> List<KClass<out V>>.fromApp() = filter { it?.packageName()?.startsWith(appPackageName) == true }

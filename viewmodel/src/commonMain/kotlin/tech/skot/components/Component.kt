@@ -1,8 +1,8 @@
-package tech.skot.viewmodel
+package tech.skot.components
 
 import kotlinx.coroutines.*
 import tech.skot.contract.modelcontract.Poker
-import tech.skot.contract.viewcontract.ComponentView
+import tech.skot.contract.components.ComponentView
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 

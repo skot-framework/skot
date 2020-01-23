@@ -12,10 +12,13 @@ object Versions {
 
     val sqldelight = "1.2.1"
 
-    //android
-    val timber = "4.7.1"
-    val appcompat = "1.1.0"
 
 
     val kotlinpoet = "1.4.0"
+
+    object Android {
+        val timber = "4.7.1"
+        val appcompat = "1.1.0"
+        val constraintLayout = "1.1.3"
+    }
 }

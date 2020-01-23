@@ -1,7 +1,7 @@
 package tech.skot.generator
 
 import org.w3c.dom.Element
-import tech.skot.contract.components.ComponentView
+import tech.skot.components.ComponentView
 import java.nio.file.Path
 import java.nio.file.Paths
 import javax.xml.parsers.DocumentBuilderFactory

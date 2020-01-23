@@ -1,7 +1,7 @@
 package tech.skot.generator.viewcontract
 
 import com.squareup.kotlinpoet.*
-import tech.skot.contract.components.ComponentView
+import tech.skot.components.ComponentView
 import tech.skot.generator.*
 import java.io.File
 import java.nio.file.Paths
@@ -14,7 +14,7 @@ fun ViewNode.buildConfsFilesAndInjector(moduleName: String) {
     val srcFile = Paths.get("../$moduleName/generated/commonMain/kotlin").toFile()
     buildConfsFiles(srcFile, mutableSetOf(), viewInjectorInterface)
 
-    FileSpec.builder(appPackageName, "ViewInjector")
+    FileSpec.builder(viewClass.packageName(), "ViewInjector")
             .apply {
                 addType(viewInjectorInterface.build())
             }.build().writeTo(srcFile)

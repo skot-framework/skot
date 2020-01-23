@@ -1,6 +1,6 @@
 package tech.skot.generator
 
-import tech.skot.contract.components.ComponentView
+import tech.skot.components.ComponentView
 import kotlin.reflect.*
 import kotlin.reflect.full.createType
 import kotlin.reflect.full.isSubtypeOf

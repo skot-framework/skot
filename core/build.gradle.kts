@@ -12,7 +12,7 @@ plugins {
 
 
 dependencies {
-    api("com.jakewharton.timber:timber:${Versions.timber}")
+    api("com.jakewharton.timber:timber:${Versions.Android.timber}")
 }
 
 

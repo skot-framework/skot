@@ -3,8 +3,6 @@ package tech.skot.components
 import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
-import tech.skot.contract.components.ScreenObserverInterface
-import tech.skot.contract.components.ScreenView
 import tech.skot.view.*
 import tech.skot.view.live.MutableSKLiveData
 

@@ -10,7 +10,8 @@ plugins {
 
 
 dependencies {
-    api("androidx.appcompat:appcompat:${Versions.appcompat}")
+    api("androidx.appcompat:appcompat:${Versions.Android.appcompat}")
+    api("androidx.constraintlayout:constraintlayout:${Versions.Android.appcompat}")
 }
 
 

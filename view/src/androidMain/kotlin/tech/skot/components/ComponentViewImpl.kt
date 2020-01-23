@@ -1,8 +1,6 @@
 package tech.skot.components
 
 import androidx.lifecycle.LifecycleOwner
-import tech.skot.contract.components.ComponentObserverInterface
-import tech.skot.contract.components.ComponentView
 import tech.skot.view.Action
 import tech.skot.view.SKActivity
 import tech.skot.view.SKFragment

@@ -2,6 +2,7 @@ package tech.skot.components
 
 import kotlinx.coroutines.*
 import tech.skot.contract.modelcontract.Poker
+import tech.skot.core.SKLog
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -38,5 +39,8 @@ abstract class Component<out V : ComponentView> {
         addRemoveObserver { poker.removeObserver(onPoke) }
     }
 
+    fun logD(message:String) {
+        SKLog.d("${this::class.simpleName} -- $message")
+    }
 
 }

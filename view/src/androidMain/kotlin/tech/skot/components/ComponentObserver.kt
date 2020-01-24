@@ -7,7 +7,7 @@ import tech.skot.view.SKActivity
 import tech.skot.view.SKFragment
 
 abstract class ComponentObserver<A : SKActivity, F : SKFragment>(
-        protected val container: Container< out A, out F>
+        val container: Container< out A, out F>
 ) : ComponentObserverInterface {
     val activity: A = container.activity
     val fragment: F? = container.fragment

@@ -11,7 +11,7 @@ abstract class ComponentViewImpl<O : ComponentObserverInterface, A : SKActivity,
     protected val messages =
             SKMessage<Action>()
 
-    var onRemoveAction: (() -> Unit)? = null
+    protected var onRemoveAction: (() -> Unit)? = null
     override fun onRemove() {
         onRemoveAction?.invoke()
     }

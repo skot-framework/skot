@@ -7,4 +7,6 @@ interface ScreenView : ComponentView {
     var onTop: ScreenView?
 
     val key: Long
+
+    fun openScreenWillFinish(screenToOpen:ScreenView)
 }

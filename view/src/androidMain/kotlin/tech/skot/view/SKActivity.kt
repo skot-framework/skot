@@ -52,7 +52,8 @@ abstract class SKActivityImpl : AppCompatActivity(), SKActivity {
 
     override var onBackPressedAction: (() -> Unit)? = null
 
+    //Pas de back par défaut, il faut faire attention avec ça
     override fun onBackPressed() {
-        onBackPressedAction?.invoke() ?: super.onBackPressed()
+        onBackPressedAction?.invoke()
     }
 }

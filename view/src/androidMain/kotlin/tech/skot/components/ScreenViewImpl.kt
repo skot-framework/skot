@@ -47,6 +47,10 @@ abstract class ScreenViewImpl<O : ScreenObserverInterface, A : SKActivity, F : S
             newVal?.let { messages.post(OpenScreen(newVal)) }
         }
 
+    override fun openScreenWillFinish(screenToOpen: ScreenView) {
+        messages.post(OpenScreen(screenToOpen))
+    }
+
     override fun treatAction(action: Action, observer: O) {
         when (action) {
             is OpenScreen -> observer.openScreen(action.screen)

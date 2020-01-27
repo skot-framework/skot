@@ -2,7 +2,7 @@ package tech.skot.view.live
 
 abstract class SKMessageCommon<D> {
 
-    private var pendingValue: D? = null
+    private var pendingValues: List<D> = emptyList()
 
     private var activeCount = 0
         set(value) {
@@ -40,11 +40,12 @@ abstract class SKMessageCommon<D> {
 
         fun onBecomeActive() {
             mActive = true
-            pendingValue?.let {
-                pendingValue = null
+            pendingValues.forEach {
+                pendingValues = pendingValues - it
                 onChanged(it)
             }
         }
+
 
         fun onBecomeInactive() {
             mActive = false
@@ -61,6 +62,7 @@ abstract class SKMessageCommon<D> {
                 mActive = false
                 return false
             }
+            pendingValues = pendingValues - value
             onChanged(value)
             return true
         }
@@ -97,11 +99,12 @@ abstract class SKMessageCommon<D> {
     }
 
     fun debug() =
-            "pendingValue: $pendingValue ${observers.size} observers dont ${observers.count { it.mActive }} actifs activeCount $activeCount"
+            "pendingValues: $pendingValues ${observers.size} observers dont ${observers.count { it.mActive }} actifs activeCount $activeCount"
 
 
     fun post(message: D) {
         runOnMainThread {
+            pendingValues = pendingValues + message
             for (observer in observers) {
                 if (observer.notify(message)) break
             }

@@ -1,10 +1,10 @@
-package tech.skot.generator.model
+package tech.skot.generator
 
 import com.squareup.kotlinpoet.*
-import tech.skot.generator.appPackageName
-import tech.skot.generator.childElements
-import tech.skot.generator.getDocumentElement
-import tech.skot.generator.getPackageName
+import tech.skot.generator.utils.appPackageName
+import tech.skot.generator.utils.childElements
+import tech.skot.generator.utils.getDocumentElement
+import tech.skot.generator.utils.getPackageName
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.stream.Collectors

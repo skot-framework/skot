@@ -39,8 +39,12 @@ abstract class Component<out V : ComponentView> {
         addRemoveObserver { poker.removeObserver(onPoke) }
     }
 
-    fun logD(message:String) {
+    fun logD(message:Any?) {
         SKLog.d("${this::class.simpleName} -- $message")
+    }
+
+    fun logE(message:Any?, throwable: Throwable) {
+        SKLog.e("${this::class.simpleName} -- $message", throwable)
     }
 
 }

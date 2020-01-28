@@ -4,44 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import tech.skot.components.ScreenViewImpl
-import kotlin.reflect.KClass
-import kotlin.reflect.full.createInstance
 
-interface SKFragment {
-
-    companion object {
-        const val ARG_VIEW_KEY = "ARG_VIEW_KEY"
-
-        fun getInstance(viewKey: Long, fragmentClass: KClass<out SKFragment>) = fragmentClass.createInstance().apply {
-            fragment.arguments = Bundle().apply {
-                putLong(ARG_VIEW_KEY, viewKey)
-            }
+fun Fragment.onCreateViewSK(inflater: LayoutInflater,
+                            container: ViewGroup?,
+                            savedInstanceState: Bundle?
+) =
+        arguments?.getLong(ScreenViewImpl.SK_ARG_VIEW_KEY)?.let { viewKey ->
+            ScreenViewImpl.getInstance(viewKey).inflate(inflater, activity as AppCompatActivity, this)
         }
 
-    }
 
-    fun getScreenViewForKey(key: Long, inflater: LayoutInflater): View?
-
-    val fragment: Fragment
-
-    fun onCreateViewSK(inflater: LayoutInflater,
-                       container: ViewGroup?,
-                       savedInstanceState: Bundle?
-    ) = (fragment.activity as? SKActivity)?.let { _ ->
-        val viewKey = fragment.arguments?.getLong(ARG_VIEW_KEY)
-        getScreenViewForKey(viewKey ?: throw Exception("BaseFragment sans viewKey"), inflater)
-    }
-
-}
-
-abstract class SKFragmentImpl : Fragment(), SKFragment {
-
-    override fun getScreenViewForKey(key: Long, inflater: LayoutInflater) = (activity as? SKActivityImpl)?.let {
-        ScreenViewImpl.getInstance<ScreenViewImpl<*, SKActivity, SKFragment>>(key)
-                .inflate(layoutInflater, Container(it, this))
-    }
+abstract class SKFragment : Fragment() {
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -51,5 +27,4 @@ abstract class SKFragmentImpl : Fragment(), SKFragment {
         return onCreateViewSK(inflater, container, savedInstanceState)
     }
 
-    override val fragment = this
 }

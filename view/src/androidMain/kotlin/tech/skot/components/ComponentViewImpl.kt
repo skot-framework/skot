@@ -1,31 +1,27 @@
 package tech.skot.components
 
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import tech.skot.view.Action
-import tech.skot.view.SKActivity
-import tech.skot.view.SKFragment
 import tech.skot.view.live.SKMessage
 
-abstract class ComponentViewImpl<O : ComponentObserverInterface, A : SKActivity, F : SKFragment> : ComponentView {
+abstract class ComponentViewImpl<A : AppCompatActivity, F : Fragment> : ComponentView {
 
     protected val messages =
             SKMessage<Action>()
 
-    protected var onRemoveAction: (() -> Unit)? = null
     override fun onRemove() {
-        onRemoveAction?.invoke()
     }
 
 
-    open fun linkTo(observer: O, lifecycleOwner: LifecycleOwner) {
-        onRemoveAction = { observer.onRemove() }
-
+    open fun linkTo(lifecycleOwner: LifecycleOwner) {
         messages.observe(lifecycleOwner) {
-            treatAction(it, observer)
+            treatAction(it)
         }
     }
 
-    protected open fun treatAction(action: Action, observer: O) {
+    protected open fun treatAction(action: Action) {
     }
 
 }

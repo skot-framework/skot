@@ -1,48 +1,24 @@
 package tech.skot.view
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import tech.skot.components.ScreenViewImpl
-import kotlin.reflect.KClass
+import tech.skot.components.ScreenViewImpl.Companion.SK_EXTRA_VIEW_KEY
+import tech.skot.core.SKLog
 
 
-interface SKActivity {
-    fun getScreenViewForKey(key: Long): View
-    var onBackPressedAction: (() -> Unit)?
-
-    companion object {
-
-        const val EXTRA_VIEW_KEY = "EXTRA_VIEW_KEY"
-
-        inline fun getIntent(activityClass: KClass<out SKActivity>, context: Context, idView: Long) =
-                Intent(context, activityClass.java).apply {
-                    putExtra(EXTRA_VIEW_KEY, idView)
-                }
-    }
-
-    val activity: AppCompatActivity
-
-    fun onCreateSK(savedInstanceState: Bundle?) {
-        try {
-            val viewKey = activity.intent.getLongExtra(EXTRA_VIEW_KEY, 0)
-            activity.setContentView(getScreenViewForKey(viewKey))
-
-        } catch (ex: Exception) {
-            activity.finish()
-        }
+fun AppCompatActivity.onCreateSK(savedInstanceState: Bundle?) {
+    val viewKey = intent.getLongExtra(SK_EXTRA_VIEW_KEY, 0)
+    try {
+        setContentView(ScreenViewImpl.getInstance(viewKey).inflate(layoutInflater, this, null))
+    } catch (ex: Exception) {
+        SKLog.e("onCreateSK -> No View for key $viewKey", ex)
+        finish()
     }
 }
 
-abstract class SKActivityImpl : AppCompatActivity(), SKActivity {
 
-    override fun getScreenViewForKey(key: Long) =
-            ScreenViewImpl.getInstance<ScreenViewImpl<*, SKActivity, SKFragment>>(key)
-                    .inflate(layoutInflater, Container(this, null))
-
-    override val activity = this
+abstract class SKActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +26,7 @@ abstract class SKActivityImpl : AppCompatActivity(), SKActivity {
     }
 
 
-    override var onBackPressedAction: (() -> Unit)? = null
+    var onBackPressedAction: (() -> Unit)? = null
 
     //Pas de back par défaut, il faut faire attention avec ça
     override fun onBackPressed() {

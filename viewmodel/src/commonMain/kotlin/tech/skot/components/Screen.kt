@@ -21,6 +21,10 @@ abstract class Screen<V : ScreenView> : Component<V>() {
             }
     }
 
+    fun remove() {
+        onRemove()
+    }
+
     override fun onRemove() {
         onTop?.onRemove()
         super.onRemove()

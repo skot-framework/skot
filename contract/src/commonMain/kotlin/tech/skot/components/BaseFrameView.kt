@@ -1,5 +1,5 @@
 package tech.skot.components
 
-interface FrameView : ComponentView {
+interface BaseFrameView : ComponentView {
     var screen: ScreenView?
 }

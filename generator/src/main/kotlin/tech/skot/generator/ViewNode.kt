@@ -105,6 +105,22 @@ fun KType.componentClassName(): TypeName? {
     }
 }
 
+fun KType.viewImplClassName(): TypeName? {
+    if (isComponentView()) {
+        return (jvmErasure as? KClass<out ComponentView>)!!.viewImplClassName()
+    } else if (isCollectionOfComponentView()) {
+        val parametrizedType = this.asTypeName() as ParameterizedTypeName
+        return ClassName(parametrizedType.rawType.packageName, parametrizedType.rawType.simpleName)
+                .parameterizedBy(
+                        arguments.map {
+                            it.type?.viewImplClassName() ?: it.type!!.asTypeName()
+                        }
+                )
+    } else {
+        return null
+    }
+}
+
 fun KCallable<*>.componentToView() =
         if (returnType.isCollectionOfComponentView()) {
             "$name.map { it.view }"
@@ -114,4 +130,3 @@ fun KCallable<*>.componentToView() =
 
 fun KClass<out ComponentView>.actions() = supertypes.filter { !it.isComponentView() && !(it.isAny()) }
 
-fun KClass<out ComponentView>.compClassName() = ClassName(packageName(), compName())

@@ -92,3 +92,6 @@ val actionClassName = ClassName("tech.skot.view", "Action")
 
 fun KClass<out ComponentView>.superView() = superclasses[0] as KClass<ComponentView>
 
+fun FileSpec.Builder.addImportClassName(className: ClassName) {
+    addImport(className.packageName, className.simpleName)
+}

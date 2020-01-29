@@ -39,8 +39,7 @@ fun KClass<out ComponentView>.buildCompGenFile(): FileSpec {
                                 if (!this@buildCompGenFile.isActualComponent()) {
                                     addTypeVariable(TypeVariableName("V", this@buildCompGenFile))
                                     superclass(superComponentClassName().parameterizedBy(TypeVariableName("V")))
-                                }
-                                else {
+                                } else {
                                     superclass(superComponentClassName().parameterizedBy(asTypeName()))
                                 }
                             }
@@ -80,7 +79,7 @@ fun KClass<out ComponentView>.buildCompGenFile(): FileSpec {
             .build()
 }
 
-fun KClass<out ComponentView>.compGenName() = "${simpleName!!.substringBefore("View")}Gen"
+fun KClass<out ComponentView>.compGenName() = "${compName()}Gen"
 
 fun KClass<out ComponentView>.buildCompSkeletonFile(): FileSpec {
     val compName = compName()
@@ -88,24 +87,47 @@ fun KClass<out ComponentView>.buildCompSkeletonFile(): FileSpec {
     return FileSpec.builder(packageName, compName)
             .addType(
                     TypeSpec.classBuilder(compName)
-                            .superclass(ClassName(packageName, compGenName()))
+                            .apply {
+                                if (!isActualComponent()) {
+                                    addTypeVariables(listOf(TypeVariableName("V", this@buildCompSkeletonFile.asTypeName())))
+                                    addModifiers(KModifier.ABSTRACT)
+                                }
+                            }
+                            .superclass(ClassName(packageName, compGenName())
+                                    .let {
+                                        if (!isActualComponent()) {
+                                            it.parameterizedBy(TypeVariableName("V"))
+                                        } else {
+                                            it
+                                        }
+                                    })
                             .addProperties(
                                     subComponentMembers().map {
-                                        PropertySpec.builder(it.name, it.returnType.asTypeName())
+                                        PropertySpec.builder(it.name, it.returnType.componentClassName()!!)
                                                 .addModifiers(KModifier.OVERRIDE)
                                                 .initializer(toDoToGenerate)
                                                 .build()
 
                                     }
                             )
-                            .addProperty(
-                                    PropertySpec.builder("view", this)
-                                            .addModifiers(KModifier.OVERRIDE)
-                                            .initializer("viewInjector.${compName.decapitalize()}(${subComponentMembers().map { it.componentToView() }.joinToString(", ")})")
-                                            .build()
-                            )
+                            .apply {
+                                if (isActualComponent()) {
+                                    addProperty(
+                                            PropertySpec.builder("view", this@buildCompSkeletonFile)
+                                                    .addModifiers(KModifier.OVERRIDE)
+                                                    .initializer("viewInjector.${compName.decapitalize()}(${subComponentMembers().map { it.componentToView() }.joinToString(", ")})")
+                                                    .build()
+                                    )
+                                }
+                            }
+
                             .build()
             )
+            .apply {
+                if (isActualComponent() && appPackageName != packageName) {
+                    addImport(appPackageName, "viewInjector")
+                }
+            }
             .build()
 }
 

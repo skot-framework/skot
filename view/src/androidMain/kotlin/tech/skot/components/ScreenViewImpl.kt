@@ -81,8 +81,6 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment> : ComponentVi
         }
     }
 
-    lateinit var activity: A
-    var fragment: F? = null
 
     private val lifecycleOwner: LifecycleOwner
         get() = fragment ?: activity
@@ -93,17 +91,14 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment> : ComponentVi
 
     open fun inflate(layoutInflater: LayoutInflater,
                      activity: AppCompatActivity, fragment: Fragment?): View {
-        this.activity = activity as A
-        this.fragment = fragment as F?
-        buildActionsImpl(this.activity, this.fragment)
+        initWith(this.activity, this.fragment)
         val view = bindToView(this.activity, this.fragment, layoutInflater)
         linkTo(lifecycleOwner ?: activity)
         return view
     }
 
     abstract fun bindToView(activity: A, fragment: F?, layoutInflater: LayoutInflater): View
-    open fun buildActionsImpl(activity: A, fragment: F?) {
-    }
+
 
     abstract fun getActivityClass(): KClass<out AppCompatActivity>
 

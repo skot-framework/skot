@@ -1,6 +1,6 @@
 package tech.skot.components
 
-abstract class Frame : Component<FrameView>() {
+abstract class BaseFrame<V:BaseFrameView> : Component<V>() {
 
     var screen: Screen<out ScreenView>? = null
         set(value) {

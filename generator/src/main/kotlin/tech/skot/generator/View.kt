@@ -3,6 +3,7 @@ package tech.skot.generator
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import tech.skot.components.ComponentView
+import tech.skot.components.ScreenView
 import java.nio.file.Paths
 import kotlin.reflect.*
 import kotlin.reflect.full.superclasses
@@ -148,11 +149,19 @@ class ViewGenerator(
 
     fun KClass<out ComponentView>.buildViewImplGen(): FileSpec {
         val thisActions = actions().map { it.jvmErasure }
+        val subComponentsMembers = subComponentMembers()
         return FileSpec
                 .builder(packageName(), viewImplGenName())
                 .apply {
                     thisActions.forEach {
                         addImport(it.packageName(), it.actionsActionName(), "treatAction")
+                    }
+                    if (subComponentsMembers.isNotEmpty()) {
+                        addImport("tech.skot.components", "ComponentViewImpl")
+                        subComponentsMembers.forEach {
+                            addImportClassName(it.returnType.componentView()!!.activityClassBound())
+                            addImportClassName(it.returnType.componentView()!!.fragmentClassBound())
+                        }
                     }
 
                 }
@@ -174,6 +183,10 @@ class ViewGenerator(
                                                 .parameterizedBy(activityClass(), fragmentClass())
                                 )
                                 .addPrimaryConstructorWithParams(
+                                        subComponentsMembers.map {
+                                            ParamInfos(it.name, it.returnType.viewImplClassName()!!, isVal = true, modifiers = listOf(KModifier.OVERRIDE))
+                                        }
+                                                +
                                         propertyMember().map {
                                             if (it is KMutableProperty) {
                                                 ParamInfos(it.name, it.returnType.asTypeName(), isVal = false)
@@ -213,7 +226,7 @@ class ViewGenerator(
                                                 }
                                 )
                                 .apply {
-                                    if (isActualComponent()) {
+                                    if (isActualComponent() && isInstance(ScreenView::class)) {
                                         addFunction(
                                                 FunSpec.builder("getActivityClass")
                                                         .addModifiers(KModifier.OVERRIDE)
@@ -240,22 +253,36 @@ class ViewGenerator(
                                                 }
                                 )
                                 .apply {
+
                                     val members = propertyMember()
-                                    if (members.isNotEmpty()) {
+                                    if (members.isNotEmpty() || subComponentsMembers.isNotEmpty()) {
                                         addFunction(
                                                 FunSpec.builder("linkTo")
                                                         .addModifiers(KModifier.OVERRIDE)
                                                         .addParameter("lifecycleOwner", lifecycleOwnerClassName)
                                                         .addCode("super.linkTo(lifecycleOwner)\n")
+                                                        //appel des link des sous-composants
                                                         .apply {
+
+
+                                                            subComponentsMembers
+                                                                    .forEach {
+                                                                        if (it.returnType.isCollectionOfComponentView()) {
+                                                                            addStatement("${it.name}.forEach { (it as ComponentViewImpl<*,*>).linkTo(lifecycleOwner)}\n")
+                                                                        } else {
+                                                                            addStatement("(${it.name} as ComponentViewImpl<*,*>).linkTo(lifecycleOwner)\n")
+                                                                        }
+
+                                                                    }
+
                                                             members
                                                                     .forEach {
                                                                         if (it is KMutableProperty) {
                                                                             beginControlFlow("${it.ldName()}.observe(lifecycleOwner)")
-                                                                            addCode("${it.onMethodName()}(it)\n")
+                                                                            addStatement("${it.onMethodName()}(it)")
                                                                             endControlFlow()
                                                                         } else {
-                                                                            addCode("${it.onMethodName()}(${it.name})")
+                                                                            addStatement("${it.onMethodName()}(${it.name})")
                                                                         }
                                                                     }
                                                         }
@@ -305,12 +332,22 @@ class ViewGenerator(
                                         )
 
                                         addFunction(
-                                                FunSpec.builder("buildActionsImpl")
+                                                FunSpec.builder("initWith")
                                                         .addModifiers(KModifier.OVERRIDE)
                                                         .addParameter("activity", activityClass())
                                                         .addParameter("fragment", fragmentClass().nullable())
-                                                        .addStatement("super.buildActionsImpl(activity, fragment)")
+                                                        .addStatement("super.initWith(activity, fragment)")
                                                         .apply {
+                                                            subComponentsMembers
+                                                                    .forEach {
+                                                                        val subCompType = "ComponentViewImpl<${it.returnType.componentView()!!.activityClassBound().simpleName},${it.returnType.componentView()!!.fragmentClassBound().simpleName}>"
+                                                                        if (it.returnType.isCollectionOfComponentView()) {
+                                                                            addStatement("${it.name}.forEach { (it as $subCompType).initWith(activity, fragment)}")
+                                                                        } else {
+                                                                            addStatement("(${it.name} as $subCompType).initWith(activity, fragment)")
+                                                                        }
+
+                                                                    }
                                                             thisActions.forEach {
                                                                 addStatement("${it.actionsImplName().decapitalize()} = ${it.actionsImplName()}(activity, fragment)")
                                                             }

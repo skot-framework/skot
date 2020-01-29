@@ -2,7 +2,6 @@ package tech.skot.generator
 
 import com.squareup.kotlinpoet.*
 import tech.skot.components.ComponentView
-import tech.skot.generator.utils.*
 import java.nio.file.Paths
 import kotlin.reflect.KClass
 

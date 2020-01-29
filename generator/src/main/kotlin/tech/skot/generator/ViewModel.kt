@@ -3,7 +3,6 @@ package tech.skot.generator
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import tech.skot.components.ComponentView
-import tech.skot.generator.utils.*
 import java.nio.file.Paths
 import kotlin.reflect.KClass
 

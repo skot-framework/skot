@@ -1,4 +1,4 @@
-package tech.skot.generator.utils
+package tech.skot.generator
 
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.ParameterizedTypeName
@@ -113,3 +113,5 @@ fun KCallable<*>.componentToView() =
         }
 
 fun KClass<out ComponentView>.actions() = supertypes.filter { !it.isComponentView() && !(it.isAny()) }
+
+fun KClass<out ComponentView>.compClassName() = ClassName(packageName(), compName())

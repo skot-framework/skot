@@ -1,13 +1,15 @@
-package tech.skot.generator.utils
+package tech.skot.generator
 
 import com.squareup.kotlinpoet.*
 import org.w3c.dom.Element
+import tech.skot.components.ComponentView
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import javax.xml.parsers.DocumentBuilderFactory
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
+import kotlin.reflect.full.superclasses
 
 fun getPackageName(path: Path): String {
     val manifest = path.resolve("AndroidManifest.xml")
@@ -81,3 +83,12 @@ fun TypeSpec.Builder.addPrimaryConstructorWithParams(vals: List<ParamInfos>): Ty
     )
     return this
 }
+
+
+fun String.toClassName() = ClassName(this.substringBeforeLast('.'), this.substringAfterLast('.'))
+
+val lifecycleOwnerClassName = ClassName("androidx.lifecycle", "LifecycleOwner")
+val actionClassName = ClassName("tech.skot.view", "Action")
+
+fun KClass<out ComponentView>.superView() = superclasses[0] as KClass<ComponentView>
+

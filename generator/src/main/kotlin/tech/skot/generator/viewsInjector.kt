@@ -1,4 +1,4 @@
-package tech.skot.generator.utils
+package tech.skot.generator
 
 import tech.skot.components.ComponentView
 import kotlin.reflect.KClass

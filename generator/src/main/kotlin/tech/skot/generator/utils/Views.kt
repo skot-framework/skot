@@ -82,7 +82,7 @@ fun KClass<out ComponentView>.subComponentMembers() =
 
 fun KClass<out ComponentView>.propertyMember() =
         ownMembers()
-                .filter { it is KProperty }
+                .filterIsInstance(KProperty::class.java)
                 .filter {
                     !it.returnType.isComponentView() && !it.returnType.isCollectionOfComponentView()
                 }
@@ -111,3 +111,5 @@ fun KCallable<*>.componentToView() =
         } else {
             "$name.view"
         }
+
+fun KClass<out ComponentView>.actions() = supertypes.filter { !it.isComponentView() && !(it.isAny()) }

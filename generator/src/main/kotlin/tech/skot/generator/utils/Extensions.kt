@@ -58,9 +58,9 @@ fun Path.resolvePackage(packageName: String): Path {
 
 val toDoToGenerate = "TODO(\"SK: generated and not implemented\")"
 
-class ValInfos(val name:String, val typeName: TypeName, val modifiers:List<KModifier> = emptyList())
+class ParamInfos(val name:String, val typeName: TypeName, val modifiers:List<KModifier> = emptyList(), val isVal:Boolean = true)
 
-fun TypeSpec.Builder.addPrimaryConstructorWithVals(vals: List<ValInfos>): TypeSpec.Builder {
+fun TypeSpec.Builder.addPrimaryConstructorWithParams(vals: List<ParamInfos>): TypeSpec.Builder {
     primaryConstructor(
             FunSpec.constructorBuilder()
                     .apply {
@@ -72,7 +72,7 @@ fun TypeSpec.Builder.addPrimaryConstructorWithVals(vals: List<ValInfos>): TypeSp
                     .build()
     )
     addProperties(
-            vals.map {
+            vals.filter { it.isVal }.map {
                 PropertySpec.builder(it.name, it.typeName)
                         .addModifiers(it.modifiers)
                         .initializer(it.name)

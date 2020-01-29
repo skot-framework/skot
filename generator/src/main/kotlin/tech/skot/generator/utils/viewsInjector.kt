@@ -26,7 +26,7 @@ fun KClass<out ComponentView>.isActualComponent() = actualComponents.contains(th
 
 
 val actions by lazy {
-    allComponents.flatMap { it.supertypes.filter { !it.isComponentView() && !(it.isAny()) } }.toSet().map { it.jvmErasure }
+    allComponents.flatMap { it.actions() }.toSet().map { it.jvmErasure }
 }
 
 val actionsFromApp: List<KClass<*>> by lazy {

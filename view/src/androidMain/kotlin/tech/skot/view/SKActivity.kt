@@ -9,7 +9,6 @@ import tech.skot.core.SKLog
 fun AppCompatActivity.onCreateSK(savedInstanceState: Bundle?) {
     if (intent.hasExtra(SK_EXTRA_VIEW_KEY)) {
         val viewKey = intent.getLongExtra(SK_EXTRA_VIEW_KEY, -1)
-        SKLog.d("---- onCreateSK hasExtra viewKey $viewKey")
         try {
             setContentView(ScreenViewImpl.getInstance(viewKey).inflate(layoutInflater, this, null))
         } catch (ex: Exception) {
@@ -19,12 +18,10 @@ fun AppCompatActivity.onCreateSK(savedInstanceState: Bundle?) {
     } else {
         val initialViewImplKey = ScreenViewImpl.initialViewImplKey
         if (initialViewImplKey != null && ScreenViewImpl.instances.containsKey(initialViewImplKey)) {
-            SKLog.d("---- onCreateSK initialViewImplKey != null $initialViewImplKey")
             setContentView(ScreenViewImpl.getInstance(initialViewImplKey).inflate(layoutInflater, this, null))
         } else {
             val initialGetter = ScreenViewImpl.getInitialViewImpl
             if (initialGetter != null) {
-                SKLog.d("---- onCreateSK initialGetter != null will create")
                 val initialViewImpl = initialGetter()
                 ScreenViewImpl.initialViewImplKey = initialViewImpl.key
                 setContentView(initialViewImpl.inflate(layoutInflater, this, null))

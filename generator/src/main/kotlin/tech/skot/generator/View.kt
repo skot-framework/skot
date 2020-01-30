@@ -31,24 +31,25 @@ class ViewGenerator(
 
     fun generateView(moduleName: String) {
         val generatedDir = Paths.get("../$moduleName/generated/main/kotlin")
-        val srcDir = Paths.get("../$moduleName/srcGenerated/main/kotlin")
+        val srcDir = Paths.get("../$moduleName/src/main/kotlin")
 
         actions
                 .forEach {
-
                     it.buildActionsActions().writeTo(generatedDir)
 
-
-                    val actionImpl = it.actionsImplName()
-                    val packageName = it.packageName()
-
-                    if (!srcDir.existsClass(packageName, actionImpl)) {
+                    if (!srcDir.existsClass(it.packageName(), it.actionsImplName())) {
                         it.buildActionsImplSkeletonFile().writeTo(srcDir)
                     }
                 }
 
         componentsFromApp
-                .forEach { it.buildViewImplGen().writeTo(generatedDir) }
+                .forEach {
+                    it.buildViewImplGen().writeTo(generatedDir)
+
+                    if (!srcDir.existsClass(it.packageName(), it.viewImplName())) {
+                        it.buildViewImplSkeleton().writeTo(srcDir)
+                    }
+                }
 
         generateViewsInjector().writeTo(generatedDir)
     }
@@ -118,7 +119,7 @@ class ViewGenerator(
                                 .addPrimaryConstructorWithParams(
                                         listOf(
                                                 ParamInfos("activity", actionActivityClass(), listOf(KModifier.PRIVATE)),
-                                                ParamInfos("fragment", actionFragmentClass(), listOf(KModifier.PRIVATE))
+                                                ParamInfos("fragment", actionFragmentClass().nullable(), listOf(KModifier.PRIVATE))
                                         )
                                 )
                                 .addFunctions(
@@ -390,6 +391,62 @@ class ViewGenerator(
                                     }
                                 }
 
+                                .build()
+                )
+                .build()
+    }
+
+    fun KClass<out ComponentView>.buildViewImplSkeleton(): FileSpec {
+        val subComponentsMembers = subComponentMembers()
+        return FileSpec.builder(packageName(), viewImplName())
+                .addType(
+                        TypeSpec.classBuilder(viewImplName())
+                                .apply {
+                                    if (!isActualComponent()) {
+                                        addTypeVariables(listOf(
+                                                TypeVariableName("A", activityClassBound()),
+                                                TypeVariableName("F", fragmentClassBound()),
+                                                TypeVariableName("B", viewBindingClassName)
+                                        ))
+                                        addModifiers(KModifier.ABSTRACT)
+                                    }
+                                }
+                                .superclass(
+                                        ClassName(packageName(), viewImplGenName())
+                                                .let {
+                                                    if (!isActualComponent()) {
+                                                        it.parameterizedBy(activityClass(), fragmentClass(), bindingClass())
+                                                    } else {
+                                                        it
+                                                    }
+                                                })
+                                .addPrimaryConstructorWithParams(
+                                        subComponentsMembers.map {
+                                            ParamInfos(it.name, it.returnType.viewImplClassName()!!, isVal = false)
+                                        }
+                                                +
+                                                propertyMember().map {
+                                                    if (it is KMutableProperty) {
+                                                        ParamInfos(it.name, it.returnType.asTypeName(), isVal = false)
+                                                    } else {
+                                                        ParamInfos(it.name, it.returnType.asTypeName(), isVal = false)
+                                                    }
+
+                                                }
+                                )
+                                .addSuperclassConstructorParameter(
+                                        (subComponentsMembers.map { it.name } + propertyMember().map { it.name }).joinToString(", ")
+                                )
+                                .addFunctions(
+                                        propertyMember()
+                                                .map {
+                                                    FunSpec.builder(it.onMethodName())
+                                                            .addModifiers(KModifier.OVERRIDE)
+                                                            .addParameter(it.name, it.returnType.asTypeName())
+                                                            .addStatement(toDoToGenerate)
+                                                            .build()
+                                                }
+                                )
                                 .build()
                 )
                 .build()

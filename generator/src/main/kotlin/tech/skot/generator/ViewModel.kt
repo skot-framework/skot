@@ -40,7 +40,7 @@ fun KClass<out ComponentView>.buildCompGenFile(): FileSpec {
                                     addTypeVariable(TypeVariableName("V", this@buildCompGenFile))
                                     superclass(superComponentClassName().parameterizedBy(TypeVariableName("V")))
                                 } else {
-                                    superclass(superComponentClassName().parameterizedBy(asTypeName()))
+                                    superclass(superComponentClassName().parameterizedBy(this@buildCompGenFile.asTypeName()))
                                 }
                             }
                             .addProperties(

@@ -14,6 +14,10 @@ import tech.skot.view.OpenScreen
 import tech.skot.view.live.MutableSKLiveData
 import kotlin.reflect.KClass
 
+fun startView(getInitialView:()->ScreenView) {
+    ScreenViewImpl.getInitialViewImpl = { getInitialView() as ScreenViewImpl<*, *, *> }
+}
+
 abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBinding> : ComponentViewImpl<A, F, B>(),
         ScreenView {
 
@@ -24,6 +28,9 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
         fun getInstance(key: Long): ScreenViewImpl<out AppCompatActivity, out Fragment, out ViewBinding> {
             return (instances[key])!!
         }
+
+        var getInitialViewImpl:(()->ScreenViewImpl<*,*,*>)? = null
+        var initialViewImplKey:Long? = null
 
         const val SK_EXTRA_VIEW_KEY = "SK_EXTRA_VIEW_KEY"
         const val SK_ARG_VIEW_KEY = "SK_ARG_VIEW_KEY"
@@ -124,6 +131,7 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
 
     override fun onRemove() {
         super.onRemove()
+        instances.remove(key)
         if (fragment == null) {
             activity.finish()
         }

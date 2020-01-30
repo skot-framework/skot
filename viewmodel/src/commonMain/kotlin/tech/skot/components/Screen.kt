@@ -46,6 +46,11 @@ abstract class Screen<V : ScreenView> : Component<V>() {
         root = this
     }
 
+    fun setAsInitial():Screen<V> {
+        setAsRoot()
+        return this
+    }
+
 
     protected fun launchWithLoadingAndError(
             context: CoroutineContext = EmptyCoroutineContext,

@@ -3,9 +3,11 @@ package tech.skot.components
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.viewbinding.ViewBinding
+import tech.skot.core.SKLog
 import tech.skot.view.Action
 
-abstract class BaseFrameViewImpl<A : AppCompatActivity, F : Fragment> : ComponentViewImpl<A, F>(), BaseFrameView {
+abstract class BaseFrameViewImpl<A : AppCompatActivity, F : Fragment, B: ViewBinding> : ComponentViewImpl<A, F, B>(), BaseFrameView {
 
     data class SetScreen(val screen: ScreenView) : Action()
 
@@ -23,10 +25,10 @@ abstract class BaseFrameViewImpl<A : AppCompatActivity, F : Fragment> : Componen
     private fun setScreenNow(screen: ScreenView) {
         fragmentManager.apply {
             val currentFragment = findFragmentById(idFrameLayout)
-            if (currentFragment == null || currentFragment.arguments?.getLong("") != screen.key) {
+            if (currentFragment == null || currentFragment.arguments?.getLong(ScreenViewImpl.SK_EXTRA_VIEW_KEY) != screen.key) {
                 val trans = beginTransaction()
                 trans.customizeTransaction()
-                trans.replace(idFrameLayout, ScreenViewImpl.getInstance(screen.key).createFragment())
+                trans.replace(idFrameLayout, ScreenViewImpl.getInstance(screen.key).createFragmentWithKey())
                         .commitAllowingStateLoss()
             }
         }

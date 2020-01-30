@@ -89,6 +89,9 @@ fun String.toClassName() = ClassName(this.substringBeforeLast('.'), this.substri
 
 val lifecycleOwnerClassName = ClassName("androidx.lifecycle", "LifecycleOwner")
 val actionClassName = ClassName("tech.skot.view", "Action")
+val viewBindingClassName = ClassName("androidx.viewbinding", "ViewBinding")
+val layoutInflaterClassName = ClassName("android.view", "LayoutInflater")
+
 
 fun KClass<out ComponentView>.superView() = superclasses[0] as KClass<ComponentView>
 

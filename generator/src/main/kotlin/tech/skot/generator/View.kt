@@ -6,7 +6,6 @@ import tech.skot.components.ComponentView
 import tech.skot.components.ScreenView
 import java.nio.file.Paths
 import kotlin.reflect.*
-import kotlin.reflect.full.superclasses
 import kotlin.reflect.jvm.jvmErasure
 
 
@@ -75,8 +74,7 @@ class ViewGenerator(
                                                                                 .map { ParamInfos(it.name!!, it.type.asTypeName()) }
                                                                 )
                                                                 .build()
-                                                    }
-                                                    else {
+                                                    } else {
                                                         TypeSpec.objectBuilder(it.name.capitalize())
                                                                 .superclass(ClassName(packageName(), actionsActionName()))
                                                                 .build()
@@ -157,7 +155,7 @@ class ViewGenerator(
                         addImport(it.packageName(), it.actionsActionName(), "treatAction")
                     }
                     if (subComponentsMembers.isNotEmpty()) {
-                        addImport("tech.skot.components", "ComponentViewImpl")
+//                        addImport("tech.skot.components", "ComponentViewImpl")
                         subComponentsMembers.forEach {
                             addImportClassName(it.returnType.componentView()!!.activityClassBound())
                             addImportClassName(it.returnType.componentView()!!.fragmentClassBound())
@@ -173,28 +171,29 @@ class ViewGenerator(
                                     if (!isActualComponent()) {
                                         addTypeVariables(listOf(
                                                 TypeVariableName("A", activityClassBound()),
-                                                TypeVariableName("F", fragmentClassBound())
+                                                TypeVariableName("F", fragmentClassBound()),
+                                                TypeVariableName("B", viewBindingClassName)
                                         ))
                                     }
                                 }
                                 .superclass(
                                         superView()
                                                 .viewImplClassName()
-                                                .parameterizedBy(activityClass(), fragmentClass())
+                                                .parameterizedBy(activityClass(), fragmentClass(), bindingClass())
                                 )
                                 .addPrimaryConstructorWithParams(
                                         subComponentsMembers.map {
                                             ParamInfos(it.name, it.returnType.viewImplClassName()!!, isVal = true, modifiers = listOf(KModifier.OVERRIDE))
                                         }
                                                 +
-                                        propertyMember().map {
-                                            if (it is KMutableProperty) {
-                                                ParamInfos(it.name, it.returnType.asTypeName(), isVal = false)
-                                            } else {
-                                                ParamInfos(it.name, it.returnType.asTypeName(), modifiers = listOf(KModifier.OVERRIDE), isVal = true)
-                                            }
+                                                propertyMember().map {
+                                                    if (it is KMutableProperty) {
+                                                        ParamInfos(it.name, it.returnType.asTypeName(), isVal = false)
+                                                    } else {
+                                                        ParamInfos(it.name, it.returnType.asTypeName(), modifiers = listOf(KModifier.OVERRIDE), isVal = true)
+                                                    }
 
-                                        }
+                                                }
                                 )
                                 .addSuperinterface(this)
                                 .addProperties(
@@ -253,6 +252,46 @@ class ViewGenerator(
                                                 }
                                 )
                                 .apply {
+                                    if (subComponentsMembers.isNotEmpty() || thisActions.isNotEmpty()) {
+                                        addFunction(
+                                                FunSpec.builder("initWith")
+                                                        .addModifiers(KModifier.OVERRIDE)
+                                                        .addParameter("activity", activityClass())
+                                                        .addParameter("fragment", fragmentClass().nullable())
+                                                        .addParameter("binding", bindingClass())
+                                                        .addStatement("super.initWith(activity, fragment, binding)")
+                                                        .apply {
+                                                            subComponentsMembers
+                                                                    .forEach {
+                                                                        val subCompType = "ComponentViewImpl<${it.returnType.componentView()!!.activityClassBound().simpleName},${it.returnType.componentView()!!.fragmentClassBound().simpleName}>"
+                                                                        if (it.returnType.isCollectionOfComponentView()) {
+                                                                            TODO("gérer les collections de sous composanst avec des méthodes abstract pour récupérer les bindings des éléments")
+                                                                            addStatement("${it.name}.forEach { it.initWith(activity, fragment, binding)}")
+                                                                        } else {
+                                                                            addStatement("${it.name}.initWith(activity, fragment, binding.${it.name})")
+                                                                        }
+
+                                                                    }
+                                                            thisActions.forEach {
+                                                                addStatement("${it.actionsImplName().decapitalize()} = ${it.actionsImplName()}(activity, fragment)")
+                                                            }
+                                                        }
+                                                        .build()
+                                        )
+                                    }
+                                }
+                                .apply {
+                                    if (isActualComponent() && isScreenView()) {
+                                        addFunction(
+                                                FunSpec.builder("inflateBinding")
+                                                        .addModifiers(KModifier.OVERRIDE)
+                                                        .addParameter("layoutInflater", layoutInflaterClassName)
+                                                        .addStatement("return ${bindingClassName().simpleName}.inflate(layoutInflater)")
+                                                        .build()
+                                        )
+                                    }
+                                }
+                                .apply {
 
                                     val members = propertyMember()
                                     if (members.isNotEmpty() || subComponentsMembers.isNotEmpty()) {
@@ -268,9 +307,9 @@ class ViewGenerator(
                                                             subComponentsMembers
                                                                     .forEach {
                                                                         if (it.returnType.isCollectionOfComponentView()) {
-                                                                            addStatement("${it.name}.forEach { (it as ComponentViewImpl<*,*>).linkTo(lifecycleOwner)}\n")
+                                                                            addStatement("${it.name}.forEach { it.linkTo(lifecycleOwner)}\n")
                                                                         } else {
-                                                                            addStatement("(${it.name} as ComponentViewImpl<*,*>).linkTo(lifecycleOwner)\n")
+                                                                            addStatement("${it.name}.linkTo(lifecycleOwner)\n")
                                                                         }
 
                                                                     }
@@ -307,7 +346,7 @@ class ViewGenerator(
 
                                         addFunctions(
                                                 thisActions
-                                                        .flatMap {actionsClass ->
+                                                        .flatMap { actionsClass ->
 
                                                             actionsClass.ownMembers()
                                                                     .filter { it is KFunction }
@@ -324,36 +363,13 @@ class ViewGenerator(
                                                                                 .addStatement("messages.post(${actionsClass.actionsActionName()}.${it.name.capitalize()}${
                                                                                 if (funcParameters.isNotEmpty()) {
                                                                                     funcParameters.map { it.name }.joinToString(", ", "(", ")")
-                                                                                }
-                                                                                else ""})")
+                                                                                } else ""})")
                                                                                 .build()
                                                                     }
                                                         }
                                         )
 
-                                        addFunction(
-                                                FunSpec.builder("initWith")
-                                                        .addModifiers(KModifier.OVERRIDE)
-                                                        .addParameter("activity", activityClass())
-                                                        .addParameter("fragment", fragmentClass().nullable())
-                                                        .addStatement("super.initWith(activity, fragment)")
-                                                        .apply {
-                                                            subComponentsMembers
-                                                                    .forEach {
-                                                                        val subCompType = "ComponentViewImpl<${it.returnType.componentView()!!.activityClassBound().simpleName},${it.returnType.componentView()!!.fragmentClassBound().simpleName}>"
-                                                                        if (it.returnType.isCollectionOfComponentView()) {
-                                                                            addStatement("${it.name}.forEach { (it as $subCompType).initWith(activity, fragment)}")
-                                                                        } else {
-                                                                            addStatement("(${it.name} as $subCompType).initWith(activity, fragment)")
-                                                                        }
 
-                                                                    }
-                                                            thisActions.forEach {
-                                                                addStatement("${it.actionsImplName().decapitalize()} = ${it.actionsImplName()}(activity, fragment)")
-                                                            }
-                                                        }
-                                                        .build()
-                                        )
 
                                         addFunction(
                                                 FunSpec.builder("treatAction")
@@ -387,8 +403,7 @@ class ViewGenerator(
                             TypeSpec.classBuilder(viewInjectorImplName)
                                     .addSuperinterface(ClassName(appPackageName, "ViewInjector"))
                                     .addFunctions(
-                                            componentsFromApp
-                                                    .filter { it.isActualComponent() }
+                                            actualComponentsFromApp
                                                     .map {
                                                         FunSpec.builder(it.compName().decapitalize())
                                                                 .addModifiers(KModifier.OVERRIDE)
@@ -401,16 +416,23 @@ class ViewGenerator(
 
                                                                 )
                                                                 .addStatement("return ${it.viewImplName()}(${
-                                                                    it.ownMembers()
-                                                                            .filterIsInstance(KProperty::class.java)
-                                                                            .map { it.name }
-                                                                            .joinToString(", ")
+                                                                it.ownMembers()
+                                                                        .filterIsInstance(KProperty::class.java)
+                                                                        .map { "${it.name}${if (it.returnType.componentView() != null) " as ${it.returnType.viewImplClassNameName()}" else ""}" }
+                                                                        .joinToString(", ")
                                                                 })")
                                                                 .build()
                                                     }
                                     )
                                     .build()
                     )
+                    .apply {
+                        actualComponentsFromApp
+                                .filter { it.packageName() != appPackageName }
+                                .forEach {
+                                    addImportClassName(it.viewImplClassName())
+                                }
+                    }
                     .build()
 
 
@@ -429,7 +451,8 @@ class ViewGenerator(
 
     fun KClass<out ComponentView>.fragmentClass() = if (isActualComponent()) fragmentClassBound() else TypeVariableName("F")
 
-
+    fun KClass<out ComponentView>.bindingClassName() = ClassName("$appPackageName.android.databinding", "${compName()}Binding")
+    fun KClass<out ComponentView>.bindingClass() = if (isActualComponent()) bindingClassName() else TypeVariableName("B")
 }
 
 fun TypeName.nullable() = this.copy(true)

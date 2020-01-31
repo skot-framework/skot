@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS persisted (
+    key TEXT NOT NULL PRIMARY KEY,
+    timestamp INTEGER NOT NULL,
+    data TEXT NOT NULL
+);
+
+clear:
+DELETE FROM persisted;
+
+vacuum:
+VACUUM;
+
+obtainByKey:
+SELECT * FROM persisted WHERE key = ?;
+
+putByKey:
+INSERT OR REPLACE INTO persisted(key, timestamp, data)
+VALUES (?, ?, ?);

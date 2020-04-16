@@ -26,11 +26,15 @@ open class GenericAdapter(val def: () -> List<Item>, possibleDefs: List<ItemDef>
         }
     }
 
-    class WithDataItemDef<D>(override val idLayout: Int, override val initialize: (View.() -> Unit)? = null, val bindData: View.(data: D) -> Unit) : ItemDef
+    class WithDataItemDef<D>(override val idLayout: Int, override val initialize: (View.() -> Unit)? = null, val buildOnSwipe: ((data: D) -> (() -> Unit)?)? = null, val bindData: View.(data: D) -> Unit) : ItemDef
 
     class ValorisedItem<D>(override val def: WithDataItemDef<D>, val data: D) : Item {
+
+        var onSwipe: (() -> Unit)? = null
+
         override fun bind(itemView: View) {
             def.bindData.invoke(itemView, data)
+            onSwipe = def.buildOnSwipe?.invoke(data)
         }
     }
 

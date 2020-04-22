@@ -1,6 +1,5 @@
 rootProject.name = "SKot Framework"
 rootProject.buildFileName = "build.gradle.kts"
-enableFeaturePreview("GRADLE_METADATA")
 include(":core")
 include(":contract")
 include(":view")

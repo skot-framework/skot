@@ -194,6 +194,8 @@ class ViewGenerator(
 
     }
 
+    fun KMutableProperty<*>.initialValueName() = "${name}Initial"
+
     fun KClass<out ComponentView>.buildViewImplGen(): FileSpec {
         val thisActions = actions().map { it.jvmErasure }
         val thisFuncs = ownFuncs()
@@ -243,7 +245,7 @@ class ViewGenerator(
                                                 +
                                                 propertyMember().map {
                                                     if (it is KMutableProperty) {
-                                                        ParamInfos(it.name, it.returnType.asTypeName(), isVal = false)
+                                                        ParamInfos(it.initialValueName(), it.returnType.asTypeName(), isVal = false)
                                                     } else {
                                                         ParamInfos(it.name, it.returnType.asTypeName(), modifiers = listOf(KModifier.OVERRIDE), isVal = true)
                                                     }
@@ -265,7 +267,7 @@ class ViewGenerator(
                                                                     ClassName("tech.skot.view.live", "MutableSKLiveData")
                                                                             .parameterizedBy(it.returnType.asTypeName()))
                                                                     .addModifiers(KModifier.PRIVATE)
-                                                                    .initializer("MutableSKLiveData(${it.name})")
+                                                                    .initializer("MutableSKLiveData(${it.initialValueName()})")
                                                                     .build(),
                                                             PropertySpec.builder(it.name, it.returnType.asTypeName())
                                                                     .mutable(true)
@@ -331,6 +333,9 @@ class ViewGenerator(
                                                         .addParameter("fragment", fragmentClass().nullable())
                                                         .addParameter("binding", bindingClass())
                                                         .apply {
+                                                            if (isActualComponent()) {
+                                                                addModifiers(KModifier.FINAL)
+                                                            }
                                                             subComponentsMembers
                                                                     .forEach {
 //                                                                        val subCompType = "ComponentViewImpl<${it.returnType.componentView()!!.activityClassBound().simpleName},${it.returnType.componentView()!!.fragmentClassBound().simpleName}>"
@@ -355,7 +360,7 @@ class ViewGenerator(
                                     if (isActualComponent() && isScreenView()) {
                                         addFunction(
                                                 FunSpec.builder("inflateBinding")
-                                                        .addModifiers(KModifier.OVERRIDE)
+                                                        .addModifiers(KModifier.OVERRIDE, KModifier.FINAL)
                                                         .addParameter("layoutInflater", layoutInflaterClassName)
                                                         .addStatement("return ${bindingClassName().simpleName}.inflate(layoutInflater)")
                                                         .build()
@@ -372,7 +377,9 @@ class ViewGenerator(
                                                         .addParameter("lifecycleOwner", lifecycleOwnerClassName)
                                                         //appel des link des sous-composants
                                                         .apply {
-
+                                                            if (isActualComponent()) {
+                                                                addModifiers(KModifier.FINAL)
+                                                            }
 
                                                             subComponentsMembers
                                                                     .forEach {
@@ -521,7 +528,7 @@ class ViewGenerator(
                                                 +
                                                 allPropertyMember().map {
                                                     if (it is KMutableProperty) {
-                                                        ParamInfos(it.name, it.returnType.asTypeName(), isVal = false)
+                                                        ParamInfos(it.initialValueName(), it.returnType.asTypeName(), isVal = false)
                                                     } else {
                                                         ParamInfos(it.name, it.returnType.asTypeName(), isVal = false)
                                                     }
@@ -529,7 +536,14 @@ class ViewGenerator(
                                                 }
                                 )
                                 .addSuperclassConstructorParameter(
-                                        (subComponentsMembers.map { it.name } + allPropertyMember().map { it.name }).joinToString(", ")
+                                        (subComponentsMembers.map { it.name } + allPropertyMember().map {
+                                            if (it is KMutableProperty) {
+                                                it.initialValueName()
+                                            }
+                                            else {
+                                                it.name
+                                            }
+                                        }).joinToString(", ")
                                 )
                                 .addFunctions(
                                         propertyMember()

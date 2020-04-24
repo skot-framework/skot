@@ -12,22 +12,22 @@ import tech.skot.contract.modelcontract.MutablePoker
 import tech.skot.contract.modelcontract.Poker
 import tech.skot.core.SKLog
 
-interface WithParameterDataManager<D:Any> {
-    val updatePoker:Poker
-    suspend fun getValue(id:String?, fresh: Boolean = false, speed: Boolean = false, updateIfSpeed: Boolean = true, cacheIfError: Boolean = true): D
-    fun update(id:String?)
+interface WithParameterDataManager<D : Any> {
+    val updatePoker: Poker
+    suspend fun getValue(id: String?, fresh: Boolean = false, speed: Boolean = false, updateIfSpeed: Boolean = true, cacheIfError: Boolean = true): D
+    fun update(id: String?)
 
-    suspend fun setDataStr(id:String?, newStrData: String, tmsp: Long? = null)
-    suspend fun setData(id:String?, newData: D, tmsp: Long? = null)
+    suspend fun setDataStr(id: String?, newStrData: String, tmsp: Long? = null)
+    suspend fun setData(id: String?, newData: D, tmsp: Long? = null)
 }
 
 open class WithParameterDataManagerImpl<D : Any>(
         private val key: String,
-        private val cacheValidity: Long,
+        private val cacheValidity: Long?,
         private val serializer: KSerializer<D>,
         private val cache: Persistor,
         private val onNewData: ((newData: D) -> Unit)? = null,
-        private val getFreshStrData: suspend (id:String?) -> String
+        private val getFreshStrData: suspend (id: String?) -> String
 ) : WithParameterDataManager<D> {
 
     private val json by lazy {
@@ -39,9 +39,9 @@ open class WithParameterDataManagerImpl<D : Any>(
 
     private var _value: DatedData<D>? = null
 
-    private fun DatedData<*>.isValid() = (timestamp + cacheValidity) > currentTimeMillis()
+    private fun DatedData<*>.isValid() = cacheValidity == null || ((timestamp + cacheValidity) > currentTimeMillis())
 
-    override suspend fun getValue(id:String?, fresh: Boolean, speed: Boolean, updateIfSpeed: Boolean, cacheIfError: Boolean): D {
+    override suspend fun getValue(id: String?, fresh: Boolean, speed: Boolean, updateIfSpeed: Boolean, cacheIfError: Boolean): D {
         if (_value?.id != id) {
             _value = null
             cache.remove(key)
@@ -87,7 +87,7 @@ open class WithParameterDataManagerImpl<D : Any>(
 
     }
 
-    override fun update(id:String?) {
+    override fun update(id: String?) {
         CoroutineScope(Dispatchers.Main).launch {
             getFreshData(id)
         }
@@ -95,7 +95,7 @@ open class WithParameterDataManagerImpl<D : Any>(
 
     private val mutexRefresh = Mutex()
 
-    private suspend fun getFreshData(id:String?, strCached: String? = null): D {
+    private suspend fun getFreshData(id: String?, strCached: String? = null): D {
         val refreshDemandTmsp = currentTimeMillis()
         mutexRefresh.withLock {
             val currentValue = _value
@@ -127,8 +127,7 @@ open class WithParameterDataManagerImpl<D : Any>(
     }
 
 
-
-    override suspend fun setDataStr(id:String?, newStrData: String, tmsp: Long?) {
+    override suspend fun setDataStr(id: String?, newStrData: String, tmsp: Long?) {
         val date = tmsp ?: currentTimeMillis()
         val newData = json.parse(serializer, newStrData)
         cache.putString(key, newStrData, date)
@@ -137,7 +136,7 @@ open class WithParameterDataManagerImpl<D : Any>(
         updatePoker.poke()
     }
 
-    override suspend fun setData(id:String?, newData: D, tmsp: Long?) {
+    override suspend fun setData(id: String?, newData: D, tmsp: Long?) {
         val date = tmsp ?: currentTimeMillis()
         _value = DatedData(newData, id, date)
         cache.putString(key, json.stringify(serializer, newData), date)

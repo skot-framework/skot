@@ -16,11 +16,12 @@ dependencies {
 
     api("androidx.appcompat:appcompat:${Versions.Android.appcompat}")
 
+    api("org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}")
 
     api("androidx.test.espresso:espresso-core:3.2.0")
     api("androidx.test.espresso:espresso-contrib:3.2.0")
     api("androidx.test.espresso:espresso-web:3.2.0")
-    api("androidx.test:rules:1.3.0-alpha04")
+    api("androidx.test:rules:1.3.0-beta01")
     api("androidx.arch.core:core-testing:2.1.0")
 
     api("io.ktor:ktor-server-netty:${Versions.ktor}")

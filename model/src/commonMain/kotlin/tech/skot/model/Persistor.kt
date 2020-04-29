@@ -6,10 +6,23 @@ import kotlinx.serialization.serializer
 import tech.skot.core.di.get
 
 interface Persistor {
-    suspend fun <D : Any> putData(serializer: KSerializer<D>, key: String, data: D, timestamp: Long)
+    suspend fun <D : Any> putData(serializer: KSerializer<D>, key: String, data: D, timestamp: Long = currentTimeMillis())
     suspend fun <D : Any> getData(serializer: KSerializer<D>, key: String): DatedData<D>?
-    suspend fun putString(key:String, data:String, timestamp: Long)
+    suspend fun <D : Any> getDataSecured(serializer: KSerializer<D>, key: String) = try {
+        getData(serializer, key)
+    }
+    catch (ex:Exception) {
+        null
+    }
+    suspend fun putString(key:String, data:String, timestamp: Long = currentTimeMillis())
     suspend fun getString(key:String): DatedData<String>?
+    suspend fun getStringSecured(key:String) = try {
+        getString(key)
+    }
+    catch (ex:Exception) {
+        null
+    }
+
     suspend fun remove(key:String)
     suspend fun clear()
 }

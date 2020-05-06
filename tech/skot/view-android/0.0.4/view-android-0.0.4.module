@@ -1,0 +1,308 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../view/0.0.4/view-0.0.4.module",
+    "group": "tech.skot",
+    "module": "view",
+    "version": "0.0.4",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.0.1",
+      "buildId": "qkfbndnh6jfalpfv2y37cujupm"
+    }
+  },
+  "variants": [
+    {
+      "name": "android-debugApiElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.api.attributes.VariantAttr": "debug",
+        "com.android.build.gradle.internal.dependency.AndroidTypeAttr": "Aar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "0.0.4"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.2.0-beta01"
+          }
+        },
+        {
+          "group": "androidx.constraintlayout",
+          "module": "constraintlayout",
+          "version": {
+            "requires": "1.1.3"
+          }
+        },
+        {
+          "group": "androidx.viewpager2",
+          "module": "viewpager2",
+          "version": {
+            "requires": "1.0.0"
+          }
+        },
+        {
+          "group": "androidx.recyclerview",
+          "module": "recyclerview",
+          "version": {
+            "requires": "1.0.0"
+          }
+        },
+        {
+          "group": "androidx.databinding",
+          "module": "viewbinding",
+          "version": {
+            "requires": "3.6.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "view-debug.aar",
+          "url": "view-android-0.0.4-debug.aar",
+          "size": 108127,
+          "sha512": "d251f4852741a9bb311b1f53d8f425a9f6d3389a4504c47eec4694f9d41b7d2b9b4d26ef05b3fa18864807a112f0a20bf70e716b7c95433eb55b5e4ccbfe6b2c",
+          "sha256": "218a932f3e0586f0e94900be5cfb757e5a7e651e8683608dc18a399db3a0c340",
+          "sha1": "a9d2860b18124b34c0f744ede7ea44a6002ce8ee",
+          "md5": "f2e6fc17daefb46f6176a189a7a588b6"
+        }
+      ]
+    },
+    {
+      "name": "android-debugRuntimeElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.api.attributes.VariantAttr": "debug",
+        "com.android.build.gradle.internal.dependency.AndroidTypeAttr": "Aar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "0.0.4"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "contract",
+          "version": {
+            "requires": "0.0.4"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-android-extensions-runtime",
+          "version": {
+            "requires": "1.3.70"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.2.0-beta01"
+          }
+        },
+        {
+          "group": "androidx.constraintlayout",
+          "module": "constraintlayout",
+          "version": {
+            "requires": "1.1.3"
+          }
+        },
+        {
+          "group": "androidx.viewpager2",
+          "module": "viewpager2",
+          "version": {
+            "requires": "1.0.0"
+          }
+        },
+        {
+          "group": "androidx.recyclerview",
+          "module": "recyclerview",
+          "version": {
+            "requires": "1.0.0"
+          }
+        },
+        {
+          "group": "androidx.databinding",
+          "module": "viewbinding",
+          "version": {
+            "requires": "3.6.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "view-debug.aar",
+          "url": "view-android-0.0.4-debug.aar",
+          "size": 108127,
+          "sha512": "d251f4852741a9bb311b1f53d8f425a9f6d3389a4504c47eec4694f9d41b7d2b9b4d26ef05b3fa18864807a112f0a20bf70e716b7c95433eb55b5e4ccbfe6b2c",
+          "sha256": "218a932f3e0586f0e94900be5cfb757e5a7e651e8683608dc18a399db3a0c340",
+          "sha1": "a9d2860b18124b34c0f744ede7ea44a6002ce8ee",
+          "md5": "f2e6fc17daefb46f6176a189a7a588b6"
+        }
+      ]
+    },
+    {
+      "name": "android-releaseApiElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.api.attributes.VariantAttr": "release",
+        "com.android.build.gradle.internal.dependency.AndroidTypeAttr": "Aar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "0.0.4"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.2.0-beta01"
+          }
+        },
+        {
+          "group": "androidx.constraintlayout",
+          "module": "constraintlayout",
+          "version": {
+            "requires": "1.1.3"
+          }
+        },
+        {
+          "group": "androidx.viewpager2",
+          "module": "viewpager2",
+          "version": {
+            "requires": "1.0.0"
+          }
+        },
+        {
+          "group": "androidx.recyclerview",
+          "module": "recyclerview",
+          "version": {
+            "requires": "1.0.0"
+          }
+        },
+        {
+          "group": "androidx.databinding",
+          "module": "viewbinding",
+          "version": {
+            "requires": "3.6.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "view-release.aar",
+          "url": "view-android-0.0.4.aar",
+          "size": 104620,
+          "sha512": "8f6edc086471ddb781d91475762308b9731d77b94be37ab482c0be497240d30262fb81b309cd7880d4d88abcfdee27caa2cab657617e5e0cacc0c1759650bfcd",
+          "sha256": "7cfdfae9b48ed1c03872709028d80d506671ddfbf8ae663364fe0d7d0c40b5a",
+          "sha1": "d7a2b72951b0805ce873591678071432c0a2a0e4",
+          "md5": "ea3fb1caa452e77290acf215179fffdb"
+        }
+      ]
+    },
+    {
+      "name": "android-releaseRuntimeElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.api.attributes.VariantAttr": "release",
+        "com.android.build.gradle.internal.dependency.AndroidTypeAttr": "Aar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "0.0.4"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "contract",
+          "version": {
+            "requires": "0.0.4"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-android-extensions-runtime",
+          "version": {
+            "requires": "1.3.70"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.2.0-beta01"
+          }
+        },
+        {
+          "group": "androidx.constraintlayout",
+          "module": "constraintlayout",
+          "version": {
+            "requires": "1.1.3"
+          }
+        },
+        {
+          "group": "androidx.viewpager2",
+          "module": "viewpager2",
+          "version": {
+            "requires": "1.0.0"
+          }
+        },
+        {
+          "group": "androidx.recyclerview",
+          "module": "recyclerview",
+          "version": {
+            "requires": "1.0.0"
+          }
+        },
+        {
+          "group": "androidx.databinding",
+          "module": "viewbinding",
+          "version": {
+            "requires": "3.6.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "view-release.aar",
+          "url": "view-android-0.0.4.aar",
+          "size": 104620,
+          "sha512": "8f6edc086471ddb781d91475762308b9731d77b94be37ab482c0be497240d30262fb81b309cd7880d4d88abcfdee27caa2cab657617e5e0cacc0c1759650bfcd",
+          "sha256": "7cfdfae9b48ed1c03872709028d80d506671ddfbf8ae663364fe0d7d0c40b5a",
+          "sha1": "d7a2b72951b0805ce873591678071432c0a2a0e4",
+          "md5": "ea3fb1caa452e77290acf215179fffdb"
+        }
+      ]
+    }
+  ]
+}

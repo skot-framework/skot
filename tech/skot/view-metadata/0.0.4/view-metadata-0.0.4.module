@@ -1,0 +1,47 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../view/0.0.4/view-0.0.4.module",
+    "group": "tech.skot",
+    "module": "view",
+    "version": "0.0.4",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.0.1",
+      "buildId": "qkfbndnh6jfalpfv2y37cujupm"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadata-api",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "0.0.4"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "view-metadata-0.0.4.jar",
+          "url": "view-metadata-0.0.4.jar",
+          "size": 5556,
+          "sha512": "58f25d817ad8c4336ec6e501d88a303377ba99e9961e2f74dac637d905a3d69ae377180c3c4f5f17819cd3b98680d1298238b6a8a7b54760a57ffcecfdff0478",
+          "sha256": "9c557e79d57f22d09930a65deb7a2571108a990b888e570b26339d75a5a2a4aa",
+          "sha1": "a6a2c52c97855a07e770a9c96b3e53c1533a9b7e",
+          "md5": "fd3ec634eb8b31a4aace466ec9f83bf5"
+        }
+      ]
+    }
+  ]
+}

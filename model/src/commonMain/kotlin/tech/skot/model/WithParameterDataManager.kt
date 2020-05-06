@@ -11,6 +11,7 @@ import kotlinx.serialization.json.JsonConfiguration
 import tech.skot.contract.modelcontract.MutablePoker
 import tech.skot.contract.modelcontract.Poker
 import tech.skot.core.SKLog
+import tech.skot.core.currentTimeMillis
 
 interface WithParameterDataManager<D : Any> {
     val updatePoker: Poker

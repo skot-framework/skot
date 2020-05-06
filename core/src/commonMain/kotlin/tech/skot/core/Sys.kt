@@ -1,3 +1,3 @@
-package tech.skot.model
+package tech.skot.core
 
 expect fun currentTimeMillis():Long

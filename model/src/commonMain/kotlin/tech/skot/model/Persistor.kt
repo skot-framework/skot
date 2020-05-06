@@ -3,6 +3,7 @@ package tech.skot.model
 import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.serializer
+import tech.skot.core.currentTimeMillis
 import tech.skot.core.di.get
 
 interface Persistor {

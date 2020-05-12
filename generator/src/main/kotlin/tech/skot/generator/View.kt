@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import tech.skot.components.ComponentView
 import tech.skot.components.ScreenView
 import tech.skot.components.WebView
+import tech.skot.contract.LinkManually
 import tech.skot.contract.Private
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -343,7 +344,9 @@ class ViewGenerator(
                                                                             TODO("gérer les collections de sous composanst avec des méthodes abstract pour récupérer les bindings des éléments")
 //                                                                            addStatement("${it.name}.forEach { it.initWith(activity, fragment, binding)}")
                                                                         } else {
-                                                                            addStatement("${it.name}.initWith(activity, fragment, binding.${it.name}${if (mapCoreCompViewAndroidView.containsKey(it.returnType.jvmErasure)) " as ${mapCoreCompViewAndroidView[it.returnType.jvmErasure]}" else ""})")
+                                                                            if (!it.hasAnnotation(LinkManually::class)) {
+                                                                                addStatement("${it.name}.initWith(activity, fragment, binding.${it.name}${if (mapCoreCompViewAndroidView.containsKey(it.returnType.jvmErasure)) " as ${mapCoreCompViewAndroidView[it.returnType.jvmErasure]}" else ""})")
+                                                                            }
                                                                         }
 
                                                                     }
@@ -354,6 +357,18 @@ class ViewGenerator(
                                                         .addStatement("super.initWith(activity, fragment, binding)")
                                                         .build()
                                         )
+
+                                        addFunctions(subComponentsMembers.filter {
+                                            !it.returnType.isCollectionOfComponentView() && it.hasAnnotation(LinkManually::class)
+                                        }.map {
+                                            FunSpec.builder("link${it.name.capitalize()}")
+                                                    .addParameter("binding", it.returnType.componentView()!!.bindingClass())
+                                                    .beginControlFlow("${it.name}.let")
+                                                    .addStatement("it.initWith(activity, fragment, binding)")
+                                                    .addStatement("it.linkTo(lifeCycleOwner)")
+                                                    .endControlFlow()
+                                                    .build()
+                                        })
                                     }
                                 }
                                 .apply {
@@ -386,7 +401,9 @@ class ViewGenerator(
                                                                         if (it.returnType.isCollectionOfComponentView()) {
                                                                             addStatement("${it.name}.forEach { it.linkTo(lifecycleOwner)}\n")
                                                                         } else {
-                                                                            addStatement("${it.name}.linkTo(lifecycleOwner)\n")
+                                                                            if (!it.hasAnnotation(LinkManually::class)) {
+                                                                                addStatement("${it.name}.linkTo(lifecycleOwner)\n")
+                                                                            }
                                                                         }
 
                                                                     }
@@ -539,8 +556,7 @@ class ViewGenerator(
                                         (subComponentsMembers.map { it.name } + allPropertyMember().map {
                                             if (it is KMutableProperty) {
                                                 it.initialValueName()
-                                            }
-                                            else {
+                                            } else {
                                                 it.name
                                             }
                                         }).joinToString(", ")

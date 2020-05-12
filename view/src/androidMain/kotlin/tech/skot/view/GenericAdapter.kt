@@ -94,8 +94,8 @@ open class GenericAdapter(vararg possibleDefs: ItemDef) : RecyclerView.Adapter<G
     }
 
 
-    val mapTypeItemDef: Map<Int, ItemDef> = possibleDefs.mapIndexed { index, def -> index to def }.toMap()
-    val mapItemDefType: Map<ItemDef, Int> = possibleDefs.mapIndexed { index, def -> def to index }.toMap()
+    private val mapTypeItemDef: Map<Int, ItemDef> = possibleDefs.mapIndexed { index, def -> index to def }.toMap()
+    private val mapItemDefType: Map<ItemDef, Int> = possibleDefs.mapIndexed { index, def -> def to index }.toMap()
 
 
     override fun getItemViewType(position: Int) = mapItemDefType[items[position].def]!!

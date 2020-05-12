@@ -93,9 +93,6 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
     }
 
 
-    private val lifecycleOwner: LifecycleOwner
-        get() = fragment ?: activity
-
     protected val context: Context
         get() = fragment?.context ?: activity
 
@@ -105,7 +102,7 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
                      activity: AppCompatActivity, fragment: Fragment?): View {
         initWith(activity as A, fragment as F?, inflateBinding(layoutInflater))
         hasBeenInflated = true
-        linkTo(lifecycleOwner)
+        linkTo(lifeCycleOwner)
         return binding.root
     }
 

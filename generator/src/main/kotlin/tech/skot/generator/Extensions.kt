@@ -7,6 +7,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import javax.xml.parsers.DocumentBuilderFactory
+import kotlin.reflect.KCallable
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
 import kotlin.reflect.full.superclasses
@@ -33,6 +34,8 @@ fun Element.childElements(): List<Element> {
 fun KClass<*>.`package`() = this.java.`package`
 fun KClass<*>.packageName() = this.java.`package`.name
 fun KType.isAny() = this.classifier == Any::class
+
+fun KCallable<*>.hasAnnotation(annotation:KClass<out Annotation>) = annotations.any { annotation.isInstance(it) }
 
 val appPackageName by lazy {
     getPackageName(Paths.get("../viewmodel/src/androidMain")).substringBefore(".viewmodel")

@@ -70,7 +70,21 @@ open class GenericAdapter(vararg possibleDefs: ItemDef) : RecyclerView.Adapter<G
         override fun computeItemId() = null
     }
 
-    class WithDataItemDef<D>(override val idLayout: Int, override val initialize: (View.() -> Unit)? = null, val buildOnSwipe: ((data: D) -> (() -> Unit)?)? = null, val computeId: ((data: D) -> Any)? = null, val bindData: View.(data: D) -> Unit) : ItemDef
+    class WithDataItemDef<D>(override val idLayout: Int, override val initialize: (View.() -> Unit)? = null, val buildOnSwipe: ((data: D) -> (() -> Unit)?)? = null, val computeId: ((data: D) -> Any)? = null, val bindData: View.(data: D) -> Unit) : ItemDef {
+
+        fun addTo(viewGroup: ViewGroup, data: D) {
+            val view = LayoutInflater.from(viewGroup.context).inflate(idLayout, viewGroup, false)
+            view.bindData(data)
+            viewGroup.addView(view)
+        }
+
+        fun addTo(viewGroup: ViewGroup, datas: List<D>) {
+            for (data in datas) {
+                addTo(viewGroup, data)
+            }
+        }
+
+    }
 
     class ValorisedItem<D>(override val def: WithDataItemDef<D>, val data: D) : Item {
 
@@ -118,3 +132,6 @@ open class GenericAdapter(vararg possibleDefs: ItemDef) : RecyclerView.Adapter<G
         var id: String? = null
     }
 }
+
+
+

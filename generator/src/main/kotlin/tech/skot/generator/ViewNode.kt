@@ -1,17 +1,12 @@
 package tech.skot.generator
 
-import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.ParameterizedTypeName
+import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import com.squareup.kotlinpoet.TypeName
-import com.squareup.kotlinpoet.asTypeName
 import tech.skot.components.ComponentView
+import tech.skot.contract.ComponentHasParameter
 import tech.skot.contract.Private
 import kotlin.reflect.*
-import kotlin.reflect.full.createType
-import kotlin.reflect.full.isSubtypeOf
-import kotlin.reflect.full.superclasses
-import kotlin.reflect.full.withNullability
+import kotlin.reflect.full.*
 import kotlin.reflect.jvm.jvmErasure
 
 class ViewNode(val viewClass: KClass<out ComponentView>, val children: List<ViewNode>? = null)
@@ -102,9 +97,16 @@ fun KClass<out ComponentView>.allPropertyMember() = propertyMember() + superComp
 
 fun KClass<out ComponentView>.compName() = simpleName!!.substringBefore("View")
 
-fun KType.componentClassName(): TypeName? {
+fun KType.componentClassName(parametrizedIfNeeded:Boolean = false): TypeName? {
     if (isComponentView()) {
-        return (jvmErasure as? KClass<out ComponentView>)!!.componentClassName()
+        val viewKlass = (jvmErasure as? KClass<out ComponentView>)!!
+        val className =  viewKlass.componentClassName()
+        return if (parametrizedIfNeeded && viewKlass.findAnnotation<ComponentHasParameter>() != null) {
+            className.parameterizedBy(WildcardTypeName.producerOf(ANY))
+        }
+        else {
+            className
+        }
     } else if (isCollectionOfComponentView()) {
         val parametrizedType = this.asTypeName() as ParameterizedTypeName
         return ClassName(parametrizedType.rawType.packageName, parametrizedType.rawType.simpleName)

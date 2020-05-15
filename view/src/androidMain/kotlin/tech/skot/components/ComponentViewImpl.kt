@@ -27,7 +27,6 @@ abstract class ComponentViewImpl<A : AppCompatActivity, F : Fragment, B : Any> :
         this.activity = activity
         this.fragment = fragment
         this.binding = binding
-        SKLog.d("---- ${this::class.simpleName} ${this.hashCode()} initWith middle ${this.activity}")
         onInflated()
     }
 

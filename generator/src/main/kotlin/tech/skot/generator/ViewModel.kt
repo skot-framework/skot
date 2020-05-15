@@ -68,7 +68,7 @@ fun KClass<out ComponentView>.buildCompGenFile(customFile:(FileSpec.Builder.()->
                             .addProperties(
                                     subComponentMembers()
                                             .map {
-                                                PropertySpec.builder(it.name, it.returnType.componentClassName()!!)
+                                                PropertySpec.builder(it.name, it.returnType.componentClassName(true)!!)
                                                         .addModifiers(KModifier.ABSTRACT)
                                                         .build()
                                             }

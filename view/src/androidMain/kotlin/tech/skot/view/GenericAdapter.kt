@@ -51,7 +51,6 @@ open class GenericAdapter(vararg possibleDefs: ItemDef) : RecyclerView.Adapter<G
     interface Item {
         val def: ItemDef
         fun bind(itemView: View)
-        fun sameItem(otherItem: Item): Boolean
         fun computeItemId(): Any?
     }
 
@@ -66,7 +65,6 @@ open class GenericAdapter(vararg possibleDefs: ItemDef) : RecyclerView.Adapter<G
         override fun bind(itemView: View) {
         }
 
-        override fun sameItem(otherItem: Item) = this == otherItem
         override fun computeItemId() = null
     }
 
@@ -87,13 +85,6 @@ open class GenericAdapter(vararg possibleDefs: ItemDef) : RecyclerView.Adapter<G
     }
 
     class ValorisedItem<D>(override val def: WithDataItemDef<D>, val data: D) : Item {
-
-        override fun sameItem(otherItem: Item) =
-                def == otherItem.def &&
-                        ((def.computeId != null && computeItemId() == otherItem.computeItemId())
-                                ||
-                                def.computeId == null && (data == (otherItem as ValorisedItem<*>).data)
-                                )
 
         override fun computeItemId() =
                 def.computeId?.invoke(data)
@@ -134,4 +125,29 @@ open class GenericAdapter(vararg possibleDefs: ItemDef) : RecyclerView.Adapter<G
 }
 
 
+operator fun GenericAdapter.Item.plus(element: GenericAdapter.Item?): List<GenericAdapter.Item> =
+        listOfNotNull(this, element)
 
+operator fun GenericAdapter.Item.plus(elements: List<GenericAdapter.Item>?): List<GenericAdapter.Item> =
+        if (elements != null) {
+            listOf(this) + elements
+        } else {
+            listOf(this)
+        }
+
+operator fun List<GenericAdapter.Item>.plus(element: GenericAdapter.Item?): List<GenericAdapter.Item> =
+        if (element != null) {
+            this + element
+        } else {
+            this
+        }
+
+operator fun List<GenericAdapter.Item>.plus(elements: List<GenericAdapter.Item>?): List<GenericAdapter.Item> =
+        if (elements != null) {
+            val result = ArrayList<GenericAdapter.Item>()
+            result.addAll(this)
+            result.addAll(elements)
+            result
+        } else {
+            this
+        }

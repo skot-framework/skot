@@ -39,11 +39,13 @@ open class GenericAdapter(vararg possibleDefs: ItemDef) : RecyclerView.Adapter<G
             val oldItem = oldList[oldItemPosition]
             val newItem = newList[newItemPosition]
 
-            return if (oldItem is ValorisedItem<*>) {
-                oldItem.data == (newItem as ValorisedItem<*>).data
-            } else {
-                true
-            }
+            return oldItem.def == newItem.def &&
+                    oldItem.computeItemId() == newItem.computeItemId() &&
+                    if (oldItem is ValorisedItem<*>) {
+                        oldItem.data == (newItem as ValorisedItem<*>).data
+                    } else {
+                        true
+                    }
         }
 
     }
@@ -130,14 +132,20 @@ operator fun GenericAdapter.Item.plus(element: GenericAdapter.Item?): List<Gener
 
 operator fun GenericAdapter.Item.plus(elements: List<GenericAdapter.Item>?): List<GenericAdapter.Item> =
         if (elements != null) {
-            listOf(this) + elements
+            val result = ArrayList<GenericAdapter.Item>()
+            result.add(this)
+            result.addAll(elements)
+            result
         } else {
             listOf(this)
         }
 
 operator fun List<GenericAdapter.Item>.plus(element: GenericAdapter.Item?): List<GenericAdapter.Item> =
         if (element != null) {
-            this + element
+            val result = ArrayList<GenericAdapter.Item>()
+            result.addAll(this)
+            result.add(element)
+            result
         } else {
             this
         }

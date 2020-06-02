@@ -15,3 +15,7 @@ fun TextView.strike(state: Boolean = true) {
     } else 0
 }
 
+fun TextView.setTextOrGone(newText:String?) {
+    text = newText
+    setVisible(!text.isNullOrBlank())
+}

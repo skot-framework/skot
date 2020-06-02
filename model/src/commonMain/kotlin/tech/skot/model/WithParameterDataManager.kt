@@ -20,6 +20,8 @@ interface WithParameterDataManager<D : Any> {
 
     suspend fun setDataStr(id: String?, newStrData: String, tmsp: Long? = null)
     suspend fun setData(id: String?, newData: D, tmsp: Long? = null)
+
+    suspend fun invalidate()
 }
 
 open class WithParameterDataManagerImpl<D : Any>(
@@ -44,8 +46,7 @@ open class WithParameterDataManagerImpl<D : Any>(
 
     override suspend fun getValue(id: String?, fresh: Boolean, speed: Boolean, updateIfSpeed: Boolean, cacheIfError: Boolean): D {
         if (_value?.id != id) {
-            _value = null
-            cache.remove(key)
+            invalidate()
         }
         if (fresh) {
             return getFreshData(id)
@@ -86,6 +87,11 @@ open class WithParameterDataManagerImpl<D : Any>(
             }
         }
 
+    }
+
+    override suspend fun invalidate() {
+        _value = null
+        cache.remove(key)
     }
 
     override fun update(id: String?) {

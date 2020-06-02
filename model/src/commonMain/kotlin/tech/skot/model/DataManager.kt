@@ -11,6 +11,8 @@ interface DataManager<D : Any> {
 
     suspend fun setDataStr(newStrData: String, tmsp: Long? = null)
     suspend fun setData(newData: D, tmsp: Long? = null)
+
+    suspend fun invalidate()
 }
 
 class DataManagerImpl<D : Any>(

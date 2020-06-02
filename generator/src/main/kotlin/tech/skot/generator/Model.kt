@@ -36,7 +36,7 @@ fun generateModel(moduleName: String) {
                                     TypeSpec
                                             .classBuilder(it.modelImplName())
                                             .apply {
-                                                if (it.supertypes.isNotEmpty()) {
+                                                if (it.supertypes.isNotEmpty() && it.superclasses[0] != Any::class) {
                                                     superclass(ClassName(it.superclasses[0].packageName(), it.superclasses[0].modelImplName()))
                                                 }
                                             }

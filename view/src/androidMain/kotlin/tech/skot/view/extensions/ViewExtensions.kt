@@ -6,6 +6,10 @@ fun View.setVisible(state: Boolean) {
     visibility = if (state) View.VISIBLE else View.GONE
 }
 
+fun View.setVisibleInvisible(state: Boolean) {
+    visibility = if (state) View.VISIBLE else View.INVISIBLE
+}
+
 fun View.setOnClick(myOnClick: (() -> Unit)?, single: Boolean = true, delay: Long = 500) {
     if (!single) {
         setOnClickListener { myOnClick?.invoke() }

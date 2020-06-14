@@ -11,9 +11,18 @@ import kotlinx.coroutines.launch
 actual open class SKLiveData<D> actual constructor(initialValue: D) : SKLiveDataCommon<D>(initialValue) {
 
     fun observe(lifecycleOwner: LifecycleOwner, onChanged: (d: D) -> Unit) {
-
         observers.add(LifecycleOwnerObserver(lifecycleOwner, onChanged))
+    }
 
+    fun setObserver(lifecycleOwner: LifecycleOwner, onChanged: (d: D) -> Unit) {
+        val currentObservers = observers.toSet()
+        currentObservers.forEach {
+            (it as? LifecycleOwnerObserver)?.apply {
+                onDestroy()
+                lifecycleOwner.lifecycle.removeObserver(lifecycleOwnerObserver)
+            }
+        }
+        observers.add(LifecycleOwnerObserver(lifecycleOwner, onChanged))
     }
 
 
@@ -28,21 +37,23 @@ actual open class SKLiveData<D> actual constructor(initialValue: D) : SKLiveData
             }
         }
 
-        init {
-            lifecycleOwner.lifecycle.addObserver(object : LifecycleObserver {
-                @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
-                fun onAny() {
-                    val newState = lifecycleOwner.lifecycle.currentState
-                    when {
-                        newState == Lifecycle.State.DESTROYED -> {
-                            onDestroy()
-                            lifecycleOwner.lifecycle.removeObserver(this)
-                        }
-                        newState.isAtLeast(Lifecycle.State.STARTED) -> onBecomeActive()
-                        else -> onBecomeInactive()
+        val lifecycleOwnerObserver = object : LifecycleObserver {
+            @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
+            fun onAny() {
+                val newState = lifecycleOwner.lifecycle.currentState
+                when {
+                    newState == Lifecycle.State.DESTROYED -> {
+                        onDestroy()
+                        lifecycleOwner.lifecycle.removeObserver(this)
                     }
+                    newState.isAtLeast(Lifecycle.State.STARTED) -> onBecomeActive()
+                    else -> onBecomeInactive()
                 }
-            })
+            }
+        }
+
+        init {
+            lifecycleOwner.lifecycle.addObserver(lifecycleOwnerObserver)
         }
 
         override fun shouldBeActive(): Boolean {

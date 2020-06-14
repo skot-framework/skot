@@ -417,7 +417,7 @@ class ViewGenerator(
                                                                     addStatement("${it.onMethodName()}(${it.name})")
                                                                 }
                                                                 it.first.forEach {
-                                                                    beginControlFlow("${it.ldName()}.observe(lifecycleOwner)")
+                                                                    beginControlFlow("${it.ldName()}.setObserver(lifecycleOwner)")
                                                                     addStatement("${it.onMethodName()}(it)")
                                                                     endControlFlow()
                                                                 }

@@ -7,6 +7,7 @@ sealed class WebAction : Action() {
             val url: String,
             val onFinished: Function0<Unit>?,
             val javascriptOnFinished:String?,
-            val onError: Function0<Unit>?
+            val onError: Function0<Unit>?,
+            val post:Map<String,String>?
     ) : WebAction()
 }

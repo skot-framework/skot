@@ -14,7 +14,8 @@ abstract class WebViewImplGen(
             url: String,
             onFinished: Function0<Unit>?,
             javascriptOnFinished: String?,
-            onError: Function0<Unit>?
+            onError: Function0<Unit>?,
+            post: Map<String, String>?
     )
 
     override fun linkTo(lifecycleOwner: LifecycleOwner) {
@@ -26,14 +27,15 @@ abstract class WebViewImplGen(
             url: String,
             onFinished: Function0<Unit>?,
             javascriptOnFinished: String?,
-            onError: Function0<Unit>?
+            onError: Function0<Unit>?,
+            post:Map<String,String>?
     ) {
-        messages.post(WebAction.OpenUrl(url, onFinished, javascriptOnFinished, onError))
+        messages.post(WebAction.OpenUrl(url, onFinished, javascriptOnFinished, onError, post))
     }
 
     override fun treatAction(action: Action) {
         when (action) {
-            is WebAction.OpenUrl -> openUrlNow(action.url, action.onFinished, action.javascriptOnFinished, action.onError)
+            is WebAction.OpenUrl -> openUrlNow(action.url, action.onFinished, action.javascriptOnFinished, action.onError, action.post)
             else -> super.treatAction(action)
         }
     }

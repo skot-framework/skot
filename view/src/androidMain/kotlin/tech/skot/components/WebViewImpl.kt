@@ -6,9 +6,11 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebViewClient
 import tech.skot.core.SKLog
+import java.net.URLEncoder
 
 class WebViewImpl(
-        redirect: List<WebView.RedirectParam>
+        redirect: List<WebView.RedirectParam>,
+        override val userAgent: String? = null
 ) : WebViewImplGen(redirect) {
 
     private lateinit var webView: android.webkit.WebView
@@ -17,7 +19,11 @@ class WebViewImpl(
     override fun onInflated() {
         super.onInflated()
         webView = binding
-        webView.settings.javaScriptEnabled = true
+        webView.settings.apply {
+            javaScriptEnabled = true
+            userAgent?.let { userAgentString = it }
+        }
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             webView.webViewClient = object : WebViewClient() {
@@ -130,12 +136,21 @@ class WebViewImpl(
     private var javascriptOnFinished: String? = null
 
     private var onError: (() -> Unit)? = null
-    override fun openUrlNow(url: String, onFinished: (() -> Unit)?, javascriptOnFinished: String?, onError: (() -> Unit)?) {
+    override fun openUrlNow(url: String, onFinished: (() -> Unit)?, javascriptOnFinished: String?, onError: (() -> Unit)?, post: Map<String, String>?) {
         requiredUrl = url
         this.onFinished = onFinished
         this.javascriptOnFinished = javascriptOnFinished
         this.onError = onError
-        webView.loadUrl(url)
+        if (post != null) {
+            val params = post.map {
+                "${it.key}=${URLEncoder.encode(it.value, "UTF-8")}"
+            }
+                    .joinToString(separator = "&")
+            webView.postUrl(url, params.toByteArray())
+        } else {
+            webView.loadUrl(url)
+        }
+
     }
 
 }

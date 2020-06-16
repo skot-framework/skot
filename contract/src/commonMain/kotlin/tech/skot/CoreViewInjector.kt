@@ -6,7 +6,7 @@ import tech.skot.components.WebView
 
 interface CoreViewInjector {
 
-    fun web(redirect: List<WebView.RedirectParam>): WebView
+    fun web(redirect: List<WebView.RedirectParam>, userAgent:String?): WebView
 
     fun pager(screens: List<ScreenView>, selectedPageIndex: Int): PagerView
 

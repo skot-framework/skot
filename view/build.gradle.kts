@@ -29,9 +29,10 @@ android {
         getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 
-    viewBinding {
-        isEnabled = true
+    buildFeatures {
+        viewBinding = true
     }
+
 
 }
 

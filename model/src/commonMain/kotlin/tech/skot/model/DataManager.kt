@@ -21,29 +21,22 @@ class DataManagerImpl<D : Any>(
         serializer: KSerializer<D>,
         cache: Persistor,
         onNewData: ((newData: D) -> Unit)? = null,
-        getFreshStrData: suspend () -> String
-) : WithParameterDataManagerImpl<D>(
-        key = key,
-        cacheValidity = cacheValidity,
-        serializer = serializer,
-        cache = cache,
-        onNewData = onNewData,
-        getFreshStrData = { getFreshStrData() }
-), DataManager<D> {
+        getFreshStrData: suspend (id: String?) -> String
+) : UnivDataManagerImpl<D>(key, cacheValidity, serializer, cache, onNewData, getFreshStrData), DataManager<D> {
     override suspend fun getValue(fresh: Boolean, speed: Boolean, updateIfSpeed: Boolean, cacheIfError: Boolean) =
-            getValue(null, fresh, speed, updateIfSpeed, cacheIfError)
+            univGetValue(null, fresh, speed, updateIfSpeed, cacheIfError)
 
 
     override fun update() {
-        update(null)
+        univUpdate(null)
     }
 
     override suspend fun setDataStr(newStrData: String, tmsp: Long?) {
-        setDataStr(null, newStrData, tmsp)
+        univSetDataStr(null, newStrData, tmsp)
     }
 
     override suspend fun setData(newData: D, tmsp: Long?) {
-        setData(null, newData, tmsp)
+        univSetData(null, newData, tmsp)
     }
 
 }

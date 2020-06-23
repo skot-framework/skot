@@ -15,37 +15,61 @@ import tech.skot.core.currentTimeMillis
 
 interface WithParameterDataManager<D : Any> {
     val updatePoker: Poker
-    suspend fun getValue(id: String?, fresh: Boolean = false, speed: Boolean = false, updateIfSpeed: Boolean = true, cacheIfError: Boolean = true): D
-    fun update(id: String?)
+    suspend fun getValue(id: String, fresh: Boolean = false, speed: Boolean = false, updateIfSpeed: Boolean = true, cacheIfError: Boolean = true): D
+    fun update(id: String)
 
-    suspend fun setDataStr(id: String?, newStrData: String, tmsp: Long? = null)
-    suspend fun setData(id: String?, newData: D, tmsp: Long? = null)
+    suspend fun setDataStr(id: String, newStrData: String, tmsp: Long? = null)
+    suspend fun setData(id: String, newData: D, tmsp: Long? = null)
 
     suspend fun invalidate()
 }
 
-open class WithParameterDataManagerImpl<D : Any>(
+class WithParameterDataManagerImpl<D : Any>(
+        key: String,
+        cacheValidity: Long?,
+        serializer: KSerializer<D>,
+        cache: Persistor,
+        onNewData: ((newData: D) -> Unit)? = null,
+        getFreshStrData: suspend (id: String?) -> String
+) : UnivDataManagerImpl<D>(key, cacheValidity, serializer, cache, onNewData, getFreshStrData), WithParameterDataManager<D> {
+    override suspend fun getValue(id: String, fresh: Boolean, speed: Boolean, updateIfSpeed: Boolean, cacheIfError: Boolean) = univGetValue(id, fresh, speed, updateIfSpeed, cacheIfError)
+    override fun update(id: String) {
+        univUpdate(id)
+    }
+
+    override suspend fun setDataStr(id: String, newStrData: String, tmsp: Long?) {
+        univSetDataStr(id, newStrData, tmsp)
+    }
+
+    override suspend fun setData(id: String, newData: D, tmsp: Long?) {
+        univSetData(id, newData, tmsp)
+    }
+}
+
+abstract class UnivDataManagerImpl<D : Any>(
         private val key: String,
         private val cacheValidity: Long?,
         private val serializer: KSerializer<D>,
         private val cache: Persistor,
         private val onNewData: ((newData: D) -> Unit)? = null,
         private val getFreshStrData: suspend (id: String?) -> String
-) : WithParameterDataManager<D> {
+) {
 
     private val json by lazy {
         Json(JsonConfiguration.Stable.copy(ignoreUnknownKeys = true))
     }
 
 
-    override val updatePoker = MutablePoker()
+    val updatePoker = MutablePoker()
 
     private var _value: DatedData<D>? = null
 
     private fun DatedData<*>.isValid() = cacheValidity == null || ((timestamp + cacheValidity) > currentTimeMillis())
 
-    override suspend fun getValue(id: String?, fresh: Boolean, speed: Boolean, updateIfSpeed: Boolean, cacheIfError: Boolean): D {
+
+    protected suspend fun univGetValue(id: String?, fresh: Boolean, speed: Boolean, updateIfSpeed: Boolean, cacheIfError: Boolean): D {
         if (_value?.id != id) {
+            SKLog.d("--Will invalidate cause _value?.id != id $_value $id")
             invalidate()
         }
         if (fresh) {
@@ -70,7 +94,7 @@ open class WithParameterDataManagerImpl<D : Any>(
                         if (cachedData != null) {
                             _value = DatedData(cachedData, id, cachedStr.timestamp)
                             if (speed && !isCachedStrValid && updateIfSpeed) {
-                                update(id)
+                                univUpdate(id)
                             }
                             return cachedData
                         } else {
@@ -89,12 +113,22 @@ open class WithParameterDataManagerImpl<D : Any>(
 
     }
 
-    override suspend fun invalidate() {
+    suspend fun invalidate() {
+        SKLog.d("--- invalidate $key")
         _value = null
-        cache.remove(key)
+        SKLog.d("--- invalidate will remove $key")
+        try {
+            cache.remove(key)
+        } catch (ex: Exception) {
+            SKLog.e("--- invalidate $key failed", ex)
+            throw ex
+        }
+
+        SKLog.d("--- invalidate has removed $key")
     }
 
-    override fun update(id: String?) {
+
+    protected fun univUpdate(id: String?) {
         CoroutineScope(Dispatchers.Main).launch {
             getFreshData(id)
         }
@@ -104,7 +138,9 @@ open class WithParameterDataManagerImpl<D : Any>(
 
     private suspend fun getFreshData(id: String?, strCached: String? = null): D {
         val refreshDemandTmsp = currentTimeMillis()
+        SKLog.d("-- Will enter Mutex $key")
         mutexRefresh.withLock {
+            SKLog.d("-- inside Mutex $key")
             val currentValue = _value
             if (currentValue == null || currentValue.timestamp < refreshDemandTmsp) {
                 return try {
@@ -134,7 +170,7 @@ open class WithParameterDataManagerImpl<D : Any>(
     }
 
 
-    override suspend fun setDataStr(id: String?, newStrData: String, tmsp: Long?) {
+    protected suspend fun univSetDataStr(id: String?, newStrData: String, tmsp: Long?) {
         val date = tmsp ?: currentTimeMillis()
         val newData = json.parse(serializer, newStrData)
         cache.putString(key, newStrData, date)
@@ -143,7 +179,8 @@ open class WithParameterDataManagerImpl<D : Any>(
         updatePoker.poke()
     }
 
-    override suspend fun setData(id: String?, newData: D, tmsp: Long?) {
+
+    protected suspend fun univSetData(id: String?, newData: D, tmsp: Long?) {
         val date = tmsp ?: currentTimeMillis()
         _value = DatedData(newData, id, date)
         cache.putString(key, json.stringify(serializer, newData), date)

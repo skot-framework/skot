@@ -40,10 +40,6 @@ class WebViewImpl(
                     return super.shouldOverrideUrlLoading(view, request)
                 }
 
-                override fun shouldOverrideUrlLoading(view: android.webkit.WebView?, url: String?): Boolean {
-                    return super.shouldOverrideUrlLoading(view, url)
-                }
-
                 override fun onPageFinished(view: android.webkit.WebView?, url: String?) {
                     url?.let { loadedUrl ->
                         requiredUrl?.let {

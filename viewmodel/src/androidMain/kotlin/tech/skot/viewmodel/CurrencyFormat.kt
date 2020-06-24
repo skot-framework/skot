@@ -4,22 +4,16 @@ import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
 
-actual class CurrencyFormat actual constructor(iso:String) {
-    private val formatter = NumberFormat.getCurrencyInstance(getLocalFromISO(iso)).apply {
-        (this as? DecimalFormat)?.isDecimalSeparatorAlwaysShown = false
-    }
+private val mapFromatter = mutableMapOf<String, NumberFormat>()
 
-    actual fun format(double: Double) = formatter.format(double)
+actual fun Double.asPrice(isoCurrency: String) = getFormatter(isoCurrency, Locale.getDefault()).format(this)
 
-    private fun getLocalFromISO(iso4217code: String): Locale? {
-        var toReturn: Locale? = null
-        for (locale in NumberFormat.getAvailableLocales()) {
-            val code = NumberFormat.getCurrencyInstance(locale).currency.currencyCode
-            if (iso4217code == code) {
-                toReturn = locale
-                break
-            }
-        }
-        return toReturn
+private fun getFormatter(isoCurrency: String, locale:Locale): NumberFormat {
+    val key = "${isoCurrency}_${locale.country}"
+    return mapFromatter[key] ?: DecimalFormat.getCurrencyInstance(locale).apply {
+        maximumFractionDigits = 2
+        minimumFractionDigits = 0
+        currency = Currency.getInstance(isoCurrency)
+        mapFromatter[key] = this
     }
 }

@@ -1,5 +1,3 @@
 package tech.skot.viewmodel
 
-expect class CurrencyFormat(iso:String) {
-    fun format(double:Double):String
-}
+expect fun Double.asPrice(isoCurrency:String):String

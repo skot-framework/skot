@@ -6,7 +6,11 @@ import tech.skot.contract.modelcontract.Poker
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
-abstract class Screen<V : ScreenView> : Component<V>() {
+interface ScreenParent {
+    fun remove(aScreen: Screen<*>)
+}
+
+abstract class Screen<V : ScreenView> : Component<V>(), ScreenParent {
 
     companion object {
         private var root: Screen<out ScreenView>? = null
@@ -25,12 +29,38 @@ abstract class Screen<V : ScreenView> : Component<V>() {
         var screenOnTop: Screen<*>? = null
     }
 
+    fun push(screen: Screen<*>) {
+        (parent as? Stack<*>)?.push(screen)
+                ?: throw IllegalStateException("This screen is not in a Stack !!!")
+    }
+
+    fun replaceWith(screen: Screen<*>) {
+        parent?.let { currenParent ->
+            when {
+                currenParent == null -> screen.setAsRoot()
+                currenParent is Screen<*> -> currenParent.onTop = screen
+                currenParent is Frame<*> -> currenParent.screen = screen
+                currenParent is Stack<*> -> {
+                    currenParent.popScreen()
+                    currenParent.push(screen)
+                }
+                currenParent is FrameKeepingScreens<*> -> currenParent.screen = screen
+            }
+        }
+
+    }
+
     fun finish() {
         if (root == this) {
             onRemove()
         } else {
-            parent?.onTop = null
+            parent?.remove(this)
         }
+    }
+
+
+    override fun remove(aScreen: Screen<*>) {
+        onTop = null
     }
 
     override fun onRemove() {
@@ -56,8 +86,8 @@ abstract class Screen<V : ScreenView> : Component<V>() {
             _ontopChanged.poke()
         }
 
-    private var _parent: Screen<out ScreenView>? = null
-    val parent: Screen<out ScreenView>?
+    internal var _parent: ScreenParent? = null
+    val parent: ScreenParent?
         get() = _parent
 
     fun setAsRoot() {

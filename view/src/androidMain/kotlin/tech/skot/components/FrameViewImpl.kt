@@ -22,15 +22,16 @@ abstract class FrameViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindin
 
     }
 
-    private fun setScreenNow(screen: ScreenView) {
+
+    protected open fun setScreenNow(screen: ScreenView) {
         fragmentManager.apply {
             val currentFragment = findFragmentById(idFrameLayout)
             if (currentFragment == null || currentFragment.arguments?.getLong(ScreenViewImpl.SK_EXTRA_VIEW_KEY) != screen.key) {
-                ScreenViewImpl.getInstance(screen.key)?.let { screenView ->
+                (screen as? ScreenViewImpl<out AppCompatActivity, out Fragment, out ViewBinding>)?.let { screenView ->
                     val trans = beginTransaction()
                     trans.customizeTransaction()
                     trans.replace(idFrameLayout, screenView.createFragmentWithKey())
-                            .commitAllowingStateLoss()
+                            .commit()
                 }
 
             }

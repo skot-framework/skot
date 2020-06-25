@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
+import tech.skot.components.ScreenViewImpl.Companion.SK_ARG_VIEW_KEY
 import tech.skot.view.Action
 import tech.skot.view.OpenScreen
 import tech.skot.view.live.MutableSKLiveData
@@ -19,6 +20,8 @@ fun startView(onLink: ((encodedPath: String, encodedFragment: String?) -> Long?)
     ScreenViewImpl.getInitialViewImpl = { getInitialView() as ScreenViewImpl<*, *, *> }
     ScreenViewImpl.onLink = onLink
 }
+
+fun Fragment.getKey():Long? = arguments?.getLong(SK_ARG_VIEW_KEY)
 
 abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBinding> : ComponentViewImpl<A, F, B>(),
         ScreenView {
@@ -114,7 +117,7 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
     open val customTransitionAnimationIn: Pair<Int,Int>? = null
     open val customTransitionAnimationOut: Pair<Int,Int>? = null
 
-    abstract fun createFragment(): Fragment
+    protected abstract fun createFragment(): Fragment
 
     fun createFragmentWithKey() = createFragment().apply {
         arguments = Bundle().apply {

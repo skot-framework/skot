@@ -450,6 +450,7 @@ class ViewGenerator(
                                                         .map {
                                                             PropertySpec.builder(it.actionsImplName().decapitalize(), it.actionsImpClasslName())
                                                                     .addModifiers(KModifier.LATEINIT)
+                                                                    .addModifiers(KModifier.PRIVATE)
                                                                     .mutable(true)
                                                                     .build()
                                                         }

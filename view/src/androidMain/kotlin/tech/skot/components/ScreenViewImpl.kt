@@ -58,7 +58,7 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
             loadingLD.postValue(newVal)
         }
 
-    val onBackLD = MutableSKLiveData<(() -> Unit)?>(null)
+    private val onBackLD = MutableSKLiveData<(() -> Unit)?>(null)
     override var onBack: (() -> Unit)?
         get() = onBackLD.value
         set(newVal) {

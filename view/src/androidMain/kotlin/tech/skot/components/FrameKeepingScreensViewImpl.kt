@@ -8,6 +8,21 @@ import tech.skot.core.SKLog
 import tech.skot.view.Action
 import kotlin.reflect.KClass
 
+fun Fragment.onPauseRecursive() {
+    onPause()
+    childFragmentManager.fragments.forEach {
+        it.onPauseRecursive()
+    }
+}
+fun Fragment.onResumeRecursive() {
+    onResume()
+    childFragmentManager.fragments.forEach {
+        it.onResumeRecursive()
+    }
+}
+
+
+
 abstract class FrameKeepingScreensViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBinding> : FrameViewImpl<A, F, B>() {
 
 
@@ -31,10 +46,15 @@ abstract class FrameKeepingScreensViewImpl<A : AppCompatActivity, F : Fragment, 
 //                        SKLog.d("Will show fragmentAlreadyAdded tag  ${fragmentAlreadyAdded.tag}  key  ${fragmentAlreadyAdded.getKey()}")
                         fragmentManager.fragments.forEach {
                             if (it != fragmentAlreadyAdded) {
-                                trans.hide(it)
+                                if (it.isVisible) {
+                                    trans.hide(it)
+                                    it.onPauseRecursive()
+                                }
                             }
                         }
                         trans.show(fragmentAlreadyAdded)
+                        fragmentAlreadyAdded.onResumeRecursive()
+
                     } else {
                         //Remove fragment form same view already Added if needed
                         val fragRemoved = mapViewClassTag[screenView::class]?.let {
@@ -46,7 +66,10 @@ abstract class FrameKeepingScreensViewImpl<A : AppCompatActivity, F : Fragment, 
                         fragmentManager.fragments.forEach {
                             if (it != fragRemoved) {
 //                                SKLog.d("Will hide fragment tag  ${it.tag}  key  ${it.getKey()}")
-                                trans.hide(it)
+                                if (it.isVisible) {
+                                    trans.hide(it)
+                                    it.onPauseRecursive()
+                                }
                             }
                         }
 //                        SKLog.d("Will add created fragment tag  $tag")

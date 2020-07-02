@@ -68,8 +68,7 @@ abstract class UnivDataManagerImpl<D : Any>(
 
 
     protected suspend fun univGetValue(id: String?, fresh: Boolean, speed: Boolean, updateIfSpeed: Boolean, cacheIfError: Boolean): D {
-        if (_value?.id != id) {
-            SKLog.d("--Will invalidate cause _value?.id != id $_value $id")
+        if (_value != null && _value?.id != id) {
             invalidate()
         }
         if (fresh) {

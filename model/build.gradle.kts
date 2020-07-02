@@ -26,6 +26,7 @@ android {
     sourceSets {
         getByName("main").java.srcDirs("src/androidMain/kotlin")
         getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")
+        getByName("test").java.srcDirs("src/javaTest/kotlin")
     }
 
 
@@ -68,6 +69,16 @@ kotlin {
         api("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.serialization}")
     }
 
+    sourceSets["commonTest"].dependencies {
+        implementation("org.jetbrains.kotlin:kotlin-test-common:${Versions.kotlin}")
+        implementation("org.jetbrains.kotlin:kotlin-test-annotations-common:${Versions.kotlin}")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}")
+    }
+
+    sourceSets["androidTest"].dependencies {
+        implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+        implementation("org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}")
+    }
 //    sourceSets["iosMain"].dependencies {
 //        api("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:${Versions.serialization}")
 //    }

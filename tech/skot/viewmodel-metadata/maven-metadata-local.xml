@@ -3,8 +3,8 @@
   <groupId>tech.skot</groupId>
   <artifactId>viewmodel-metadata</artifactId>
   <versioning>
-    <latest>0.0.13</latest>
-    <release>0.0.13</release>
+    <latest>0.0.14</latest>
+    <release>0.0.14</release>
     <versions>
       <version>0.0.5</version>
       <version>0.0.6</version>
@@ -15,7 +15,8 @@
       <version>0.0.11</version>
       <version>0.0.12</version>
       <version>0.0.13</version>
+      <version>0.0.14</version>
     </versions>
-    <lastUpdated>20200626133957</lastUpdated>
+    <lastUpdated>20200703083222</lastUpdated>
   </versioning>
 </metadata>

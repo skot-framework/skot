@@ -35,6 +35,7 @@ abstract class StackViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindin
 
     private fun popScreenNow() {
         fragmentManager.popBackStack()
+        fragmentManager.findFragmentById(idFrameLayout)?.onResumeRecursive()
     }
 
     private fun clearNow() {

@@ -137,9 +137,7 @@ abstract class UnivDataManagerImpl<D : Any>(
 
     private suspend fun getFreshData(id: String?, strCached: String? = null): D {
         val refreshDemandTmsp = currentTimeMillis()
-        SKLog.d("-- Will enter Mutex $key")
         mutexRefresh.withLock {
-            SKLog.d("-- inside Mutex $key")
             val currentValue = _value
             if (currentValue == null || currentValue.timestamp < refreshDemandTmsp) {
                 return try {

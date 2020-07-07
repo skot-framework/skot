@@ -29,7 +29,7 @@ abstract class FrameKeepingScreensViewImpl<A : AppCompatActivity, F : Fragment, 
     private val mapViewClassTag = mutableMapOf<KClass<*>, String>()
 
     override fun setScreenNow(screen: ScreenView) {
-        SKLog.d("FrameKeepingScreensViewImpl --- setScreenNow  ${screen::class} ${screen.key}")
+//        SKLog.d("FrameKeepingScreensViewImpl --- setScreenNow  ${screen::class} ${screen.key}")
         fragmentManager.apply {
             val currentFragment = findFragmentById(idFrameLayout)
             if (currentFragment == null || currentFragment.getKey() != screen.key) {

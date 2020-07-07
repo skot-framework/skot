@@ -12,7 +12,7 @@
   "createdBy": {
     "gradle": {
       "version": "6.2.1",
-      "buildId": "3dorn7aqgzbq3owi6pxgrw7ncy"
+      "buildId": "rze23afjkfa6nkiqth44ynahsm"
     }
   },
   "variants": [
@@ -36,10 +36,10 @@
           "name": "contract-metadata-0.0.14.jar",
           "url": "contract-metadata-0.0.14.jar",
           "size": 7170,
-          "sha512": "95b1a55e559dcf002f4ee00916220effe82472632b22f8d02411ca8116ec7ae17c986d1f98a37e1a90e1aa6fcfbe65cece40995b2f4aa91a58c78eff3975649a",
-          "sha256": "df29ab83a650453df8e4a579e962b60d66591d8633de4854f84fbfd9ebc64d60",
-          "sha1": "e47ff1dd6645f56064388373e533d2f401813ff1",
-          "md5": "383ace3e250a025f1290e392f406a311"
+          "sha512": "57c262856f5289c34a8025736bf25420a545444533c890d5fe7d3747076d10f608e609d769e504f9073b0012f6d7e8ebbb97fe32ebe957b49b47f224af195c5a",
+          "sha256": "0e4345976eb1107de9bddf9286e67d9fa4afea5632b2953ba364d9bd8cad0815",
+          "sha1": "83352956ae9ff2a2a82234128361da855f47b3a1",
+          "md5": "f2d5acc9adbd7dba9030d5f2b794d0f2"
         }
       ]
     }

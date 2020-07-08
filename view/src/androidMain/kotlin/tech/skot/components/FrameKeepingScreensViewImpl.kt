@@ -28,10 +28,12 @@ abstract class FrameKeepingScreensViewImpl<A : AppCompatActivity, F : Fragment, 
 
     private val mapViewClassTag = mutableMapOf<KClass<*>, String>()
 
+    private var currentFragmentTag:String? = null
     override fun setScreenNow(screen: ScreenView) {
 //        SKLog.d("FrameKeepingScreensViewImpl --- setScreenNow  ${screen::class} ${screen.key}")
         fragmentManager.apply {
-            val currentFragment = findFragmentById(idFrameLayout)
+            val currentFragment = currentFragmentTag?.let { findFragmentByTag(it) }//findFragmentById(idFrameLayout)
+//            SKLog.d("FrameKeepingScreensViewImpl --- currentFragment key ${currentFragment?.getKey()}")
             if (currentFragment == null || currentFragment.getKey() != screen.key) {
                 (screen as? ScreenViewImpl<out AppCompatActivity, out Fragment, out ViewBinding>)?.let { screenView ->
 
@@ -42,11 +44,15 @@ abstract class FrameKeepingScreensViewImpl<A : AppCompatActivity, F : Fragment, 
                     val tag = screen.key.toString()
                     val fragmentAlreadyAdded = fragmentManager.findFragmentByTag(tag)
 
+                    currentFragmentTag = tag
                     if (fragmentAlreadyAdded != null) {
 //                        SKLog.d("Will show fragmentAlreadyAdded tag  ${fragmentAlreadyAdded.tag}  key  ${fragmentAlreadyAdded.getKey()}")
                         fragmentManager.fragments.forEach {
+//                            SKLog.d("fragment ${it.getKey()} ${it::class.simpleName}")
                             if (it != fragmentAlreadyAdded) {
+//                                SKLog.d("fragment != alreadyAdded")
                                 if (it.isVisible) {
+//                                    SKLog.d("isVisible, will hide")
                                     trans.hide(it)
                                     it.onPauseRecursive()
                                 }
@@ -56,6 +62,7 @@ abstract class FrameKeepingScreensViewImpl<A : AppCompatActivity, F : Fragment, 
                         fragmentAlreadyAdded.onResumeRecursive()
 
                     } else {
+//                        SKLog.d("Will Remove fragment form same view already Added if needed")
                         //Remove fragment form same view already Added if needed
                         val fragRemoved = mapViewClassTag[screenView::class]?.let {
                             fragmentManager.findFragmentByTag(it)?.also {

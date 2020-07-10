@@ -9,7 +9,7 @@ import kotlinx.serialization.json.Json
 import tech.skot.model.persist.PersistDb
 
 class AndroidPersistor(context: Context, dbFilename: String) : Persistor {
-    val db = PersistDb(
+    private val db = PersistDb(
             AndroidSqliteDriver(
                     PersistDb.Schema,
                     context,

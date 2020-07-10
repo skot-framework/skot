@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import tech.skot.components.ScreenViewImpl
 
 fun Fragment.onCreateViewSK(inflater: LayoutInflater,
@@ -18,6 +19,18 @@ fun Fragment.onCreateViewSK(inflater: LayoutInflater,
 
 
 abstract class SKFragment : Fragment() {
+
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+        return onCreateViewSK(inflater, container, savedInstanceState)
+    }
+
+}
+
+abstract class SKBottomSheetDialogFragment: BottomSheetDialogFragment() {
 
     override fun onCreateView(
             inflater: LayoutInflater,

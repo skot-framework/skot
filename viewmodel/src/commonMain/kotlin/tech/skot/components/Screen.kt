@@ -34,6 +34,10 @@ abstract class Screen<V : ScreenView> : Component<V>(), ScreenParent {
                 ?: throw IllegalStateException("This screen is not in a Stack !!!")
     }
 
+    fun showBottomSheetDialog(screen: Screen<*>) {
+        view.showBottomSheetDialog(screen.view)
+    }
+
     fun replaceWith(screen: Screen<*>) {
         parent?.let { currenParent ->
             when {

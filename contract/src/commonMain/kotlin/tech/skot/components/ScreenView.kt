@@ -16,4 +16,5 @@ interface ScreenView : ComponentView {
     val key: Long
 
     fun openScreenWillFinish(screenToOpen:ScreenView)
+    fun showBottomSheetDialog(screen: ScreenView)
 }

@@ -7,12 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import tech.skot.components.ScreenViewImpl.Companion.SK_ARG_VIEW_KEY
 import tech.skot.view.Action
 import tech.skot.view.OpenScreen
+import tech.skot.view.R
+import tech.skot.view.ShowBottomSheetDialog
 import tech.skot.view.live.MutableSKLiveData
 import kotlin.reflect.KClass
 
@@ -79,6 +83,7 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
     override fun treatAction(action: Action) {
         when (action) {
             is OpenScreen -> openScreen(action.screen)
+            is ShowBottomSheetDialog -> showBottomSheetDialogNow(action.screen)
             else -> super.treatAction(action)
         }
 
@@ -141,7 +146,22 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
                 activity.overridePendingTransition(it.first, it.second)
             }
         }
+    }
 
+    override fun showBottomSheetDialog(screen: ScreenView) {
+        messages.post(ShowBottomSheetDialog(screen))
+    }
+
+    protected open fun getBottomSheetStyle():Int = 0
+
+    protected fun showBottomSheetDialogNow(screen: ScreenView) {
+        getInstance(screen.key)?.let { screenToOpenImpl ->
+
+            BottomSheetDialog(context, getBottomSheetStyle()).apply {
+                setContentView(screenToOpenImpl.inflate(layoutInflater, activity, fragment))
+                show()
+            }
+        }
     }
 
     override fun onRemove() {

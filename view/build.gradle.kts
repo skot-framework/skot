@@ -14,6 +14,8 @@ dependencies {
     api("androidx.constraintlayout:constraintlayout:${Versions.Android.constraintLayout}")
     api("androidx.viewpager2:viewpager2:${Versions.Android.viewpager2}")
     api("androidx.recyclerview:recyclerview:${Versions.Android.recyclerview}")
+    api("com.google.android.material:material:${Versions.Android.material}")
+
 }
 
 

@@ -1,0 +1,54 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../androidTests/0.0.18/androidTests-0.0.18.module",
+    "group": "tech.skot",
+    "module": "androidTests",
+    "version": "0.0.18",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.2.1",
+      "buildId": "2mo2nnyckfb5ncqso4y6gwemnm"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadata-api",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.3.72"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core-common",
+          "version": {
+            "requires": "1.3.7"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "androidTests-metadata-0.0.18.jar",
+          "url": "androidTests-metadata-0.0.18.jar",
+          "size": 261,
+          "sha512": "aa5d57fce7ff322a0efba5a7a52f4ca8a5e9c2d95b72ae87574e75309f1468cdfdf6b1d326ee96cb75a9dfb75dbb3c291e944c749dbe83c8b6b628cd6fb65de4",
+          "sha256": "783eb809bdea8002bf75f3ce40d0f5b18e65b8775c90a961b4e64db16ee54df3",
+          "sha1": "dea48989631646f0e7b57d57b1434bca7cbc70b9",
+          "md5": "28cb7b4349f6b6dba858f16bd8e1d3b7"
+        }
+      ]
+    }
+  ]
+}

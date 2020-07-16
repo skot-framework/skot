@@ -89,7 +89,7 @@ open class GenericAdapter(vararg possibleDefs: ItemDef) : RecyclerView.Adapter<G
     class ValorisedItem<D>(override val def: WithDataItemDef<D>, val data: D) : Item {
 
         override fun computeItemId() =
-                def.computeId?.invoke(data)
+                def.computeId?.invoke(data) ?: data
 
 
         var onSwipe: (() -> Unit)? = null

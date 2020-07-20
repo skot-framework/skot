@@ -10,6 +10,7 @@ import tech.skot.contract.Private
 import java.nio.file.Files
 import java.nio.file.Paths
 import kotlin.reflect.*
+import kotlin.reflect.jvm.javaMethod
 import kotlin.reflect.jvm.jvmErasure
 
 val mapCoreCompViewAndroidView = mapOf(

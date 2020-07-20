@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import tech.skot.core.SKLog
+import java.lang.Exception
 
 
 open class GenericAdapter(vararg possibleDefs: ItemDef) : RecyclerView.Adapter<GenericAdapter.Holder>() {
@@ -70,7 +72,7 @@ open class GenericAdapter(vararg possibleDefs: ItemDef) : RecyclerView.Adapter<G
         override fun computeItemId() = null
     }
 
-    class WithDataItemDef<D>(override val idLayout: Int, override val initialize: (View.() -> Unit)? = null, val buildOnSwipe: ((data: D) -> (() -> Unit)?)? = null, val computeId: ((data: D) -> Any)? = null, val bindData: View.(data: D) -> Unit) : ItemDef {
+    open class WithDataItemDef<D>(override val idLayout: Int, override val initialize: (View.() -> Unit)? = null, val buildOnSwipe: ((data: D) -> (() -> Unit)?)? = null, val computeId: ((data: D) -> Any)? = null, val bindData: View.(data: D) -> Unit) : ItemDef {
 
         fun addTo(viewGroup: ViewGroup, data: D) {
             val view = LayoutInflater.from(viewGroup.context).inflate(idLayout, viewGroup, false)

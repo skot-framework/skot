@@ -113,17 +113,12 @@ abstract class UnivDataManagerImpl<D : Any>(
     }
 
     suspend fun invalidate() {
-        SKLog.d("--- invalidate $key")
         _value = null
-        SKLog.d("--- invalidate will remove $key")
         try {
             cache.remove(key)
         } catch (ex: Exception) {
-            SKLog.e("--- invalidate $key failed", ex)
             throw ex
         }
-
-        SKLog.d("--- invalidate has removed $key")
     }
 
 

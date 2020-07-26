@@ -13,10 +13,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import tech.skot.components.ScreenViewImpl.Companion.SK_ARG_VIEW_KEY
-import tech.skot.view.Action
-import tech.skot.view.OpenScreen
-import tech.skot.view.R
-import tech.skot.view.ShowBottomSheetDialog
+import tech.skot.view.*
 import tech.skot.view.live.MutableSKLiveData
 import kotlin.reflect.KClass
 
@@ -84,6 +81,7 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
         when (action) {
             is OpenScreen -> openScreen(action.screen)
             is ShowBottomSheetDialog -> showBottomSheetDialogNow(action.screen)
+            Dismiss -> dismissNow()
             else -> super.treatAction(action)
         }
 
@@ -154,14 +152,25 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
 
     protected open fun getBottomSheetStyle():Int = 0
 
+    private var bottomSheetDialog:BottomSheetDialog? = null
+
     protected fun showBottomSheetDialogNow(screen: ScreenView) {
         getInstance(screen.key)?.let { screenToOpenImpl ->
 
             BottomSheetDialog(context, getBottomSheetStyle()).apply {
                 setContentView(screenToOpenImpl.inflate(layoutInflater, activity, fragment))
+                screenToOpenImpl.bottomSheetDialog = this
                 show()
             }
         }
+    }
+
+    override fun dismiss() {
+        messages.post(Dismiss)
+    }
+
+    private fun dismissNow() {
+        bottomSheetDialog?.dismiss()
     }
 
     override fun onRemove() {

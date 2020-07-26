@@ -62,6 +62,10 @@ abstract class Screen<V : ScreenView> : Component<V>(), ScreenParent {
         }
     }
 
+    fun dismiss() {
+        view.dismiss()
+    }
+
 
     override fun remove(aScreen: Screen<*>) {
         onTop = null

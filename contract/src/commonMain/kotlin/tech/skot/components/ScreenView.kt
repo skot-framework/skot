@@ -17,4 +17,5 @@ interface ScreenView : ComponentView {
 
     fun openScreenWillFinish(screenToOpen:ScreenView)
     fun showBottomSheetDialog(screen: ScreenView)
+    fun dismiss()
 }

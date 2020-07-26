@@ -1,0 +1,500 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../androidTests/0.0.20/androidTests-0.0.20.module",
+    "group": "tech.skot",
+    "module": "androidTests",
+    "version": "0.0.20",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.2.1",
+      "buildId": "2r2ojxqr5ffvpf4fmosdnmnn7i"
+    }
+  },
+  "variants": [
+    {
+      "name": "android-debugApiElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.api.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.3.72"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core-common",
+          "version": {
+            "requires": "1.3.7"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.3.72"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-android",
+          "version": {
+            "requires": "1.3.7"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.2.0-rc01"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-test",
+          "version": {
+            "requires": "1.3.72"
+          }
+        },
+        {
+          "group": "androidx.test.espresso",
+          "module": "espresso-core",
+          "version": {
+            "requires": "3.2.0"
+          }
+        },
+        {
+          "group": "androidx.test.espresso",
+          "module": "espresso-contrib",
+          "version": {
+            "requires": "3.2.0"
+          }
+        },
+        {
+          "group": "androidx.test.espresso",
+          "module": "espresso-web",
+          "version": {
+            "requires": "3.2.0"
+          }
+        },
+        {
+          "group": "androidx.test",
+          "module": "rules",
+          "version": {
+            "requires": "1.3.0-rc01"
+          }
+        },
+        {
+          "group": "androidx.arch.core",
+          "module": "core-testing",
+          "version": {
+            "requires": "2.1.0"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-server-netty",
+          "version": {
+            "requires": "1.3.2"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-android",
+          "version": {
+            "requires": "1.3.2"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "androidTests-debug.aar",
+          "url": "androidTests-android-0.0.20-debug.aar",
+          "size": 58757,
+          "sha512": "3e6abe3606c406b43b8ed46aaa0d225b8a3b43dae0b7cf188496a62cacf6e6f02b7289eaf27d3d8edc06f78518e0e501208de14667f9156e739d71bcee118d1d",
+          "sha256": "949a38e9247251213406fa30f6f6e88191bf9e3705b775d58f3ef6460be0660d",
+          "sha1": "5a2a1723c99386d6f745c864c11ed1db73f70d6b",
+          "md5": "72c7d26e1e70bea042b0675da039a2ed"
+        }
+      ]
+    },
+    {
+      "name": "android-debugRuntimeElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.api.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.3.72"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core-common",
+          "version": {
+            "requires": "1.3.7"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.3.72"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-android",
+          "version": {
+            "requires": "1.3.7"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-android-extensions-runtime",
+          "version": {
+            "requires": "1.3.72"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "0.0.20"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.2.0-rc01"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-test",
+          "version": {
+            "requires": "1.3.72"
+          }
+        },
+        {
+          "group": "androidx.test.espresso",
+          "module": "espresso-core",
+          "version": {
+            "requires": "3.2.0"
+          }
+        },
+        {
+          "group": "androidx.test.espresso",
+          "module": "espresso-contrib",
+          "version": {
+            "requires": "3.2.0"
+          }
+        },
+        {
+          "group": "androidx.test.espresso",
+          "module": "espresso-web",
+          "version": {
+            "requires": "3.2.0"
+          }
+        },
+        {
+          "group": "androidx.test",
+          "module": "rules",
+          "version": {
+            "requires": "1.3.0-rc01"
+          }
+        },
+        {
+          "group": "androidx.arch.core",
+          "module": "core-testing",
+          "version": {
+            "requires": "2.1.0"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-server-netty",
+          "version": {
+            "requires": "1.3.2"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-android",
+          "version": {
+            "requires": "1.3.2"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "androidTests-debug.aar",
+          "url": "androidTests-android-0.0.20-debug.aar",
+          "size": 58757,
+          "sha512": "3e6abe3606c406b43b8ed46aaa0d225b8a3b43dae0b7cf188496a62cacf6e6f02b7289eaf27d3d8edc06f78518e0e501208de14667f9156e739d71bcee118d1d",
+          "sha256": "949a38e9247251213406fa30f6f6e88191bf9e3705b775d58f3ef6460be0660d",
+          "sha1": "5a2a1723c99386d6f745c864c11ed1db73f70d6b",
+          "md5": "72c7d26e1e70bea042b0675da039a2ed"
+        }
+      ]
+    },
+    {
+      "name": "android-releaseApiElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.api.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.3.72"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core-common",
+          "version": {
+            "requires": "1.3.7"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.3.72"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-android",
+          "version": {
+            "requires": "1.3.7"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.2.0-rc01"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-test",
+          "version": {
+            "requires": "1.3.72"
+          }
+        },
+        {
+          "group": "androidx.test.espresso",
+          "module": "espresso-core",
+          "version": {
+            "requires": "3.2.0"
+          }
+        },
+        {
+          "group": "androidx.test.espresso",
+          "module": "espresso-contrib",
+          "version": {
+            "requires": "3.2.0"
+          }
+        },
+        {
+          "group": "androidx.test.espresso",
+          "module": "espresso-web",
+          "version": {
+            "requires": "3.2.0"
+          }
+        },
+        {
+          "group": "androidx.test",
+          "module": "rules",
+          "version": {
+            "requires": "1.3.0-rc01"
+          }
+        },
+        {
+          "group": "androidx.arch.core",
+          "module": "core-testing",
+          "version": {
+            "requires": "2.1.0"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-server-netty",
+          "version": {
+            "requires": "1.3.2"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-android",
+          "version": {
+            "requires": "1.3.2"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "androidTests-release.aar",
+          "url": "androidTests-android-0.0.20.aar",
+          "size": 57219,
+          "sha512": "a257e7b1fd09267502628749f5b534eb38468c974fae5311a883b60e1425bff62b0344fa1e2c629781f640197a384f7f82111829b0611d8c5a867e3e9d38e937",
+          "sha256": "bafa0c889330dec3031a634417cb6ca6a7f93b0d3c7ecdfffe0f893dfaff29d3",
+          "sha1": "62d60b7faf576bc3f18b4ae09cf24c6de1812c91",
+          "md5": "f3a9c4095800bc413975e2ea130a39e0"
+        }
+      ]
+    },
+    {
+      "name": "android-releaseRuntimeElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.api.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.3.72"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core-common",
+          "version": {
+            "requires": "1.3.7"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.3.72"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-android",
+          "version": {
+            "requires": "1.3.7"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-android-extensions-runtime",
+          "version": {
+            "requires": "1.3.72"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "0.0.20"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.2.0-rc01"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-test",
+          "version": {
+            "requires": "1.3.72"
+          }
+        },
+        {
+          "group": "androidx.test.espresso",
+          "module": "espresso-core",
+          "version": {
+            "requires": "3.2.0"
+          }
+        },
+        {
+          "group": "androidx.test.espresso",
+          "module": "espresso-contrib",
+          "version": {
+            "requires": "3.2.0"
+          }
+        },
+        {
+          "group": "androidx.test.espresso",
+          "module": "espresso-web",
+          "version": {
+            "requires": "3.2.0"
+          }
+        },
+        {
+          "group": "androidx.test",
+          "module": "rules",
+          "version": {
+            "requires": "1.3.0-rc01"
+          }
+        },
+        {
+          "group": "androidx.arch.core",
+          "module": "core-testing",
+          "version": {
+            "requires": "2.1.0"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-server-netty",
+          "version": {
+            "requires": "1.3.2"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-android",
+          "version": {
+            "requires": "1.3.2"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "androidTests-release.aar",
+          "url": "androidTests-android-0.0.20.aar",
+          "size": 57219,
+          "sha512": "a257e7b1fd09267502628749f5b534eb38468c974fae5311a883b60e1425bff62b0344fa1e2c629781f640197a384f7f82111829b0611d8c5a867e3e9d38e937",
+          "sha256": "bafa0c889330dec3031a634417cb6ca6a7f93b0d3c7ecdfffe0f893dfaff29d3",
+          "sha1": "62d60b7faf576bc3f18b4ae09cf24c6de1812c91",
+          "md5": "f3a9c4095800bc413975e2ea130a39e0"
+        }
+      ]
+    }
+  ]
+}

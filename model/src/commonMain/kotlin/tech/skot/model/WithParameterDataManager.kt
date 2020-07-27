@@ -97,13 +97,13 @@ abstract class UnivDataManagerImpl<D : Any>(
                             }
                             return cachedData
                         } else {
-                            return getFreshData(if (cacheIfError) cachedStr.data else null)
+                            return getFreshData(id = id, strCached = if (cacheIfError) cachedStr.data else null)
                         }
                     } else {
-                        return getFreshData(if (cacheIfError) cachedStr.data else null)
+                        return getFreshData(id = id, strCached = if (cacheIfError) cachedStr.data else null)
                     }
                 } else {
-                    return getFreshData(id)
+                    return getFreshData(id = id)
                 }
 
 
@@ -124,7 +124,7 @@ abstract class UnivDataManagerImpl<D : Any>(
 
     protected fun univUpdate(id: String?) {
         CoroutineScope(Dispatchers.Main).launch {
-            getFreshData(id)
+            getFreshData(id = id)
         }
     }
 

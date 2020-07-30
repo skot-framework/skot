@@ -34,6 +34,14 @@ abstract class Screen<V : ScreenView> : Component<V>(), ScreenParent {
                 ?: throw IllegalStateException("This screen is not in a Stack !!!")
     }
 
+    fun pushOrPutOnTop(screen: Screen<*>) {
+        val currentParent = parent
+        when (currentParent) {
+            is Stack<*> -> currentParent.push(screen)
+            else -> onTop = screen
+        }
+    }
+
     fun showBottomSheetDialog(screen: Screen<*>) {
         view.showBottomSheetDialog(screen.view)
     }

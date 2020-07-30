@@ -13,7 +13,7 @@ import kotlin.reflect.full.superclasses
 
 fun generateViewModel(
         moduleName: String,
-        mapCustom:Map<KClass<out ComponentView>, Pair<FileSpec.Builder.()->Unit,TypeSpec.Builder.()->Unit>>? = null
+        vararg mapsCustoms:Map<KClass<out ComponentView>, Pair<FileSpec.Builder.()->Unit,TypeSpec.Builder.()->Unit>>
 ) {
     val generatedDir = Paths.get("../$moduleName/generated/commonMain/kotlin")
     val srcDir = Paths.get("../$moduleName/src/commonMain/kotlin")
@@ -21,22 +21,29 @@ fun generateViewModel(
     allComponents
             .fromApp()
             .filter { it.annotations.find { it is SuperViewModelWithParams } == null }
-            .forEach {
-                it.buildCompGenFile(mapCustom?.get(it)?.first, mapCustom?.get(it)?.second).writeTo(generatedDir)
+            .forEach {klass ->
 
+                klass.buildCompGenFile(
+                        customFile = mapsCustoms.mapNotNull {
+                            it.get(klass)?.first
+                        },
+                        customType = mapsCustoms.mapNotNull {
+                            it.get(klass)?.second
+                        }
+                ).writeTo(generatedDir)
 
-                val compName = it.compName()
-                val packageName = it.packageName()
+                val compName = klass.compName()
+                val packageName = klass.packageName()
 
                 if (!srcDir.existsClass(packageName, compName)) {
-                    it.buildCompSkeletonFile().writeTo(srcDir)
+                    klass.buildCompSkeletonFile().writeTo(srcDir)
                 }
             }
 
 }
 
 
-fun KClass<out ComponentView>.buildCompGenFile(customFile:(FileSpec.Builder.()->Unit)?, customType:(TypeSpec.Builder.()->Unit)?): FileSpec {
+fun KClass<out ComponentView>.buildCompGenFile(customFile:List<(FileSpec.Builder.()->Unit)>, customType:List<(TypeSpec.Builder.()->Unit)>): FileSpec {
     val componentGenName = compGenName()
     val packageName = packageName()
 
@@ -45,7 +52,9 @@ fun KClass<out ComponentView>.buildCompGenFile(customFile:(FileSpec.Builder.()->
                 if (isActualComponent() && appPackageName != packageName) {
                     addImport(appPackageName, "modelInjector")
                 }
-                customFile?.invoke(this)
+                customFile.forEach {
+                    it.invoke(this)
+                }
             }
             .addType(
                     TypeSpec.classBuilder(componentGenName)
@@ -96,7 +105,7 @@ fun KClass<out ComponentView>.buildCompGenFile(customFile:(FileSpec.Builder.()->
                                                     .build())
                                 }
 
-                                customType?.invoke(this)
+                                customType.forEach { it.invoke(this) }
                             }
                             .build()
             )

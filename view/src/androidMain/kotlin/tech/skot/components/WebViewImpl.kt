@@ -31,9 +31,8 @@ class WebViewImpl(
                     request?.url?.toString()?.let { url ->
                         redirectParams.forEach {
                             if (it.matches(url)) {
-                                it.onRedirect(url, request.url?.getMapQueryParameters()
+                                return it.onRedirect(url, request.url?.getMapQueryParameters()
                                         ?: emptyMap())
-                                return true
                             }
                         }
                     }
@@ -74,9 +73,7 @@ class WebViewImpl(
                         val strUrl = uri.toString()
                         redirectParams.forEach {
                             if (it.matches(strUrl)) {
-                                it.onRedirect(strUrl, uri.getMapQueryParameters()
-                                        ?: emptyMap())
-                                return true
+                                return it.onRedirect(strUrl, uri.getMapQueryParameters())
                             }
                         }
                     }

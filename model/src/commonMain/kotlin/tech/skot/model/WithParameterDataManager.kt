@@ -15,7 +15,7 @@ import tech.skot.core.currentTimeMillis
 
 interface WithParameterDataManager<D : Any> {
     val updatePoker: Poker
-    suspend fun getValue(id: String, fresh: Boolean = false, speed: Boolean = false, updateIfSpeed: Boolean = true, cacheIfError: Boolean = true): D
+    suspend fun getValue(id: String, fresh: Boolean = false, speed: Boolean = false, updateIfSpeed: Boolean = false, cacheIfError: Boolean = true): D
     fun update(id: String)
 
     suspend fun setDataStr(id: String, newStrData: String, tmsp: Long? = null)
@@ -114,17 +114,17 @@ abstract class UnivDataManagerImpl<D : Any>(
 
     suspend fun invalidate() {
         _value = null
-        try {
-            cache.remove(key)
-        } catch (ex: Exception) {
-            throw ex
-        }
+        cache.remove(key)
     }
 
 
     protected fun univUpdate(id: String?) {
         CoroutineScope(Dispatchers.Main).launch {
-            getFreshData(id = id)
+            try {
+                getFreshData(id = id)
+            } catch (ex: Exception) {
+                SKLog.e("erreur à la mise à jour suite à utilisation du cache en speed", ex)
+            }
         }
     }
 

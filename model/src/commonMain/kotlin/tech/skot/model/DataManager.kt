@@ -6,7 +6,7 @@ import tech.skot.contract.modelcontract.Poker
 
 interface DataManager<D : Any> {
     val updatePoker: Poker
-    suspend fun getValue(fresh: Boolean = false, speed: Boolean = false, updateIfSpeed: Boolean = true, cacheIfError: Boolean = true): D
+    suspend fun getValue(fresh: Boolean = false, speed: Boolean = false, updateIfSpeed: Boolean = false, cacheIfError: Boolean = true): D
     fun update()
 
     suspend fun setDataStr(newStrData: String, tmsp: Long? = null)

@@ -124,7 +124,7 @@ abstract class Screen<V : ScreenView> : Component<V>(), ScreenParent {
     protected fun launchWithLoadingAndError(
             context: CoroutineContext = EmptyCoroutineContext,
             start: CoroutineStart = CoroutineStart.DEFAULT,
-            defaultErrorMessage:String? = null,
+            defaultErrorMessage: String? = null,
             block: suspend CoroutineScope.() -> Unit): Job =
             launch(context, start) {
                 loadingCounter++
@@ -159,7 +159,7 @@ abstract class Screen<V : ScreenView> : Component<V>(), ScreenParent {
     }
 
 
-    protected open fun treatError(ex: Exception, defaultErrorMessage:String? = null) {
+    open fun treatError(ex: Exception, defaultErrorMessage: String? = null) {
         logE(ex.message ?: "Erreur inconnue", ex)
     }
 

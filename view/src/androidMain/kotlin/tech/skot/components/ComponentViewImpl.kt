@@ -42,6 +42,12 @@ abstract class ComponentViewImpl<A : AppCompatActivity, F : Fragment, B : Any> :
         }
     }
 
+    fun <PA:A, PF:F> linkLately(parentComponent:ComponentViewImpl<PA,F,*>, binding: B) {
+        initWith(parentComponent.activity, parentComponent.fragment, binding)
+        linkTo(parentComponent.lifeCycleOwner)
+    }
+
+
     protected open fun treatAction(action: Action) {
     }
 

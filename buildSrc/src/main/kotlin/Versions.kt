@@ -19,11 +19,11 @@ object Versions {
     object Android {
         const val plugin = "4.0.0"
         const val timber = "4.7.1"
-        const val appcompat = "1.2.0-rc01"
-        const val constraintLayout = "1.1.3"
+        const val appcompat = "1.2.0"
+        const val constraintLayout = "2.0.1"
         const val viewpager2 = "1.0.0"
-        const val recyclerview = "1.0.0"
-        const val material = "1.2.0-alpha06"
+        const val recyclerview = "1.1.0"
+        const val material = "1.2.1"
 
     }
 }

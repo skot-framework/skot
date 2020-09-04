@@ -6,6 +6,7 @@ plugins {
     id("com.android.library")
     id("kotlin-android-extensions")
     id("maven-publish")
+    id("com.github.ben-manes.versions")
 }
 
 

@@ -18,10 +18,10 @@ dependencies {
 
     api("org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}")
 
-    api("androidx.test.espresso:espresso-core:3.2.0")
-    api("androidx.test.espresso:espresso-contrib:3.2.0")
-    api("androidx.test.espresso:espresso-web:3.2.0")
-    api("androidx.test:rules:1.3.0-rc01")
+    api("androidx.test.espresso:espresso-core:3.3.0")
+    api("androidx.test.espresso:espresso-contrib:3.3.0")
+    api("androidx.test.espresso:espresso-web:3.3.0")
+    api("androidx.test:rules:1.3.0")
     api("androidx.arch.core:core-testing:2.1.0")
 
     api("io.ktor:ktor-server-netty:${Versions.ktor}")

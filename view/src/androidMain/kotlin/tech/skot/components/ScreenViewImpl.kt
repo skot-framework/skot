@@ -152,14 +152,14 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
 
     protected open fun getBottomSheetStyle():Int = 0
 
-    private var bottomSheetDialog:BottomSheetDialog? = null
+    protected var bottomSheetDialog:BottomSheetDialog? = null
 
     protected fun showBottomSheetDialogNow(screen: ScreenView) {
         getInstance(screen.key)?.let { screenToOpenImpl ->
 
             BottomSheetDialog(context, getBottomSheetStyle()).apply {
-                setContentView(screenToOpenImpl.inflate(layoutInflater, activity, fragment))
                 screenToOpenImpl.bottomSheetDialog = this
+                setContentView(screenToOpenImpl.inflate(layoutInflater, activity, fragment))
                 show()
             }
         }
@@ -171,6 +171,7 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
 
     private fun dismissNow() {
         bottomSheetDialog?.dismiss()
+        bottomSheetDialog = null
     }
 
     override fun onRemove() {

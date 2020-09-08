@@ -68,18 +68,16 @@ abstract class UnivDataManagerImpl<D : Any>(
 
 
     protected suspend fun univGetValue(id: String?, fresh: Boolean, speed: Boolean, updateIfSpeed: Boolean, cacheIfError: Boolean): D {
-        if (_value != null && _value?.id != id) {
-            invalidate()
-        }
         if (fresh) {
             return getFreshData(id)
         } else {
             val currenValue = _value
-            if (currenValue?.isValid() == true) {
+            if (currenValue?.isValid() == true && currenValue.id == id) {
                 return currenValue.data
             } else {
                 val cachedStr = cache.getString(key)
-                if (cachedStr != null) {
+                if (cachedStr != null && cachedStr.id == id) {
+                    SKLog.d("SKOT--- got cached value")
                     val isCachedStrValid = cachedStr.isValid()
                     if (speed || isCachedStrValid) {
                         val cachedData: D? =

@@ -1,0 +1,54 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../viewmodel/0.0.27/viewmodel-0.0.27.module",
+    "group": "tech.skot",
+    "module": "viewmodel",
+    "version": "0.0.27",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.2.1",
+      "buildId": "eivbo7yrmzcdnc7ypzmvwqtxd4"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadata-api",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "0.0.27"
+          }
+        },
+        {
+          "group": "com.soywiz.korlibs.klock",
+          "module": "klock",
+          "version": {
+            "requires": "1.8.4"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewmodel-metadata-0.0.27.jar",
+          "url": "viewmodel-metadata-0.0.27.jar",
+          "size": 7006,
+          "sha512": "58be261cb1a6c5b5760247325def694fcf06fd21ba8e9e5efd419eb23d3a5f57bea950d1f8b2c57826982ccd66bd832a1049242b49f348e75e3650e169a396a4",
+          "sha256": "0560277f798820961e86b377016f29a8dcd8e0006d33e7bf5444cb7b7a00afec",
+          "sha1": "f47dad86ceb71fe9fb9a7c3cb46ee013eae025cb",
+          "md5": "8cf3969d289be002f423544c0a86c25d"
+        }
+      ]
+    }
+  ]
+}

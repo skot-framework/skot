@@ -30,16 +30,13 @@ fun buildStringsFile(moduleName: String, withPhrase: Boolean = false) {
     }
     val classBuilderAndroid = TypeSpec.classBuilder("StringsGen")
             .addSuperinterface(ClassName("$appPackageName.model", "Strings"))
-            .primaryConstructor(
-                    FunSpec.constructorBuilder()
-                            .addParameter("applicationContext", contextClassName)
-                            .build()
-            )
+            .addPrimaryConstructorWithParams(listOf(ParamInfos("applicationContext", contextClassName, listOf(KModifier.PRIVATE))))
             .apply {
                 if (withPhrase) {
                     addProperty(
                             PropertySpec.builder("phraseWrappedContext", contextClassName)
                                     .addModifiers(KModifier.PRIVATE)
+                                    .mutable(true)
                                     .initializer(
                                     "Phrase.wrap(applicationContext)"
                             ).build()
@@ -55,6 +52,12 @@ fun buildStringsFile(moduleName: String, withPhrase: Boolean = false) {
             }
 
             .addFunction(
+                    FunSpec.builder("reinit")
+                            .addModifiers(KModifier.OVERRIDE)
+                            .addCode(CodeBlock.of("phraseWrappedContext = Phrase.wrap(applicationContext)"))
+                            .build()
+            )
+            .addFunction(
                     FunSpec.builder("get")
                             .addParameter("strInt", Int::class)
                             .returns(String::class)
@@ -64,7 +67,8 @@ fun buildStringsFile(moduleName: String, withPhrase: Boolean = false) {
             .addProperties(
                     strings.map {
                         PropertySpec.builder(it.decapitalize(), String::class, KModifier.OVERRIDE)
-                                .initializer(CodeBlock.of("get(R.string.$it)"))
+                                .getter(FunSpec.getterBuilder().addStatement("return get(R.string.$it)").build())
+//                                .initializer(CodeBlock.of("get(R.string.$it)"))
                                 .build()
                     }
             )
@@ -83,6 +87,11 @@ fun buildStringsFile(moduleName: String, withPhrase: Boolean = false) {
                         PropertySpec.builder(it.decapitalize(), String::class)
                                 .build()
                     }
+            )
+            .addFunction(
+                    FunSpec.builder("reinit")
+                            .addModifiers(KModifier.ABSTRACT)
+                            .build()
             )
 
 

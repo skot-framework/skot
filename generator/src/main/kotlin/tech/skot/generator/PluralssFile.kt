@@ -30,15 +30,12 @@ fun buildPluralsFile(moduleName: String, withPhrase: Boolean = false) {
     }
     val classBuilderAndroid = TypeSpec.classBuilder("PluralsGen")
             .addSuperinterface(ClassName("$appPackageName.model", "Plurals"))
-            .primaryConstructor(
-                    FunSpec.constructorBuilder()
-                            .addParameter("applicationContext", contextClassName)
-                            .build()
-            )
+            .addPrimaryConstructorWithParams(listOf(ParamInfos("applicationContext", contextClassName, listOf(KModifier.PRIVATE))))
             .apply {
                 if (withPhrase) {
                     addProperty(
                             PropertySpec.builder("phraseWrappedContext", contextClassName)
+                                    .mutable(true)
                                     .addModifiers(KModifier.PRIVATE)
                                     .initializer(
                                     "Phrase.wrap(applicationContext)"
@@ -53,7 +50,12 @@ fun buildPluralsFile(moduleName: String, withPhrase: Boolean = false) {
                     )
                 }
             }
-
+            .addFunction(
+                    FunSpec.builder("reinit")
+                            .addModifiers(KModifier.OVERRIDE)
+                            .addCode(CodeBlock.of("phraseWrappedContext = Phrase.wrap(applicationContext)"))
+                            .build()
+            )
             .addFunction(
                     FunSpec.builder("compute")
                             .addParameter("pluralInt", Int::class)
@@ -100,6 +102,11 @@ fun buildPluralsFile(moduleName: String, withPhrase: Boolean = false) {
 
     val fileCommon = FileSpec.builder("$appPackageName.model", "Plurals")
     val classBuilderCommon = TypeSpec.interfaceBuilder("Plurals")
+            .addFunction(
+                    FunSpec.builder("reinit")
+                            .addModifiers(KModifier.ABSTRACT)
+                            .build()
+            )
             .addFunctions(
                     plurals.map {
                         FunSpec.builder(it.decapitalize())

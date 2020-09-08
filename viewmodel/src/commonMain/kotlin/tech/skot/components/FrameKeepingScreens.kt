@@ -13,6 +13,11 @@ abstract class FrameKeepingScreens<V : FrameKeepingScreensView> : Component<V>()
             value?._parent = this
         }
 
+    override fun onRemove() {
+        screen?.onRemove()
+        super.onRemove()
+    }
+
     override fun remove(aScreen: Screen<*>) {
         throw IllegalStateException("This screen's parent is a FrameKeepingScreens, you can't finish it like this")
     }

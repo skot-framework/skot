@@ -29,6 +29,7 @@ class WebViewImpl(
             webView.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: android.webkit.WebView?, request: WebResourceRequest?): Boolean {
                     request?.url?.toString()?.let { url ->
+                        SKLog.d("redirect -----> $url")
                         redirectParams.forEach {
                             if (it.matches(url)) {
                                 return it.onRedirect(url, request.url?.getMapQueryParameters()

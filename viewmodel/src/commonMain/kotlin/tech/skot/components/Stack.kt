@@ -19,6 +19,7 @@ abstract class Stack<V : StackView> : Component<V>(), ScreenParent {
     }
 
     fun clear() {
+        _screens.forEach { it.onRemove() }
         _screens.clear()
         view.clear()
     }

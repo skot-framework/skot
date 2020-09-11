@@ -77,7 +77,6 @@ abstract class UnivDataManagerImpl<D : Any>(
             } else {
                 val cachedStr = cache.getString(key)
                 if (cachedStr != null && cachedStr.id == id) {
-                    SKLog.d("SKOT--- got cached value")
                     val isCachedStrValid = cachedStr.isValid()
                     if (speed || isCachedStrValid) {
                         val cachedData: D? =

@@ -12,7 +12,7 @@
   "createdBy": {
     "gradle": {
       "version": "6.2.1",
-      "buildId": "t2w34ohvabccfdd6l3g4neepp4"
+      "buildId": "ikofuueoirgi5mitgyqwyl75xa"
     }
   },
   "variants": [
@@ -43,10 +43,10 @@
           "name": "model-metadata-0.0.28.jar",
           "url": "model-metadata-0.0.28.jar",
           "size": 13118,
-          "sha512": "1916ab3718de2aa1a4e4265e6b900402722900226d870f4e79bc2e87f115cd1a516681cb11a10aedc1e20152590a4cff0c383a7f59eb9403f9b36f5a3195d35d",
-          "sha256": "f3d14d386203a082b5f4d20baf7cd671bfe5348e623dff3cd31ed3bc87017e69",
-          "sha1": "013d9a08cb3c8119ac540b701f5fd8f1e0517a50",
-          "md5": "87cfb1076d73aeede3591e3b0db60c7c"
+          "sha512": "cf8c5905d59cd6de8e176ae7a978955fb23d1e1f12ad349119cad612215f1f87a3baa011c576bdab443dd4ca0b4df111f1c4f2312f4eb860ef6c97a3f07fb13f",
+          "sha256": "99e5c3a9cf023f4644a1649afcf525abf3ff318cf6a10f6232ae542e1b3731bb",
+          "sha1": "0b470ad723249ad3622d011dea9134a7d0443292",
+          "md5": "40970aca9af0d2fbe1e194dbb76921f8"
         }
       ]
     }

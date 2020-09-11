@@ -12,7 +12,7 @@
   "createdBy": {
     "gradle": {
       "version": "6.2.1",
-      "buildId": "t2w34ohvabccfdd6l3g4neepp4"
+      "buildId": "ikofuueoirgi5mitgyqwyl75xa"
     }
   },
   "variants": [
@@ -50,10 +50,10 @@
           "name": "core-metadata-0.0.28.jar",
           "url": "core-metadata-0.0.28.jar",
           "size": 5327,
-          "sha512": "077dc27abbd825c398b9998e3d2152e6da1221a17a5b1cdc0c58f2b4d24ef8ec4c85a70e1682d4a0a6a4f0ad40ab80c064cae2fa0a8d1f33e8bf33a752abf315",
-          "sha256": "efacf253952f2893dedc12ba1393bcb00038d1f298699923ccaae6c73c59a963",
-          "sha1": "502a818e013de897e5b603743ca42c817da0c0e9",
-          "md5": "c140b40ea599a9d26f4af334bc90eb5d"
+          "sha512": "81590f216df34eb1ea4e7ac9f5a550aefd78e33cf7d20567390d23aa635d9828bc43ff8eb91e0ff8dd64528efadf61a5947ec5a98fa5296c7480d71597a837c0",
+          "sha256": "09d76ba9cae4ebedb6106c49b604d030a910ade1b2d157c1c682a9cf31acf518",
+          "sha1": "0a4f473ce49258aec3e422d9e44c624926ccf727",
+          "md5": "53a12fee1eaa7b58f40aa627a1109b1e"
         }
       ]
     }

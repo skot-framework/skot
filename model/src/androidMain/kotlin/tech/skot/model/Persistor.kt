@@ -20,11 +20,12 @@ class AndroidPersistor(context: Context, dbFilename: String) : Persistor {
     override suspend fun <D : Any> putData(
             serializer: KSerializer<D>,
             key: String,
+            id: String?,
             data: D,
             timestamp: Long
     ) {
         return withContext(Dispatchers.IO) {
-            db.persistedQueries.putByKey(key, timestamp, Json.stringify(serializer, data))
+            db.persistedQueries.putByKey(key, id, timestamp, Json.stringify(serializer, data))
         }
 
     }
@@ -40,9 +41,9 @@ class AndroidPersistor(context: Context, dbFilename: String) : Persistor {
         }
     }
 
-    override suspend fun putString(key: String, data: String, timestamp: Long) {
+    override suspend fun putString(key: String, id:String?, data: String, timestamp: Long) {
         return withContext(Dispatchers.IO) {
-            db.persistedQueries.putByKey(key, timestamp, data)
+            db.persistedQueries.putByKey(key, id, timestamp, data)
         }
     }
 

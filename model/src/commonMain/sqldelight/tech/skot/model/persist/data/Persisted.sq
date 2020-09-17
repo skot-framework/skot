@@ -15,8 +15,8 @@ obtainByKey:
 SELECT * FROM persisted WHERE key = ?;
 
 putByKey:
-INSERT OR REPLACE INTO persisted(key, timestamp, data)
-VALUES (?, ?, ?);
+INSERT OR REPLACE INTO persisted(key, id, timestamp, data)
+VALUES (?, ?, ?, ?);
 
 remove:
 DELETE FROM persisted WHERE key = ?;

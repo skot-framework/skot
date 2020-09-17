@@ -7,7 +7,11 @@ import tech.skot.core.currentTimeMillis
 import tech.skot.core.di.get
 
 interface Persistor {
-    suspend fun <D : Any> putData(serializer: KSerializer<D>, key: String, data: D, timestamp: Long = currentTimeMillis())
+    suspend fun <D : Any> putData(serializer: KSerializer<D>, key: String, id:String?, data: D, timestamp: Long = currentTimeMillis())
+    suspend fun <D : Any> putData(serializer: KSerializer<D>, key: String, data: D, timestamp: Long = currentTimeMillis()) {
+        putData(serializer, key, null, data)
+    }
+
     suspend fun <D : Any> getData(serializer: KSerializer<D>, key: String): DatedData<D>?
     suspend fun <D : Any> getDataSecured(serializer: KSerializer<D>, key: String) = try {
         getData(serializer, key)
@@ -15,7 +19,10 @@ interface Persistor {
     catch (ex:Exception) {
         null
     }
-    suspend fun putString(key:String, data:String, timestamp: Long = currentTimeMillis())
+    suspend fun putString(key:String, id:String?, data:String, timestamp: Long = currentTimeMillis())
+    suspend fun putString(key:String, data:String, timestamp: Long = currentTimeMillis()) {
+        putString(key, null, data, timestamp)
+    }
     suspend fun getString(key:String): DatedData<String>?
     suspend fun getStringSecured(key:String) = try {
         getString(key)
@@ -29,8 +36,8 @@ interface Persistor {
 }
 
 @ImplicitReflectionSerializer
-suspend inline fun <reified D : Any> Persistor.putData(key: String, data: D, timestamp: Long) {
-    putData(D::class.serializer(), key, data, timestamp)
+suspend inline fun <reified D : Any> Persistor.putData(key: String, id:String?, data: D, timestamp: Long) {
+    putData(D::class.serializer(), key, id, data, timestamp)
 }
 
 @ImplicitReflectionSerializer

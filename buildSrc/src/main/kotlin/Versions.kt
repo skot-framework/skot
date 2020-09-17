@@ -1,7 +1,7 @@
 object Versions {
 
     const val group = "tech.skot"
-    const val version = "0.0.28"
+    const val version = "0.0.29"
 
     const val kotlin = "1.3.72"
     const val kotlinCoroutines = "1.3.7"
@@ -19,7 +19,7 @@ object Versions {
     object Android {
         const val plugin = "4.0.0"
         const val timber = "4.7.1"
-        const val appcompat = "1.2.0"
+        const val appcompat = "1.1.0"
         const val constraintLayout = "2.0.1"
         const val viewpager2 = "1.0.0"
         const val recyclerview = "1.1.0"

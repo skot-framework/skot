@@ -1,0 +1,60 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "tech.skot",
+    "module": "contract",
+    "version": "0.0.31",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.2.1",
+      "buildId": "4g4dsdf7yvgxndmmqjq6s6i2gm"
+    }
+  },
+  "variants": [
+    {
+      "name": "jvm-api",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../contract-jvm/0.0.31/contract-jvm-0.0.31.module",
+        "group": "tech.skot",
+        "module": "contract-jvm",
+        "version": "0.0.31"
+      }
+    },
+    {
+      "name": "jvm-runtime",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../contract-jvm/0.0.31/contract-jvm-0.0.31.module",
+        "group": "tech.skot",
+        "module": "contract-jvm",
+        "version": "0.0.31"
+      }
+    },
+    {
+      "name": "metadata-api",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "available-at": {
+        "url": "../../contract-metadata/0.0.31/contract-metadata-0.0.31.module",
+        "group": "tech.skot",
+        "module": "contract-metadata",
+        "version": "0.0.31"
+      }
+    }
+  ]
+}

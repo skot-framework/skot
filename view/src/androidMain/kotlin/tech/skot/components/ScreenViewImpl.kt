@@ -1,5 +1,6 @@
 package tech.skot.components
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -42,6 +43,21 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
 
         const val SK_EXTRA_VIEW_KEY = "SK_EXTRA_VIEW_KEY"
         const val SK_ARG_VIEW_KEY = "SK_ARG_VIEW_KEY"
+
+
+        fun openScreen(context:Context, activity:Activity, screen: ScreenView) {
+            getInstance(screen.key)?.let { screenToOpenImpl ->
+                context.startActivity(
+                        Intent(context, screenToOpenImpl.getActivityClass().java)
+                                .apply {
+                                    putExtra(SK_EXTRA_VIEW_KEY, screen.key)
+                                }
+                )
+                screenToOpenImpl.customTransitionAnimationIn?.let {
+                    activity.overridePendingTransition(it.first, it.second)
+                }
+            }
+        }
     }
 
 
@@ -133,17 +149,19 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
     abstract fun onOnBack(onBack: (() -> Unit)?)
 
     protected open fun openScreen(screen: ScreenView) {
-        getInstance(screen.key)?.let { screenToOpenImpl ->
-            context.startActivity(
-                    Intent(context, screenToOpenImpl.getActivityClass().java)
-                            .apply {
-                                putExtra(SK_EXTRA_VIEW_KEY, screen.key)
-                            }
-            )
-            screenToOpenImpl.customTransitionAnimationIn?.let {
-                activity.overridePendingTransition(it.first, it.second)
-            }
-        }
+        Companion.openScreen(context, activity, screen)
+
+//        getInstance(screen.key)?.let { screenToOpenImpl ->
+//            context.startActivity(
+//                    Intent(context, screenToOpenImpl.getActivityClass().java)
+//                            .apply {
+//                                putExtra(SK_EXTRA_VIEW_KEY, screen.key)
+//                            }
+//            )
+//            screenToOpenImpl.customTransitionAnimationIn?.let {
+//                activity.overridePendingTransition(it.first, it.second)
+//            }
+//        }
     }
 
     override fun showBottomSheetDialog(screen: ScreenView) {

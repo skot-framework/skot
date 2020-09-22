@@ -63,10 +63,12 @@ abstract class Screen<V : ScreenView> : Component<V>(), ScreenParent {
     }
 
     fun finish() {
-        if (root == this) {
-            onRemove()
-        } else {
-            parent?.remove(this)
+        parent.let {
+            if (it != null) {
+                it.remove(this)
+            } else {
+                onRemove()
+            }
         }
     }
 

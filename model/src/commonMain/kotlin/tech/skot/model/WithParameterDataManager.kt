@@ -7,7 +7,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import tech.skot.contract.modelcontract.MutablePoker
 import tech.skot.contract.modelcontract.Poker
 import tech.skot.core.SKLog
@@ -54,9 +53,11 @@ abstract class UnivDataManagerImpl<D : Any>(
         private val onNewData: ((newData: D) -> Unit)? = null,
         private val getFreshStrData: suspend (id: String?) -> String
 ) {
-    
+
     private val json by lazy {
-        Json(JsonConfiguration.Stable.copy(ignoreUnknownKeys = true))
+        Json {
+            ignoreUnknownKeys = true
+        }
     }
 
 
@@ -84,7 +85,7 @@ abstract class UnivDataManagerImpl<D : Any>(
                     if (speed || isCachedStrValid) {
                         val cachedData: D? =
                                 try {
-                                    json.parse(serializer, cachedStr.data)
+                                    json.decodeFromString(serializer, cachedStr.data)
                                 } catch (ex: Exception) {
                                     SKLog.e("Problème au parse de la donnée $key en cache, le format a probablement changé", ex)
                                     null
@@ -138,7 +139,7 @@ abstract class UnivDataManagerImpl<D : Any>(
             if (currentValue == null || currentValue.timestamp < refreshDemandTmsp) {
                 return try {
                     val freshStrData = getFreshStrData(id)
-                    val freshData = json.parse(serializer, freshStrData)
+                    val freshData = json.decodeFromString(serializer, freshStrData)
                     onNewData?.invoke(freshData)
                     val now = currentTimeMillis()
 //                    SKLog.d("UnivDataManagerImpl ${key }will put cache data: $freshData ")
@@ -149,7 +150,7 @@ abstract class UnivDataManagerImpl<D : Any>(
                 } catch (ex: Exception) {
                     if (strCached != null) {
                         try {
-                            json.parse(serializer, strCached)
+                            json.decodeFromString(serializer, strCached)
                         } catch (exParseCache: Exception) {
                             throw ex
                         }
@@ -166,7 +167,7 @@ abstract class UnivDataManagerImpl<D : Any>(
 
     protected suspend fun univSetDataStr(id: String?, newStrData: String, tmsp: Long?) {
         val date = tmsp ?: currentTimeMillis()
-        val newData = json.parse(serializer, newStrData)
+        val newData = json.decodeFromString(serializer, newStrData)
         cache.putString(key, id, newStrData, date)
         _value = DatedData(newData, id, date)
         onNewData?.invoke(newData)
@@ -177,7 +178,7 @@ abstract class UnivDataManagerImpl<D : Any>(
     protected suspend fun univSetData(id: String?, newData: D, tmsp: Long?) {
         val date = tmsp ?: currentTimeMillis()
         _value = DatedData(newData, id, date)
-        cache.putString(key, id, json.stringify(serializer, newData), date)
+        cache.putString(key, id, json.encodeToString(serializer, newData), date)
         onNewData?.invoke(newData)
         updatePoker.poke()
     }

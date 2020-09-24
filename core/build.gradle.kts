@@ -54,7 +54,7 @@ kotlin {
 
     sourceSets["commonMain"].dependencies {
         api("org.jetbrains.kotlin:kotlin-stdlib-common:${Versions.kotlin}")
-        api("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:${Versions.kotlinCoroutines}")
+        api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
         api(kotlin("reflect"))
 
     }

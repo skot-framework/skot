@@ -14,14 +14,19 @@ plugins {
 
 dependencies {
     implementation("com.squareup.sqldelight:android-driver:${Versions.sqldelight}")
+//    androidTestImplementation("androidx.test:runner:1.3.0")
+    androidTestImplementation(project(":androidTests"))
 }
 
 
 android {
     defaultConfig {
         minSdkVersion(Android.minSdk)
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileSdkVersion(Android.compileSdk)
+
+
 
     sourceSets {
         getByName("main").java.srcDirs("src/androidMain/kotlin")
@@ -61,13 +66,14 @@ kotlin {
     sourceSets["commonMain"].dependencies {
         api(project(":core"))
         implementation(project(":contract"))
-        api("org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:${Versions.serialization}")
+        api("org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}")
+        api("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
     }
 
 
-    sourceSets["androidMain"].dependencies {
-        api("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.serialization}")
-    }
+//    sourceSets["androidMain"].dependencies {
+//        api("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.serialization}")
+//    }
 
     sourceSets["commonTest"].dependencies {
         implementation("org.jetbrains.kotlin:kotlin-test-common:${Versions.kotlin}")

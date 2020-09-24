@@ -11,7 +11,7 @@ plugins {
 
 dependencies {
 
-    api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
+    api("org.jetbrains.kotlin:kotlin-stdlib:1.4.10")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}")
 
     api("androidx.appcompat:appcompat:${Versions.Android.appcompat}")
@@ -27,6 +27,7 @@ dependencies {
     api("io.ktor:ktor-server-netty:${Versions.ktor}")
     api("io.ktor:ktor-client-android:${Versions.ktor}")
 
+    api("androidx.test:runner:1.3.0")
     implementation(project(":core"))
 }
 
@@ -55,7 +56,7 @@ kotlin {
     sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
     sourceSets["commonMain"].dependencies {
         api("org.jetbrains.kotlin:kotlin-stdlib-common:${Versions.kotlin}")
-        api("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:${Versions.kotlinCoroutines}")
+        api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
     }
 
 

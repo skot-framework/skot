@@ -1,6 +1,6 @@
 package tech.skot.model
 
-import kotlinx.serialization.ImplicitReflectionSerializer
+import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.serializer
 import tech.skot.core.currentTimeMillis
@@ -35,12 +35,12 @@ interface Persistor {
     suspend fun clear()
 }
 
-@ImplicitReflectionSerializer
+@InternalSerializationApi
 suspend inline fun <reified D : Any> Persistor.putData(key: String, id:String?, data: D, timestamp: Long) {
     putData(D::class.serializer(), key, id, data, timestamp)
 }
 
-@ImplicitReflectionSerializer
+@InternalSerializationApi
 suspend inline fun <reified D : Any> Persistor.getData(key: String): DatedData<D>? =
         getData(D::class.serializer(), key)
 

@@ -25,7 +25,7 @@ class AndroidPersistor(context: Context, dbFilename: String) : Persistor {
             timestamp: Long
     ) {
         return withContext(Dispatchers.IO) {
-            db.persistedQueries.putByKey(key, id, timestamp, Json.stringify(serializer, data))
+            db.persistedQueries.putByKey(key, id, timestamp, Json.encodeToString(serializer, data))
         }
 
     }
@@ -36,7 +36,7 @@ class AndroidPersistor(context: Context, dbFilename: String) : Persistor {
     ): DatedData<D>? {
         return withContext(Dispatchers.IO) {
             db.persistedQueries.obtainByKey(key).executeAsOneOrNull()?.let {
-                DatedData(Json.parse(serializer, it.data), it.id, it.timestamp)
+                DatedData(Json.decodeFromString(serializer, it.data), it.id, it.timestamp)
             }
         }
     }

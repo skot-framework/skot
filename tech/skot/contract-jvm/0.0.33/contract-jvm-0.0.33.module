@@ -1,0 +1,103 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../contract/0.0.33/contract-0.0.33.module",
+    "group": "tech.skot",
+    "module": "contract",
+    "version": "0.0.33",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.2.1",
+      "buildId": "dpaczj3htbf6dbuy2gp2yf4ski"
+    }
+  },
+  "variants": [
+    {
+      "name": "jvm-api",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.4.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "contract-jvm-0.0.33.jar",
+          "url": "contract-jvm-0.0.33.jar",
+          "size": 17939,
+          "sha512": "82ab9dc25208d905a9dcb026ac2431bb3ff4e25b99f7987bd0f55d1c54d07601827575fa6504e403e878a9b04d0b1e0c99c83bf5c31f8366dfc0eb28c5f18d0a",
+          "sha256": "916139ae9e251ddb39d4c71ee9f2fdc8625f47586de8ac59f395dfa5306ce8f5",
+          "sha1": "70ce4e18f30ed8e2d7fdb6a5ffd42913c0823b00",
+          "md5": "854eee354fcea4a686d8cc99b07c8787"
+        }
+      ]
+    },
+    {
+      "name": "jvm-runtime",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.4.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "contract-jvm-0.0.33.jar",
+          "url": "contract-jvm-0.0.33.jar",
+          "size": 17939,
+          "sha512": "82ab9dc25208d905a9dcb026ac2431bb3ff4e25b99f7987bd0f55d1c54d07601827575fa6504e403e878a9b04d0b1e0c99c83bf5c31f8366dfc0eb28c5f18d0a",
+          "sha256": "916139ae9e251ddb39d4c71ee9f2fdc8625f47586de8ac59f395dfa5306ce8f5",
+          "sha1": "70ce4e18f30ed8e2d7fdb6a5ffd42913c0823b00",
+          "md5": "854eee354fcea4a686d8cc99b07c8787"
+        }
+      ]
+    },
+    {
+      "name": "metadata-api",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "available-at": {
+        "url": "../../contract-metadata/0.0.33/contract-metadata-0.0.33.module",
+        "group": "tech.skot",
+        "module": "contract-metadata",
+        "version": "0.0.33"
+      }
+    }
+  ]
+}

@@ -6,6 +6,7 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("kotlin-android-extensions")
+    id("kotlinx-serialization")
     id("maven-publish")
     id("com.squareup.sqldelight")
 }
@@ -14,7 +15,7 @@ plugins {
 
 dependencies {
     implementation("com.squareup.sqldelight:android-driver:${Versions.sqldelight}")
-//    androidTestImplementation("androidx.test:runner:1.3.0")
+    androidTestUtil("androidx.test:orchestrator:1.3.0")
     androidTestImplementation(project(":androidTests"))
 }
 
@@ -23,18 +24,32 @@ android {
     defaultConfig {
         minSdkVersion(Android.minSdk)
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments = mapOf(
+                "clearPackageData" to "true"
+        )
+        testOptions {
+            execution = "ANDROIDX_TEST_ORCHESTRATOR"
+        }
+
     }
     compileSdkVersion(Android.compileSdk)
-
-
 
     sourceSets {
         getByName("main").java.srcDirs("src/androidMain/kotlin")
         getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")
         getByName("test").java.srcDirs("src/javaTest/kotlin")
+        getByName("androidTest").java.srcDir("src/androidTest/kotlin")
     }
 
+    packagingOptions {
+        exclude("META-INF/*.kotlin_module")
+        exclude("META-INF/*")
+    }
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 }
 
 

@@ -36,10 +36,10 @@ android {
         viewBinding = true
     }
 
-    packagingOptions {
-        exclude("META-INF/*.kotlin_module")
-        exclude("META-INF/*")
-    }
+//    packagingOptions {
+//        exclude("META-INF/*.kotlin_module")
+//        exclude("META-INF/*")
+//    }
 }
 
 

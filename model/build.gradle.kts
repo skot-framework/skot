@@ -41,10 +41,10 @@ android {
         getByName("androidTest").java.srcDir("src/androidTest/kotlin")
     }
 
-    packagingOptions {
-        exclude("META-INF/*.kotlin_module")
-        exclude("META-INF/*")
-    }
+//    packagingOptions {
+//        exclude("META-INF/*.kotlin_module")
+//        exclude("META-INF/*")
+//    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

@@ -7,8 +7,8 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
-import tech.skot.contract.modelcontract.MutablePoker
-import tech.skot.contract.modelcontract.Poker
+import tech.skot.core.Poker
+import tech.skot.core.MutablePoker
 import tech.skot.core.SKLog
 import tech.skot.core.currentTimeMillis
 

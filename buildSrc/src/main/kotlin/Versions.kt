@@ -1,7 +1,7 @@
 object Versions {
 
     const val group = "tech.skot"
-    const val version = "0.0.42"
+    const val version = "0.2.0-SNAPSHOT"
 
     const val kotlin = "1.4.10"
     const val kotlinCoroutines = "1.3.9"
@@ -17,6 +17,7 @@ object Versions {
     const val kotlinpoet = "1.4.0"
 
     object Android {
+        const val plugin = "4.1.0-rc03"
         const val timber = "4.7.1"
         const val appcompat = "1.2.0"
         const val constraintLayout = "2.0.4"

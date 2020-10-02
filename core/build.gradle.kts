@@ -47,10 +47,16 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 api("com.jakewharton.timber:timber:${Versions.Android.timber}")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}")
+
             }
         }
 
-//        val iosTest by getting
+        val iosTest by getting {
+            dependencies {
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:${Versions.kotlinCoroutines}")
+            }
+        }
 
     }
 

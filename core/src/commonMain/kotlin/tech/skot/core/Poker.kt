@@ -1,4 +1,4 @@
-package tech.skot.contract.modelcontract
+package tech.skot.core
 
 open class Poker {
 

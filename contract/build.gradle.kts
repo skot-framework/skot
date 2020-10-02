@@ -1,37 +1,42 @@
-group = Versions.group
-version = Versions.version
-
 plugins {
     kotlin("multiplatform")
     id("maven-publish")
 }
 
+group = Versions.group
+version = Versions.version
+
+
 
 kotlin {
     jvm("jvm")
 
-    //select iOS target platform depending on the Xcode environment variables
-    val iOSTarget: (String, org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget.() -> Unit) -> org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget =
-            if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
-                ::iosArm64
-            else
-                ::iosX64
+    ios {
+        binaries {
+            framework {
+                baseName = "sk-contract"
+            }
+        }
+    }
 
-//    iOSTarget("ios") {
-////        binaries {
-////            framework {
-////                baseName = "OufHP"
-////            }
-////        }
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
+                api(kotlin("reflect"))
+
+            }
+        }
+
+    }
+
+//    sourceSets["commonMain"].dependencies {
+//        api("org.jetbrains.kotlin:kotlin-stdlib-common:${Versions.kotlin}")
 //    }
-
-    sourceSets["commonMain"].dependencies {
-        api("org.jetbrains.kotlin:kotlin-stdlib-common:${Versions.kotlin}")
-    }
-
-    sourceSets["jvmMain"].dependencies {
-        api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
-    }
+//
+//    sourceSets["jvmMain"].dependencies {
+//
+//    }
 
 //    sourceSets["iosMain"].dependencies {
 //        implementation("org.jetbrains.kotlin:kotlin-stdlib-common:${Versions.kotlin}")

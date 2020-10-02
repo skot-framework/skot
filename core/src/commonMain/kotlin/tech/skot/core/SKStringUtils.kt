@@ -18,4 +18,4 @@ val skRegexPlaceholder: Regex by lazy {
 //    return current
 //}
 
-expect fun String.skFormat(vararg values: Any?): String
+expect fun String.skFormat(vararg values: String): String

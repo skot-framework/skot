@@ -1,7 +1,3 @@
-group = Versions.group
-version = Versions.version
-
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -11,26 +7,81 @@ plugins {
     id("com.squareup.sqldelight")
 }
 
+group = Versions.group
+version = Versions.version
 
 
-dependencies {
-    implementation("com.squareup.sqldelight:android-driver:${Versions.sqldelight}")
-    androidTestUtil("androidx.test:orchestrator:1.3.0")
-    androidTestImplementation(project(":androidTests"))
+
+kotlin {
+
+    android("android") {
+        publishLibraryVariants("release", "debug")
+        publishLibraryVariantsGroupedByFlavor = true
+    }
+
+    ios {
+        binaries {
+            framework {
+                baseName = "sk-model"
+            }
+        }
+    }
+
+
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                api(project(":core"))
+                implementation(project(":contract"))
+                api("org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
+            }
+        }
+
+        val androidMain by getting {
+            dependencies {
+                api("com.jakewharton.timber:timber:${Versions.Android.timber}")
+                implementation("com.squareup.sqldelight:android-driver:${Versions.sqldelight}")
+            }
+        }
+
+        val iosMain by getting {
+            dependencies {
+                implementation("com.squareup.sqldelight:native-driver:${Versions.sqldelight}")
+            }
+        }
+
+
+//        val commonTest by getting {
+//            dependencies {
+//                implementation("org.jetbrains.kotlin:kotlin-test-common:${Versions.kotlin}")
+//                implementation("org.jetbrains.kotlin:kotlin-test-annotations-common:${Versions.kotlin}")
+//                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}")
+//            }
+//        }
+
+//        val androidTest by getting {
+//            implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+//            implementation("org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}")
+//        }
+
+//        val iosTest by getting
+
+    }
+
+
 }
+
+//dependencies {
+//
+//    androidTestUtil("androidx.test:orchestrator:1.3.0")
+//    androidTestImplementation(project(":androidTests"))
+//}
 
 
 android {
     defaultConfig {
         minSdkVersion(Android.minSdk)
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments = mapOf(
-                "clearPackageData" to "true"
-        )
-        testOptions {
-            execution = "ANDROIDX_TEST_ORCHESTRATOR"
-        }
-
     }
     compileSdkVersion(Android.compileSdk)
 
@@ -41,10 +92,6 @@ android {
         getByName("androidTest").java.srcDir("src/androidTest/kotlin")
     }
 
-//    packagingOptions {
-//        exclude("META-INF/*.kotlin_module")
-//        exclude("META-INF/*")
-//    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -52,58 +99,6 @@ android {
     }
 }
 
-
-kotlin {
-
-//    //select iOS target platform depending on the Xcode environment variables
-//    val iOSTarget: (String, org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget.() -> Unit) -> org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget =
-//            if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
-//                ::iosArm64
-//            else
-//                ::iosX64
-//
-//    iOSTarget("ios") {
-////        binaries {
-////            framework {
-////                baseName = "???"
-////            }
-////        }
-//    }
-
-
-    android("android") {
-        publishLibraryVariants("release", "debug")
-        publishLibraryVariantsGroupedByFlavor = true
-    }
-
-
-
-    sourceSets["commonMain"].dependencies {
-        api(project(":core"))
-        implementation(project(":contract"))
-        api("org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}")
-        api("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
-    }
-
-
-//    sourceSets["androidMain"].dependencies {
-//        api("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.serialization}")
-//    }
-
-    sourceSets["commonTest"].dependencies {
-        implementation("org.jetbrains.kotlin:kotlin-test-common:${Versions.kotlin}")
-        implementation("org.jetbrains.kotlin:kotlin-test-annotations-common:${Versions.kotlin}")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}")
-    }
-
-    sourceSets["androidTest"].dependencies {
-        implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
-        implementation("org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}")
-    }
-//    sourceSets["iosMain"].dependencies {
-//        api("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:${Versions.serialization}")
-//    }
-}
 
 sqldelight {
 

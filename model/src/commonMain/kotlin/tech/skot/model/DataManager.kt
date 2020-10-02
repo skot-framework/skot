@@ -1,8 +1,7 @@
 package tech.skot.model
 
+import tech.skot.core.Poker
 import kotlinx.serialization.KSerializer
-import tech.skot.contract.modelcontract.Poker
-
 
 interface DataManager<D : Any> {
     val updatePoker: Poker

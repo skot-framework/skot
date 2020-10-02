@@ -3,6 +3,7 @@ package tech.skot.components
 import kotlinx.coroutines.*
 import tech.skot.contract.modelcontract.MutablePoker
 import tech.skot.contract.modelcontract.Poker
+import tech.skot.core.SKLog
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -30,8 +31,16 @@ abstract class Screen<V : ScreenView> : Component<V>(), ScreenParent {
     }
 
     fun push(screen: Screen<*>) {
-        (parent as? Stack<*>)?.push(screen)
-                ?: throw IllegalStateException("This screen is not in a Stack !!!")
+        parent?.let {
+            if (it is Stack<*>) {
+                it.push(screen)
+            }
+            else {
+                SKLog.e("This screen is not in a Stack !!! will put on Top instead", IllegalStateException("Screen ${this::class.simpleName}is not in a Stack !!!"))
+                onTop = screen
+            }
+        }
+
     }
 
     fun pushOrPutOnTop(screen: Screen<*>) {

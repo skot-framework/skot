@@ -4,7 +4,7 @@ object Versions {
     const val version = "0.2.0-SNAPSHOT"
 
     const val kotlin = "1.4.10"
-    const val kotlinCoroutines = "1.3.9-native-mt"
+    const val kotlinCoroutines = "1.3.9-native-mt-2"
     const val ktor = "1.4.1"
     const val serialization = "1.0.0"
 

@@ -25,8 +25,6 @@ kotlin {
         publishLibraryVariantsGroupedByFlavor = true
     }
 
-//    android()
-
     ios {
         binaries {
             framework {
@@ -34,6 +32,21 @@ kotlin {
             }
         }
     }
+
+
+//        val iOSTarget: (String, org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget.() -> Unit) -> org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget =
+//            if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
+//                ::iosArm64
+//            else
+//                ::iosX64
+//
+//    iOSTarget("ios") {
+//        binaries {
+//            framework {
+//                baseName = "sk-core"
+//            }
+//        }
+//    }
 
     sourceSets {
         val commonMain by getting {
@@ -52,9 +65,13 @@ kotlin {
             }
         }
 
-        val iosTest by getting {
+        val iosMain by getting {
             dependencies {
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:${Versions.kotlinCoroutines}")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}") {
+                    version {
+                        strictly(Versions.kotlinCoroutines)
+                    }
+                }
             }
         }
 

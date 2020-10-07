@@ -1,7 +1,7 @@
 package tech.skot.components
 
 import kotlinx.coroutines.*
-import tech.skot.contract.modelcontract.Poker
+import tech.skot.core.Poker
 import tech.skot.core.SKLog
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext

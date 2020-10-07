@@ -42,7 +42,7 @@ val appPackageName by lazy {
 }
 
 val viewPackageName by lazy {
-    getPackageName(Paths.get("../view/src/main"))
+    getPackageName(Paths.get("../androidview/src/main"))
 }
 
 

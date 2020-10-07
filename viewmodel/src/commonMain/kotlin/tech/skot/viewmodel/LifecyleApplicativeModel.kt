@@ -1,6 +1,7 @@
 package tech.skot.viewmodel
 
-import tech.skot.contract.modelcontract.Poker
+import tech.skot.core.Poker
+
 
 interface LifecyleApplicativeModel {
     val resumed: Boolean

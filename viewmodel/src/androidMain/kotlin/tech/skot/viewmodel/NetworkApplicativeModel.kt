@@ -7,7 +7,7 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import tech.skot.contract.modelcontract.MutablePoker
+import tech.skot.core.MutablePoker
 
 class NetworkApplicativeModelImpl(private val applicationContext: Context) : NetworkApplicativeModel {
 

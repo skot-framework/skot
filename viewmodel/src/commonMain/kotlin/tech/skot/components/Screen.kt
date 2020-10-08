@@ -3,16 +3,28 @@ package tech.skot.components
 import kotlinx.coroutines.*
 import tech.skot.core.MutablePoker
 import tech.skot.core.Poker
+import tech.skot.core.SKLog
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 interface ScreenParent {
     fun remove(aScreen: Screen<*>)
 }
+var rootScreen: Screen<out ScreenView>? = null
+    set(value) {
+        SKLog.d("---- set root oldValue: ${field?.let { it::class.simpleName }} new Value: ${value?.let { it::class.simpleName }} ")
+        field?.let { oldRootScreen ->
+            if (value != null) {
+                oldRootScreen.view.openScreenWillFinish(value.view)
+            }
+            oldRootScreen.onRemove()
+        }
+        field = value
+    }
 
 abstract class Screen<V : ScreenView> : Component<V>(), ScreenParent {
 
-    companion object {
+    /*companion object {
         private var root: Screen<out ScreenView>? = null
             set(value) {
                 field?.let { oldRootScreen ->
@@ -24,7 +36,7 @@ abstract class Screen<V : ScreenView> : Component<V>(), ScreenParent {
                 field = value
             }
 
-    }
+    }*/
 
     fun push(screen: Screen<*>) {
         parent?.let {
@@ -107,7 +119,7 @@ abstract class Screen<V : ScreenView> : Component<V>(), ScreenParent {
         get() = _parent
 
     fun setAsRoot() {
-        root = this
+        rootScreen = this
     }
 
     fun setAsInitial(): Screen<V> {

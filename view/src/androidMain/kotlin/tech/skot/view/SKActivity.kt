@@ -1,8 +1,10 @@
 package tech.skot.view
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import tech.skot.components.ScreenViewImpl
 import tech.skot.components.ScreenViewImpl.Companion.SK_EXTRA_VIEW_KEY
@@ -91,4 +93,7 @@ abstract class SKActivity : AppCompatActivity() {
     override fun onBackPressed() {
         onBackPressedAction?.invoke()
     }
+
+
 }
+

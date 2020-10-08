@@ -23,6 +23,8 @@ android {
             execution = "ANDROIDX_TEST_ORCHESTRATOR"
         }
 
+//    android()
+
     ios {
         binaries {
             framework {

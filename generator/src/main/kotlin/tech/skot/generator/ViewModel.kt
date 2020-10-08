@@ -18,6 +18,8 @@ fun generateViewModel(
     val generatedDir = Paths.get("../$moduleName/generated/commonMain/kotlin")
     val srcDir = Paths.get("../$moduleName/src/commonMain/kotlin")
 
+    println("generateViewModel----- $appPackageName")
+    println("allComponents----- $allComponents")
     allComponents
             .fromApp()
             .filter { it.annotations.find { it is SuperViewModelWithParams } == null }

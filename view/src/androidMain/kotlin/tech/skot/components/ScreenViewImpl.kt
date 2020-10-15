@@ -150,18 +150,6 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
 
     protected open fun openScreen(screen: ScreenView) {
         Companion.openScreen(context, activity, screen)
-
-//        getInstance(screen.key)?.let { screenToOpenImpl ->
-//            context.startActivity(
-//                    Intent(context, screenToOpenImpl.getActivityClass().java)
-//                            .apply {
-//                                putExtra(SK_EXTRA_VIEW_KEY, screen.key)
-//                            }
-//            )
-//            screenToOpenImpl.customTransitionAnimationIn?.let {
-//                activity.overridePendingTransition(it.first, it.second)
-//            }
-//        }
     }
 
     override fun showBottomSheetDialog(screen: ScreenView) {

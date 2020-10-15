@@ -4,6 +4,7 @@ import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import tech.skot.components.ComponentView
 import tech.skot.contract.ComponentHasParameter
+import tech.skot.contract.UseComponent
 import tech.skot.contract.Private
 import kotlin.reflect.*
 import kotlin.reflect.full.*
@@ -61,7 +62,11 @@ fun ViewNode.allComponents(): Set<KClass<out ComponentView>> {
     return viewClass.allComponents() + (children?.flatMap { it.allComponents() } ?: emptySet())
 }
 fun KClass<out ComponentView>.allComponents(): Set<KClass<out ComponentView>> {
-    return setOf(this) + subComponents().flatMap { it.allComponents() } + superComponents().flatMap { it.allComponents() }
+    var set = setOf(this) + subComponents().flatMap { it.allComponents() } + superComponents().flatMap { it.allComponents() }
+    this.findAnnotation<UseComponent>()?.let {
+        set = set + it.usedComponent
+    }
+    return set
 }
 
 //without abstract
@@ -69,7 +74,11 @@ fun ViewNode.allActualComponents(): Set<KClass<out ComponentView>> {
     return viewClass.allActualComponents() + (children?.flatMap { it.allActualComponents() } ?: emptySet())
 }
 fun KClass<out ComponentView>.allActualComponents(): Set<KClass<out ComponentView>> {
-    return setOf(this) + subComponents().flatMap { it.allActualComponents() }
+    var set = setOf(this) + subComponents().flatMap { it.allActualComponents() }
+    this.findAnnotation<UseComponent>()?.let {
+        set = set + it.usedComponent
+    }
+    return set
 }
 
 

@@ -1,0 +1,248 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../viewmodel/0.0.35/viewmodel-0.0.35.module",
+    "group": "tech.skot",
+    "module": "viewmodel",
+    "version": "0.0.35",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.2.1",
+      "buildId": "giu2xg36zfb4vbk5yuetpxzity"
+    }
+  },
+  "variants": [
+    {
+      "name": "android-debugApiElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.api.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "0.0.35"
+          }
+        },
+        {
+          "group": "com.soywiz.korlibs.klock",
+          "module": "klock",
+          "version": {
+            "requires": "1.12.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.10"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.2.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewmodel-debug.aar",
+          "url": "viewmodel-android-0.0.35-debug.aar",
+          "size": 52856,
+          "sha512": "6e9df95e55dd74339ff0157e8f4b67ec6f48e594087938b297fef01e32d119a7536584afbd1ae1158b102b03c599ad73a141537836dac90dbfb4b3463c877ba0",
+          "sha256": "a70b1ac516a17e5c003c5155b025e4f093976af9010e2f09caca5aa0aedfaafb",
+          "sha1": "6872b429232a2ae7f7e51793b44d156b8e841e3b",
+          "md5": "ee3785e191486cdc33c6f6b9064e601a"
+        }
+      ]
+    },
+    {
+      "name": "android-debugRuntimeElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.api.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "0.0.35"
+          }
+        },
+        {
+          "group": "com.soywiz.korlibs.klock",
+          "module": "klock",
+          "version": {
+            "requires": "1.12.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.10"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "contract",
+          "version": {
+            "requires": "0.0.35"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-android-extensions-runtime",
+          "version": {
+            "requires": "1.4.10"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.2.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewmodel-debug.aar",
+          "url": "viewmodel-android-0.0.35-debug.aar",
+          "size": 52856,
+          "sha512": "6e9df95e55dd74339ff0157e8f4b67ec6f48e594087938b297fef01e32d119a7536584afbd1ae1158b102b03c599ad73a141537836dac90dbfb4b3463c877ba0",
+          "sha256": "a70b1ac516a17e5c003c5155b025e4f093976af9010e2f09caca5aa0aedfaafb",
+          "sha1": "6872b429232a2ae7f7e51793b44d156b8e841e3b",
+          "md5": "ee3785e191486cdc33c6f6b9064e601a"
+        }
+      ]
+    },
+    {
+      "name": "android-releaseApiElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.api.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "0.0.35"
+          }
+        },
+        {
+          "group": "com.soywiz.korlibs.klock",
+          "module": "klock",
+          "version": {
+            "requires": "1.12.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.10"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.2.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewmodel-release.aar",
+          "url": "viewmodel-android-0.0.35.aar",
+          "size": 51220,
+          "sha512": "d5f5aa7bd251e0b5cd141b1ae121f7a0ecf1871549386804a18ea606bcdb78917862aad4130fd7b45f6197f547eca3b63b7f7b5b714535b95d393d07b7ac0208",
+          "sha256": "2534a274ccc8e7577fbbfe71cd7ed5c8372ef360937067924f19e2569e3fe1f0",
+          "sha1": "b881dda748ce84dc1ed8e88cf9568816c8245529",
+          "md5": "7e8d0e458f115ab53919d46f52e22125"
+        }
+      ]
+    },
+    {
+      "name": "android-releaseRuntimeElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.api.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "0.0.35"
+          }
+        },
+        {
+          "group": "com.soywiz.korlibs.klock",
+          "module": "klock",
+          "version": {
+            "requires": "1.12.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.10"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "contract",
+          "version": {
+            "requires": "0.0.35"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-android-extensions-runtime",
+          "version": {
+            "requires": "1.4.10"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.2.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewmodel-release.aar",
+          "url": "viewmodel-android-0.0.35.aar",
+          "size": 51220,
+          "sha512": "d5f5aa7bd251e0b5cd141b1ae121f7a0ecf1871549386804a18ea606bcdb78917862aad4130fd7b45f6197f547eca3b63b7f7b5b714535b95d393d07b7ac0208",
+          "sha256": "2534a274ccc8e7577fbbfe71cd7ed5c8372ef360937067924f19e2569e3fe1f0",
+          "sha1": "b881dda748ce84dc1ed8e88cf9568816c8245529",
+          "md5": "7e8d0e458f115ab53919d46f52e22125"
+        }
+      ]
+    }
+  ]
+}

@@ -54,7 +54,7 @@ open class GenericAdapter(vararg possibleDefs: ItemDef) : RecyclerView.Adapter<G
 
     interface Item {
         val def: ItemDef
-        fun bind(itemView: View)
+        fun bind(itemView: View, position:Int)
         fun computeItemId(): Any?
     }
 
@@ -66,13 +66,13 @@ open class GenericAdapter(vararg possibleDefs: ItemDef) : RecyclerView.Adapter<G
     class FixItemDef(override val idLayout: Int, override val initialize: (View.() -> Unit)? = null) : ItemDef
 
     class FixItem(override val def: FixItemDef) : Item {
-        override fun bind(itemView: View) {
+        override fun bind(itemView: View, position:Int) {
         }
 
         override fun computeItemId() = null
     }
 
-    open class WithDataItemDef<D>(override val idLayout: Int, override val initialize: (View.() -> Unit)? = null, val buildOnSwipe: ((data: D) -> (() -> Unit)?)? = null, val computeId: ((data: D) -> Any)? = null, val bindData: View.(data: D) -> Unit) : ItemDef {
+    open class WithDataItemDef<D>(override val idLayout: Int, override val initialize: (View.() -> Unit)? = null, val buildOnSwipe: ((data: D) -> (() -> Unit)?)? = null, val computeId: ((data: D) -> Any)? = null, val bindDataWithIndex:(View.(data: D, index:Int) -> Any)? = null, val bindData: View.(data: D) -> Unit) : ItemDef {
 
         fun addTo(viewGroup: ViewGroup, data: D) {
             val view = LayoutInflater.from(viewGroup.context).inflate(idLayout, viewGroup, false)
@@ -96,8 +96,9 @@ open class GenericAdapter(vararg possibleDefs: ItemDef) : RecyclerView.Adapter<G
 
         var onSwipe: (() -> Unit)? = null
 
-        override fun bind(itemView: View) {
+        override fun bind(itemView: View, position:Int) {
             def.bindData.invoke(itemView, data)
+            def.bindDataWithIndex?.invoke(itemView, data, position)
             onSwipe = def.buildOnSwipe?.invoke(data)
         }
     }
@@ -115,7 +116,7 @@ open class GenericAdapter(vararg possibleDefs: ItemDef) : RecyclerView.Adapter<G
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val item = items[position]
-        item.bind(holder.itemView)
+        item.bind(holder.itemView, position)
     }
 
 

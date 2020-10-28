@@ -132,7 +132,7 @@ abstract class Screen<V : ScreenView> : Component<V>(), ScreenParent {
             view.loading = value > 0
         }
 
-    protected fun launchWithLoadingAndError(
+    fun launchWithLoadingAndError(
             context: CoroutineContext = EmptyCoroutineContext,
             start: CoroutineStart = CoroutineStart.DEFAULT,
             defaultErrorMessage: String? = null,

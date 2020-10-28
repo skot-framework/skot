@@ -4,7 +4,7 @@ import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 
-fun EditText.setOnDone(onDone:((str:String)->Unit)?) {
+fun EditText.setOnDone(onDone:((str:String?)->Unit)?) {
     if (onDone != null) {
         imeOptions = EditorInfo.IME_ACTION_DONE
         setOnEditorActionListener { tv, actionId, event ->
@@ -12,7 +12,7 @@ fun EditText.setOnDone(onDone:((str:String)->Unit)?) {
                     || actionId == EditorInfo.IME_ACTION_DONE
                     || event?.action == KeyEvent.ACTION_DOWN
                     && event.keyCode == KeyEvent.KEYCODE_ENTER) {
-                tv?.text?.toString()?.let { onDone(it) }
+                onDone(tv?.text?.toString())
                 true
             } else {
                 false
@@ -25,4 +25,12 @@ fun EditText.setOnDone(onDone:((str:String)->Unit)?) {
             false
         }
     }
+}
+
+fun EditText.setOnNotNullDone(onDone:((str:String)->Unit)?) {
+    setOnDone(onDone?.let {action ->
+        {
+            it?.let { action(it) }
+        }
+    })
 }

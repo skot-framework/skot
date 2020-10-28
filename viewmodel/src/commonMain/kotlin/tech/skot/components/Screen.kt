@@ -23,19 +23,15 @@ abstract class Screen<V : ScreenView> : Component<V>(), ScreenParent {
                     oldRootScreen.onRemove()
                 }
                 field = value
-
-                value?.let { screenOnTop = it }
             }
 
-        var screenOnTop: Screen<*>? = null
     }
 
     fun push(screen: Screen<*>) {
         parent?.let {
             if (it is Stack<*>) {
                 it.push(screen)
-            }
-            else {
+            } else {
                 SKLog.e("This screen is not in a Stack !!! will put on Top instead", IllegalStateException("Screen ${this::class.simpleName}is not in a Stack !!!"))
                 onTop = screen
             }
@@ -100,12 +96,6 @@ abstract class Screen<V : ScreenView> : Component<V>(), ScreenParent {
 
     var onTop: Screen<out ScreenView>? = null
         set(value) {
-            if (value != null) {
-                screenOnTop = value
-            } else {
-                screenOnTop = this
-            }
-
             field?.onRemove()
             field = value
             value?._parent = this

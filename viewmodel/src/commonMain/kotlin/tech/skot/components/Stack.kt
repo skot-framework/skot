@@ -28,6 +28,7 @@ abstract class Stack<V : StackView> : Component<V>(), ScreenParent {
     override fun remove(aScreen: Screen<*>) {
         if (_screens.lastOrNull() == aScreen) {
             popScreen()
+            aScreen.onRemove()
         }
     }
 

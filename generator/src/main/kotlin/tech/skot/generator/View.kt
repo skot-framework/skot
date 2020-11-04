@@ -438,6 +438,33 @@ class ViewGenerator(
                                         )
                                     }
                                 }
+                                .apply {
+
+                                    if (subComponentsMembers.isNotEmpty() || thisActions.isNotEmpty()) {
+                                        addFunction(
+                                                FunSpec.builder("cleanViewReferences")
+                                                        .addModifiers(KModifier.OVERRIDE)
+                                                        //appel des link des sous-composants
+                                                        .apply {
+                                                            subComponentsMembers
+                                                                    .forEach {
+                                                                        if (it.returnType.isCollectionOfComponentView()) {
+                                                                            addStatement("${it.name}.forEach { it.cleanViewReferences()}\n")
+                                                                        } else {
+                                                                            addStatement("${it.name}.cleanViewReferences()")
+                                                                        }
+
+                                                                    }
+                                                            thisActions
+                                                                    .forEach {
+                                                                        addStatement("${it.actionsImplName().decapitalize()} = null")
+                                                                    }
+                                                        }
+                                                        .addCode("super.cleanViewReferences()\n")
+                                                        .build()
+                                        )
+                                    }
+                                }
 
                                 .apply {
 
@@ -449,10 +476,10 @@ class ViewGenerator(
                                         addProperties(
                                                 thisActions
                                                         .map {
-                                                            PropertySpec.builder(it.actionsImplName().decapitalize(), it.actionsImpClasslName())
-                                                                    .addModifiers(KModifier.LATEINIT)
+                                                            PropertySpec.builder(it.actionsImplName().decapitalize(), it.actionsImpClasslName().nullable())
                                                                     .addModifiers(KModifier.PRIVATE)
                                                                     .mutable(true)
+                                                                    .initializer("null")
                                                                     .build()
                                                         }
                                         )
@@ -479,7 +506,7 @@ class ViewGenerator(
                                                                         addStatement("is ${compActionName()}.${it.name.capitalize()} -> ${it.nowMethodName()}(${it.functionParameters().map { "action.${it.name}" }.joinToString(", ")})")
                                                                     }
                                                             thisActions.forEach {
-                                                                addStatement("is ${it.actionsActionName()} -> ${it.actionsImplName().decapitalize()}.treatAction(action)")
+                                                                addStatement("is ${it.actionsActionName()} -> ${it.actionsImplName().decapitalize()}?.treatAction(action)")
                                                             }
                                                         }
                                                         .addStatement("else -> super.treatAction(action)")

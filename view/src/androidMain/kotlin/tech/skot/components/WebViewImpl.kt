@@ -13,104 +13,104 @@ class WebViewImpl(
         override val userAgent: String? = null
 ) : WebViewImplGen(redirect) {
 
-    private lateinit var webView: android.webkit.WebView
     var redirectParams: List<WebView.RedirectParam> = emptyList()
 
     override fun onInflated() {
         super.onInflated()
-        webView = binding
-        webView.settings.apply {
-            javaScriptEnabled = true
-            userAgent?.let { userAgentString = it }
-        }
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            webView.webViewClient = object : WebViewClient() {
-                override fun shouldOverrideUrlLoading(view: android.webkit.WebView?, request: WebResourceRequest?): Boolean {
-                    request?.url?.toString()?.let { url ->
-                        SKLog.d("redirect -----> $url")
-                        redirectParams.forEach {
-                            if (it.matches(url)) {
-                                return it.onRedirect(url, request.url?.getMapQueryParameters()
-                                        ?: emptyMap())
-                            }
-                        }
-                    }
-                    return super.shouldOverrideUrlLoading(view, request)
-                }
-
-                override fun onPageFinished(view: android.webkit.WebView?, url: String?) {
-                    url?.let { loadedUrl ->
-                        requiredUrl?.let {
-                            onFinished?.invoke()
-                            onFinished = null
-                            javascriptOnFinished?.let {
-                                webView.evaluateJavascript(it, null)
-                                javascriptOnFinished = null
-                            }
-                        }
-                    }
-                    super.onPageFinished(view, url)
-                }
-
-                override fun onReceivedError(view: android.webkit.WebView?, request: WebResourceRequest?, error: WebResourceError?) {
-                    requiredUrl?.let {
-                        request?.url?.toString()?.let { requestUrl ->
-                            if (requiredUrl == requestUrl) {
-                                onError?.invoke()
-                                onError = null
-                            }
-                        }
-                    }
-                    super.onReceivedError(view, request, error)
-                }
+        binding.let {webView ->
+            webView.settings.apply {
+                javaScriptEnabled = true
+                userAgent?.let { userAgentString = it }
             }
 
-        } else {
-            webView.webViewClient = object : WebViewClient() {
-                override fun shouldOverrideUrlLoading(view: android.webkit.WebView?, url: String?): Boolean {
-                    Uri.parse(url)?.let { uri ->
-                        val strUrl = uri.toString()
-                        redirectParams.forEach {
-                            if (it.matches(strUrl)) {
-                                return it.onRedirect(strUrl, uri.getMapQueryParameters())
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                webView.webViewClient = object : WebViewClient() {
+                    override fun shouldOverrideUrlLoading(view: android.webkit.WebView?, request: WebResourceRequest?): Boolean {
+                        request?.url?.toString()?.let { url ->
+                            SKLog.d("redirect -----> $url")
+                            redirectParams.forEach {
+                                if (it.matches(url)) {
+                                    return it.onRedirect(url, request.url?.getMapQueryParameters()
+                                            ?: emptyMap())
+                                }
                             }
                         }
+                        return super.shouldOverrideUrlLoading(view, request)
                     }
-                    return super.shouldOverrideUrlLoading(view, url)
-                }
 
-                override fun onPageFinished(view: android.webkit.WebView?, url: String?) {
-                    url?.let { loadedUrl ->
+                    override fun onPageFinished(view: android.webkit.WebView?, url: String?) {
+                        url?.let { loadedUrl ->
+                            requiredUrl?.let {
+                                onFinished?.invoke()
+                                onFinished = null
+                                javascriptOnFinished?.let {
+                                    webView.evaluateJavascript(it, null)
+                                    javascriptOnFinished = null
+                                }
+                            }
+                        }
+                        super.onPageFinished(view, url)
+                    }
+
+                    override fun onReceivedError(view: android.webkit.WebView?, request: WebResourceRequest?, error: WebResourceError?) {
                         requiredUrl?.let {
-                            onFinished?.invoke()
-                            onFinished = null
-                            javascriptOnFinished?.let {
-                                webView.evaluateJavascript(it, null)
-                                javascriptOnFinished = null
+                            request?.url?.toString()?.let { requestUrl ->
+                                if (requiredUrl == requestUrl) {
+                                    onError?.invoke()
+                                    onError = null
+                                }
                             }
                         }
+                        super.onReceivedError(view, request, error)
                     }
-                    super.onPageFinished(view, url)
                 }
 
-                override fun onReceivedError(view: android.webkit.WebView?, request: WebResourceRequest?, error: WebResourceError?) {
-                    requiredUrl?.let {
-                        request?.url?.toString()?.let { requestUrl ->
-                            if (requiredUrl == requestUrl) {
-                                onError?.invoke()
-                                onError = null
+            } else {
+                webView.webViewClient = object : WebViewClient() {
+                    override fun shouldOverrideUrlLoading(view: android.webkit.WebView?, url: String?): Boolean {
+                        Uri.parse(url)?.let { uri ->
+                            val strUrl = uri.toString()
+                            redirectParams.forEach {
+                                if (it.matches(strUrl)) {
+                                    return it.onRedirect(strUrl, uri.getMapQueryParameters())
+                                }
                             }
                         }
+                        return super.shouldOverrideUrlLoading(view, url)
                     }
-                    super.onReceivedError(view, request, error)
+
+                    override fun onPageFinished(view: android.webkit.WebView?, url: String?) {
+                        url?.let { loadedUrl ->
+                            requiredUrl?.let {
+                                onFinished?.invoke()
+                                onFinished = null
+                                javascriptOnFinished?.let {
+                                    webView.evaluateJavascript(it, null)
+                                    javascriptOnFinished = null
+                                }
+                            }
+                        }
+                        super.onPageFinished(view, url)
+                    }
+
+                    override fun onReceivedError(view: android.webkit.WebView?, request: WebResourceRequest?, error: WebResourceError?) {
+                        requiredUrl?.let {
+                            request?.url?.toString()?.let { requestUrl ->
+                                if (requiredUrl == requestUrl) {
+                                    onError?.invoke()
+                                    onError = null
+                                }
+                            }
+                        }
+                        super.onReceivedError(view, request, error)
+                    }
                 }
             }
         }
-
 
     }
+
 
     fun Uri.getMapQueryParameters(): Map<String, String> =
             try {
@@ -140,9 +140,9 @@ class WebViewImpl(
                 "${it.key}=${URLEncoder.encode(it.value, "UTF-8")}"
             }
                     .joinToString(separator = "&")
-            webView.postUrl(url, params.toByteArray())
+            binding.postUrl(url, params.toByteArray())
         } else {
-            webView.loadUrl(url)
+            binding.loadUrl(url)
         }
 
     }

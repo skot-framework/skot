@@ -12,32 +12,60 @@ import tech.skot.components.ScreenViewImpl
 fun Fragment.onCreateViewSK(inflater: LayoutInflater,
                             container: ViewGroup?,
                             savedInstanceState: Bundle?
-) =
-        arguments?.getLong(ScreenViewImpl.SK_ARG_VIEW_KEY)?.let { viewKey ->
-            ScreenViewImpl.getInstance(viewKey)?.inflate(inflater, activity as AppCompatActivity, this)
+):Pair<ScreenViewImpl<*,*,*>, View>? {
+    return arguments?.getLong(ScreenViewImpl.SK_ARG_VIEW_KEY)?.let { viewKey ->
+        val screenViewImpl = ScreenViewImpl.getInstance(viewKey)
+        if (screenViewImpl != null) {
+            return Pair(screenViewImpl, screenViewImpl.inflate(inflater, activity as AppCompatActivity, this@onCreateViewSK))
         }
+        else {
+            return null
+        }
+
+    }
+}
+
 
 
 abstract class SKFragment : Fragment() {
 
+    private var screenViewImpl:ScreenViewImpl<*,*,*>? = null
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        return onCreateViewSK(inflater, container, savedInstanceState)
+        return onCreateViewSK(inflater, container, savedInstanceState)?.let {(screenViewImpl, view)->
+            this.screenViewImpl = screenViewImpl
+            view
+        }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        screenViewImpl?.cleanViewReferences()
+    }
 }
 
 abstract class SKBottomSheetDialogFragment: BottomSheetDialogFragment() {
 
+    private var screenViewImpl:ScreenViewImpl<*,*,*>? = null
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        return onCreateViewSK(inflater, container, savedInstanceState)
+        return onCreateViewSK(inflater, container, savedInstanceState)?.let {(screenViewImpl, view)->
+            this.screenViewImpl = screenViewImpl
+            view
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        screenViewImpl?.cleanViewReferences()
     }
 
 }

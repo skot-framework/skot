@@ -8,13 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import tech.skot.components.ScreenViewImpl.Companion.SK_ARG_VIEW_KEY
-import tech.skot.view.*
+import tech.skot.view.Action
+import tech.skot.view.Dismiss
+import tech.skot.view.OpenScreen
+import tech.skot.view.ShowBottomSheetDialog
 import tech.skot.view.live.MutableSKLiveData
 import kotlin.reflect.KClass
 
@@ -23,7 +25,7 @@ fun startView(onLink: ((encodedPath: String, encodedFragment: String?) -> Long?)
     ScreenViewImpl.onLink = onLink
 }
 
-fun Fragment.getKey():Long? = arguments?.getLong(SK_ARG_VIEW_KEY)
+fun Fragment.getKey(): Long? = arguments?.getLong(SK_ARG_VIEW_KEY)
 
 abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBinding> : ComponentViewImpl<A, F, B>(),
         ScreenView {
@@ -45,7 +47,7 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
         const val SK_ARG_VIEW_KEY = "SK_ARG_VIEW_KEY"
 
 
-        fun openScreen(context:Context, activity:Activity, screen: ScreenView) {
+        fun openScreen(context: Context, activity: Activity, screen: ScreenView) {
             getInstance(screen.key)?.let { screenToOpenImpl ->
                 context.startActivity(
                         Intent(context, screenToOpenImpl.getActivityClass().java)
@@ -118,13 +120,18 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
     protected val context: Context
         get() = fragment?.context ?: activity
 
-    var hasBeenInflated = false
+    var isBinded = false
+
+    override fun cleanViewReferences() {
+        super.cleanViewReferences()
+        isBinded = false
+    }
 
     open fun inflate(layoutInflater: LayoutInflater,
                      activity: AppCompatActivity, fragment: Fragment?): View {
         initWith(activity as A, fragment as F?, inflateBinding(layoutInflater))
-        hasBeenInflated = true
         linkTo(lifeCycleOwner)
+        isBinded = true
         return binding.root
     }
 
@@ -133,8 +140,8 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
 
     abstract fun getActivityClass(): KClass<out AppCompatActivity>
 
-    open val customTransitionAnimationIn: Pair<Int,Int>? = null
-    open val customTransitionAnimationOut: Pair<Int,Int>? = null
+    open val customTransitionAnimationIn: Pair<Int, Int>? = null
+    open val customTransitionAnimationOut: Pair<Int, Int>? = null
 
     protected abstract fun createFragment(): Fragment
 
@@ -156,9 +163,9 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
         messages.post(ShowBottomSheetDialog(screen))
     }
 
-    protected open fun getBottomSheetStyle():Int = 0
+    protected open fun getBottomSheetStyle(): Int = 0
 
-    protected var bottomSheetDialog:BottomSheetDialog? = null
+    protected var bottomSheetDialog: BottomSheetDialog? = null
 
     protected fun showBottomSheetDialogNow(screen: ScreenView) {
         getInstance(screen.key)?.let { screenToOpenImpl ->
@@ -183,7 +190,7 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
     override fun onRemove() {
         super.onRemove()
         instances.remove(key)
-        if (hasBeenInflated) {
+        if (isBinded) {
             if (fragment == null) {
                 activity.finish()
                 customTransitionAnimationOut?.let {

@@ -10,12 +10,12 @@ import tech.skot.view.live.MutableSKLiveData
 
 open class PagerViewImpl(override val screens: List<ScreenView>, selectedPageIndex:Int) : ComponentViewImpl<AppCompatActivity, Fragment, ViewPager2>(), PagerView {
 
-    lateinit var viewPager: ViewPager2
+    var viewPager: ViewPager2? = null
 
     override fun onInflated() {
         super.onInflated()
         viewPager = binding
-        viewPager.adapter = object : FragmentStateAdapter(fragmentManager, lifeCycleOwner.lifecycle) {
+        viewPager?.adapter = object : FragmentStateAdapter(fragmentManager, lifeCycleOwner.lifecycle) {
             override fun getItemCount() = screens.size
 
             override fun createFragment(position: Int): Fragment {
@@ -33,6 +33,11 @@ open class PagerViewImpl(override val screens: List<ScreenView>, selectedPageInd
         }
     }
 
+    override fun cleanViewReferences() {
+        viewPager = null
+        super.cleanViewReferences()
+    }
+
 
     private val selectedPageIndexLD: MutableSKLiveData<Int> = MutableSKLiveData(selectedPageIndex)
 
@@ -43,8 +48,8 @@ open class PagerViewImpl(override val screens: List<ScreenView>, selectedPageInd
         }
 
     fun onSelectedPageIndex(selectedPageIndex: Int) {
-        viewPager.post {
-            viewPager.currentItem = selectedPageIndex
+        viewPager?.post {
+            viewPager?.currentItem = selectedPageIndex
         }
 
     }

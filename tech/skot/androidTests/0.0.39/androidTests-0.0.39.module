@@ -1,0 +1,92 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "tech.skot",
+    "module": "androidTests",
+    "version": "0.0.39",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.2.1",
+      "buildId": "wulvo6iqbzfl3evraorhz65oge"
+    }
+  },
+  "variants": [
+    {
+      "name": "android-debugApiElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.api.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../androidTests-android/0.0.39/androidTests-android-0.0.39.module",
+        "group": "tech.skot",
+        "module": "androidTests-android",
+        "version": "0.0.39"
+      }
+    },
+    {
+      "name": "android-debugRuntimeElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.api.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../androidTests-android/0.0.39/androidTests-android-0.0.39.module",
+        "group": "tech.skot",
+        "module": "androidTests-android",
+        "version": "0.0.39"
+      }
+    },
+    {
+      "name": "android-releaseApiElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.api.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../androidTests-android/0.0.39/androidTests-android-0.0.39.module",
+        "group": "tech.skot",
+        "module": "androidTests-android",
+        "version": "0.0.39"
+      }
+    },
+    {
+      "name": "android-releaseRuntimeElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.api.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../androidTests-android/0.0.39/androidTests-android-0.0.39.module",
+        "group": "tech.skot",
+        "module": "androidTests-android",
+        "version": "0.0.39"
+      }
+    },
+    {
+      "name": "metadata-api",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "available-at": {
+        "url": "../../androidTests-metadata/0.0.39/androidTests-metadata-0.0.39.module",
+        "group": "tech.skot",
+        "module": "androidTests-metadata",
+        "version": "0.0.39"
+      }
+    }
+  ]
+}

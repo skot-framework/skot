@@ -3,8 +3,8 @@
   <groupId>tech.skot</groupId>
   <artifactId>model-android</artifactId>
   <versioning>
-    <latest>0.0.38</latest>
-    <release>0.0.38</release>
+    <latest>0.0.39</latest>
+    <release>0.0.39</release>
     <versions>
       <version>0.0.5</version>
       <version>0.0.6</version>
@@ -40,7 +40,8 @@
       <version>0.0.36</version>
       <version>0.0.37</version>
       <version>0.0.38</version>
+      <version>0.0.39</version>
     </versions>
-    <lastUpdated>20201028175622</lastUpdated>
+    <lastUpdated>20201112140545</lastUpdated>
   </versioning>
 </metadata>

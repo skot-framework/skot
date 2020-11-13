@@ -14,8 +14,22 @@ open class Poker {
 
 }
 
-class MutablePoker : Poker() {
+open class MutablePoker : Poker() {
     fun poke() {
         observers.forEach { it.invoke() }
     }
+}
+
+class PokerWrapper:MutablePoker() {
+
+    private val actualPokerObserver = { poke() }
+
+    var actualPoker:Poker? = null
+        set(value) {
+            field?.removeObserver(actualPokerObserver)
+            field = value
+            value?.addObserver(actualPokerObserver)
+        }
+
+
 }

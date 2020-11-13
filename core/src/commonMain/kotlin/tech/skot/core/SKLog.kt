@@ -5,4 +5,5 @@ expect object SKLog {
     fun i(message:String)
     fun w(message:String)
     fun e(message:String? = null, e:Throwable)
+    fun network(message:String)
 }

@@ -1,5 +1,6 @@
 package tech.skot.core
 
+import android.util.Log
 import timber.log.Timber
 
 actual object SKLog {
@@ -17,6 +18,10 @@ actual object SKLog {
 
     actual fun e(message: String?, e: Throwable) {
         Timber.e(e, message)
+    }
+
+    actual fun network(message:String) {
+        Timber.tag("SKNetwork").d(message)
     }
 
 }

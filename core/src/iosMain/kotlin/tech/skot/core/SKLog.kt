@@ -18,4 +18,8 @@ actual object SKLog {
         e.printStackTrace()
     }
 
+    actual fun network(message: String) {
+        println("SKNetworkLog ---$message")
+    }
+
 }

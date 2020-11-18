@@ -24,9 +24,7 @@ android {
     defaultConfig {
         minSdkVersion(Android.minSdk)
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments = mapOf(
-                "clearPackageData" to "true"
-        )
+        testInstrumentationRunnerArguments["clearPackageData"] = "true"
         testOptions {
             execution = "ANDROIDX_TEST_ORCHESTRATOR"
         }

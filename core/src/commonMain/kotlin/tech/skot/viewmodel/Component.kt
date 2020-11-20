@@ -1,4 +1,4 @@
-package tech.skot.components
+package tech.skot.viewmodel
 
 import kotlinx.coroutines.*
 import tech.skot.contract.view.ComponentView

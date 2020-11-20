@@ -1,6 +1,5 @@
 package tech.skot.components
 
-import tech.skot.CoreViewInjector
 import tech.skot.core.di.get
 
 

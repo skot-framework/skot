@@ -1,6 +1,5 @@
 package tech.skot.view
 
-import tech.skot.components.ComponentView
 import tech.skot.components.ScreenView
 
 open class Action

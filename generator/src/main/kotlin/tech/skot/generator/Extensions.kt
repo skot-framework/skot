@@ -2,7 +2,7 @@ package tech.skot.generator
 
 import com.squareup.kotlinpoet.*
 import org.w3c.dom.Element
-import tech.skot.components.ComponentView
+import tech.skot.contract.view.ComponentView
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths

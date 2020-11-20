@@ -1,10 +1,9 @@
 package tech.skot.generator
 
 import com.squareup.kotlinpoet.*
-import tech.skot.components.ComponentView
-import tech.skot.contract.Model
 import java.nio.file.Paths
 import kotlin.reflect.KClass
+import tech.skot.contract.view.ComponentView
 
 fun generateContract(moduleName: String) {
     buildViewInjectorInterface(moduleName)

@@ -51,6 +51,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                api(project(":contract"))
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
                 api(kotlin("reflect"))
                 api("com.soywiz.korlibs.klock:klock:${Versions.klock}")

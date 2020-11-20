@@ -5,8 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
-import androidx.viewbinding.ViewBinding
-import tech.skot.core.SKLog
+import tech.skot.contract.view.ComponentView
 import tech.skot.view.Action
 import tech.skot.view.live.SKMessage
 

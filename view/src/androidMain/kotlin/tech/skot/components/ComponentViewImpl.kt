@@ -18,7 +18,7 @@ abstract class ComponentViewImpl<A : AppCompatActivity, F : Fragment, B : Any> :
     override fun onRemove() {
     }
 
-    private var _activity:A? = null
+    protected var _activity:A? = null
     var activity: A
         get() = _activity!!
         set(value) {
@@ -27,7 +27,7 @@ abstract class ComponentViewImpl<A : AppCompatActivity, F : Fragment, B : Any> :
 
     var fragment: F? = null
 
-    private var _binding:B? = null
+    protected var _binding:B? = null
     var binding: B
         get() = _binding!!
         set(value) {

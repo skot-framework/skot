@@ -52,7 +52,6 @@ android {
         val commonMain by getting {
             dependencies {
                 api(project(":core"))
-                implementation(project(":contract"))
                 api("com.squareup.sqldelight:runtime:${Versions.sqldelight}")
                 api("org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}")
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")

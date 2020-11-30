@@ -1,7 +1,7 @@
 rootProject.name = "SKot Framework"
 rootProject.buildFileName = "build.gradle.kts"
 include(":core")
-include(":contract")
+//include(":contract")
 //include(":view")
 //include(":viewmodel")
 include(":model")

@@ -40,8 +40,8 @@ abstract class SKFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         screenViewImpl?.cleanViewReferences()
     }
 
@@ -62,8 +62,8 @@ abstract class SKBottomSheetDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         screenViewImpl?.cleanViewReferences()
     }
 

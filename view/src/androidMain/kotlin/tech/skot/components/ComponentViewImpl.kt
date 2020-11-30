@@ -81,5 +81,5 @@ abstract class ComponentViewImpl<A : AppCompatActivity, F : Fragment, B : Any> :
         get() = fragment?.childFragmentManager ?: activity.supportFragmentManager
 
     val lifeCycleOwner: LifecycleOwner
-        get() = fragment ?: activity
+        get() = fragment?.viewLifecycleOwner ?: activity
 }

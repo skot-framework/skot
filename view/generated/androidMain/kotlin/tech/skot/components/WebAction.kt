@@ -10,4 +10,6 @@ sealed class WebAction : Action() {
             val onError: Function0<Unit>?,
             val post:Map<String,String>?
     ) : WebAction()
+
+    object Back:WebAction()
 }

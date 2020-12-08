@@ -10,14 +10,15 @@ import java.net.URLEncoder
 
 class WebViewImpl(
         redirect: List<WebView.RedirectParam>,
-        override val userAgent: String? = null
+        override val userAgent: String? = null,
+        override val onCantBack: (() -> Unit)?
 ) : WebViewImplGen(redirect) {
 
     var redirectParams: List<WebView.RedirectParam> = emptyList()
 
     override fun onInflated() {
         super.onInflated()
-        binding.let {webView ->
+        binding.let { webView ->
             webView.settings.apply {
                 javaScriptEnabled = true
                 userAgent?.let { userAgentString = it }
@@ -46,7 +47,7 @@ class WebViewImpl(
                                 onFinished = null
                                 javascriptOnFinished?.let {
                                     webView.evaluateJavascript(it, null)
-                                    javascriptOnFinished = null
+//                                    javascriptOnFinished = null
                                 }
                             }
                         }
@@ -145,6 +146,15 @@ class WebViewImpl(
             binding.loadUrl(url)
         }
 
+    }
+
+    override fun backNow() {
+        if (binding.canGoBack()) {
+            binding.goBack()
+        }
+        else {
+            onCantBack?.invoke()
+        }
     }
 
 }

@@ -18,6 +18,8 @@ abstract class WebViewImplGen(
             post: Map<String, String>?
     )
 
+    abstract fun backNow()
+
     override fun linkTo(lifecycleOwner: LifecycleOwner) {
         super.linkTo(lifecycleOwner)
         onRedirect(redirect)
@@ -33,9 +35,14 @@ abstract class WebViewImplGen(
         messages.post(WebAction.OpenUrl(url, onFinished, javascriptOnFinished, onError, post))
     }
 
+    final override fun back() {
+        messages.post(WebAction.Back)
+    }
+
     override fun treatAction(action: Action) {
         when (action) {
             is WebAction.OpenUrl -> openUrlNow(action.url, action.onFinished, action.javascriptOnFinished, action.onError, action.post)
+            is WebAction.Back -> backNow()
             else -> super.treatAction(action)
         }
     }

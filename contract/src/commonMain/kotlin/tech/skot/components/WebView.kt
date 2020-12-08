@@ -7,6 +7,9 @@ interface WebView :ComponentView {
 
     fun openUrl(url:String, onFinished:(()->Unit)? = null, javascriptOnFinished:String? = null, onError:(()->Unit)? = null, post:Map<String,String>? = null)
 
+    val onCantBack:(()->Unit)?
+    fun back()
+
     abstract class RedirectParam {
         abstract fun matches(url:String):Boolean
         abstract val onRedirect:(path:String, params:Map<String,String>)->Boolean

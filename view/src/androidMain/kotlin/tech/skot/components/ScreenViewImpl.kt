@@ -39,7 +39,6 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
         }
 
         var getInitialViewImpl: (() -> ScreenViewImpl<*, *, *>)? = null
-        var initialViewImplKey: Long? = null
 
         var onLink: ((encodedPath: String, encodedFragment: String?) -> Long?)? = null
 

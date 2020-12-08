@@ -2,81 +2,79 @@ package tech.skot.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import tech.skot.components.ScreenViewImpl
 import tech.skot.components.ScreenViewImpl.Companion.SK_EXTRA_VIEW_KEY
 import tech.skot.core.SKLog
-
-fun AppCompatActivity.onCreateSK(savedInstanceState: Bundle?):ScreenViewImpl<*,*,*>? {
-    if (intent.hasExtra(SK_EXTRA_VIEW_KEY)) {
-        val viewKey = intent.getLongExtra(SK_EXTRA_VIEW_KEY, -1)
-        return try {
-            val screenViewImpl = ScreenViewImpl.getInstance(viewKey)!!
-            setContentView(screenViewImpl.inflate(layoutInflater, this, null))
-            screenViewImpl
-        } catch (ex: Exception) {
-            SKLog.e("onCreateSK -> No View for key $viewKey", ex)
-            finish()
-            null
-        }
-    } else {
-        val action = intent?.action
-        val encodedPath = intent?.data?.encodedPath
-
-        if (action != null && action == Intent.ACTION_VIEW && encodedPath != null) {
-            val screenKey = ScreenViewImpl.onLink?.invoke(encodedPath, intent?.data?.encodedFragment)
-            return if (screenKey != null) {
-                val screenViewImpl = ScreenViewImpl.getInstance(screenKey)!!
-                setContentView(screenViewImpl.inflate(layoutInflater, this, null))
-                screenViewImpl
-            } else {
-                SKLog.d("----screen pas trouvé  -> will finish in 1 s ")
-                Handler().postDelayed({
-                    finish()
-                }, 1000)
-                null
-            }
-
-        } else {
-            val initialViewImplKey = ScreenViewImpl.initialViewImplKey
-            return if (initialViewImplKey != null && ScreenViewImpl.instances.containsKey(initialViewImplKey)) {
-                val screenViewImpl = ScreenViewImpl.getInstance(initialViewImplKey)!!
-                setContentView(screenViewImpl.inflate(layoutInflater, this, null))
-                screenViewImpl
-            } else {
-                val initialGetter = ScreenViewImpl.getInitialViewImpl
-                if (initialGetter != null) {
-                    val initialViewImpl = initialGetter()
-                    ScreenViewImpl.initialViewImplKey = initialViewImpl.key
-                    setContentView(initialViewImpl.inflate(layoutInflater, this, null))
-                    initialViewImpl
-                } else {
-                    SKLog.e("Please set ScreenViewImpl.getInitialViewImpl", IllegalStateException("ScreenViewImpl.getInitialViewImpl not set"))
-                    finish()
-                    null
-                }
-            }
-        }
-
-
-    }
-
-
-}
 
 
 abstract class SKActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        screenViewImpl = realOnCreate(savedInstanceState)
+        onCreateSK(savedInstanceState)
     }
 
-    private var screenViewImpl:ScreenViewImpl<*,*,*>? = null
 
-    open fun realOnCreate(savedInstanceState: Bundle?):ScreenViewImpl<*,*,*>? {
-        return onCreateSK(savedInstanceState)
+    private var screenViewImpl: ScreenViewImpl<*, *, *>? = null
+
+
+    fun getKeyForThisActivity(savedInstanceState: Bundle?) =
+            when {
+                intent.hasExtra(SK_EXTRA_VIEW_KEY) -> intent.getLongExtra(SK_EXTRA_VIEW_KEY, -1)
+                savedInstanceState?.containsKey(SK_EXTRA_VIEW_KEY) == true -> savedInstanceState.getLong(SK_EXTRA_VIEW_KEY, -1)
+                else -> -1
+            }
+
+    private var keyToSave: Long? = null
+
+
+    fun onCreateSK(savedInstanceState: Bundle?) {
+        val viewKey = getKeyForThisActivity(savedInstanceState)
+        if (viewKey != -1L) {
+            try {
+                screenViewImpl = ScreenViewImpl.getInstance(viewKey)!!
+            } catch (ex: Exception) {
+                SKLog.e("onCreateSK -> No View for key $viewKey", ex)
+            }
+        } else {
+            val action = intent?.action
+            val encodedPath = intent?.data?.encodedPath
+
+            if (action != null && action == Intent.ACTION_VIEW && encodedPath != null) {
+                val screenKey = ScreenViewImpl.onLink?.invoke(encodedPath, intent?.data?.encodedFragment)
+                if (screenKey != null) {
+                    screenViewImpl = ScreenViewImpl.getInstance(screenKey).also {
+                        keyToSave = it?.key
+                    }
+                } else {
+                    SKLog.e("Please set ScreenViewImpl.onLink to treat $encodedPath link", IllegalStateException("ScreenViewImpl.onLink not set"))
+                }
+
+            } else {
+                val initialGetter = ScreenViewImpl.getInitialViewImpl
+                if (initialGetter != null) {
+                    screenViewImpl = initialGetter().also {
+                        keyToSave = it.key
+                    }
+                } else {
+                    SKLog.e("Please set ScreenViewImpl.getInitialViewImpl", IllegalStateException("ScreenViewImpl.getInitialViewImpl not set"))
+                }
+
+            }
+        }
+
+        screenViewImpl?.let {
+            setContentView(it.inflate(layoutInflater, this, null))
+        } ?: finish()
+
+
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        screenViewImpl?.key?.let { outState.putLong(SK_EXTRA_VIEW_KEY, it) }
+
     }
 
 

@@ -1,0 +1,290 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../model/0.0.43/model-0.0.43.module",
+    "group": "tech.skot",
+    "module": "model",
+    "version": "0.0.43",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.5",
+      "buildId": "umuh4wxdqfdghocu4tjfq6qmxe"
+    }
+  },
+  "variants": [
+    {
+      "name": "android-debugApiElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.api.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "0.0.43"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.0.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-json",
+          "version": {
+            "requires": "1.0.0"
+          }
+        },
+        {
+          "group": "com.squareup.sqldelight",
+          "module": "runtime",
+          "version": {
+            "requires": "1.4.3"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "model-debug.aar",
+          "url": "model-android-0.0.43-debug.aar",
+          "size": 93981,
+          "sha512": "6c3d2e33b4268c2026dae0a0763b4dd3feaf5c36aebf580a75b4676e1ca68fe9ad4cfe58bbac3d7e75562e5c0abff386019912a4301d15df58230067b794b433",
+          "sha256": "a73c74dedccfbc0e71dbab7732cac5ee97faf6f0c2746aee2d4aec07e64f6ac1",
+          "sha1": "a97e0a11d0579633381c30d2d698d140852f1f18",
+          "md5": "a7ea7e5ac1b649933cf8c05465c5ce07"
+        }
+      ]
+    },
+    {
+      "name": "android-debugRuntimeElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.api.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "0.0.43"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.0.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-json",
+          "version": {
+            "requires": "1.0.0"
+          }
+        },
+        {
+          "group": "com.squareup.sqldelight",
+          "module": "runtime",
+          "version": {
+            "requires": "1.4.3"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.10"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "contract",
+          "version": {
+            "requires": "0.0.43"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-android-extensions-runtime",
+          "version": {
+            "requires": "1.4.10"
+          }
+        },
+        {
+          "group": "com.squareup.sqldelight",
+          "module": "android-driver",
+          "version": {
+            "requires": "1.4.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "model-debug.aar",
+          "url": "model-android-0.0.43-debug.aar",
+          "size": 93981,
+          "sha512": "6c3d2e33b4268c2026dae0a0763b4dd3feaf5c36aebf580a75b4676e1ca68fe9ad4cfe58bbac3d7e75562e5c0abff386019912a4301d15df58230067b794b433",
+          "sha256": "a73c74dedccfbc0e71dbab7732cac5ee97faf6f0c2746aee2d4aec07e64f6ac1",
+          "sha1": "a97e0a11d0579633381c30d2d698d140852f1f18",
+          "md5": "a7ea7e5ac1b649933cf8c05465c5ce07"
+        }
+      ]
+    },
+    {
+      "name": "android-releaseApiElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.api.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "0.0.43"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.0.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-json",
+          "version": {
+            "requires": "1.0.0"
+          }
+        },
+        {
+          "group": "com.squareup.sqldelight",
+          "module": "runtime",
+          "version": {
+            "requires": "1.4.3"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "model-release.aar",
+          "url": "model-android-0.0.43.aar",
+          "size": 90106,
+          "sha512": "6b56e81cfdbeaba8038a663e7b4fa2bb6ade87ee5a74f034b15a9539c429900fdff0c63c6a1ff4c0ba6ebc879f88eb4eba44dda74d99e96f88852166c983965d",
+          "sha256": "638fbc0c906fdaa5b612e7b8da206ba3fb36c63ab820a9710844e185a53d9752",
+          "sha1": "ce60f73aa74543c73c11806682621e0cd0860f56",
+          "md5": "6da61a5f215e88c7631a11965eb85acb"
+        }
+      ]
+    },
+    {
+      "name": "android-releaseRuntimeElements",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.api.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "0.0.43"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.0.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-json",
+          "version": {
+            "requires": "1.0.0"
+          }
+        },
+        {
+          "group": "com.squareup.sqldelight",
+          "module": "runtime",
+          "version": {
+            "requires": "1.4.3"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.10"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "contract",
+          "version": {
+            "requires": "0.0.43"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-android-extensions-runtime",
+          "version": {
+            "requires": "1.4.10"
+          }
+        },
+        {
+          "group": "com.squareup.sqldelight",
+          "module": "android-driver",
+          "version": {
+            "requires": "1.4.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "model-release.aar",
+          "url": "model-android-0.0.43.aar",
+          "size": 90106,
+          "sha512": "6b56e81cfdbeaba8038a663e7b4fa2bb6ade87ee5a74f034b15a9539c429900fdff0c63c6a1ff4c0ba6ebc879f88eb4eba44dda74d99e96f88852166c983965d",
+          "sha256": "638fbc0c906fdaa5b612e7b8da206ba3fb36c63ab820a9710844e185a53d9752",
+          "sha1": "ce60f73aa74543c73c11806682621e0cd0860f56",
+          "md5": "6da61a5f215e88c7631a11965eb85acb"
+        }
+      ]
+    }
+  ]
+}

@@ -26,9 +26,12 @@ android {
     compileSdkVersion(Versions.Android.compileSdk)
 
     sourceSets {
-        getByName("main").java.srcDirs("src/androidMain/kotlin")
-        getByName("main").java.srcDirs("generated/androidMain/kotlin")
-        getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")
+        getByName("main") {
+            java.srcDirs("src/androidMain/kotlin")
+            java.srcDirs("generated/androidMain/kotlin")
+            manifest.srcFile("src/androidMain/AndroidManifest.xml")
+            res.srcDirs("src/androidMain/res")
+        }
     }
 
     buildFeatures {

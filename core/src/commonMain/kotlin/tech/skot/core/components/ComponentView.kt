@@ -1,4 +1,4 @@
-package tech.skot.contract.view
+package tech.skot.core.components
 
 interface ComponentView {
     fun onRemove()

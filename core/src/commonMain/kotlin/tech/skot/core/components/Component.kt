@@ -1,8 +1,6 @@
-package tech.skot.viewmodel
+package tech.skot.core.components
 
 import kotlinx.coroutines.*
-import tech.skot.contract.view.ComponentView
-import tech.skot.contract.view.ScreenView
 import tech.skot.core.Poker
 import tech.skot.core.SKLog
 import kotlin.coroutines.CoroutineContext
@@ -63,4 +61,4 @@ abstract class Component<out V : ComponentView> {
 
 }
 
-abstract class Screen<V : ScreenView>:Component<V>() {}
+abstract class Screen<V : ScreenView>: Component<V>() {}

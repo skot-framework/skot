@@ -1,13 +1,10 @@
 package tech.skot.components
 
-import androidx.annotation.CallSuper
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
-import tech.skot.contract.view.ComponentView
-import tech.skot.view.legacy.Action
-import tech.skot.view.legacy.SKActivity
-import tech.skot.view.legacy.SKFragment
-import tech.skot.view.live.SKMessage
+import tech.skot.core.components.ComponentView
+import tech.skot.core.components.SKActivity
+import tech.skot.core.components.SKFragment
 
 
 abstract class ComponentViewProxy<I : ComponentViewImpl<*>> : ComponentView {
@@ -26,10 +23,13 @@ abstract class ComponentViewProxy<I : ComponentViewImpl<*>> : ComponentView {
 
 }
 
-abstract class ComponentViewImpl<B : Any>(protected val activity: SKActivity, protected val fragment: SKFragment?, protected val binding: B) {
+abstract class ComponentViewImpl<B : Any>(protected val activity: SKActivity, protected val fragment: SKFragment?, val binding: B) {
+
+    val context = fragment?.context ?: activity
 
     protected val fragmentManager: FragmentManager
         get() = fragment?.childFragmentManager ?: activity.supportFragmentManager
+
 
 //    val lifeCycleOwner: LifecycleOwner
 //        get() = fragment?.viewLifecycleOwner ?: activity

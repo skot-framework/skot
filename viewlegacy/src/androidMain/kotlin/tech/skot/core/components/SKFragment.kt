@@ -1,4 +1,4 @@
-package tech.skot.view.legacy
+package tech.skot.core.components
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,10 +11,23 @@ open class SKFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return arguments?.getLong(ScreensManager.SK_ARGUMENT_VIEW_KEY)?.let { viewKey ->
-            val proxy = ScreensManager.getInstance(viewKey)
-            proxy?.inflate(inflater, activity as SKActivity, this)
+            ScreensManager.getInstance(viewKey)?.inflateAndLink(inflater, activity as SKActivity, this)
 
+//
+//            val proxy =
+//            proxy?
+//
         }
     }
 
+
+    override fun onDestroy() {
+        SKLog.d("SKFragment ${hashCode()} onDestroy")
+        super.onDestroy()
+    }
+
+    override fun onDestroyView() {
+        SKLog.d("SKFragment ${hashCode()} onDestroyView")
+        super.onDestroyView()
+    }
 }

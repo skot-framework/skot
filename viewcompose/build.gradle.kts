@@ -2,9 +2,9 @@ group = Versions.group
 version = Versions.version
 
 plugins {
-//    kotlin("multiplatform")
+    kotlin("multiplatform")
     id("com.android.library")
-    id("kotlin-android")
+//    id("kotlin-android")
     id("maven-publish")
     id("com.github.ben-manes.versions")
 }
@@ -17,6 +17,7 @@ android {
     compileSdkVersion(Versions.Android.compileSdk)
     sourceSets.getByName("main") {
         java.srcDir("src/main/kotlin")
+        manifest.srcFile("src/main/AndroidManifest.xml")
     }
 
 
@@ -32,10 +33,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-        useIR = true
-    }
+//    kotlinOptions {
+//        jvmTarget = "1.8"
+//        useIR = true
+//    }
     buildFeatures {
         compose = true
     }
@@ -43,10 +44,10 @@ android {
         kotlinCompilerExtensionVersion  = Versions.Android.compose
         kotlinCompilerVersion  = "1.4.10"
     }
-//    packagingOptions {
-//        exclude("META-INF/*.kotlin_module")
-//        exclude("META-INF/*")
-//    }
+    packagingOptions {
+        exclude("META-INF/*.kotlin_module")
+        exclude("META-INF/*")
+    }
 }
 
 
@@ -56,48 +57,51 @@ dependencies {
     api("androidx.compose.ui:ui:${Versions.Android.compose}")
     api("androidx.compose.material:material:${Versions.Android.compose}")
     api("androidx.ui:ui-tooling:${Versions.Android.compose}")
+    implementation("androidx.compose.runtime:runtime:${Versions.Android.compose}")
+    implementation("androidx.compose.runtime:runtime:${Versions.Android.compose}")
+
 }
 
-//kotlin {
+kotlin {
+
+    android("android") {
+//        val main by compilations.getting {
+//            kotlinOptions {
+//                // Setup the Kotlin compiler options for the 'main' compilation:
+//                jvmTarget = "1.8"
+//            }
 //
-//    android("android") {
-////        val main by compilations.getting {
-////            kotlinOptions {
-////                // Setup the Kotlin compiler options for the 'main' compilation:
-////                jvmTarget = "1.8"
-////            }
-////
-////
-////        }
 //
+//        }
+
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = JavaVersion.VERSION_1_8.toString()
+                useIR = true
+            }
+        }
+
+        publishLibraryVariants("release", "debug")
+        publishLibraryVariantsGroupedByFlavor = true
+
+//        val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
+//
+//        compileKotlin.kotlinOptions {
+//            jvmTarget = "1.8"
+//            useIR = true
+//        }
+    }
+
+//    targets.all {
 //        compilations.all {
 //            kotlinOptions {
-//                jvmTarget = JavaVersion.VERSION_1_8.toString()
+//                jvmTarget = "1.8"
 //                useIR = true
 //            }
 //        }
-//
-//        publishLibraryVariants("release", "debug")
-//        publishLibraryVariantsGroupedByFlavor = true
-//
-////        val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
-////
-////        compileKotlin.kotlinOptions {
-////            jvmTarget = "1.8"
-////            useIR = true
-////        }
 //    }
-//
-////    targets.all {
-////        compilations.all {
-////            kotlinOptions {
-////                jvmTarget = "1.8"
-////                useIR = true
-////            }
-////        }
-////    }
-//
-//}
+
+}
 
 
 //kotlin {

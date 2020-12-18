@@ -1,6 +1,5 @@
-package tech.skot.viewmodel
+package tech.skot.core.components
 
-import tech.skot.contract.view.RootStackView
 import tech.skot.core.di.get
 
 object RootStack {

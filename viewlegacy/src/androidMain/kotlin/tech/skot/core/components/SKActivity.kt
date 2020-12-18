@@ -1,8 +1,9 @@
-package tech.skot.view.legacy
+package tech.skot.core.components
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import tech.skot.view.legacy.ScreenViewProxy
 
 open class SKActivity : AppCompatActivity() {
 
@@ -17,7 +18,7 @@ open class SKActivity : AppCompatActivity() {
             RootStackViewProxy.screens.getOrNull(0)
         } as? ScreenViewProxy<*>)?.run {
             screenKey = key
-            inflate(layoutInflater, this@SKActivity, null)
+            inflateAndLink(layoutInflater, this@SKActivity, null)
         }
                 .run {
                     setContentView(this)

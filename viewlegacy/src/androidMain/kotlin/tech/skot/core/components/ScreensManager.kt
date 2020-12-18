@@ -1,4 +1,6 @@
-package tech.skot.view.legacy
+package tech.skot.core.components
+
+import tech.skot.view.legacy.ScreenViewProxy
 
 
 object ScreensManager {

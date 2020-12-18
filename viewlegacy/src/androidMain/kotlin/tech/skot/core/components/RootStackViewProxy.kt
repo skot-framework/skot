@@ -1,10 +1,8 @@
-package tech.skot.view.legacy
+package tech.skot.core.components
 
-import tech.skot.contract.view.RootStackView
-import tech.skot.contract.view.ScreenView
+import tech.skot.view.legacy.ScreenViewProxy
 import tech.skot.view.live.MutableSKLiveData
 import tech.skot.view.live.SKMessage
-import tech.skot.viewmodel.RootStack
 
 
 object RootStackViewProxy : RootStackView {

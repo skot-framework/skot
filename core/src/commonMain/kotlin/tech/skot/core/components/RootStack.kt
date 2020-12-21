@@ -3,15 +3,14 @@ package tech.skot.core.components
 import tech.skot.core.di.get
 
 object RootStack {
-   val view = get<RootStackView>()
+    val view = get<RootStackView>()
 
     var screens: List<Screen<*>> = emptyList()
         set(value) {
-//            if (!field.isEmpty() && !field.contains(value.first())) {
-//                view.setRootScreen(value.first().view)
-//            }
-            field = value
             view.screens = value.map { it.view }
+            field.forEach { if (!value.contains(it)) it.onRemove() }
+            field = value
+
         }
 
     var content: Screen<*>

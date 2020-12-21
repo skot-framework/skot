@@ -2,6 +2,7 @@ package tech.skot.core.components
 
 import android.os.Build
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
@@ -11,7 +12,7 @@ import tech.skot.components.ComponentViewImpl
 import tech.skot.components.ComponentViewProxy
 import tech.skot.view.live.MutableSKLiveData
 
-class SnackBarViewProxy():ComponentViewProxy<SnackBarViewImpl>(),SnackBarView {
+class SnackBarViewProxy():ComponentViewProxy<View>(),SnackBarView {
 
     private val stateLD = MutableSKLiveData<SnackBarView.Shown?>(null)
 
@@ -22,15 +23,18 @@ class SnackBarViewProxy():ComponentViewProxy<SnackBarViewImpl>(),SnackBarView {
             stateLD.postValue(newVal)
         }
 
-    override fun linkTo(impl: SnackBarViewImpl, lifeCycleOwner: LifecycleOwner) {
-        stateLD.observe(lifeCycleOwner) {
-            impl.onState(it)
+    override fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater:LayoutInflater, binding: View) {
+        SnackBarViewImpl(activity, fragment, binding).let { impl ->
+            stateLD.observe(impl) {
+                impl.onState(it)
+            }
         }
     }
 
+
 }
 
-class SnackBarViewImpl(activity: SKActivity, fragment: SKFragment?, private val rootView:View) : ComponentViewImpl<Unit>(activity, fragment, Unit) {
+class SnackBarViewImpl(activity: SKActivity, fragment: SKFragment?, private val rootView:View) : ComponentViewImpl<View>(activity, fragment, rootView) {
 
     private var currentSnack: Snackbar? = null
     private var currentState:SnackBarView.Shown? = null

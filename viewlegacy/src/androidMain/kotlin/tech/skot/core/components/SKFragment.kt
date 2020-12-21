@@ -11,12 +11,7 @@ open class SKFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return arguments?.getLong(ScreensManager.SK_ARGUMENT_VIEW_KEY)?.let { viewKey ->
-            ScreensManager.getInstance(viewKey)?.inflateAndLink(inflater, activity as SKActivity, this)
-
-//
-//            val proxy =
-//            proxy?
-//
+            ScreensManager.getInstance(viewKey)?.bindTo(activity as SKActivity, this, inflater)
         }
     }
 

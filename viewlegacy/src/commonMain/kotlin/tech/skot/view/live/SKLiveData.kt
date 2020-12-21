@@ -1,5 +1,6 @@
 package tech.skot.view.live
 
+import kotlin.reflect.KProperty
 
 abstract class SKLiveDataCommon<D>(initialValue: D) {
 
@@ -138,7 +139,15 @@ open class MutableSKLiveData<D>(initialValue: D) : SKLiveData<D>(initialValue) {
     fun postValue(newVal: D) {
         this.value = newVal
     }
+
+    operator fun setValue(thisObj: Any?, property: KProperty<*>, value: D) {
+        this.value = value
+    }
+
+    operator fun getValue(thisObj: Any?, property: KProperty<*>) = this.value
 }
+
+
 
 fun <S, T> SKLiveData<S>.map(transformation: (S) -> T): MutableSKLiveData<T> =
         MediatorSKLiveData<T>(transformation(value)).apply {

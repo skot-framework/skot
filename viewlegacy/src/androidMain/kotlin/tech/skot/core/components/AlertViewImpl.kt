@@ -1,5 +1,6 @@
 package tech.skot.core.components
 
+import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LifecycleOwner
 import tech.skot.components.ComponentViewImpl
@@ -7,7 +8,7 @@ import tech.skot.components.ComponentViewProxy
 import tech.skot.core.SKLog
 import tech.skot.view.live.MutableSKLiveData
 
-class AlertViewProxy():ComponentViewProxy<AlertViewImpl>(),AlertView {
+class AlertViewProxy():ComponentViewProxy<Unit>(),AlertView {
 
     private val stateLD = MutableSKLiveData<AlertView.Shown?>(null)
 
@@ -18,11 +19,14 @@ class AlertViewProxy():ComponentViewProxy<AlertViewImpl>(),AlertView {
             stateLD.postValue(newVal)
         }
 
-    override fun linkTo(impl: AlertViewImpl, lifeCycleOwner: LifecycleOwner) {
-        stateLD.observe(lifeCycleOwner) {
-            impl.onState(it)
+    override fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater: LayoutInflater, binding: Unit) {
+        AlertViewImpl(activity, fragment).let { impl ->
+            stateLD.observe(impl) {
+                impl.onState(it)
+            }
         }
     }
+
 
 
 }

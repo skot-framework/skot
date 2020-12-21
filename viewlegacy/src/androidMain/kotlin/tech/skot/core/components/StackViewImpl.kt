@@ -1,5 +1,6 @@
 package tech.skot.view.legacy
 
+import android.view.LayoutInflater
 import androidx.lifecycle.LifecycleOwner
 import tech.skot.components.ComponentViewImpl
 import tech.skot.components.ComponentViewProxy
@@ -10,7 +11,7 @@ import tech.skot.core.components.StackView
 import tech.skot.view.live.MutableSKLiveData
 
 
-class StackViewProxy() : ComponentViewProxy<StackViewImpl>(), StackView {
+class StackViewProxy() : ComponentViewProxy<Int>(), StackView {
 
     private val screensLD: MutableSKLiveData<List<ScreenViewProxy<*>>> = MutableSKLiveData(emptyList())
 
@@ -20,16 +21,20 @@ class StackViewProxy() : ComponentViewProxy<StackViewImpl>(), StackView {
             screensLD.postValue(newVal as List<ScreenViewProxy<*>>)
         }
 
-    override fun linkTo(impl: StackViewImpl, lifeCycleOwner: LifecycleOwner) {
-        screensLD.observe(lifeCycleOwner) {
-            impl.onScreens(it)
+
+    override fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater:LayoutInflater, binding: Int) {
+        StackViewImpl(activity, fragment, binding).let { impl ->
+            screensLD.observe(impl) {
+                impl.onScreens(it)
+            }
         }
     }
 
 
+
 }
 
-class StackViewImpl(activity: SKActivity, fragment: SKFragment?, private val frameLayoutId: Int) : ComponentViewImpl<Unit>(activity, fragment, Unit) {
+class StackViewImpl(activity: SKActivity, fragment: SKFragment?, private val frameLayoutId: Int) : ComponentViewImpl<Int>(activity, fragment, frameLayoutId) {
 
     fun onScreens(screens: List<ScreenViewProxy<*>>) {
 

@@ -18,7 +18,8 @@ open class SKActivity : AppCompatActivity() {
             RootStackViewProxy.screens.getOrNull(0)
         } as? ScreenViewProxy<*>)?.run {
             screenKey = key
-            inflateAndLink(layoutInflater, this@SKActivity, null)
+            bindTo(this@SKActivity, null, layoutInflater)
+//            inflateAndLink(layoutInflater, this@SKActivity, null)
         }
                 .run {
                     setContentView(this)

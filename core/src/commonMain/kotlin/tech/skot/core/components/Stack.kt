@@ -8,9 +8,9 @@ class Stack : Component<StackView>() {
 
     var screens: List<Screen<*>> = emptyList()
         set(value) {
-            field = value
             view.screens = value.map { it.view }
-            SKLog.d("Stack view.screens just set to ${view.screens}")
+            field.forEach { if (!value.contains(it)) it.onRemove() }
+            field = value
 
         }
 

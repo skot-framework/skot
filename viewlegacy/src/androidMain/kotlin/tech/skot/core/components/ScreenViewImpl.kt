@@ -12,24 +12,17 @@ import tech.skot.core.components.ScreenView
 import tech.skot.core.components.ScreensManager
 
 
-abstract class ScreenViewProxy<I : ScreenViewImpl<out ViewBinding>> : ComponentViewProxy<I>(), ScreenView {
+abstract class ScreenViewProxy<I : ViewBinding> : ComponentViewProxy<I>(), ScreenView {
 
     val key = ScreensManager.addScreen(this)
 
-    fun inflateAndLink(layoutInflater: LayoutInflater, activity: SKActivity, fragment: SKFragment?):View {
-        val viewImpl = inflateAndLinkChildren(layoutInflater, activity, fragment)
-        linkTo(viewImpl,fragment?.viewLifecycleOwner ?: activity )
-        return viewImpl.view
+    fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater: LayoutInflater):View {
+        val binding = inflate(layoutInflater)
+        bindTo(activity, fragment, layoutInflater, binding)
+        return binding.root
     }
 
-    abstract fun inflateAndLinkChildren(layoutInflater: LayoutInflater, activity: SKActivity, fragment: SKFragment?): I
-//    {
-//        val impl = createViewImplInstance(activity, fragment, layoutInflater)
-//        linkTo(impl, fragment?.viewLifecycleOwner ?: activity)
-//        return impl.view
-//    }
-
-//    abstract fun createViewImplInstance(activity: SKActivity, fragment: SKFragment?, layoutInflater: LayoutInflater): I
+    abstract fun inflate(layoutInflater:LayoutInflater):I
 
     fun createFragment(): SKFragment =
             SKFragment().apply {

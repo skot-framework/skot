@@ -1,6 +1,8 @@
 package tech.skot.core.components
 
 import tech.skot.view.legacy.ScreenViewProxy
+import tech.skot.view.live.MutableSKLiveData
+import tech.skot.view.live.SKMessage
 
 
 object ScreensManager {
@@ -15,6 +17,8 @@ object ScreensManager {
         instances[key] = screen
         return key
     }
+
+    val backPressed = SKMessage<Unit>(true)
 
     const val SK_EXTRA_VIEW_KEY = "SK_EXTRA_VIEW_KEY"
     const val SK_ARGUMENT_VIEW_KEY = "SK_ARGUMENT_VIEW_KEY"

@@ -19,13 +19,13 @@ class AlertViewProxy():ComponentViewProxy<Unit>(),AlertView {
             stateLD.postValue(newVal)
         }
 
-    override fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater: LayoutInflater, binding: Unit) {
-        AlertViewImpl(activity, fragment).let { impl ->
-            stateLD.observe(impl) {
-                impl.onState(it)
+    override fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater: LayoutInflater, binding: Unit) =
+        AlertViewImpl(activity, fragment).apply {
+            stateLD.observe {
+                onState(it)
             }
         }
-    }
+
 
 
 

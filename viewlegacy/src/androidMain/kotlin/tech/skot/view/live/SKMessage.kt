@@ -5,7 +5,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 
-actual class SKMessage<D> : SKMessageCommon<D>() {
+actual class SKMessage<D> actual constructor(multiReceiver:Boolean) : SKMessageCommon<D>(multiReceiver) {
 
     fun observe(lifecycleOwner: LifecycleOwner, onChanged: (d: D) -> Unit) {
 

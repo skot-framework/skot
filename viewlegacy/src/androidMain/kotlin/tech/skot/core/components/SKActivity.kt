@@ -25,7 +25,6 @@ open class SKActivity : AppCompatActivity() {
                     setContentView(this)
                     linkToRootStack()
                 }
-
     }
 
 
@@ -54,11 +53,12 @@ open class SKActivity : AppCompatActivity() {
         }
     }
 
-    var onBackPressedAction: (() -> Unit)? = null
+//    var onBackPressedAction: (() -> Unit)? = null
 
     //Pas de back par défaut, il faut faire attention avec ça
     override fun onBackPressed() {
-        onBackPressedAction?.invoke()
+//        onBackPressedAction?.invoke()
+        ScreensManager.backPressed.post(Unit)
     }
 
 }

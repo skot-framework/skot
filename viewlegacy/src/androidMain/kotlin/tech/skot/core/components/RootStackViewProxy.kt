@@ -20,7 +20,7 @@ object RootStackViewProxy : RootStackView {
             screensLD.postValue(newVal as List<ScreenViewProxy<*>>)
         }
 
-    val setRootScreenMessage:SKMessage<ScreenViewProxy<*>> = SKMessage()
+    val setRootScreenMessage:SKMessage<ScreenViewProxy<*>> = SKMessage(multiReceiver = false)
 
 //    override fun setRootScreen(aScreen: ScreenView) {
 //        setRootScreenMessage.post(aScreen as ScreenViewProxy<*>)

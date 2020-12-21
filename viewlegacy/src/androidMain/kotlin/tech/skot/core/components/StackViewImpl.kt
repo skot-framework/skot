@@ -22,13 +22,13 @@ class StackViewProxy() : ComponentViewProxy<Int>(), StackView {
         }
 
 
-    override fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater:LayoutInflater, binding: Int) {
-        StackViewImpl(activity, fragment, binding).let { impl ->
-            screensLD.observe(impl) {
-                impl.onScreens(it)
+    override fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater:LayoutInflater, binding: Int) =
+        StackViewImpl(activity, fragment, binding).apply {
+            screensLD.observe {
+                onScreens(it)
             }
         }
-    }
+
 
 
 

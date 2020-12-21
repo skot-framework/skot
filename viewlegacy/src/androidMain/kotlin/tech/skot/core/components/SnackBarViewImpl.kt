@@ -1,18 +1,15 @@
 package tech.skot.core.components
 
-import android.os.Build
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.snackbar.Snackbar
 import tech.skot.components.ComponentViewImpl
 import tech.skot.components.ComponentViewProxy
 import tech.skot.view.live.MutableSKLiveData
 
-class SnackBarViewProxy():ComponentViewProxy<View>(),SnackBarView {
+class SnackBarViewProxy() : ComponentViewProxy<View>(), SnackBarView {
 
     private val stateLD = MutableSKLiveData<SnackBarView.Shown?>(null)
 
@@ -23,21 +20,20 @@ class SnackBarViewProxy():ComponentViewProxy<View>(),SnackBarView {
             stateLD.postValue(newVal)
         }
 
-    override fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater:LayoutInflater, binding: View) {
-        SnackBarViewImpl(activity, fragment, binding).let { impl ->
-            stateLD.observe(impl) {
-                impl.onState(it)
+    override fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater: LayoutInflater, binding: View) =
+            SnackBarViewImpl(activity, fragment, binding).apply {
+                stateLD.observe {
+                    onState(it)
+                }
             }
-        }
-    }
 
 
 }
 
-class SnackBarViewImpl(activity: SKActivity, fragment: SKFragment?, private val rootView:View) : ComponentViewImpl<View>(activity, fragment, rootView) {
+class SnackBarViewImpl(activity: SKActivity, fragment: SKFragment?, private val rootView: View) : ComponentViewImpl<View>(activity, fragment, rootView) {
 
     private var currentSnack: Snackbar? = null
-    private var currentState:SnackBarView.Shown? = null
+    private var currentState: SnackBarView.Shown? = null
 
     fun onState(state: SnackBarView.Shown?) {
 
@@ -55,7 +51,8 @@ class SnackBarViewImpl(activity: SKActivity, fragment: SKFragment?, private val 
                             view.apply {
                                 (layoutParams as? FrameLayout.LayoutParams)?.let {
                                     it.gravity = Gravity.TOP
-                                    it.topMargin = activity.window?.decorView?.rootWindowInsets?.systemWindowInsetTop ?: 0
+                                    it.topMargin = activity.window?.decorView?.rootWindowInsets?.systemWindowInsetTop
+                                            ?: 0
 
                                     layoutParams = it
                                 }
@@ -63,13 +60,11 @@ class SnackBarViewImpl(activity: SKActivity, fragment: SKFragment?, private val 
                             currentSnack = this
                             show()
                         }
-            }
-            else {
+            } else {
                 currentSnack?.dismiss()
             }
 
         }
-
 
 
     }

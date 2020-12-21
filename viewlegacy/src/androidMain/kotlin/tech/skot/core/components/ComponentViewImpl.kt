@@ -10,6 +10,7 @@ import tech.skot.core.components.ComponentView
 import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKFragment
 import tech.skot.core.components.UiState
+import tech.skot.view.live.MutableSKLiveData
 import tech.skot.view.live.SKLiveData
 
 abstract class ComponentViewProxy<B : Any> : ComponentView {
@@ -18,7 +19,7 @@ abstract class ComponentViewProxy<B : Any> : ComponentView {
 
     protected val savedStates: MutableMap<String, Any> = mutableMapOf()
 
-    abstract fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater: LayoutInflater, binding: B)
+    abstract fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater: LayoutInflater, binding: B):ComponentViewImpl<B>
 
 }
 

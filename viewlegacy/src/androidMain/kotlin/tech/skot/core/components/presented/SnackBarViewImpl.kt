@@ -7,18 +7,14 @@ import android.widget.FrameLayout
 import com.google.android.material.snackbar.Snackbar
 import tech.skot.components.ComponentViewImpl
 import tech.skot.components.ComponentViewProxy
+import tech.skot.core.components.presented.SnackBarView
 import tech.skot.view.live.MutableSKLiveData
 
 class SnackBarViewProxy() : ComponentViewProxy<View>(), SnackBarView {
 
     private val stateLD = MutableSKLiveData<SnackBarView.Shown?>(null)
 
-    override var state: SnackBarView.Shown? = null
-        get() = stateLD.value
-        set(newVal) {
-            field = newVal
-            stateLD.postValue(newVal)
-        }
+    override var state: SnackBarView.Shown? by stateLD
 
     override fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater: LayoutInflater, binding: View) =
             SnackBarViewImpl(activity, fragment, binding).apply {

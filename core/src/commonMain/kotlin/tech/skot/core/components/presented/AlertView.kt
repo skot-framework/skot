@@ -1,6 +1,8 @@
-package tech.skot.core.components
+package tech.skot.core.components.presented
 
-interface AlertView :ComponentView {
+import tech.skot.core.components.ComponentView
+
+interface AlertView : ComponentView {
 
     data class Shown(
             val title:String?,
@@ -11,5 +13,5 @@ interface AlertView :ComponentView {
 
     data class Button(val label:String, val action:()->Unit)
 
-    var state:Shown?
+    var state: Shown?
 }

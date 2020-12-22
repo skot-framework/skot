@@ -1,8 +1,9 @@
-package tech.skot.core.components
+package tech.skot.core.components.presented
 
+import tech.skot.core.components.Component
 import tech.skot.core.di.get
 
-class Alert :Component<AlertView>(){
+class Alert : Component<AlertView>(){
 
     override val view = get<AlertView>()
 

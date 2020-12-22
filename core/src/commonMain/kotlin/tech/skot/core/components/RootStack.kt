@@ -2,7 +2,7 @@ package tech.skot.core.components
 
 import tech.skot.core.di.get
 
-object RootStack {
+class RootStack {
     val view = get<RootStackView>()
 
     var screens: List<Screen<*>> = emptyList()
@@ -20,7 +20,7 @@ object RootStack {
         }
 
     fun push(screen: Screen<*>) {
-        screens += screen
+        screens = screens + screen
     }
 
     fun pop() {

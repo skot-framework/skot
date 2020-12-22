@@ -30,7 +30,7 @@ kotlin {
     ios {
         binaries {
             framework {
-                baseName = "sk-core"
+                baseName = "core"
             }
         }
     }

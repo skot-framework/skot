@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import tech.skot.core.SKLog
+import tech.skot.core.di.rootStack
 import tech.skot.view.legacy.ScreenViewProxy
 
 open class SKActivity : AppCompatActivity() {
@@ -16,8 +18,10 @@ open class SKActivity : AppCompatActivity() {
         (if (viewKey != -1L) {
             ScreensManager.getInstance(viewKey)
         } else {
-            RootStackViewProxy.screens.getOrNull(0)
+            SKLog.d("-------- SKActivity rootStack.screens ${rootStack.screens}")
+            rootStack.screens.getOrNull(0)?.view
         } as? ScreenViewProxy<*>)?.run {
+            SKLog.d("-------- SKActivity screenProxy $this")
             screenKey = key
             bindTo(this@SKActivity, null, layoutInflater)
 //            inflateAndLink(layoutInflater, this@SKActivity, null)
@@ -32,13 +36,13 @@ open class SKActivity : AppCompatActivity() {
 
     private fun linkToRootStack() {
 
-        RootStackViewProxy.setRootScreenMessage.observe(this) {
+        (rootStack.view as RootStackViewProxy).setRootScreenMessage.observe(this) {
             startActivity(Intent(this, SKActivity::class.java).apply {
                 putExtra(ScreensManager.SK_EXTRA_VIEW_KEY, it.key)
             })
         }
 
-        RootStackViewProxy.screensLD.observe(this) {
+        (rootStack.view as RootStackViewProxy).screensLD.observe(this) {
             val thisScreenPosition = it.indexOfFirst {
                 it.key == screenKey
             }
@@ -53,6 +57,8 @@ open class SKActivity : AppCompatActivity() {
                 }
             }
         }
+
+        (rootStack.view as RootStackViewProxy).bottomSheet.bindTo(this, null, layoutInflater, Unit)
     }
 
 //    var onBackPressedAction: (() -> Unit)? = null

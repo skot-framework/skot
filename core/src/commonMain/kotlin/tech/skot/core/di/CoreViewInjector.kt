@@ -8,20 +8,15 @@ import tech.skot.core.components.presented.BottomSheetView
 import tech.skot.core.components.presented.SnackBarView
 
 interface CoreViewInjector {
-    fun rootStack(): RootStackView
+    fun rootStack(bottomSheetView: BottomSheetView): RootStackView
     fun stack(): StackView
     fun alert(): AlertView
     fun snackBar(): SnackBarView
     fun bottomSheet(): BottomSheetView
 }
 
-fun coreViewModule(coreViewInjector: CoreViewInjector) =
-        module<BaseInjector> {
-            single { coreViewInjector.rootStack() as RootStackView }
-            factory { coreViewInjector.stack() as StackView }
-            factory { coreViewInjector.alert() as AlertView }
-            factory { coreViewInjector.snackBar() as SnackBarView }
-            factory { coreViewInjector.bottomSheet() as BottomSheetView }
-        }
+val coreViewInjector: CoreViewInjector by lazy {
+    get<CoreViewInjector>()
+}
 
 val rootStack by lazy { RootStack() }

@@ -1,11 +1,12 @@
 package tech.skot.core.components.presented
 
 import tech.skot.core.components.Component
+import tech.skot.core.di.coreViewInjector
 import tech.skot.core.di.get
 
 class Alert : Component<AlertView>(){
 
-    override val view = get<AlertView>()
+    override val view = coreViewInjector.alert()
 
     fun show(
             title:String?,

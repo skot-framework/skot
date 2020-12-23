@@ -2,11 +2,12 @@ package tech.skot.core.components.presented
 
 import tech.skot.core.components.Component
 import tech.skot.core.components.Screen
+import tech.skot.core.di.coreViewInjector
 import tech.skot.core.di.get
 
 class BottomSheet : Component<BottomSheetView>() {
 
-    override val view = get<BottomSheetView>()
+    override val view = coreViewInjector.bottomSheet()
 
     var shownScreen:Screen<*>? = null
 

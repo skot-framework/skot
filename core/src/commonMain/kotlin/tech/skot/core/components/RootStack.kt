@@ -1,9 +1,17 @@
 package tech.skot.core.components
 
-import tech.skot.core.di.get
+import tech.skot.core.SKLog
+import tech.skot.core.components.presented.BottomSheet
+import tech.skot.core.di.coreViewInjector
 
-class RootStack: ScreenParent {
-    val view = get<RootStackView>()
+class RootStack : ScreenParent {
+
+    init {
+        SKLog.d("RootStack init !")
+    }
+
+    val bottomSheet = BottomSheet()
+    val view = coreViewInjector.rootStack(bottomSheetView = bottomSheet.view)
 
     var screens: List<Screen<*>> = emptyList()
         set(value) {
@@ -23,11 +31,10 @@ class RootStack: ScreenParent {
         screens = screens + screen
     }
 
-    fun pop(ifRoot:(()->Unit)? = null) {
-        if (screens.size>1) {
+    fun pop(ifRoot: (() -> Unit)? = null) {
+        if (screens.size > 1) {
             screens = screens - screens.last()
-        }
-        else {
+        } else {
             ifRoot?.invoke()
         }
     }

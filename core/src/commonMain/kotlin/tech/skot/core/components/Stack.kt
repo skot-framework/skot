@@ -1,10 +1,11 @@
 package tech.skot.core.components
 
 import tech.skot.core.SKLog
+import tech.skot.core.di.coreViewInjector
 import tech.skot.core.di.get
 
 class Stack : Component<StackView>(), ScreenParent {
-    override val view = get<StackView>()
+    override val view = coreViewInjector.stack()
 
     var screens: List<Screen<*>> = emptyList()
         set(value) {

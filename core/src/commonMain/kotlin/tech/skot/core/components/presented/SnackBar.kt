@@ -3,11 +3,12 @@ package tech.skot.core.components.presented
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import tech.skot.core.components.Component
+import tech.skot.core.di.coreViewInjector
 import tech.skot.core.di.get
 
 class SnackBar : Component<SnackBarView>() {
 
-    override val view = get<SnackBarView>()
+    override val view = coreViewInjector.snackBar()
 
     data class Action(val label: String, val action: () -> Unit)
 

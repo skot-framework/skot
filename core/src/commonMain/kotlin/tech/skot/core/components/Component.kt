@@ -60,5 +60,3 @@ abstract class Component<out V : ComponentView> {
     }
 
 }
-
-abstract class Screen<V : ScreenView>: Component<V>() {}

@@ -1,9 +1,7 @@
 package tech.skot.di
 
 import tech.skot.core.components.*
-import tech.skot.core.components.presented.AlertView
-import tech.skot.core.components.presented.BottomSheetView
-import tech.skot.core.components.presented.SnackBarView
+import tech.skot.core.components.presented.*
 import tech.skot.core.di.BaseInjector
 import tech.skot.core.di.module
 import tech.skot.view.legacy.StackViewProxy

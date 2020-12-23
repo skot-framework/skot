@@ -3,15 +3,15 @@ package tech.skot.core.components
 import tech.skot.core.SKLog
 import tech.skot.core.di.get
 
-class Stack : Component<StackView>() {
+class Stack : Component<StackView>(), ScreenParent {
     override val view = get<StackView>()
 
     var screens: List<Screen<*>> = emptyList()
         set(value) {
             view.screens = value.map { it.view }
-            field.forEach { if (!value.contains(it)) it.onRemove() }
+            field.forEach { if (!value.contains(it)) it.parent = null }
+            value.forEach { it.parent = this }
             field = value
-
         }
 
     var content: Screen<*>
@@ -21,7 +21,7 @@ class Stack : Component<StackView>() {
             screens = listOf(value)
         }
 
-    fun push(screen: Screen<*>) {
+    override fun push(screen: Screen<*>) {
         SKLog.d("Will push screen: ${screen::class.simpleName}")
         screens += screen
 
@@ -35,6 +35,12 @@ class Stack : Component<StackView>() {
             ifRoot?.invoke()
         }
 
+    }
+
+    override fun remove(screen: Screen<*>) {
+        if (screens.contains(screen)) {
+            screens = screens - screen
+        }
     }
 
 

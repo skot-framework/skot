@@ -7,14 +7,17 @@ class Alert : Component<AlertView>(){
 
     override val view = get<AlertView>()
 
-    fun show(title:String?, message:String?) {
+    fun show(
+            title:String?,
+            message:String?,
+            mainButton: AlertView.Button = AlertView.Button(label = "Ok", action = null),
+            secondaryButton: AlertView.Button? = null
+    ) {
         view.state = AlertView.Shown(
                 title = title,
                 message = message,
-                buttons = listOf(
-                        AlertView.Button(label = "Ok", action = { dismiss() })
-                ),
-                onDismissRequest = { dismiss() }
+                mainButton = mainButton,
+                secondaryButton = secondaryButton
         )
     }
 

@@ -25,6 +25,7 @@ class SnackBar : Component<SnackBarView>() {
         disappearJob?.cancel()
         disappearJob = launch {
             delay(3000)
+            logD("-------------- disapear")
             view.state = null
         }
     }

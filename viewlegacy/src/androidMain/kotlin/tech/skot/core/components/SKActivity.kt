@@ -2,6 +2,7 @@ package tech.skot.core.components
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import tech.skot.view.legacy.ScreenViewProxy
 
@@ -25,6 +26,7 @@ open class SKActivity : AppCompatActivity() {
                     setContentView(this)
                     linkToRootStack()
                 }
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
     }
 
 

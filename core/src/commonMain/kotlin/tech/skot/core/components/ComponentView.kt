@@ -12,7 +12,3 @@ interface UiState<D> {
 
 @Target(AnnotationTarget.CLASS)
 annotation class Model(val modelInterface: KClass<*>)
-
-interface ScreenView: ComponentView {
-    var onBackPressed:(()->Unit)?
-}

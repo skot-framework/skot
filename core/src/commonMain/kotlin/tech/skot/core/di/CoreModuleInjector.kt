@@ -1,5 +1,6 @@
 package tech.skot.core.di
 
+import tech.skot.core.components.RootStack
 import tech.skot.core.components.RootStackView
 import tech.skot.core.components.StackView
 import tech.skot.core.components.presented.AlertView
@@ -22,3 +23,5 @@ fun coreViewModule(coreViewInjector: CoreViewInjector) =
             factory { coreViewInjector.snackBar() as SnackBarView }
             factory { coreViewInjector.bottomSheet() as BottomSheetView }
         }
+
+val rootStack by lazy { RootStack() }

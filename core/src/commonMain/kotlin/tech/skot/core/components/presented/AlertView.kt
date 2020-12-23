@@ -7,11 +7,16 @@ interface AlertView : ComponentView {
     data class Shown(
             val title:String?,
             val message:String?,
-            val onDismissRequest:(()->Unit)?,
-            val buttons:List<Button>
+//            val onDismissRequest:(()->Unit)?,
+            val mainButton:Button,
+            val secondaryButton:Button?
     )
 
-    data class Button(val label:String, val action:()->Unit)
+    fun onDismiss() {
+        state = null
+    }
+
+    data class Button(val label:String, val action:(()->Unit)?)
 
     var state: Shown?
 }

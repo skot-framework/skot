@@ -8,12 +8,18 @@ class BottomSheet : Component<BottomSheetView>() {
 
     override val view = get<BottomSheetView>()
 
+    var shownScreen:Screen<*>? = null
 
     fun show(screen: Screen<*>) {
+        shownScreen?.presenter = null
         view.state = BottomSheetView.Shown(screen = screen.view)
+        screen.presenter = this
+        shownScreen = screen
     }
 
     fun dismiss() {
+        shownScreen?.presenter = null
+        shownScreen = null
         view.state = null
     }
 }

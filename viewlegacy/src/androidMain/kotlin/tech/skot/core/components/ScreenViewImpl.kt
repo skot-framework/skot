@@ -3,9 +3,6 @@ package tech.skot.view.legacy
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
 import androidx.viewbinding.ViewBinding
 import tech.skot.components.ComponentViewImpl
 import tech.skot.components.ComponentViewProxy
@@ -14,6 +11,7 @@ import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKFragment
 import tech.skot.core.components.ScreenView
 import tech.skot.core.components.ScreensManager
+import tech.skot.view.extensions.updatePadding
 import tech.skot.view.live.MutableSKLiveData
 
 
@@ -24,9 +22,9 @@ abstract class ScreenViewProxy<B : ViewBinding> : ComponentViewProxy<B>(), Scree
     private val onBackPressedLD = MutableSKLiveData<(() -> Unit)?>(null)
     override var onBackPressed by onBackPressedLD
 
-    abstract override fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater: LayoutInflater, binding: B):ScreenViewImpl<B>
+    abstract override fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater: LayoutInflater, binding: B): ScreenViewImpl<B>
 
-    fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater: LayoutInflater):View {
+    fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater: LayoutInflater): View {
         val binding = inflate(layoutInflater)
         bindTo(activity, fragment, layoutInflater, binding).apply {
             onBackPressedLD.observe {
@@ -37,7 +35,7 @@ abstract class ScreenViewProxy<B : ViewBinding> : ComponentViewProxy<B>(), Scree
     }
 
 
-    abstract fun inflate(layoutInflater:LayoutInflater):B
+    abstract fun inflate(layoutInflater: LayoutInflater): B
 
     fun createFragment(): SKFragment =
             SKFragment().apply {
@@ -51,9 +49,10 @@ abstract class ScreenViewProxy<B : ViewBinding> : ComponentViewProxy<B>(), Scree
 abstract class ScreenViewImpl<B : ViewBinding>(activity: SKActivity, fragment: SKFragment?, binding: B) : ComponentViewImpl<B>(activity, fragment, binding) {
     val view: View = binding.root
 
-    private var onBackPressed:(()->Unit)? = null
-    fun setOnBackPressed(onBackPressed:(() -> Unit)?) {
-        SKLog.d("---- ${this::class.simpleName} ---> setOnBackPressed")
+    open fun windowInsetPaddingTop() = false
+
+    private var onBackPressed: (() -> Unit)? = null
+    fun setOnBackPressed(onBackPressed: (() -> Unit)?) {
         this.onBackPressed = onBackPressed
     }
 
@@ -61,6 +60,20 @@ abstract class ScreenViewImpl<B : ViewBinding>(activity: SKActivity, fragment: S
         ScreensManager.backPressed.observe(this) {
             onBackPressed?.invoke()
         }
+
+        if (windowInsetPaddingTop()) {
+            val loadedInsets = activity.window?.decorView?.rootWindowInsets
+            if (loadedInsets != null) {
+                view.updatePadding(top = view.paddingTop + loadedInsets.systemWindowInsetTop)
+            } else {
+
+                view.setOnApplyWindowInsetsListener { view, windowInsets ->
+                    view.updatePadding(top = view.paddingTop + windowInsets.systemWindowInsetTop)
+                    windowInsets
+                }
+            }
+        }
+
     }
 
 }

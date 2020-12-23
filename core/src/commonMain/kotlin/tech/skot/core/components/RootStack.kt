@@ -2,15 +2,15 @@ package tech.skot.core.components
 
 import tech.skot.core.di.get
 
-class RootStack {
+class RootStack: ScreenParent {
     val view = get<RootStackView>()
 
     var screens: List<Screen<*>> = emptyList()
         set(value) {
             view.screens = value.map { it.view }
-            field.forEach { if (!value.contains(it)) it.onRemove() }
+            field.forEach { if (!value.contains(it)) it.parent = null }
+            value.forEach { it.parent = this }
             field = value
-
         }
 
     var content: Screen<*>
@@ -19,11 +19,22 @@ class RootStack {
             screens = listOf(value)
         }
 
-    fun push(screen: Screen<*>) {
+    override fun push(screen: Screen<*>) {
         screens = screens + screen
     }
 
-    fun pop() {
-        screens = screens - screens.last()
+    fun pop(ifRoot:(()->Unit)? = null) {
+        if (screens.size>1) {
+            screens = screens - screens.last()
+        }
+        else {
+            ifRoot?.invoke()
+        }
+    }
+
+    override fun remove(screen: Screen<*>) {
+        if (screens.contains(screen)) {
+            screens = screens - screen
+        }
     }
 }

@@ -16,7 +16,7 @@ class RootStack : ScreenParent {
     var screens: List<Screen<*>> = emptyList()
         set(value) {
             view.screens = value.map { it.view }
-            field.forEach { if (!value.contains(it)) it.parent = null }
+            field.forEach { if (!value.contains(it)) it.onRemove() }
             value.forEach { it.parent = this }
             field = value
         }

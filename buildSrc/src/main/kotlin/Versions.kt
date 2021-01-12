@@ -1,12 +1,13 @@
 object Versions {
 
     const val group = "tech.skot"
-    const val version = "0.0.44"
+    const val version = "0.0.45"
 
-    const val kotlin = "1.4.10"
-    const val kotlinCoroutines = "1.3.9"
-    const val ktor = "1.4.1"
-    const val serialization = "1.0.0"
+    const val kotlin = "1.4.21"
+    const val kotlinCoroutines = "1.4.2"
+    const val ktor = "1.5.0"
+    const val sl4j = "1.6.1"
+    const val serialization = "1.0.1"
 
     const val klock = "1.12.1"
 
@@ -17,6 +18,7 @@ object Versions {
     const val kotlinpoet = "1.4.0"
 
     object Android {
+
         const val timber = "4.7.1"
         const val appcompat = "1.2.0"
         const val constraintLayout = "2.0.4"

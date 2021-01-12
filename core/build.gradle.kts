@@ -5,7 +5,6 @@ version = Versions.version
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("kotlin-android-extensions")
     id("maven-publish")
 }
 
@@ -31,6 +30,9 @@ android {
 
 
 kotlin {
+
+    jvm("jvm")
+
     android("android") {
         publishLibraryVariants("release", "debug")
         publishLibraryVariantsGroupedByFlavor = true

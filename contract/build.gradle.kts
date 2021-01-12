@@ -10,20 +10,14 @@ plugins {
 kotlin {
     jvm("jvm")
 
-    //select iOS target platform depending on the Xcode environment variables
-    val iOSTarget: (String, org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget.() -> Unit) -> org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget =
-            if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
-                ::iosArm64
-            else
-                ::iosX64
 
-//    iOSTarget("ios") {
-////        binaries {
-////            framework {
-////                baseName = "OufHP"
-////            }
-////        }
-//    }
+    ios {
+        binaries {
+            framework {
+                baseName = "contract"
+            }
+        }
+    }
 
     sourceSets["commonMain"].dependencies {
         api("org.jetbrains.kotlin:kotlin-stdlib-common:${Versions.kotlin}")
@@ -33,7 +27,5 @@ kotlin {
         api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
     }
 
-//    sourceSets["iosMain"].dependencies {
-//        implementation("org.jetbrains.kotlin:kotlin-stdlib-common:${Versions.kotlin}")
-//    }
+
 }

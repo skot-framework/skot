@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 
-open class GenericAdapter(vararg possibleDefs: ItemDef) : RecyclerView.Adapter<GenericAdapter.Holder>() {
+open class GenericAdapter(vararg possibleDefs: ItemDef, private val noDiff:Boolean = false) : RecyclerView.Adapter<GenericAdapter.Holder>() {
 
 
     var items: List<Item> = emptyList()
         set(value) {
             if (value != field) {
-                if (value.isEmpty()) {
+                if (noDiff || value.isEmpty()) {
                     field = value
                     notifyDataSetChanged()
                 } else {

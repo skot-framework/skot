@@ -72,9 +72,9 @@ kotlin {
 
 android {
     defaultConfig {
-        minSdkVersion(Android.minSdk)
+        minSdkVersion(Versions.Android.minSdk)
     }
-    compileSdkVersion(Android.compileSdk)
+    compileSdkVersion(Versions.Android.compileSdk)
 
     sourceSets {
         getByName("main").java.srcDirs("src/androidMain/kotlin")

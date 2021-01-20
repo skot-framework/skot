@@ -10,7 +10,7 @@ plugins {
 
 dependencies {
 
-    api("org.jetbrains.kotlin:kotlin-stdlib:1.4.10")
+    api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}")
 
     api("androidx.appcompat:appcompat:${Versions.Android.appcompat}")
@@ -33,9 +33,9 @@ dependencies {
 
 android {
     defaultConfig {
-        minSdkVersion(Android.minSdk)
+        minSdkVersion(Versions.Android.minSdk)
     }
-    compileSdkVersion(Android.compileSdk)
+    compileSdkVersion(Versions.Android.compileSdk)
 
     sourceSets {
         getByName("main").java.srcDirs("src/androidMain/kotlin")

@@ -1,6 +1,3 @@
-package tech.skot.model
+package tech.skot.core
 
-import platform.Foundation.NSDate
-import platform.Foundation.timeIntervalSince1970
-
-actual fun currentTimeMillis() = NSDate().timeIntervalSince1970.toLong()
+actual fun currentTimeMillis() = System.currentTimeMillis()

@@ -1,6 +1,5 @@
 package tech.skot.core
 
-import android.util.Log
 import timber.log.Timber
 
 actual object SKLog {

@@ -1,25 +1,27 @@
 package tech.skot.core
 
+import android.util.Log
+import timber.log.Timber
+
 actual object SKLog {
     actual fun d(message: String) {
-        println("SKLog d ---$message")
+        Timber.d(message)
     }
 
     actual fun i(message: String) {
-        println("SKLog i ---$message")
+        Timber.i(message)
     }
 
     actual fun w(message: String) {
-        println("SKLog w ---$message")
+        Timber.w(message)
     }
 
-    actual fun e(message: String, e: Throwable) {
-        println("SKLog e ---$message")
-        e.printStackTrace()
+    actual fun e(message: String?, e: Throwable) {
+        Timber.e(e, message)
     }
 
-    actual fun network(message: String) {
-        println("SKNetworkLog ---$message")
+    actual fun network(message:String) {
+        Timber.tag("SKNetwork").d(message)
     }
 
 }

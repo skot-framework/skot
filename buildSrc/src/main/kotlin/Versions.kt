@@ -19,6 +19,8 @@ object Versions {
 
     object Android {
 
+        const val gradle = "4.1.2"
+
         const val minSdk = 22
         const val compileSdk = 29
         const val targetSdk = 29

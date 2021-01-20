@@ -1,3 +1,6 @@
 package tech.skot.core
 
-actual fun currentTimeMillis() = System.currentTimeMillis()
+import platform.Foundation.NSDate
+import platform.Foundation.timeIntervalSince1970
+
+actual fun currentTimeMillis() = (NSDate().timeIntervalSince1970 * 1000).toLong()

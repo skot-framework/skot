@@ -7,7 +7,10 @@ plugins {
     id("maven-publish")
 }
 
+
 dependencies {
+    implementation(project(":language"))
+//    implementation("teck.skot:language-jvm:${Versions.version}")
     api("com.android.tools.build:gradle:${Versions.Android.gradle}")
     api("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
     api("org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}")
@@ -21,6 +24,7 @@ dependencies {
 
     api("com.github.ben-manes:gradle-versions-plugin:+")
 }
+
 
 gradlePlugin {
     plugins {
@@ -39,9 +43,9 @@ gradlePlugin {
             implementationClass = "tech.skot.tools.gradle.PluginModel"
         }
 
-        create("SkotView") {
-            id = "skot-view"
-            implementationClass = "tech.skot.tools.gradle.PluginView"
+        create("SkotViewLegacy") {
+            id = "skot-viewlegacy"
+            implementationClass = "tech.skot.tools.gradle.PluginViewLegacy"
         }
 
         create("SkotApp") {

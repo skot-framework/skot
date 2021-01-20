@@ -9,13 +9,13 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.model.KotlinAndroidExtension
 import tech.skot.Versions
 
-//open class SKPluginViewExtension {
+//open class SKPluginViewLegacyExtension {
 //}
 
-class PluginView: Plugin<Project> {
+class PluginViewLegacy: Plugin<Project> {
 
     override fun apply(project: Project) {
-//        val extension = project.extensions.create<SKPluginViewExtension>("skot")
+//        val extension = project.extensions.create<SKPluginViewLegacyExtension>("skot")
         project.plugins.apply("com.android.library")
         project.plugins.apply("com.github.ben-manes.versions")
 

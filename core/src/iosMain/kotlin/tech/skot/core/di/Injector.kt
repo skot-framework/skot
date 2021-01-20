@@ -1,9 +1,6 @@
 package tech.skot.core.di
 
-
-import android.app.Application
-
-actual class BaseInjector(val androidApplication: Application, modules: List<Module<in BaseInjector>>) :
+actual class BaseInjector(modules: List<Module<BaseInjector>>) :
         Injector<BaseInjector>(modules) {
     override val context = this
 }

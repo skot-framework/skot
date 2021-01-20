@@ -8,7 +8,7 @@ plugins {
 }
 
 dependencies {
-    api("com.android.tools.build:gradle:4.1.1")
+    api("com.android.tools.build:gradle:${Versions.Android.gradle}")
     api("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
     api("org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}")
 
@@ -26,32 +26,32 @@ gradlePlugin {
     plugins {
         create("SkotContract") {
             id = "skot-contract"
-            implementationClass = "tech.skot.tools.build.gradle.PluginContract"
+            implementationClass = "tech.skot.tools.gradle.PluginContract"
         }
 
         create("SkotViewModel") {
             id = "skot-viewmodel"
-            implementationClass = "tech.skot.tools.build.gradle.PluginViewModel"
+            implementationClass = "tech.skot.tools.gradle.PluginViewModel"
         }
 
         create("SkotModel") {
             id = "skot-model"
-            implementationClass = "tech.skot.tools.build.gradle.PluginModel"
+            implementationClass = "tech.skot.tools.gradle.PluginModel"
         }
 
         create("SkotView") {
             id = "skot-view"
-            implementationClass = "tech.skot.tools.build.gradle.PluginView"
+            implementationClass = "tech.skot.tools.gradle.PluginView"
         }
 
         create("SkotApp") {
             id = "skot-app"
-            implementationClass = "tech.skot.tools.build.gradle.PluginApp"
+            implementationClass = "tech.skot.tools.gradle.PluginApp"
         }
 
         create("SkotTools") {
             id = "skot-tools"
-            implementationClass = "tech.skot.tools.build.gradle.PluginTools"
+            implementationClass = "tech.skot.tools.gradle.PluginTools"
         }
     }
 }

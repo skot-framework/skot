@@ -1,0 +1,131 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../core/0.0.47/core-0.0.47.module",
+    "group": "tech.skot",
+    "module": "core",
+    "version": "0.0.47",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8",
+      "buildId": "iyferfojs5awbn5uv47amw3ysy"
+    }
+  },
+  "variants": [
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.4.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.4.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.4.21"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core-jvm-0.0.47.jar",
+          "url": "core-jvm-0.0.47.jar",
+          "size": 17701,
+          "sha512": "775d697ab8ea4035d8e63ea0d64f6ec2fcb09e5d1a477c3b6fbac0a891f4a2a8a61a33431cb9ef27d20cbc722c885a6d09b81d33732b52ac4c6854eb15e5818b",
+          "sha256": "e896a6fa90aceacb6067a1339a2284678a59ed46cdac160d72bb5d5cca7a9713",
+          "sha1": "62698976c5fe1ae8bebf25623b621b361ba1ce32",
+          "md5": "c90d3aa8782464485ac2349f2b854b75"
+        }
+      ]
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.4.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.4.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.4.21"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core-jvm-0.0.47.jar",
+          "url": "core-jvm-0.0.47.jar",
+          "size": 17701,
+          "sha512": "775d697ab8ea4035d8e63ea0d64f6ec2fcb09e5d1a477c3b6fbac0a891f4a2a8a61a33431cb9ef27d20cbc722c885a6d09b81d33732b52ac4c6854eb15e5818b",
+          "sha256": "e896a6fa90aceacb6067a1339a2284678a59ed46cdac160d72bb5d5cca7a9713",
+          "sha1": "62698976c5fe1ae8bebf25623b621b361ba1ce32",
+          "md5": "c90d3aa8782464485ac2349f2b854b75"
+        }
+      ]
+    },
+    {
+      "name": "metadataApiElements-published",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "available-at": {
+        "url": "../../core-metadata/0.0.47/core-metadata-0.0.47.module",
+        "group": "tech.skot",
+        "module": "core-metadata",
+        "version": "0.0.47"
+      }
+    }
+  ]
+}

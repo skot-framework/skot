@@ -1,0 +1,127 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "tech.skot",
+    "module": "model",
+    "version": "0.0.47",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8",
+      "buildId": "iyferfojs5awbn5uv47amw3ysy"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements-published",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "0.0.47"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.0.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-json",
+          "version": {
+            "requires": "1.0.1"
+          }
+        },
+        {
+          "group": "com.squareup.sqldelight",
+          "module": "runtime",
+          "version": {
+            "requires": "1.4.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "model-metadata-0.0.47.jar",
+          "url": "model-0.0.47.jar",
+          "size": 13116,
+          "sha512": "b8f6d83958999a01a8880b78c70ff8f9075c9aa77a386fda3449d2b1d2991ddefa1f47d931f7761135a12f611eb201aa34a0a3db2a126749b9ef4b4b0f311e7b",
+          "sha256": "baf958aecb7f3817af010b4084bfab49d38c0f296c04324a9766e64ad3260dbb",
+          "sha1": "9c11c663bbb81783284dcd1097b524e208a3fb55",
+          "md5": "d5c44ba0be27cf824d0358beb3e90af7"
+        }
+      ]
+    },
+    {
+      "name": "debugApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.api.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../model-android/0.0.47/model-android-0.0.47.module",
+        "group": "tech.skot",
+        "module": "model-android",
+        "version": "0.0.47"
+      }
+    },
+    {
+      "name": "debugRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.api.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../model-android/0.0.47/model-android-0.0.47.module",
+        "group": "tech.skot",
+        "module": "model-android",
+        "version": "0.0.47"
+      }
+    },
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.api.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../model-android/0.0.47/model-android-0.0.47.module",
+        "group": "tech.skot",
+        "module": "model-android",
+        "version": "0.0.47"
+      }
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.api.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../model-android/0.0.47/model-android-0.0.47.module",
+        "group": "tech.skot",
+        "module": "model-android",
+        "version": "0.0.47"
+      }
+    }
+  ]
+}

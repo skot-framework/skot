@@ -22,7 +22,7 @@ dependencies {
 
     api("com.squareup:kotlinpoet:${Versions.kotlinpoet}")
 
-    api("com.github.ben-manes:gradle-versions-plugin:+")
+//    api("com.github.ben-manes:gradle-versions-plugin:+")
 }
 
 
@@ -56,6 +56,16 @@ gradlePlugin {
         create("SkotTools") {
             id = "skot-tools"
             implementationClass = "tech.skot.tools.gradle.PluginTools"
+        }
+
+        create("Skot") {
+            id = "skot-general"
+            implementationClass = "tech.skot.tools.gradle.PluginGeneral"
+        }
+
+        create("SkotStarter") {
+            id = "skot-starter"
+            implementationClass = "tech.skot.tools.gradle.PluginStarter"
         }
     }
 }

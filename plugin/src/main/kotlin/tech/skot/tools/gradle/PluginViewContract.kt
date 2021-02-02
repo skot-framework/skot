@@ -9,10 +9,10 @@ import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import tech.skot.Versions
 
-//open class SKPluginContractExtension {
+//open class SKPluginViewContractExtension {
 //}
 
-class PluginContract : Plugin<Project> {
+class PluginViewContract : Plugin<Project> {
 
     override fun apply(project: Project) {
 //        val extension = project.extensions.create<SKPluginContractExtension>("skot")
@@ -51,20 +51,20 @@ class PluginContract : Plugin<Project> {
         jvm("jvm")
         android("android")
 
-        sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
-        sourceSets["commonMain"].dependencies {
-            api("tech.skot:contract:${Versions.skot}")
-            api("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
-            api("com.soywiz.korlibs.klock:klock:${Versions.klock}")
-        }
-
-        sourceSets["jvmMain"].dependencies {
-            api("tech.skot:contract-jvm:${Versions.skot}")
-        }
-        sourceSets["androidMain"].dependencies {
-            api("tech.skot:contract-jvm:${Versions.skot}")
-            implementation("tech.skot:core-android:${Versions.skot}")
-        }
+//        sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
+//        sourceSets["commonMain"].dependencies {
+////            api("tech.skot:contract:${Versions.skot}")
+//            api("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
+//            api("com.soywiz.korlibs.klock:klock:${Versions.klock}")
+//        }
+//
+//        sourceSets["jvmMain"].dependencies {
+////            api("tech.skot:contract-jvm:${Versions.skot}")
+//        }
+//        sourceSets["androidMain"].dependencies {
+////            api("tech.skot:contract-jvm:${Versions.skot}")
+//            implementation("tech.skot:core-android:${Versions.skot}")
+//        }
     }
 
 }

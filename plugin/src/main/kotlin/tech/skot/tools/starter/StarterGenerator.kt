@@ -1,54 +1,35 @@
 package tech.skot.tools.starter
 
-import java.io.File
+import tech.skot.starter.buildsrc.buildSrc
+import tech.skot.tools.generation.writeLinesTo
+import tech.skot.tools.generation.writeStringTo
+import tech.skot.tools.starter.androidApp.androidApp
+import tech.skot.tools.starter.model.model
+import tech.skot.tools.starter.modelcontract.modelContract
+import tech.skot.tools.starter.view.view
+import tech.skot.tools.starter.viewcontract.viewContract
+import tech.skot.tools.starter.viewmodel.viewModel
+import java.nio.file.Files
+import java.nio.file.Path
 
-class StarterGenerator(private val rootDir: File) {
+class StarterGenerator(val rootDir: Path, val configuration: StarterConfiguration) {
+
+    var modules = mutableListOf<String>()
 
     fun generateSkeletton() {
-        genGitIgnore()
-        genBuildSrc()
-        genContract()
+
+        rootDir.writeStringTo(".gitignore", gitIgnore)
+
+        buildSrc()
+        viewContract()
+        modelContract()
+        view()
+        model()
+        viewModel()
+        androidApp()
+
+//        rootDir.writeLinesTo("settings.gradle.kts", modules.map { "include(\":$it\")" })
     }
 
-    fun genGitIgnore() {
-        val gitIgnoreFile = rootDir.resolve(".gitignore")
-        if (!gitIgnoreFile.exists()) {
-            gitIgnoreFile.writeText(gitIgnore)
-        }
-    }
-
-    fun genBuildSrc() {
-        val buildSrcFile = rootDir.resolve("buildSrc")
-        val buildSrcGradleFile = buildSrcFile.resolve("build.gradle.kts")
-        if (!buildSrcFile.exists()) {
-            buildSrcFile.mkdir()
-        }
-        if (!buildSrcGradleFile.exists()) {
-            buildSrcGradleFile.writeText(buildSrcBuildGradle)
-        }
-    }
-
-    fun genContract() {
-        val dirContract = rootDir.resolve("contract")
-        if (!dirContract.exists()) {
-            dirContract.mkdir()
-            val buildGradleFile = dirContract.resolve("build.gradle.kts")
-
-            mutableListOf<String>().apply {
-                add("plugins {")
-                add("\tkotlin(\"multiplatform\")")
-                add("\tid(\"skot-contract\")")
-                add("}")
-                add("")
-                add("dependencies {")
-                add("")
-                add("}")
-            }.joinToString("\n")
-                    .let {
-                        buildGradleFile.writeText(it)
-                    }
-        }
-
-    }
 
 }

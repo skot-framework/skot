@@ -1,4 +1,4 @@
-package tech.skot.generator
+xpackage tech.skot.generator
 
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy

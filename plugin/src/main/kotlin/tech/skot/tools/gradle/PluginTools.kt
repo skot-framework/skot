@@ -24,11 +24,11 @@ class PluginTools : Plugin<Project> {
             dependencies()
         }
 
-        project.task("GenerateProjectSkeletton") {
-            doLast {
-                StarterGenerator(project.rootProject.rootDir).generateSkeletton()
-            }
-        }.group = "SKot"
+//        project.task("GenerateProjectSkeletton") {
+//            doLast {
+//                StarterGenerator(project.rootProject.rootDir).generateSkeletton()
+//            }
+//        }.group = "SKot"
 
         project.task("generate") {
             doLast {

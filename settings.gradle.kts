@@ -1,9 +1,10 @@
 rootProject.name = "SKot Framework"
 rootProject.buildFileName = "build.gradle.kts"
 include(":core")
+include(":viewcontract")
 include(":model")
 include("viewlegacy")
 include(":androidTests")
 include(":plugin")
-include(":language")
+//include(":generator")
 enableFeaturePreview("GRADLE_METADATA")

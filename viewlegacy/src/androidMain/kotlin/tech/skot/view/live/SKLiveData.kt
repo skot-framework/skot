@@ -8,7 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-actual open class SKLiveData<D> actual constructor(initialValue: D) : SKLiveDataCommon<D>(initialValue) {
+open class SKLiveData<D>(initialValue: D) : SKLiveDataCommon<D>(initialValue) {
 
     fun observe(lifecycleOwner: LifecycleOwner, onChanged: (d: D) -> Unit) {
         observers.add(LifecycleOwnerObserver(lifecycleOwner, onChanged))
@@ -64,3 +64,12 @@ actual open class SKLiveData<D> actual constructor(initialValue: D) : SKLiveData
 
 
 }
+
+
+
+fun <S, T> SKLiveData<S>.map(transformation: (S) -> T): MutableSKLiveData<T> =
+        MediatorSKLiveData<T>(transformation(value)).apply {
+            addSource(this@map) {
+                postValue(transformation(it))
+            }
+        }

@@ -1,6 +1,6 @@
 package tech.skot.view.live
 
-abstract class SKMessageCommon<D>(private val multiReceiver:Boolean = false) {
+abstract class SKMessageCommon<D>(private val multiReceiver: Boolean = false) {
 
     private var pendingValues: List<D> = emptyList()
 
@@ -103,15 +103,10 @@ abstract class SKMessageCommon<D>(private val multiReceiver:Boolean = false) {
 
 
     fun post(message: D) {
-        runOnMainThread {
-            pendingValues = pendingValues + message
-            for (observer in observers) {
-                if (observer.notify(message) && !multiReceiver) break
-            }
+        pendingValues = pendingValues + message
+        for (observer in observers) {
+            if (observer.notify(message) && !multiReceiver) break
         }
     }
 
 }
-
-
-expect class SKMessage<D>(multiReceiver: Boolean) : SKMessageCommon<D>

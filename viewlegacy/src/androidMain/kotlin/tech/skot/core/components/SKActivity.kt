@@ -6,7 +6,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import tech.skot.core.SKLog
 import tech.skot.core.di.rootStack
-import tech.skot.view.legacy.ScreenViewProxy
 
 open class SKActivity : AppCompatActivity() {
 
@@ -58,7 +57,7 @@ open class SKActivity : AppCompatActivity() {
             }
         }
 
-        (rootStack.view as RootStackViewProxy).bottomSheet.bindTo(this, null, layoutInflater, Unit)
+//        (rootStack.view as RootStackViewProxy).bottomSheet.bindTo(this, null, layoutInflater, Unit)
     }
 
 //    var onBackPressedAction: (() -> Unit)? = null

@@ -49,6 +49,7 @@ kotlin {
     sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
     sourceSets["commonMain"].dependencies {
         api(project(":core"))
+        api(project(":viewcontract"))
     }
 
 

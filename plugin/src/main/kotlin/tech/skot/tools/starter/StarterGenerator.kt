@@ -28,6 +28,12 @@ class StarterGenerator(val rootDir: Path, val configuration: StarterConfiguratio
         viewModel()
         androidApp()
 
+        rootDir.writeLinesTo("settings.gradle.kts", modules.map {
+            "include(\":$it\")"
+        }, evenIfExists = true)
+
+        rootDir.writeStringTo("build.gradle.kts", rootBuildGradle, evenIfExists = true)
+
 //        rootDir.writeLinesTo("settings.gradle.kts", modules.map { "include(\":$it\")" })
     }
 

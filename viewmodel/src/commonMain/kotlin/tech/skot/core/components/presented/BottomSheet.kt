@@ -3,9 +3,8 @@ package tech.skot.core.components.presented
 import tech.skot.core.components.Component
 import tech.skot.core.components.Screen
 import tech.skot.core.di.coreViewInjector
-import tech.skot.core.di.get
 
-class BottomSheet : Component<BottomSheetView>() {
+class BottomSheet : Component<BottomSheetVC>() {
 
     override val view = coreViewInjector.bottomSheet()
 
@@ -13,7 +12,7 @@ class BottomSheet : Component<BottomSheetView>() {
 
     fun show(screen: Screen<*>) {
         shownScreen?.presenter = null
-        view.state = BottomSheetView.Shown(screen = screen.view)
+        view.state = BottomSheetVC.Shown(screen = screen.view)
         screen.presenter = this
         shownScreen = screen
     }

@@ -1,17 +1,10 @@
 package tech.skot.core.components
 
 import tech.skot.core.SKLog
-import tech.skot.core.components.presented.BottomSheet
 import tech.skot.core.di.coreViewInjector
 
-class RootStack : ScreenParent {
-
-    init {
-        SKLog.d("RootStack init !")
-    }
-
-    val bottomSheet = BottomSheet()
-    val view = coreViewInjector.rootStack(bottomSheetView = bottomSheet.view)
+open class Stack : Component<StackVC>(), ScreenParent {
+    override val view = coreViewInjector.stack()
 
     var screens: List<Screen<*>> = emptyList()
         set(value) {
@@ -24,19 +17,24 @@ class RootStack : ScreenParent {
     var content: Screen<*>
         get() = screens.last()
         set(value) {
+            SKLog.d("Stack will set screens to $value")
             screens = listOf(value)
         }
 
     override fun push(screen: Screen<*>) {
-        screens = screens + screen
+        SKLog.d("Will push screen: ${screen::class.simpleName}")
+        screens += screen
+
     }
 
-    fun pop(ifRoot: (() -> Unit)? = null) {
-        if (screens.size > 1) {
+    fun pop(ifRoot:(()->Unit)? = null) {
+        if (screens.size>1) {
             screens = screens - screens.last()
-        } else {
+        }
+        else {
             ifRoot?.invoke()
         }
+
     }
 
     override fun remove(screen: Screen<*>) {
@@ -44,4 +42,11 @@ class RootStack : ScreenParent {
             screens = screens - screen
         }
     }
+
+    override fun onRemove() {
+        super.onRemove()
+        screens.forEach { it.onRemove() }
+    }
+
+
 }

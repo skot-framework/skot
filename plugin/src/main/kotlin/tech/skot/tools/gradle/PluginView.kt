@@ -17,7 +17,7 @@ class PluginViewLegacy: Plugin<Project> {
     override fun apply(project: Project) {
 //        val extension = project.extensions.create<SKPluginViewLegacyExtension>("skot")
         project.plugins.apply("com.android.library")
-        project.plugins.apply("com.github.ben-manes.versions")
+//        project.plugins.apply("com.github.ben-manes.versions")
 
         project.extensions.findByType(LibraryExtension::class)?.android()
 
@@ -59,8 +59,8 @@ class PluginViewLegacy: Plugin<Project> {
 
 
     private fun DependencyHandlerScope.dependencies() {
-        add("api", "tech.skot:view:${Versions.skot}")
-        add("api", project(":contract"))
+        add("api", "tech.skot:viewlegacy:${Versions.skot}")
+        add("api", project(":viewcontract"))
     }
 
 }

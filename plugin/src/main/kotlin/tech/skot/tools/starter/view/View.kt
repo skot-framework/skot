@@ -7,12 +7,13 @@ import tech.skot.tools.starter.StarterGenerator
 fun StarterGenerator.view(){
     ModuleGenerator("view", configuration, rootDir).apply {
         buildGradle {
+            plugin(BuildGradleGenerator.Plugin.Id("skot-viewlegacy"))
             plugin(BuildGradleGenerator.Plugin.Kotlin("android"))
-            plugin(BuildGradleGenerator.Plugin.Id("skot-view"))
+
         }
         androidPackage = configuration.appPackage+".view"
         androidSKActivity = true
-
+        justAndroid = true
         mainPackage = configuration.appPackage
     }.generate()
     modules.add("view")

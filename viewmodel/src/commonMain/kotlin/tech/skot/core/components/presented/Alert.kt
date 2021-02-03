@@ -2,19 +2,18 @@ package tech.skot.core.components.presented
 
 import tech.skot.core.components.Component
 import tech.skot.core.di.coreViewInjector
-import tech.skot.core.di.get
 
-class Alert : Component<AlertView>(){
+class Alert : Component<AlertVC>(){
 
     override val view = coreViewInjector.alert()
 
     fun show(
             title:String?,
             message:String?,
-            mainButton: AlertView.Button = AlertView.Button(label = "Ok", action = null),
-            secondaryButton: AlertView.Button? = null
+            mainButton: AlertVC.Button = AlertVC.Button(label = "Ok", action = null),
+            secondaryButton: AlertVC.Button? = null
     ) {
-        view.state = AlertView.Shown(
+        view.state = AlertVC.Shown(
                 title = title,
                 message = message,
                 mainButton = mainButton,

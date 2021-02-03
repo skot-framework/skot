@@ -18,7 +18,7 @@ publishing {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
-    implementation(project(":contract"))
+    implementation(project(":viewcontract"))
     api("com.squareup:kotlinpoet:${Versions.kotlinpoet}")
     api(kotlin("reflect"))
 }

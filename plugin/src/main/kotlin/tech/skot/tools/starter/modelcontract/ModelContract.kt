@@ -7,7 +7,7 @@ import tech.skot.tools.starter.StarterGenerator
 fun StarterGenerator.modelContract(){
     ModuleGenerator("modelcontract", configuration, rootDir).apply {
         buildGradle {
-            publish(group = "\"${configuration.appPackage}", version = "Build.versionName")
+            publish(group = "\"${configuration.appPackage}\"", version = "Build.versionName")
             plugin(BuildGradleGenerator.Plugin.Kotlin("multiplatform"))
             plugin(BuildGradleGenerator.Plugin.Id("skot-modelcontract"))
         }

@@ -8,11 +8,11 @@ interface ScreenParent {
     fun remove(screen: Screen<*>)
 }
 
-abstract class Screen<V : ScreenView>: Component<V>() {
-    var parent:ScreenParent? = null
-    var presenter:BottomSheet? = null
+abstract class Screen<V : ScreenVC>: Component<ScreenVC>() {
+    var parent: ScreenParent? = null
+    var presenter: BottomSheet? = null
 
-    fun push(screen:Screen<*>) {
+    fun push(screen: Screen<*>) {
         parent?.push(screen) ?: throw IllegalStateException("This ${this::class.simpleName} has currently no stack parent")
     }
 

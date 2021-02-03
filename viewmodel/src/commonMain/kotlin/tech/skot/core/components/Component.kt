@@ -6,7 +6,7 @@ import tech.skot.core.SKLog
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
-abstract class Component<out V : ComponentView> {
+abstract class Component<out V : ComponentVC> {
     abstract val view: V
 
     protected val job = SupervisorJob()
@@ -15,7 +15,6 @@ abstract class Component<out V : ComponentView> {
     open fun onRemove() {
         //remove des Pokers
         removeObservers.forEach { it.invoke() }
-        view.onRemove()
         job.cancel()
     }
 

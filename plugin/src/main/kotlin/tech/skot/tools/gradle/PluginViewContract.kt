@@ -24,6 +24,17 @@ class PluginViewContract : Plugin<Project> {
 
         project.extensions.findByType(KotlinMultiplatformExtension::class)?.conf()
 
+
+//        project.task("TestGen") {
+//            classpat
+//            doLast {
+//                println("----------###SK###--------- coucou")
+//                Class.forName("tech.skot.essai.SplashVC")
+//                val classss = Class.forName("tech.skot.essai.SplashVC")
+//                println(classss)
+//            }
+//            group = "skot"
+//        }
     }
 
 
@@ -52,11 +63,9 @@ class PluginViewContract : Plugin<Project> {
         android("android")
 
 //        sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
-//        sourceSets["commonMain"].dependencies {
-////            api("tech.skot:contract:${Versions.skot}")
-//            api("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
-//            api("com.soywiz.korlibs.klock:klock:${Versions.klock}")
-//        }
+        sourceSets["commonMain"].dependencies {
+            api("tech.skot:viewcontract:${Versions.skot}")
+        }
 //
 //        sourceSets["jvmMain"].dependencies {
 ////            api("tech.skot:contract-jvm:${Versions.skot}")

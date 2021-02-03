@@ -65,7 +65,7 @@ class PluginModel: Plugin<Project> {
 
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
         sourceSets["commonMain"].dependencies {
-            implementation(project(":contract"))
+            implementation(project(":modelcontract"))
             api("tech.skot:model:${Versions.skot}")
             api("org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}")
             implementation("io.ktor:ktor-client-json:${Versions.ktor}")

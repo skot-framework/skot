@@ -6,7 +6,7 @@ import tech.skot.view.live.MutableSKLiveData
 import tech.skot.view.live.SKMessage
 
 
-class RootStackViewProxy() : ComponentViewProxy<Unit>(), StackVC {
+object RootStackViewProxy: ComponentViewProxy<Unit>(), StackVC {
 
     val screensLD: MutableSKLiveData<List<ScreenViewProxy<*>>> = MutableSKLiveData(emptyList())
 

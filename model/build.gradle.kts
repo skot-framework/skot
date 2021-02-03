@@ -45,7 +45,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                api("com.jakewharton.timber:timber:${Versions.Android.timber}")
+//                api("com.jakewharton.timber:timber:${Versions.Android.timber}")
                 api("com.squareup.sqldelight:android-driver:${Versions.sqldelight}")
 
                 api("io.ktor:ktor-client-android:${Versions.ktor}")

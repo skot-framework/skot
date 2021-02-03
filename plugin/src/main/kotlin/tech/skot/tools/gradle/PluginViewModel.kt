@@ -8,6 +8,7 @@ import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import tech.skot.Versions
+import kotlin.reflect.KClass
 
 //open class SKPluginViewModelExtension {
 //    var message: String? = null
@@ -23,7 +24,6 @@ class PluginViewModel: Plugin<Project> {
         project.extensions.findByType(LibraryExtension::class)?.conf()
 
         project.extensions.findByType(KotlinMultiplatformExtension::class)?.conf()
-
 
     }
 
@@ -47,7 +47,8 @@ class PluginViewModel: Plugin<Project> {
 
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
         sourceSets["commonMain"].dependencies {
-            api(project(":contract"))
+            implementation(project(":viewcontract"))
+            implementation(project(":modelcontract"))
             api("tech.skot:viewmodel:${Versions.skot}")
         }
 

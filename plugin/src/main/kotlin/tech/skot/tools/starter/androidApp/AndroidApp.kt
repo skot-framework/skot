@@ -1,5 +1,6 @@
 package tech.skot.tools.starter.androidApp
 
+import com.squareup.kotlinpoet.*
 import tech.skot.tools.starter.BuildGradleGenerator
 import tech.skot.tools.starter.ModuleGenerator
 import tech.skot.tools.starter.StarterGenerator
@@ -37,7 +38,7 @@ const val startGradleAndroidBlock = """android {
 
 //            signingConfig = signingConfigs.getByName("release")
 
-            manifestPlaceholders["app_name"] = Build.appName"
+            manifestPlaceholders["app_name"] = Build.appName
         }
     }
 
@@ -45,6 +46,9 @@ const val startGradleAndroidBlock = """android {
 
 fun StarterGenerator.androidApp(){
     ModuleGenerator("androidApp", configuration, rootDir).apply {
+
+        androidApplicationClass = "${configuration.appName}Application"
+
         buildGradle {
             plugin(BuildGradleGenerator.Plugin.Id("skot-app"))
             plugin(BuildGradleGenerator.Plugin.Kotlin("android"))
@@ -53,9 +57,37 @@ fun StarterGenerator.androidApp(){
 
         }
         androidPackage = configuration.appPackage+".android"
-        androidSKActivity = true
+        mainPackage = configuration.appPackage
+        justAndroid = true
 
 
+
+        FileSpec.builder(configuration.appPackage+".android", androidApplicationClass!!)
+                .addType(
+                        TypeSpec.classBuilder(androidApplicationClass!!)
+                                .superclass(ClassName("android.app", "Application"))
+                                .addFunction(FunSpec.builder("onCreate")
+                                        .addModifiers(KModifier.OVERRIDE)
+                                        .addCode(
+"""super.onCreate()
+injector = BaseInjector(this,
+    listOf(
+            appModule,
+            viewModelModule,
+            viewmodelAndroidModule,
+            modelAndroidModule,
+            modelFrameworkModule,
+            viewFrameworkModule,
+            viewModule,
+            modelModule
+    ))
+"""
+                                        )
+                                        .build())
+                                .build()
+                )
+                .build()
+                .writeTo(rootDir.resolve("androidApp/src/main/kotlin"))
 
 
     }.generate()

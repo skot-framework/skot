@@ -4,9 +4,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import tech.skot.core.components.Component
 import tech.skot.core.di.coreViewInjector
-import tech.skot.core.di.get
 
-class SnackBar : Component<SnackBarView>() {
+class SnackBar : Component<SnackBarVC>() {
 
     override val view = coreViewInjector.snackBar()
 
@@ -14,10 +13,10 @@ class SnackBar : Component<SnackBarView>() {
 
     private var disappearJob: Job? = null
     fun show(message: String, action: Action? = null) {
-        view.state = SnackBarView.Shown(
+        view.state = SnackBarVC.Shown(
                 message = message,
                 action = action?.let {
-                    SnackBarView.Action(
+                    SnackBarVC.Action(
                             label = it.label,
                             action = it.action
                     )

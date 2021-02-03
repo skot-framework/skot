@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import tech.skot.core.SKLog
-import tech.skot.core.di.rootStack
 
 open class SKActivity : AppCompatActivity() {
 
@@ -17,8 +16,8 @@ open class SKActivity : AppCompatActivity() {
         (if (viewKey != -1L) {
             ScreensManager.getInstance(viewKey)
         } else {
-            SKLog.d("-------- SKActivity rootStack.screens ${rootStack.screens}")
-            rootStack.screens.getOrNull(0)?.view
+            SKLog.d("-------- SKActivity rootStack.screens ${RootStackViewProxy.screens}")
+            RootStackViewProxy.screens.getOrNull(0)
         } as? ScreenViewProxy<*>)?.run {
             SKLog.d("-------- SKActivity screenProxy $this")
             screenKey = key
@@ -35,13 +34,13 @@ open class SKActivity : AppCompatActivity() {
 
     private fun linkToRootStack() {
 
-        (rootStack.view as RootStackViewProxy).setRootScreenMessage.observe(this) {
+        RootStackViewProxy.setRootScreenMessage.observe(this) {
             startActivity(Intent(this, SKActivity::class.java).apply {
                 putExtra(ScreensManager.SK_EXTRA_VIEW_KEY, it.key)
             })
         }
 
-        (rootStack.view as RootStackViewProxy).screensLD.observe(this) {
+        RootStackViewProxy.screensLD.observe(this) {
             val thisScreenPosition = it.indexOfFirst {
                 it.key == screenKey
             }

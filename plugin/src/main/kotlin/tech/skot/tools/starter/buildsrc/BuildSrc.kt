@@ -16,6 +16,7 @@ fun StarterGenerator.buildSrc() {
             .addType(
                     TypeSpec.objectBuilder("Build")
                             .addProperty(propertySpec = PropertySpec.builder("appName", String::class, KModifier.CONST).initializer("\"${configuration.appName}\"").build())
+                            .addProperty(propertySpec = PropertySpec.builder("versionCode", Int::class, KModifier.CONST).initializer("1").build())
                             .addProperty(propertySpec = PropertySpec.builder("versionName", String::class, KModifier.CONST).initializer("\"0.0.0\"").build())
                             .build()
             ).build().writeTo(rootDir.resolve("buildSrc/src/main/kotlin"))

@@ -1,10 +1,13 @@
 package tech.skot.core.di
 
-import tech.skot.core.components.RootStackViewProxy
+import tech.skot.core.components.*
+import tech.skot.core.components.presented.AlertViewProxy
+import tech.skot.core.components.presented.BottomSheetViewProxy
+import tech.skot.core.components.presented.SnackBarViewProxy
 
 
 class CoreViewInjectorImpl : CoreViewInjector {
-    override fun rootStack() = RootStackViewProxy()
+    override fun rootStack() = RootStackViewProxy
 
     override fun stack() = StackViewProxy()
 
@@ -14,5 +17,9 @@ class CoreViewInjectorImpl : CoreViewInjector {
 
     override fun bottomSheet() = BottomSheetViewProxy()
 
-    override fun pager(screens:List<ScreenView>, onSwipeToPage:((index:Int)->Unit)?, initialSelectedPageIndex:Int) = PagerViewProxy(screens = screens as List<ScreenViewProxy<*>>, onSwipeToPage = onSwipeToPage, initialSelectedPageIndex = initialSelectedPageIndex)
+    override fun pager(screens:List<ScreenVC>, onSwipeToPage:((index:Int)->Unit)?, initialSelectedPageIndex:Int) = PagerViewProxy(screens = screens as List<ScreenViewProxy<*>>, onSwipeToPage = onSwipeToPage, initialSelectedPageIndex = initialSelectedPageIndex)
+}
+
+val coreViewModuleInjector = module<BaseInjector> {
+    CoreViewInjectorImpl() as CoreViewInjector
 }

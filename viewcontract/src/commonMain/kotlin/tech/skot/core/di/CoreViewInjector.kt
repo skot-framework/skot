@@ -9,5 +9,5 @@ interface CoreViewInjector {
     fun alert(): AlertVC
     fun snackBar(): SnackBarVC
     fun bottomSheet(): BottomSheetVC
-//    fun pager(screens:List<ScreenVC>, onSwipeToPage:((index:Int)->Unit)?, initialSelectedPageIndex:Int): PagerView
+    fun pager(screens:List<ScreenVC>, onSwipeToPage:((index:Int)->Unit)?, initialSelectedPageIndex:Int): PagerVC
 }

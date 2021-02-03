@@ -9,8 +9,6 @@ plugins {
 
 
 dependencies {
-    implementation(project(":language"))
-//    implementation("teck.skot:language-jvm:${Versions.version}")
     api("com.android.tools.build:gradle:${Versions.Android.gradle}")
     api("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
     api("org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}")
@@ -28,9 +26,14 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        create("SkotContract") {
-            id = "skot-contract"
-            implementationClass = "tech.skot.tools.gradle.PluginContract"
+        create("SkotModelContract") {
+            id = "skot-modelcontract"
+            implementationClass = "tech.skot.tools.gradle.PluginModelContract"
+        }
+
+        create("SkotViewContract") {
+            id = "skot-viewcontract"
+            implementationClass = "tech.skot.tools.gradle.PluginViewContract"
         }
 
         create("SkotViewModel") {

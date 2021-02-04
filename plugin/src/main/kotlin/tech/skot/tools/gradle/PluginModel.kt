@@ -90,7 +90,7 @@ class PluginModel: Plugin<Project> {
 
         sourceSets["androidMain"].kotlin.srcDir("generated/androidMain/kotlin")
         sourceSets["androidMain"].dependencies {
-            implementation("io.ktor:ktor-client-android:${Versions.ktor}")
+            implementation("io.ktor:ktor-client-okhttp:${Versions.ktor}")
             implementation("io.ktor:ktor-client-json-jvm:${Versions.ktor}")
             implementation("io.ktor:ktor-client-serialization-jvm:${Versions.ktor}")
             implementation("io.ktor:ktor-client-logging-jvm:${Versions.ktor}")

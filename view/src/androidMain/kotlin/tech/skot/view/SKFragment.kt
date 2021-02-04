@@ -1,13 +1,20 @@
 package tech.skot.view
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import tech.skot.components.ScreenViewImpl
+import tech.skot.core.SKLog
 
 fun Fragment.onCreateViewSK(inflater: LayoutInflater,
                             container: ViewGroup?,
@@ -47,24 +54,48 @@ abstract class SKFragment : Fragment() {
 
 }
 
-abstract class SKBottomSheetDialogFragment : BottomSheetDialogFragment() {
+//class SKBottomSheetDialogFragment : BottomSheetDialogFragment() {
+//
+//    private var screenViewImpl: ScreenViewImpl<*, *, *>? = null
+//
+//    override fun onCreateView(
+//            inflater: LayoutInflater,
+//            container: ViewGroup?,
+//            savedInstanceState: Bundle?
+//    ): View? {
+//        SKLog.d("---- onCreateView SKBottomSheetDialogFragment ${this::class.simpleName}")
+//        return onCreateViewSK(inflater, container, savedInstanceState)?.let { (screenViewImpl, view) ->
+//            this.screenViewImpl = screenViewImpl
+//            view
+//        } ?: View(context)
+//    }
+//
+//    override fun onDestroyView() {
+//        SKLog.d("---- onDestroyView SKBottomSheetDialogFragment ${this::class.simpleName}")
+//        super.onDestroyView()
+//        screenViewImpl?.cleanViewReferences()
+//    }
+//
+//}
 
-    private var screenViewImpl: ScreenViewImpl<*, *, *>? = null
+class SKBottomSheetDialog(val screenViewImpl: ScreenViewImpl<*, *, *>, context:Context, theme:Int): BottomSheetDialog(context, theme), LifecycleOwner {
 
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        return onCreateViewSK(inflater, container, savedInstanceState)?.let { (screenViewImpl, view) ->
-            this.screenViewImpl = screenViewImpl
-            view
-        }
+
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        _lifecycle.currentState = Lifecycle.State.DESTROYED
+        screenViewImpl.cleanViewReferences()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        screenViewImpl?.cleanViewReferences()
+    override fun onStart() {
+        super.onStart()
+        _lifecycle.currentState = Lifecycle.State.STARTED
     }
 
+   private val _lifecycle= LifecycleRegistry(this)
+
+    override fun getLifecycle(): Lifecycle {
+        return _lifecycle
+    }
 }

@@ -13,10 +13,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import tech.skot.components.ScreenViewImpl.Companion.SK_ARG_VIEW_KEY
-import tech.skot.view.Action
-import tech.skot.view.Dismiss
-import tech.skot.view.OpenScreen
-import tech.skot.view.ShowBottomSheetDialog
+import tech.skot.core.SKLog
+import tech.skot.view.*
 import tech.skot.view.live.MutableSKLiveData
 import kotlin.reflect.KClass
 
@@ -123,13 +121,14 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
 
     override fun cleanViewReferences() {
         super.cleanViewReferences()
+        bottomSheetDialog = null
         isBinded = false
     }
 
     open fun inflate(layoutInflater: LayoutInflater,
-                     activity: AppCompatActivity, fragment: Fragment?): View {
+                     activity: AppCompatActivity, fragment: Fragment?, specialLifecycleOwner: LifecycleOwner? = null): View {
         initWith(activity as A, fragment as F?, inflateBinding(layoutInflater))
-        linkTo(lifeCycleOwner)
+        linkTo(specialLifecycleOwner ?: lifeCycleOwner)
         isBinded = true
         return binding.root
     }
@@ -169,9 +168,9 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
     protected fun showBottomSheetDialogNow(screen: ScreenView) {
         getInstance(screen.key)?.let { screenToOpenImpl ->
 
-            BottomSheetDialog(context, getBottomSheetStyle()).apply {
+            SKBottomSheetDialog(screenToOpenImpl, context, getBottomSheetStyle()).apply {
                 screenToOpenImpl.bottomSheetDialog = this
-                setContentView(screenToOpenImpl.inflate(layoutInflater, activity, fragment))
+                setContentView(screenToOpenImpl.inflate(layoutInflater, activity, fragment, this))
                 show()
             }
         }

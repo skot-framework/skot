@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import tech.skot.components.ScreenViewImpl
 import tech.skot.components.ScreenViewImpl.Companion.SK_EXTRA_VIEW_KEY
+import tech.skot.components.ScreenViewImpl.Companion.launchActivityClass
 import tech.skot.core.SKLog
 
 
@@ -31,13 +32,20 @@ abstract class SKActivity : AppCompatActivity() {
 
     fun onCreateSK(savedInstanceState: Bundle?) {
         val viewKey = getKeyForThisActivity(savedInstanceState)
-        if (viewKey != -1L) {
-            try {
-                screenViewImpl = ScreenViewImpl.getInstance(viewKey)!!
-            } catch (ex: Exception) {
-                SKLog.e("onCreateSK -> No View for key $viewKey", ex)
+        if (viewKey != -1L && ScreenViewImpl.oneActivityAlreadyLaunched) {
+            if (!ScreenViewImpl.oneActivityAlreadyLaunched) {
+                ScreenViewImpl.oneActivityAlreadyLaunched = true
+                launchActivityClass?.let { startActivity(Intent(this, it)) }
+            }
+            else {
+                try {
+                    screenViewImpl = ScreenViewImpl.getInstance(viewKey)!!
+                } catch (ex: Exception) {
+                    SKLog.e("onCreateSK -> No View for key $viewKey", ex)
+                }
             }
         } else {
+            ScreenViewImpl.oneActivityAlreadyLaunched = true
             val action = intent?.action
             val encodedPath = intent?.data?.encodedPath
 

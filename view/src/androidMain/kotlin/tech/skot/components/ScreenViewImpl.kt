@@ -18,9 +18,10 @@ import tech.skot.view.*
 import tech.skot.view.live.MutableSKLiveData
 import kotlin.reflect.KClass
 
-fun startView(onLink: ((encodedPath: String, encodedFragment: String?) -> Long?)? = null, getInitialView: () -> ScreenView) {
+fun startView(launchActivityClass: Class<*>, onLink: ((encodedPath: String, encodedFragment: String?) -> Long?)? = null, getInitialView: () -> ScreenView) {
     ScreenViewImpl.getInitialViewImpl = { getInitialView() as ScreenViewImpl<*, *, *> }
     ScreenViewImpl.onLink = onLink
+    ScreenViewImpl.launchActivityClass = launchActivityClass
 }
 
 fun Fragment.getKey(): Long? = arguments?.getLong(SK_ARG_VIEW_KEY)
@@ -29,6 +30,8 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
         ScreenView {
 
     companion object {
+        var oneActivityAlreadyLaunched = false
+        var launchActivityClass: Class<*>? = null
         var counter: Long = 0
         val instances: MutableMap<Long, ScreenViewImpl<out AppCompatActivity, out Fragment, out ViewBinding>> = mutableMapOf()
 
@@ -173,6 +176,9 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
                 setContentView(screenToOpenImpl.inflate(layoutInflater, activity, fragment, this))
                 show()
             }
+        } ?: screen.key.let {
+            SKLog.e("ScreenViewImpl.showBottomSheetDialogNow -> No View for key $it", NullPointerException("screenViewImpl instance not found"))
+
         }
     }
 

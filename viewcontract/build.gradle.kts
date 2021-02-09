@@ -6,6 +6,7 @@ plugins {
 group = Versions.group
 version = Versions.version
 
+
 kotlin {
     jvm("jvm")
     ios {
@@ -15,6 +16,8 @@ kotlin {
             }
         }
     }
-
+    sourceSets["jvmMain"].dependencies {
+        api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
+    }
 
 }

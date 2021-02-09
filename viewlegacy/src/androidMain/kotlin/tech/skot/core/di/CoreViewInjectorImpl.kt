@@ -21,5 +21,5 @@ class CoreViewInjectorImpl : CoreViewInjector {
 }
 
 val coreViewModuleInjector = module<BaseInjector> {
-    CoreViewInjectorImpl() as CoreViewInjector
+    single { CoreViewInjectorImpl() as CoreViewInjector }
 }

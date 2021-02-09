@@ -31,8 +31,10 @@ class PluginViewLegacy: Plugin<Project> {
     private fun LibraryExtension.android() {
 
         sourceSets.getByName("main") {
-            java.srcDir("src/main/kotlin")
-            java.srcDir("generated/main/kotlin")
+            java.srcDir("src/androidMain/kotlin")
+            java.srcDir("generated/androidMain/kotlin")
+            res.srcDir("src/androidMain/res")
+            manifest.srcFile("src/androidMain/AndroidManifest.xml")
         }
 
         defaultConfig {

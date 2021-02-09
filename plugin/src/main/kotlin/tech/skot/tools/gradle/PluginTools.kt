@@ -1,17 +1,16 @@
 package tech.skot.tools.gradle
 
+import com.android.ide.common.util.toPathStringOrNull
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginConvention
-import org.gradle.api.tasks.JavaExec
 import org.gradle.kotlin.dsl.*
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinCommonCompilation
-import org.jetbrains.kotlin.gradle.plugin.sources.getSourceSetsFromAssociatedCompilations
 import tech.skot.Versions
-import kotlin.reflect.jvm.internal.impl.descriptors.annotations.KotlinTarget
 
 open class SKPluginToolsExtension {
-    var startScreen:String? = null
+    var startScreen: String? = null
+    var appPackage: String? = null
+    var baseActivity:String? = null
 }
 
 class PluginTools : Plugin<Project> {
@@ -31,21 +30,29 @@ class PluginTools : Plugin<Project> {
         val sourceSet = javaPluginConvention.sourceSets["main"]
 
 
-        var startScreen = "walou"
-        val justWait = project.task("JustWait") {
+        project.task("generate") {
 
             doLast {
-                println("extension.startScreen : -----> ${extension.startScreen}")
-                startScreen = extension.startScreen ?: "What ??"
+                println("Skot version ${Versions.skot}")
+                println("generate .........")
+                project.javaexec {
+                    main = "tech.skot.tools.generation.GenerateKt"
+                    classpath = sourceSet.runtimeClasspath
+                    args = listOf(extension.appPackage, extension.startScreen, extension.baseActivity, project.rootDir.toPath().toString())
+                }
+
+
+                println("ktLint ......")
+                val srcs = "${project.rootDir.toPath().toString()}/**/generated/**/*.kt"
+                project.javaexec {
+                    main = "com.pinterest.ktlint.Main"
+                    classpath = sourceSet.runtimeClasspath
+                    args = listOf("-F",srcs)
+                }
             }
-        }
-        val bonj = project.task<JavaExec>("bonjour") {
+            dependsOn(project.tasks.getByName("compileKotlin"))
             group = "Skot"
-            main = "tech.skot.tools.generation.BonjourKt"
-            args = listOf(startScreen)
-//            getSourceSetsFromAssociatedCompilations(KotlinCommonCompilation(KotlinTarget.ALL))
-            classpath = sourceSet.runtimeClasspath
-            dependsOn(justWait)
+
         }
 
 
@@ -56,6 +63,7 @@ class PluginTools : Plugin<Project> {
         this.add("implementation", project(":viewcontract"))
         this.add("implementation", project(":modelcontract"))
         this.add("api", "tech.skot:generator:${Versions.skot}")
+        this.add("implementation", "com.pinterest:ktlint:0.40.0")
     }
 
 }

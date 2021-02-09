@@ -1,7 +1,9 @@
 package tech.skot.core.components.presented
 
 import tech.skot.core.components.ComponentVC
+import tech.skot.core.components.NoLayout
 
+@NoLayout
 interface AlertVC:ComponentVC {
 
     data class Shown(

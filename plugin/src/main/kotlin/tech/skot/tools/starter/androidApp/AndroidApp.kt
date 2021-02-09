@@ -9,7 +9,7 @@ import tech.skot.tools.starter.StarterGenerator
 const val startGradleAndroidBlock = """android {
 
     defaultConfig {
-        applicationId = "com.sezane.android"
+        applicationId = "###APPLICATION_ID###"
         
         versionCode = Build.versionCode
         versionName = Build.versionName
@@ -49,16 +49,19 @@ fun StarterGenerator.androidApp(){
 
         androidApplicationClass = "${configuration.appName}Application"
 
+        val androidApplicationId = configuration.appPackage+".android"
+
+        androidPackage = androidApplicationId
+        mainPackage = configuration.appPackage
+        justAndroid = true
+
         buildGradle {
             plugin(BuildGradleGenerator.Plugin.Id("skot-app"))
             plugin(BuildGradleGenerator.Plugin.Kotlin("android"))
 
-            androidBlock = startGradleAndroidBlock
+            androidBlock = startGradleAndroidBlock.replace("###APPLICATION_ID###", androidApplicationId)
 
         }
-        androidPackage = configuration.appPackage+".android"
-        mainPackage = configuration.appPackage
-        justAndroid = true
 
 
 
@@ -70,6 +73,7 @@ fun StarterGenerator.androidApp(){
                                         .addModifiers(KModifier.OVERRIDE)
                                         .addCode(
 """super.onCreate()
+Timber.plant(Timber.DebugTree())
 injector = BaseInjector(this,
     listOf(
             appModule,
@@ -86,6 +90,7 @@ injector = BaseInjector(this,
                                         .build())
                                 .build()
                 )
+                .addImport(ClassName("timber.log","Timber"))
                 .build()
                 .writeTo(rootDir.resolve("androidApp/src/main/kotlin"))
 

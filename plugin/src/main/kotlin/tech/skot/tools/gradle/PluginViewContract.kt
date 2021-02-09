@@ -62,7 +62,7 @@ class PluginViewContract : Plugin<Project> {
         jvm("jvm")
         android("android")
 
-//        sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
+        sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
         sourceSets["commonMain"].dependencies {
             api("tech.skot:viewcontract:${Versions.skot}")
         }

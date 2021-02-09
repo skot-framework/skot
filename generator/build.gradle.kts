@@ -21,4 +21,5 @@ dependencies {
     implementation(project(":viewcontract"))
     api("com.squareup:kotlinpoet:${Versions.kotlinpoet}")
     api(kotlin("reflect"))
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
 }

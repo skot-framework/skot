@@ -35,7 +35,7 @@ open class SKActivity : AppCompatActivity() {
     private fun linkToRootStack() {
 
         RootStackViewProxy.setRootScreenMessage.observe(this) {
-            startActivity(Intent(this, SKActivity::class.java).apply {
+            startActivity(Intent(this, it.getActivityClass()).apply {
                 putExtra(ScreensManager.SK_EXTRA_VIEW_KEY, it.key)
             })
         }
@@ -49,8 +49,9 @@ open class SKActivity : AppCompatActivity() {
                 finish()
             } else {
                 if (it.size > thisScreenPosition + 1) {
-                    startActivity(Intent(this, SKActivity::class.java).apply {
-                        putExtra(ScreensManager.SK_EXTRA_VIEW_KEY, it.get(thisScreenPosition + 1).key)
+                    val onTopScreen = it.get(thisScreenPosition + 1)
+                    startActivity(Intent(this, onTopScreen.getActivityClass()).apply {
+                        putExtra(ScreensManager.SK_EXTRA_VIEW_KEY, onTopScreen.key)
                     })
                 }
             }

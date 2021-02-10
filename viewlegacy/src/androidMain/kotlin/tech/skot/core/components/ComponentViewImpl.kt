@@ -1,10 +1,11 @@
 package tech.skot.core.components
 
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import tech.skot.view.live.SKLiveData
 
-abstract class ComponentViewImpl<B : Any>(protected val activity: SKActivity, protected val fragment: SKFragment?, val binding: B) : LifecycleOwner {
+abstract class ComponentViewImpl<B : Any>(protected val activity: SKActivity, protected val fragment: Fragment?, val binding: B) : LifecycleOwner {
 
     val context = fragment?.context ?: activity
 

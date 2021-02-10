@@ -5,7 +5,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 
 
-class PagerViewImpl(activity: SKActivity, fragment: SKFragment?, private val viewPager2: ViewPager2, private val proxy: PagerViewProxy) : ComponentViewImpl<ViewPager2>(activity, fragment, viewPager2) {
+class PagerViewImpl(activity: SKActivity, fragment: Fragment?, private val viewPager2: ViewPager2, private val proxy: PagerViewProxy) : ComponentViewImpl<ViewPager2>(activity, fragment, viewPager2) {
 
     fun onScreens(screens: List<ScreenViewProxy<*>>) {
         viewPager2.adapter = object : FragmentStateAdapter(fragmentManager, lifecycle) {

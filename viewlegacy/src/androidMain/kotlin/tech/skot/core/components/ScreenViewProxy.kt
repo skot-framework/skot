@@ -3,6 +3,7 @@ package tech.skot.core.components
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import tech.skot.view.live.MutableSKLiveData
 
@@ -13,11 +14,11 @@ abstract class ScreenViewProxy<B : ViewBinding> : ComponentViewProxy<B>(), Scree
     private val onBackPressedLD = MutableSKLiveData<(() -> Unit)?>(null)
     override var onBackPressed by onBackPressedLD
 
-    abstract override fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater: LayoutInflater, binding: B): ScreenViewImpl<B>
+    abstract override fun bindTo(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater, binding: B): ScreenViewImpl<B>
 
     open fun getActivityClass():Class<*> = SKActivity::class.java
 
-    fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater: LayoutInflater): View {
+    fun bindTo(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater): View {
         val binding = inflate(layoutInflater)
         bindTo(activity, fragment, layoutInflater, binding).apply {
             onBackPressedLD.observe {
@@ -32,6 +33,13 @@ abstract class ScreenViewProxy<B : ViewBinding> : ComponentViewProxy<B>(), Scree
 
     fun createFragment(): SKFragment =
             SKFragment().apply {
+                arguments = Bundle().apply {
+                    putLong(ScreensManager.SK_ARGUMENT_VIEW_KEY, key)
+                }
+            }
+
+    fun createDialogFragment(): SKBottomSheetDialogFragment =
+            SKBottomSheetDialogFragment().apply {
                 arguments = Bundle().apply {
                     putLong(ScreensManager.SK_ARGUMENT_VIEW_KEY, key)
                 }

@@ -16,13 +16,13 @@ open class SKFragment : Fragment() {
     }
 
 
-    override fun onDestroy() {
-        SKLog.d("SKFragment ${hashCode()} onDestroy")
-        super.onDestroy()
-    }
-
-    override fun onDestroyView() {
-        SKLog.d("SKFragment ${hashCode()} onDestroyView")
-        super.onDestroyView()
-    }
+//    override fun onDestroy() {
+//        SKLog.d("SKFragment ${hashCode()} onDestroy")
+//        super.onDestroy()
+//    }
+//
+//    override fun onDestroyView() {
+//        SKLog.d("SKFragment ${hashCode()} onDestroyView")
+//        super.onDestroyView()
+//    }
 }

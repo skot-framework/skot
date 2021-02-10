@@ -1,6 +1,5 @@
 package tech.skot.tools.generation.viewlegacy
 
-import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
@@ -14,7 +13,7 @@ fun ComponentDef.buildViewImpl(viewModuleAndroidPackage:String) =
                 .addPrimaryConstructorWithParams(
                         listOf(
                                 ParamInfos("activity", skActivity, isVal = false),
-                                ParamInfos("fragment", skFragment.nullable(), isVal = false),
+                                ParamInfos("fragment", fragment.nullable(), isVal = false),
                                 ParamInfos("binding", binding(viewModuleAndroidPackage), isVal = false)
                         )
                 )

@@ -1,15 +1,14 @@
 package tech.skot.core.components.presented
 
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import tech.skot.core.components.ComponentViewImpl
-import tech.skot.core.components.SKActivity
-import tech.skot.core.components.SKFragment
-import tech.skot.core.components.ScreenViewProxy
+import tech.skot.core.SKLog
+import tech.skot.core.components.*
 
 
-class BottomSheetViewImpl(activity: SKActivity, fragment: SKFragment?, private val proxy: BottomSheetViewProxy) : ComponentViewImpl<Unit>(activity, fragment, Unit) {
+class BottomSheetViewImpl(activity: SKActivity, fragment: Fragment?, private val proxy: BottomSheetViewProxy) : ComponentViewImpl<Unit>(activity, fragment, Unit) {
 
-    data class State(val state: BottomSheetVC.Shown, val bottomSheet: BottomSheetDialog)
+    data class State(val state: BottomSheetVC.Shown, val bottomSheet: SKBottomSheetDialogFragment)
 
     private var current: State? = null
 
@@ -17,14 +16,14 @@ class BottomSheetViewImpl(activity: SKActivity, fragment: SKFragment?, private v
 
         if (state != current?.state) {
             if (state != null) {
-                BottomSheetDialog(context, 0).apply {
+                (state.screen as ScreenViewProxy<*>).createDialogFragment().apply {
+                    show(this@BottomSheetViewImpl.fragmentManager, "Bottom")
                     setOnDismissListener {
                         proxy.state = null
                     }
-                    setContentView((state.screen as ScreenViewProxy<*>).bindTo(activity, fragment, layoutInflater))
-                    show()
                     current = State(state, this)
                 }
+
             } else {
                 current?.bottomSheet?.dismiss()
                 current = null

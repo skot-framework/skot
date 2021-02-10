@@ -6,9 +6,7 @@ import tech.skot.tools.generation.*
 import tech.skot.core.components.NoLayout
 import tech.skot.core.components.LayoutIsRoot
 import tech.skot.tools.generation.viewmodel.toVM
-import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.hasAnnotation
-import kotlin.reflect.full.superclasses
 
 const val coreComponentsPackage = "tech.skot.core.components"
 val layoutInflater = ClassName("android.view", "LayoutInflater")
@@ -20,7 +18,7 @@ val componentViewImpl = ClassName(coreComponentsPackage, "ComponentViewImpl")
 val screenViewModel = ClassName(coreComponentsPackage, "Screen")
 val componentViewModel = ClassName(coreComponentsPackage, "Component")
 val skActivity = ClassName(coreComponentsPackage, "SKActivity")
-val skFragment = ClassName(coreComponentsPackage, "SKFragment")
+val fragment = ClassName("androidx.fragment.app", "Fragment")
 val mutableSKLiveData = ClassName("tech.skot.view.live", "MutableSKLiveData")
 
 fun PropertyDef.ld() = PropertyDef(name = name.suffix("LD"), type = mutableSKLiveData.parameterizedBy(type))
@@ -75,7 +73,7 @@ fun ComponentDef.buildProxy(viewModuleAndroidPackage: String, baseActivity: Clas
                 FunSpec.builder("bindTo")
                         .addModifiers(KModifier.OVERRIDE)
                         .addParameter("activity", skActivity)
-                        .addParameter("fragment", skFragment.nullable())
+                        .addParameter("fragment", fragment.nullable())
                         .addParameter("layoutInflater", layoutInflater)
                         .addParameter("binding", binding(viewModuleAndroidPackage))
                         .returns(viewImpl())

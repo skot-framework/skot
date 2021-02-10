@@ -1,11 +1,12 @@
 package tech.skot.core.components
 
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import tech.skot.view.extensions.updatePadding
 
 
-abstract class ScreenViewImpl<B : ViewBinding>(activity: SKActivity, fragment: SKFragment?, binding: B) : ComponentViewImpl<B>(activity, fragment, binding) {
+abstract class ScreenViewImpl<B : ViewBinding>(activity: SKActivity, fragment: Fragment?, binding: B) : ComponentViewImpl<B>(activity, fragment, binding) {
     val view: View = binding.root
 
     open fun windowInsetPaddingTop() = false

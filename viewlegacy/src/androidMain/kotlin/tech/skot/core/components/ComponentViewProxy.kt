@@ -1,6 +1,8 @@
 package tech.skot.core.components
 
 import android.view.LayoutInflater
+import androidx.fragment.app.Fragment
+
 //import androidx.lifecycle.Lifecycle
 //import androidx.lifecycle.LifecycleObserver
 //import androidx.lifecycle.LifecycleOwner
@@ -9,7 +11,7 @@ import android.view.LayoutInflater
 abstract class ComponentViewProxy<B : Any> : ComponentVC {
 //    protected val savedStates: MutableMap<String, Any> = mutableMapOf()
 
-    abstract fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater: LayoutInflater, binding: B): ComponentViewImpl<B>
+    abstract fun bindTo(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater, binding: B): ComponentViewImpl<B>
 
 }
 

@@ -2,6 +2,7 @@ package tech.skot.core.components.presented
 
 import android.view.LayoutInflater
 import android.view.View
+import androidx.fragment.app.Fragment
 import tech.skot.core.components.ComponentViewProxy
 import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKFragment
@@ -13,7 +14,7 @@ class SnackBarViewProxy() : ComponentViewProxy<View>(), SnackBarVC {
 
     override var state: SnackBarVC.Shown? by stateLD
 
-    override fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater: LayoutInflater, binding: View) =
+    override fun bindTo(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater, binding: View) =
             SnackBarViewImpl(activity, fragment, binding, this).apply {
                 stateLD.observe {
                     onState(it)

@@ -1,6 +1,7 @@
 package tech.skot.core.components
 
 import android.view.LayoutInflater
+import androidx.fragment.app.Fragment
 import tech.skot.view.live.MutableSKLiveData
 
 class StackViewProxy() : ComponentViewProxy<Int>(), StackVC {
@@ -14,7 +15,7 @@ class StackViewProxy() : ComponentViewProxy<Int>(), StackVC {
         }
 
 
-    override fun bindTo(activity: SKActivity, fragment: SKFragment?, layoutInflater: LayoutInflater, binding: Int) =
+    override fun bindTo(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater, binding: Int) =
             StackViewImpl(activity, fragment, binding).apply {
                 screensLD.observe {
                     onScreens(it)

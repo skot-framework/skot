@@ -18,13 +18,13 @@ fun ComponentDef.buildViewImpl(viewModuleAndroidPackage:String) =
                                 ParamInfos("binding", binding(viewModuleAndroidPackage), isVal = false)
                         )
                 )
-                .superclass(screenViewImpl.parameterizedBy(binding(viewModuleAndroidPackage)))
+                .superclass((if (isScreen) screenViewImpl else componentViewImpl).parameterizedBy(binding(viewModuleAndroidPackage)))
                 .addSuperinterface(rai())
                 .addSuperclassConstructorParameter("activity")
                 .addSuperclassConstructorParameter("fragment")
                 .addSuperclassConstructorParameter("binding")
                 .addFunctions(
-                        fixProperties.map { it.onMethod(KModifier.OVERRIDE, body = "TODO(\"method non implémentée\")") } +
-                                mutableProperties.map { it.onMethod(KModifier.OVERRIDE, body = "TODO(\"method non implémentée\")") }
+                        fixProperties.map { it.onMethod(KModifier.OVERRIDE, body = "TODO(\"generated but still not implemented\")") } +
+                                mutableProperties.map { it.onMethod(KModifier.OVERRIDE, body = "TODO(\"generated but still not implemented\")") }
                 )
                 .build()

@@ -7,10 +7,7 @@ import tech.skot.core.components.ScreenVC
 import tech.skot.tools.generation.viewmodel.toVM
 import java.lang.IllegalStateException
 import kotlin.reflect.*
-import kotlin.reflect.full.createType
-import kotlin.reflect.full.findAnnotation
-import kotlin.reflect.full.isSupertypeOf
-import kotlin.reflect.full.superclasses
+import kotlin.reflect.full.*
 import kotlin.reflect.jvm.jvmErasure
 
 data class ComponentDef(
@@ -32,6 +29,8 @@ data class ComponentDef(
     fun viewImpl() = ClassName(packageName, name.suffix("ViewImpl"))
 
     fun toFillVCparams() = (subComponents.toFillParams(init = { "${name.toVM()}.view" }) + fixProperties.toFillParams() + mutableProperties.map { it.initial() }.toFillParams()).joinToString(separator = ",")
+
+    val isScreen = vc.isSubclassOf(ScreenVC::class)
 }
 
 data class PropertyDef(val name: String, val type: TypeName) {

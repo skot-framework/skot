@@ -4,16 +4,21 @@ import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import tech.skot.tools.generation.*
 import tech.skot.core.components.NoLayout
+import tech.skot.core.components.LayoutIsRoot
 import tech.skot.tools.generation.viewmodel.toVM
 import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.superclasses
 
 const val coreComponentsPackage = "tech.skot.core.components"
 val layoutInflater = ClassName("android.view", "LayoutInflater")
 
 val screenProxy = ClassName(coreComponentsPackage, "ScreenViewProxy")
+val componentProxy = ClassName(coreComponentsPackage, "ComponentViewProxy")
 val screenViewImpl = ClassName(coreComponentsPackage, "ScreenViewImpl")
+val componentViewImpl = ClassName(coreComponentsPackage, "ComponentViewImpl")
 val screenViewModel = ClassName(coreComponentsPackage, "Screen")
+val componentViewModel = ClassName(coreComponentsPackage, "Component")
 val skActivity = ClassName(coreComponentsPackage, "SKActivity")
 val skFragment = ClassName(coreComponentsPackage, "SKFragment")
 val mutableSKLiveData = ClassName("tech.skot.view.live", "MutableSKLiveData")
@@ -32,7 +37,7 @@ fun ComponentDef.buildProxy(viewModuleAndroidPackage: String, baseActivity: Clas
                         fixProperties.map { ParamInfos(name = it.name, typeName = it.type, modifiers = listOf(KModifier.OVERRIDE), isVal = true) } +
                         mutableProperties.map { ParamInfos(name = it.name.initial(), typeName = it.type, isVal = false) }
         )
-        .superclass(screenProxy.parameterizedBy(binding(viewModuleAndroidPackage)))
+        .superclass((if (isScreen) screenProxy else componentProxy).parameterizedBy(binding(viewModuleAndroidPackage)))
         .addSuperinterface(vc)
         .apply {
             mutableProperties.forEach {
@@ -48,22 +53,24 @@ fun ComponentDef.buildProxy(viewModuleAndroidPackage: String, baseActivity: Clas
                         .build())
             }
 
-            if (baseActivity != null) {
+            if (isScreen && baseActivity != null) {
                 addFunction(
                         FunSpec.builder("getActivityClass")
                                 .addModifiers(KModifier.OVERRIDE)
                                 .addCode("return ${baseActivity.packageName}${baseActivity.simpleName}::class.java")
                                 .build())
             }
+            if (isScreen) {
+                addFunction(
+                        FunSpec.builder("inflate")
+                                .addModifiers(KModifier.OVERRIDE)
+                                .addParameter("layoutInflater", layoutInflater)
+                                .returns(binding(viewModuleAndroidPackage))
+                                .addCode("return ${binding(viewModuleAndroidPackage).simpleName}.inflate(layoutInflater)")
+                                .build()
+                )
+            }
         }
-        .addFunction(
-                FunSpec.builder("inflate")
-                        .addModifiers(KModifier.OVERRIDE)
-                        .addParameter("layoutInflater", layoutInflater)
-                        .returns(binding(viewModuleAndroidPackage))
-                        .addCode("return ${binding(viewModuleAndroidPackage).simpleName}.inflate(layoutInflater)")
-                        .build()
-        )
         .addFunction(
                 FunSpec.builder("bindTo")
                         .addModifiers(KModifier.OVERRIDE)
@@ -71,7 +78,7 @@ fun ComponentDef.buildProxy(viewModuleAndroidPackage: String, baseActivity: Clas
                         .addParameter("fragment", skFragment.nullable())
                         .addParameter("layoutInflater", layoutInflater)
                         .addParameter("binding", binding(viewModuleAndroidPackage))
-                        .returns(screenViewImpl.parameterizedBy(binding(viewModuleAndroidPackage)))
+                        .returns(viewImpl())
                         .apply {
                             subComponents.forEach {
                                 addStatement("${it.name}.bindTo(activity, fragment, layoutInflater, ${it.type.binding()})")
@@ -106,5 +113,10 @@ fun ComponentDef.buildRAI(viewModuleAndroidPackage: String): TypeSpec = TypeSpec
         .build()
 
 fun TypeName.binding():String =  (this as ClassName).let {
-    if (Class.forName(it.canonicalName).kotlin.findAnnotation<NoLayout>() != null) "Unit" else "binding.${it.toVM().simpleName.decapitalize()}"
+    val kClass = Class.forName(it.canonicalName).kotlin
+    return when {
+        kClass.hasAnnotation<NoLayout>() -> "Unit"
+        kClass.hasAnnotation<LayoutIsRoot>() -> "binding.root"
+        else -> "binding.${it.toVM().simpleName.decapitalize()}"
+    }
 }

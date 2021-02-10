@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import tech.skot.tools.generation.Generator
 import tech.skot.tools.generation.Modules
 import tech.skot.tools.generation.fileClassBuilder
+import tech.skot.tools.generation.viewlegacy.componentViewModel
 import tech.skot.tools.generation.viewlegacy.screenViewModel
 
 fun Generator.generateViewModel() {
@@ -12,7 +13,7 @@ fun Generator.generateViewModel() {
     components.forEach {
         it.viewModelGen().fileClassBuilder {
             addModifiers(KModifier.ABSTRACT)
-            superclass(screenViewModel.parameterizedBy(it.vc.asTypeName()))
+            superclass((if (it.isScreen) screenViewModel else componentViewModel).parameterizedBy(it.vc.asTypeName()))
         }
                 .writeTo(generatedCommonSources(Modules.viewmodel))
 

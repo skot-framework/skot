@@ -26,11 +26,12 @@ abstract class ScreenViewImpl<B : ViewBinding>(activity: SKActivity, fragment: S
             } else {
                 TODO("VERSION.SDK_INT < M")
             }
+            val initialPaddingTop = view.paddingTop
             if (loadedInsets != null) {
                 view.updatePadding(top = view.paddingTop + loadedInsets.systemWindowInsetTop)
             } else {
                 view.setOnApplyWindowInsetsListener { view, windowInsets ->
-                    view.updatePadding(top = view.paddingTop + windowInsets.systemWindowInsetTop)
+                    view.updatePadding(top = initialPaddingTop + windowInsets.systemWindowInsetTop)
                     windowInsets
                 }
             }

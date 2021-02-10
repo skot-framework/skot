@@ -68,6 +68,8 @@ class PluginApp: Plugin<Project> {
         add("api", project(":viewmodel"))
         add("api", project(":model"))
         add("api", project(":view"))
+
+        add("debugImplementation","com.squareup.leakcanary:leakcanary-android:2.6")
     }
 
 }

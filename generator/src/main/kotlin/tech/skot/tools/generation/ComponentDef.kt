@@ -4,6 +4,7 @@ import com.squareup.kotlinpoet.*
 import tech.skot.core.components.ComponentVC
 import tech.skot.core.components.Opens
 import tech.skot.core.components.ScreenVC
+import tech.skot.core.components.UIState
 import tech.skot.tools.generation.viewmodel.toVM
 import java.lang.IllegalStateException
 import kotlin.reflect.*
@@ -34,7 +35,10 @@ data class ComponentDef(
     val isScreen = vc.isSubclassOf(ScreenVC::class)
 }
 
-data class PropertyDef(val name: String, val type: TypeName) {
+fun KClass<out ComponentVC>.meOrSubComponentHasState():Boolean = nestedClasses.any { it.hasAnnotation<UIState>() } || ownProperties().any { it.returnType.isComponent() && (it.returnType.classifier as KClass<out ComponentVC>).meOrSubComponentHasState()}
+
+
+data class PropertyDef(val name: String, val type: TypeName, val meOrSubComponentHasState:Boolean? = null) {
     fun asParam(): ParameterSpec = ParameterSpec.builder(name, type).build()
     fun initial(): PropertyDef = PropertyDef(name.initial(), type)
 
@@ -48,12 +52,12 @@ data class PropertyDef(val name: String, val type: TypeName) {
             else -> (type as ClassName).simpleName + "??"
 
     }
+
 }
 
 fun List<PropertyDef>.toFillParams(init:(PropertyDef.()->String)? = null) = map { "${it.name} = ${init?.invoke(it) ?: it.initializer()}" }
 
 
-//fun KClass<ScreenVC>.toComponentDef() = (this as KClass<ComponentVC>).def()
 
 fun MutableSet<KClass<out ComponentVC>>.addLinkedComponents(aComponentClass: KClass<out ComponentVC>, appPackageName:String) {
     add(aComponentClass)
@@ -86,7 +90,6 @@ fun KClass<out ComponentVC>.def(): ComponentDef {
         throw IllegalStateException("VC interface $qualifiedName must end with \"VC\"")
     }
 
-    println("---------- compute def nnestedClasses : ${nestedClasses.map { it.simpleName }}")
 
     return ComponentDef(
             name = simpleName!!.withOut("VC"),
@@ -96,7 +99,7 @@ fun KClass<out ComponentVC>.def(): ComponentDef {
                 if (it is KMutableProperty) {
                     throw IllegalStateException("SubComponent ${it.name} of ${this.packageName()}.${this.simpleName} is Mutable, it is not allowed !!!")
                 }
-                PropertyDef(it.name, it.returnType.asTypeName())
+                PropertyDef(it.name, it.returnType.asTypeName(), meOrSubComponentHasState = (it.returnType.classifier as KClass<out ComponentVC>).meOrSubComponentHasState())
             },
             fixProperties = stateProperties.filter { !(it is KMutableProperty) }.map {
                 PropertyDef(it.name, it.returnType.asTypeName())
@@ -104,7 +107,7 @@ fun KClass<out ComponentVC>.def(): ComponentDef {
             mutableProperties = stateProperties.filter { it is KMutableProperty }.map {
                 PropertyDef(it.name, it.returnType.asTypeName())
             },
-            state = nestedClasses.find { it.simpleName == "State" }?.asClassName()
+            state = nestedClasses.find { it.hasAnnotation<UIState>() }?.asClassName()
     )
 }
 

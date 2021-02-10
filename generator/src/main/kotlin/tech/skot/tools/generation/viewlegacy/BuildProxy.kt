@@ -58,9 +58,22 @@ fun ComponentDef.buildProxy(viewModuleAndroidPackage: String, baseActivity: Clas
                 addProperty(PropertySpec.builder("saveSignal", skMessage.parameterizedBy(Unit::class.asTypeName()), KModifier.PRIVATE)
                         .initializer("SKMessage()").build())
                 addProperty(PropertySpec.builder("_state", state.nullable(), KModifier.PRIVATE).mutable(true).initializer("null").build())
+            }
+
+
+            if (state != null || subComponents.any { it.meOrSubComponentHasState == true }) {
                 addFunction(FunSpec.builder("saveState")
                         .addModifiers(KModifier.OVERRIDE)
-                        .addStatement("saveSignal.post(Unit)")
+                        .apply {
+                            if (state != null) {
+                                addStatement("saveSignal.post(Unit)")
+                            }
+                            subComponents.forEach {
+                                if (it.meOrSubComponentHasState == true) {
+                                    addStatement("${it.name}.saveState()")
+                                }
+                            }
+                        }
                         .build())
             }
 
@@ -93,7 +106,7 @@ fun ComponentDef.buildProxy(viewModuleAndroidPackage: String, baseActivity: Clas
                         .returns(viewImpl())
                         .apply {
                             subComponents.forEach {
-                                addStatement("${it.name}.bindTo(activity, fragment, layoutInflater, ${it.type.binding()})")
+                                addStatement("${it.name}.bindTo(activity, fragment, layoutInflater, ${it.type.binding(it.name)})")
                             }
                         }
                         .beginControlFlow("return ${viewImpl().simpleName}(activity, fragment, binding).apply")
@@ -135,12 +148,12 @@ fun ComponentDef.buildRAI(viewModuleAndroidPackage: String): TypeSpec = TypeSpec
         }
         .build()
 
-fun TypeName.binding(): String = (this as ClassName).let {
+fun TypeName.binding(name:String): String = (this as ClassName).let {
     val kClass = Class.forName(it.canonicalName).kotlin
     return when {
         kClass.hasAnnotation<NoLayout>() -> "Unit"
         kClass.hasAnnotation<LayoutIsRoot>() -> "binding.root"
-        kClass.hasAnnotation<IdLayout>() -> "binding.${it.toVM().simpleName.decapitalize()}.id"
-        else -> "binding.${it.toVM().simpleName.decapitalize()}"
+        kClass.hasAnnotation<IdLayout>() -> "binding.$name.id"
+        else -> "binding.$name"
     }
 }

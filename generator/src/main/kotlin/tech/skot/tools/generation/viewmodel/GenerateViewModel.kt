@@ -23,7 +23,7 @@ fun Generator.generateViewModel() {
                 it.subComponents.forEach {
                     val vmType = it.type.toVM()
                     addProperty(
-                            PropertySpec.builder(vmType.simpleName.decapitalize(), vmType, KModifier.PRIVATE)
+                            PropertySpec.builder(it.name, vmType, KModifier.PRIVATE)
                                     .initializer("${vmType.simpleName}()").build()
                     )
                 }

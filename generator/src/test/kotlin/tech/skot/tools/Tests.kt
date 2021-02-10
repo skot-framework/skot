@@ -32,7 +32,7 @@ class Tests {
         val essaiType = kclass.members.find { it.name == "essai" }!!.returnType
 
         println((Class.forName(essaiType.asTypeName().toProxy().canonicalName)!!.kotlin.supertypes.get(0)?.arguments?.get(0)))// .find { it.simpleName == "EssaiAbs" }?.java?.annotatedSuperclass))
-        println(essaiType.asTypeName().binding())
+        println(essaiType.asTypeName().binding("coucou"))
 
 
 

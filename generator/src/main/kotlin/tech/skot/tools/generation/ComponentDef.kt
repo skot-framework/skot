@@ -17,6 +17,7 @@ data class ComponentDef(
         val subComponents: List<PropertyDef>,
         val fixProperties: List<PropertyDef>,
         val mutableProperties: List<PropertyDef>,
+        val state:ClassName?
 ) {
 
     fun proxy() = ClassName(packageName, name.suffix("ViewProxy"))
@@ -80,6 +81,13 @@ fun KClass<out ComponentVC>.def(): ComponentDef {
     val subComponentsProperties = ownProperties.filter { it.returnType.isComponent() }
     val stateProperties = ownProperties - subComponentsProperties
 
+
+    if (!simpleName!!.endsWith("VC")) {
+        throw IllegalStateException("VC interface $qualifiedName must end with \"VC\"")
+    }
+
+    println("---------- compute def nnestedClasses : ${nestedClasses.map { it.simpleName }}")
+
     return ComponentDef(
             name = simpleName!!.withOut("VC"),
             vc = this,
@@ -96,6 +104,7 @@ fun KClass<out ComponentVC>.def(): ComponentDef {
             mutableProperties = stateProperties.filter { it is KMutableProperty }.map {
                 PropertyDef(it.name, it.returnType.asTypeName())
             },
+            state = nestedClasses.find { it.simpleName == "State" }?.asClassName()
     )
 }
 

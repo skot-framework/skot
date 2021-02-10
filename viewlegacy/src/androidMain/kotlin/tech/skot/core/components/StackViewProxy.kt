@@ -11,7 +11,13 @@ class StackViewProxy() : ComponentViewProxy<Int>(), StackVC {
     override var screens: List<ScreenVC>
         get() = screensLD.value
         set(newVal) {
-            screensLD.postValue(newVal as List<ScreenViewProxy<*>>)
+            val newProxyList = newVal as List<ScreenViewProxy<*>>
+            screensLD.value.lastOrNull()?.let {
+                if (newProxyList.lastOrNull() != it && newProxyList.contains(it)) {
+                    it.saveState()
+                }
+            }
+            screensLD.postValue(newProxyList)
         }
 
 

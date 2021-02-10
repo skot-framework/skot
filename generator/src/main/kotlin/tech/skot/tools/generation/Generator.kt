@@ -31,17 +31,14 @@ class Generator(
         addLinkedComponents(startClass, appPackage)
     }.map { it.def() }
 
-    val mapTypeDef = components.map { it.vc.asTypeName() to it }.toMap()
-    init {
-        println("les components : $components")
-    }
+//    val mapTypeDef = components.map { it.vc.asTypeName() to it }.toMap()
+
 
     val viewInjector = ClassName("$appPackage.di","ViewInjector")
     val viewInjectorIntance = ClassName("$appPackage.di","viewInjector")
 
 
     fun generate() {
-//        println("screenDef : ${startClass.toComponentDef()}")
 
         generateViewContract()
         generateViewLegacy()

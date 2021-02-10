@@ -16,7 +16,7 @@ abstract class ScreenViewProxy<B : ViewBinding> : ComponentViewProxy<B>(), Scree
 
     abstract override fun bindTo(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater, binding: B): ScreenViewImpl<B>
 
-    open fun getActivityClass():Class<*> = SKActivity::class.java
+    open fun getActivityClass(): Class<*> = SKActivity::class.java
 
     fun bindTo(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater): View {
         val binding = inflate(layoutInflater)
@@ -30,6 +30,7 @@ abstract class ScreenViewProxy<B : ViewBinding> : ComponentViewProxy<B>(), Scree
 
 
     abstract fun inflate(layoutInflater: LayoutInflater): B
+
 
     fun createFragment(): SKFragment =
             SKFragment().apply {

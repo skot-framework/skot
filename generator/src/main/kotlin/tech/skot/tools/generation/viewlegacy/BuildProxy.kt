@@ -2,9 +2,10 @@ package tech.skot.tools.generation.viewlegacy
 
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import tech.skot.tools.generation.*
-import tech.skot.core.components.NoLayout
+import tech.skot.core.components.IdLayout
 import tech.skot.core.components.LayoutIsRoot
+import tech.skot.core.components.NoLayout
+import tech.skot.tools.generation.*
 import tech.skot.tools.generation.viewmodel.toVM
 import kotlin.reflect.full.hasAnnotation
 
@@ -20,9 +21,11 @@ val componentViewModel = ClassName(coreComponentsPackage, "Component")
 val skActivity = ClassName(coreComponentsPackage, "SKActivity")
 val fragment = ClassName("androidx.fragment.app", "Fragment")
 val mutableSKLiveData = ClassName("tech.skot.view.live", "MutableSKLiveData")
+val skMessage = ClassName("tech.skot.view.live", "SKMessage")
+
 
 fun PropertyDef.ld() = PropertyDef(name = name.suffix("LD"), type = mutableSKLiveData.parameterizedBy(type))
-fun PropertyDef.onMethod(vararg modifiers: KModifier,body:String? = null) = FunSpec.builder("on${name.capitalize()}")
+fun PropertyDef.onMethod(vararg modifiers: KModifier, body: String? = null) = FunSpec.builder("on${name.capitalize()}")
         .addParameter(name, type).apply {
             addModifiers(modifiers = modifiers)
             body?.let { addCode(it) }
@@ -50,6 +53,17 @@ fun ComponentDef.buildProxy(viewModuleAndroidPackage: String, baseActivity: Clas
                         .delegate(ld.name)
                         .build())
             }
+
+            if (state != null) {
+                addProperty(PropertySpec.builder("saveSignal", skMessage.parameterizedBy(Unit::class.asTypeName()), KModifier.PRIVATE)
+                        .initializer("SKMessage()").build())
+                addProperty(PropertySpec.builder("_state", state.nullable(), KModifier.PRIVATE).mutable(true).initializer("null").build())
+                addFunction(FunSpec.builder("saveState")
+                        .addModifiers(KModifier.OVERRIDE)
+                        .addStatement("saveSignal.post(Unit)")
+                        .build())
+            }
+
 
             if (isScreen && baseActivity != null) {
                 addFunction(
@@ -92,6 +106,13 @@ fun ComponentDef.buildProxy(viewModuleAndroidPackage: String, baseActivity: Clas
                                 addStatement("${it.onMethod().name}(it)")
                                 endControlFlow()
                             }
+
+                            if (state != null) {
+                                beginControlFlow("saveSignal.observe")
+                                addStatement("_state = saveState()")
+                                endControlFlow()
+                                addStatement("_state?.let { restoreState(it) }")
+                            }
                         }
                         .endControlFlow()
                         .build()
@@ -101,6 +122,10 @@ fun ComponentDef.buildProxy(viewModuleAndroidPackage: String, baseActivity: Clas
 
 fun ComponentDef.buildRAI(viewModuleAndroidPackage: String): TypeSpec = TypeSpec.interfaceBuilder(rai())
         .apply {
+            if (state != null) {
+                addFunction(FunSpec.builder("saveState").addModifiers(KModifier.ABSTRACT).returns(state).build())
+                addFunction(FunSpec.builder("restoreState").addParameter("state", state).addModifiers(KModifier.ABSTRACT).build())
+            }
             fixProperties.forEach {
                 addFunction(it.onMethod(KModifier.ABSTRACT))
             }
@@ -110,11 +135,12 @@ fun ComponentDef.buildRAI(viewModuleAndroidPackage: String): TypeSpec = TypeSpec
         }
         .build()
 
-fun TypeName.binding():String =  (this as ClassName).let {
+fun TypeName.binding(): String = (this as ClassName).let {
     val kClass = Class.forName(it.canonicalName).kotlin
     return when {
         kClass.hasAnnotation<NoLayout>() -> "Unit"
         kClass.hasAnnotation<LayoutIsRoot>() -> "binding.root"
+        kClass.hasAnnotation<IdLayout>() -> "binding.${it.toVM().simpleName.decapitalize()}.id"
         else -> "binding.${it.toVM().simpleName.decapitalize()}"
     }
 }

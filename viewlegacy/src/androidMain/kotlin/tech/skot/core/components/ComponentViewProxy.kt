@@ -13,6 +13,9 @@ abstract class ComponentViewProxy<B : Any> : ComponentVC {
 
     abstract fun bindTo(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater, binding: B): ComponentViewImpl<B>
 
+    open fun saveState() {
+        //surchargée quand le component a un état à sauver
+    }
 }
 
 //class UiStateImpl<D>:UiState<D> {

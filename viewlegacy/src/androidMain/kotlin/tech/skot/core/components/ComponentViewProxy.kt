@@ -1,7 +1,9 @@
 package tech.skot.core.components
 
 import android.view.LayoutInflater
+import android.view.View
 import androidx.fragment.app.Fragment
+import java.lang.IllegalStateException
 
 //import androidx.lifecycle.Lifecycle
 //import androidx.lifecycle.LifecycleObserver
@@ -15,6 +17,16 @@ abstract class ComponentViewProxy<B : Any> : ComponentVC {
 
     open fun saveState() {
         //surchargée quand le component a un état à sauver
+    }
+
+    open val layoutId = -1
+
+    open fun bind(view:View):B {
+        throw IllegalStateException("You cant't bind this component to a view")
+    }
+
+    fun bindToItemView(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater, view:View) {
+        bindTo(activity, fragment, layoutInflater, bind(view))
     }
 }
 

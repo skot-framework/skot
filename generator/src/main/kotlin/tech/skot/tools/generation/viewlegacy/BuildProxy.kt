@@ -6,7 +6,6 @@ import tech.skot.core.components.IdLayout
 import tech.skot.core.components.LayoutIsRoot
 import tech.skot.core.components.NoLayout
 import tech.skot.tools.generation.*
-import tech.skot.tools.generation.viewmodel.toVM
 import kotlin.reflect.full.hasAnnotation
 
 const val coreComponentsPackage = "tech.skot.core.components"
@@ -18,10 +17,15 @@ val screenViewImpl = ClassName(coreComponentsPackage, "ScreenViewImpl")
 val componentViewImpl = ClassName(coreComponentsPackage, "ComponentViewImpl")
 val screenViewModel = ClassName(coreComponentsPackage, "Screen")
 val componentViewModel = ClassName(coreComponentsPackage, "Component")
-val skActivity = ClassName(coreComponentsPackage, "SKActivity")
-val fragment = ClassName("androidx.fragment.app", "Fragment")
 val mutableSKLiveData = ClassName("tech.skot.view.live", "MutableSKLiveData")
 val skMessage = ClassName("tech.skot.view.live", "SKMessage")
+
+object AndroidClassNames {
+    val skActivity = ClassName(coreComponentsPackage, "SKActivity")
+    val fragment = ClassName("androidx.fragment.app", "Fragment")
+    val view = ClassName("android.view", "View")
+
+}
 
 
 fun PropertyDef.ld() = PropertyDef(name = name.suffix("LD"), type = mutableSKLiveData.parameterizedBy(type))
@@ -85,6 +89,23 @@ fun ComponentDef.buildProxy(viewModuleAndroidPackage: String, baseActivity: Clas
                                 .addCode("return ${baseActivity.packageName}${baseActivity.simpleName}::class.java")
                                 .build())
             }
+
+            if (hasLayout) {
+                addProperty(
+                        PropertySpec.builder("layoutId", ClassName("kotlin", "Int").nullable())
+                                .addModifiers(KModifier.OVERRIDE)
+                                .initializer("R.layout.${layoutName()}")
+                                .build())
+
+                addFunction(FunSpec.builder("bind")
+                        .addModifiers(KModifier.OVERRIDE)
+                        .addParameter("view", AndroidClassNames.view)
+                        .returns(binding(viewModuleAndroidPackage))
+                        .addStatement("return ${binding(viewModuleAndroidPackage).simpleName}.bind(view)")
+                        .build())
+
+            }
+
             if (isScreen) {
                 addFunction(
                         FunSpec.builder("inflate")
@@ -99,38 +120,44 @@ fun ComponentDef.buildProxy(viewModuleAndroidPackage: String, baseActivity: Clas
         .addFunction(
                 FunSpec.builder("bindTo")
                         .addModifiers(KModifier.OVERRIDE)
-                        .addParameter("activity", skActivity)
-                        .addParameter("fragment", fragment.nullable())
-                        .addParameter("layoutInflater", layoutInflater)
+                        .addParameter("activity", AndroidClassNames.skActivity)
+                        .addParameter("fragment", AndroidClassNames.fragment.nullable())
                         .addParameter("binding", binding(viewModuleAndroidPackage))
+                        .addParameter("collectingObservers", ClassName("kotlin", "Boolean"))
                         .returns(viewImpl())
+
+                        .beginControlFlow("return ${viewImpl().simpleName}(activity, fragment, binding).apply")
+                        .addStatement("collectObservers = collectingObservers")
                         .apply {
                             subComponents.forEach {
-                                addStatement("${it.name}.bindTo(activity, fragment, layoutInflater, ${it.type.binding(it.name)})")
-                            }
-                        }
-                        .beginControlFlow("return ${viewImpl().simpleName}(activity, fragment, binding).apply")
-                        .apply {
-                            fixProperties.forEach {
-                                addStatement("${it.onMethod().name}(${it.name})")
-                            }
-                            mutableProperties.forEach {
-                                beginControlFlow("${it.ld().name}.observe")
-                                addStatement("${it.onMethod().name}(it)")
-                                endControlFlow()
+                                addStatement("${it.name}.bindTo(activity, fragment, ${it.type.binding(it.name)})")
                             }
 
-                            if (state != null) {
-                                beginControlFlow("saveSignal.observe")
-                                addStatement("_state = saveState()")
-                                endControlFlow()
-                                addStatement("_state?.let { restoreState(it) }")
+                            if (fixProperties.isNotEmpty() || mutableProperties.isNotEmpty() || state != null) {
+                                fixProperties.forEach {
+                                    addStatement("${it.onMethod().name}(${it.name})")
+                                }
+                                mutableProperties.forEach {
+                                    beginControlFlow("${it.ld().name}.observe")
+                                    addStatement("${it.onMethod().name}(it)")
+                                    endControlFlow()
+                                }
+
+                                if (state != null) {
+                                    beginControlFlow("saveSignal.observe")
+                                    addStatement("_state = saveState()")
+                                    endControlFlow()
+                                    addStatement("_state?.let { restoreState(it) }")
+                                }
                             }
+                            else {
+                                addStatement("return ${viewImpl().simpleName}(activity, fragment, binding)")
+                            }
+
                         }
                         .endControlFlow()
                         .build()
         )
-
         .build()
 
 fun ComponentDef.buildRAI(viewModuleAndroidPackage: String): TypeSpec = TypeSpec.interfaceBuilder(rai())
@@ -148,7 +175,7 @@ fun ComponentDef.buildRAI(viewModuleAndroidPackage: String): TypeSpec = TypeSpec
         }
         .build()
 
-fun TypeName.binding(name:String): String = (this as ClassName).let {
+fun TypeName.binding(name: String): String = (this as ClassName).let {
     val kClass = Class.forName(it.canonicalName).kotlin
     return when {
         kClass.hasAnnotation<NoLayout>() -> "Unit"

@@ -14,13 +14,13 @@ abstract class ScreenViewProxy<B : ViewBinding> : ComponentViewProxy<B>(), Scree
     private val onBackPressedLD = MutableSKLiveData<(() -> Unit)?>(null)
     override var onBackPressed by onBackPressedLD
 
-    abstract override fun bindTo(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater, binding: B): ScreenViewImpl<B>
+    abstract override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: B, collectingObservers:Boolean): ScreenViewImpl<B>
 
     open fun getActivityClass(): Class<*> = SKActivity::class.java
 
     fun bindTo(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater): View {
         val binding = inflate(layoutInflater)
-        bindTo(activity, fragment, layoutInflater, binding).apply {
+        bindTo(activity, fragment, binding).apply {
             onBackPressedLD.observe {
                 setOnBackPressed(it)
             }

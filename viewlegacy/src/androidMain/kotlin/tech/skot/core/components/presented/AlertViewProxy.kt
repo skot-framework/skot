@@ -13,7 +13,7 @@ class AlertViewProxy() : ComponentViewProxy<Unit>(), AlertVC {
 
     override var state: AlertVC.Shown? by stateLD
 
-    override fun bindTo(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater, binding: Unit) =
+    override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: Unit, collectingObservers:Boolean) =
             AlertViewImpl(activity, fragment, this).apply {
                 stateLD.observe {
                     onState(it)

@@ -119,7 +119,7 @@ abstract class SKLiveDataCommon<D>(initialValue: D) {
         observer.onBecomeActive()
     }
 
-    fun removeObserver(observer: AlwaysObserver) {
+    fun removeObserver(observer: Observer) {
         observer.onBecomeInactive()
         observers.remove(observer)
     }

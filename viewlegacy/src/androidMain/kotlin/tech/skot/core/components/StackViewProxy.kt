@@ -21,8 +21,9 @@ class StackViewProxy() : ComponentViewProxy<Int>(), StackVC {
         }
 
 
-    override fun bindTo(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater, binding: Int) =
+    override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: Int, collectingObservers:Boolean) =
             StackViewImpl(activity, fragment, binding).apply {
+                collectObservers = collectingObservers
                 screensLD.observe {
                     onScreens(it)
                 }

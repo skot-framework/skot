@@ -102,6 +102,8 @@ class Generator(
     fun androidResLayoutPath(module:String, name:String) =
             rootPath.resolve("$module/src/androidMain/res/layout/$name.xml")
 
+    val r = ClassName("$appPackage.${Modules.view}", "R")
+
 }
 
 

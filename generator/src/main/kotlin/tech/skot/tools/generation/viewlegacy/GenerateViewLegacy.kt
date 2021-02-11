@@ -3,10 +3,7 @@ package tech.skot.tools.generation.viewlegacy
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.TypeName
-import tech.skot.tools.generation.Generator
-import tech.skot.tools.generation.Modules
-import tech.skot.tools.generation.getAndroidPackageName
-import tech.skot.tools.generation.suffix
+import tech.skot.tools.generation.*
 import java.nio.file.Files
 
 fun Generator.generateViewLegacy() {
@@ -19,7 +16,11 @@ fun Generator.generateViewLegacy() {
         )
                 .addType(it.buildProxy(viewModuleAndroidPackage, baseActivity))
                 .addType(it.buildRAI(viewModuleAndroidPackage))
-                .build()
+                .apply {
+                    if (it.hasLayout) {
+                        addImportClassName(r)
+                    }
+                }.build()
                 .writeTo(generatedAndroidSources(Modules.view))
         if (!it.viewImpl().existsAndroidInModule(Modules.view)) {
             FileSpec.builder(

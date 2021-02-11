@@ -13,20 +13,25 @@ import java.lang.IllegalStateException
 abstract class ComponentViewProxy<B : Any> : ComponentVC {
 //    protected val savedStates: MutableMap<String, Any> = mutableMapOf()
 
-    abstract fun bindTo(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater, binding: B): ComponentViewImpl<B>
+    abstract fun bindTo(activity: SKActivity, fragment: Fragment?, binding: B, collectingObservers:Boolean = false): ComponentViewImpl<B>
 
     open fun saveState() {
         //surchargée quand le component a un état à sauver
     }
 
-    open val layoutId = -1
+    open val layoutId:Int? = null
 
     open fun bind(view:View):B {
         throw IllegalStateException("You cant't bind this component to a view")
     }
 
-    fun bindToItemView(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater, view:View) {
-        bindTo(activity, fragment, layoutInflater, bind(view))
+    fun bindToItemView(activity: SKActivity, fragment: Fragment?, view:View):ComponentViewImpl<B> {
+        if (layoutId == null) {
+            throw IllegalStateException("You cant't bind this component to an Item's view, it has no layout Id")
+        }
+        else {
+            return bindTo(activity, fragment, bind(view), collectingObservers = true)
+        }
     }
 }
 

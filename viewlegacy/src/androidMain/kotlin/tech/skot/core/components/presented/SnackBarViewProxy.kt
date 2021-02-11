@@ -14,7 +14,7 @@ class SnackBarViewProxy() : ComponentViewProxy<View>(), SnackBarVC {
 
     override var state: SnackBarVC.Shown? by stateLD
 
-    override fun bindTo(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater, binding: View) =
+    override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: View, collectingObservers:Boolean) =
             SnackBarViewImpl(activity, fragment, binding, this).apply {
                 stateLD.observe {
                     onState(it)

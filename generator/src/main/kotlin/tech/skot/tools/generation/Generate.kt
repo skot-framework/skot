@@ -3,10 +3,7 @@ package tech.skot.tools.generation
 import java.nio.file.Paths
 import tech.skot.core.components.ComponentVC
 import tech.skot.core.components.ScreenVC
-import tech.skot.tools.generation.viewlegacy.skActivity
 import kotlin.reflect.KClass
-import kotlin.reflect.KType
-import kotlin.reflect.typeOf
 
 @ExperimentalStdlibApi
 fun main(args: Array<String>) {

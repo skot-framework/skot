@@ -22,8 +22,9 @@ class SKListViewProxy() : ComponentViewProxy<RecyclerView>(), SKListVC {
         }
 
 
-    override fun bindTo(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater, binding: RecyclerView) =
+    override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: RecyclerView, collectingObservers:Boolean) =
             SKListViewImpl(activity, fragment, binding).apply {
+                collectObservers = collectingObservers
                 itemsLD.observe {
                     onItems(it)
                 }

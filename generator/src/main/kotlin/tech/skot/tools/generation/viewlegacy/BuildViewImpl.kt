@@ -15,8 +15,8 @@ fun ComponentDef.buildViewImpl(viewModuleAndroidPackage:String) =
         TypeSpec.classBuilder(viewImpl().simpleName)
                 .addPrimaryConstructorWithParams(
                         listOf(
-                                ParamInfos("activity", skActivity, isVal = false),
-                                ParamInfos("fragment", fragment.nullable(), isVal = false),
+                                ParamInfos("activity", AndroidClassNames.skActivity, isVal = false),
+                                ParamInfos("fragment", AndroidClassNames.fragment.nullable(), isVal = false),
                                 ParamInfos("binding", binding(viewModuleAndroidPackage), isVal = false)
                         )
                 )

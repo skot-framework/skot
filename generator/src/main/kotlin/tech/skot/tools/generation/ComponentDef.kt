@@ -1,10 +1,14 @@
 package tech.skot.tools.generation
 
 import com.squareup.kotlinpoet.*
-import tech.skot.core.components.ComponentVC
+import tech.skot.core.components.*
 import tech.skot.core.components.Opens
+import tech.skot.core.components.Uses
 import tech.skot.core.components.ScreenVC
 import tech.skot.core.components.UIState
+import tech.skot.core.components.NoLayout
+import tech.skot.core.components.LayoutIsRoot
+import tech.skot.core.components.IdLayout
 import tech.skot.tools.generation.viewmodel.toVM
 import java.lang.IllegalStateException
 import kotlin.reflect.*
@@ -33,6 +37,9 @@ data class ComponentDef(
     fun toFillVCparams() = (subComponents.toFillParams(init = { "${name.toVM()}.view" }) + fixProperties.toFillParams() + mutableProperties.map { it.initial() }.toFillParams()).joinToString(separator = ",")
 
     val isScreen = vc.isSubclassOf(ScreenVC::class)
+    val hasLayout = !vc.hasAnnotation<NoLayout>()
+    val layoutIsRoot = vc.hasAnnotation<LayoutIsRoot>()
+    val idLayout = vc.hasAnnotation<IdLayout>()
 }
 
 fun KClass<out ComponentVC>.meOrSubComponentHasState():Boolean = nestedClasses.any { it.hasAnnotation<UIState>() } || ownProperties().any { it.returnType.isComponent() && (it.returnType.classifier as KClass<out ComponentVC>).meOrSubComponentHasState()}
@@ -66,7 +73,14 @@ fun MutableSet<KClass<out ComponentVC>>.addLinkedComponents(aComponentClass: KCl
         addLinkedComponents(it, appPackageName)
     }
     aComponentClass.findAnnotation<Opens>()?.let {
-        (it as Opens).screenOpened.forEach {
+        (it as Opens).screensOpened.forEach {
+            if (!contains(it)) {
+                addLinkedComponents(it, appPackageName)
+            }
+        }
+    }
+    aComponentClass.findAnnotation<Uses>()?.let {
+        (it as Uses).usedComponents.forEach {
             if (!contains(it)) {
                 addLinkedComponents(it, appPackageName)
             }

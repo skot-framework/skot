@@ -10,9 +10,9 @@ import kotlinx.coroutines.launch
 
 open class SKLiveData<D>(initialValue: D) : SKLiveDataCommon<D>(initialValue) {
 
-    fun observe(lifecycleOwner: LifecycleOwner, onChanged: (d: D) -> Unit) {
-        observers.add(LifecycleOwnerObserver(lifecycleOwner, onChanged))
-    }
+    fun observe(lifecycleOwner: LifecycleOwner, onChanged: (d: D) -> Unit) =
+        LifecycleOwnerObserver(lifecycleOwner, onChanged).also { observers.add(it) }
+
 
     fun setObserver(lifecycleOwner: LifecycleOwner, onChanged: (d: D) -> Unit) {
         val currentObservers = observers.toSet()
@@ -31,6 +31,10 @@ open class SKLiveData<D>(initialValue: D) : SKLiveDataCommon<D>(initialValue) {
             onChanged: (d: D) -> Unit
     ) : Observer(onChanged) {
 
+        private val liveData = this@SKLiveData
+        fun remove() {
+            liveData.removeObserver(this)
+        }
         init {
             if (shouldBeActive()) {
                 onBecomeActive()

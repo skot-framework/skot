@@ -18,6 +18,8 @@ class CoreViewInjectorImpl : CoreViewInjector {
     override fun bottomSheet() = BottomSheetViewProxy()
 
     override fun pager(screens:List<ScreenVC>, onSwipeToPage:((index:Int)->Unit)?, initialSelectedPageIndex:Int) = PagerViewProxy(screens = screens as List<ScreenViewProxy<*>>, onSwipeToPage = onSwipeToPage, initialSelectedPageIndex = initialSelectedPageIndex)
+
+    override fun skList() = SKListViewProxy()
 }
 
 val coreViewModuleInjector = module<BaseInjector> {

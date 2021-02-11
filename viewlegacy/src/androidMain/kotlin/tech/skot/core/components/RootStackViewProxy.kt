@@ -26,7 +26,7 @@ object RootStackViewProxy: ComponentViewProxy<Unit>(), StackVC {
 
     val setRootScreenMessage: SKMessage<ScreenViewProxy<*>> = SKMessage(multiReceiver = false)
 
-    override fun bindTo(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater, binding: Unit): ComponentViewImpl<Unit> {
+    override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: Unit, collectingObservers:Boolean): ComponentViewImpl<Unit> {
         throw IllegalAccessException("On ne bind pas la RootStack")
     }
 

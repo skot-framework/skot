@@ -14,7 +14,7 @@ class BottomSheetViewProxy(): ComponentViewProxy<Unit>(), BottomSheetVC {
 
     override var state: BottomSheetVC.Shown? by stateLD
 
-    override fun bindTo(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater, binding: Unit) =
+    override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: Unit, collectingObservers:Boolean) =
             BottomSheetViewImpl(activity, fragment, this).apply {
                 stateLD.observe {
                     onState(it)

@@ -1,6 +1,8 @@
 package tech.skot.core.components
 
+import android.os.Parcelable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
@@ -14,8 +16,6 @@ class SKListViewImpl(activity: SKActivity, fragment: Fragment?, private val recy
 
 
     inner class ViewHolder(idLayout:Int, parent:ViewGroup):RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(idLayout, parent, false)) {
-        val layoutInflater:LayoutInflater = LayoutInflater.from(parent.context)
-
         var componentViewImpl:ComponentViewImpl<*>? = null
 
     }
@@ -28,8 +28,6 @@ class SKListViewImpl(activity: SKActivity, fragment: Fragment?, private val recy
         override fun getItemCount() = items.size
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            SKLog.d("${holder.hashCode()} onBindViewHolder")
-
             items[position].let { proxy ->
                 holder.componentViewImpl = proxy.bindToItemView(activity, fragment, holder.itemView)
             }
@@ -37,22 +35,10 @@ class SKListViewImpl(activity: SKActivity, fragment: Fragment?, private val recy
 
         override fun onViewRecycled(holder: ViewHolder) {
             super.onViewRecycled(holder)
-            SKLog.d("${holder.hashCode()} onViewRecycled")
             holder.componentViewImpl?.removeObservers()
             holder.componentViewImpl= null
 
         }
-
-        override fun onViewAttachedToWindow(holder: ViewHolder) {
-            super.onViewAttachedToWindow(holder)
-            SKLog.d("${holder.hashCode()} onViewAttachedToWindow")
-        }
-
-        override fun onViewDetachedFromWindow(holder: ViewHolder) {
-            super.onViewDetachedFromWindow(holder)
-            SKLog.d("${holder.hashCode()} onViewDetachedFromWindow")
-        }
-
 
 
     }
@@ -61,7 +47,6 @@ class SKListViewImpl(activity: SKActivity, fragment: Fragment?, private val recy
 
     var items:List<ComponentViewProxy<*>> = emptyList()
     set(newVal) {
-
         field = newVal
         adapter.notifyDataSetChanged()
     }
@@ -75,5 +60,13 @@ class SKListViewImpl(activity: SKActivity, fragment: Fragment?, private val recy
 
     fun onItems(items:List<ComponentViewProxy<*>>) {
         this.items = items
+    }
+
+    fun saveState(): Parcelable? {
+        return recyclerView.layoutManager?.onSaveInstanceState()
+    }
+
+    fun restoreState(state: Parcelable) {
+            recyclerView.layoutManager?.onRestoreInstanceState(state)
     }
 }

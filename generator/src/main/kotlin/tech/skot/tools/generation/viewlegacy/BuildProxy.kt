@@ -65,7 +65,7 @@ fun ComponentDef.buildProxy(viewModuleAndroidPackage: String, baseActivity: Clas
             }
 
 
-            if (state != null || subComponents.any { it.meOrSubComponentHasState == true }) {
+//            if (state != null || subComponents.any { it.meOrSubComponentHasState == true }) {
                 addFunction(FunSpec.builder("saveState")
                         .addModifiers(KModifier.OVERRIDE)
                         .apply {
@@ -73,13 +73,13 @@ fun ComponentDef.buildProxy(viewModuleAndroidPackage: String, baseActivity: Clas
                                 addStatement("saveSignal.post(Unit)")
                             }
                             subComponents.forEach {
-                                if (it.meOrSubComponentHasState == true) {
+//                                if (it.meOrSubComponentHasState == true) {
                                     addStatement("${it.name}.saveState()")
-                                }
+//                                }
                             }
                         }
                         .build())
-            }
+//            }
 
 
             if (isScreen && baseActivity != null) {

@@ -9,20 +9,25 @@ import tech.skot.core.SKLog
 
 open class SKFragment : Fragment() {
 
+    private var screenKey: Long? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return arguments?.getLong(ScreensManager.SK_ARGUMENT_VIEW_KEY)?.let { viewKey ->
             ScreensManager.getInstance(viewKey)?.bindTo(activity as SKActivity, this, inflater)
+                    ?.also { screenKey = viewKey }
+                    ?: View(context).also { screenKey == null }
+
         }
     }
 
 
-//    override fun onDestroy() {
-//        SKLog.d("SKFragment ${hashCode()} onDestroy")
-//        super.onDestroy()
-//    }
-//
-//    override fun onDestroyView() {
-//        SKLog.d("SKFragment ${hashCode()} onDestroyView")
-//        super.onDestroyView()
-//    }
+    override fun onDestroy() {
+        SKLog.d("SKFragment ${hashCode()} onDestroy ${screenKey}")
+        super.onDestroy()
+    }
+
+    override fun onDestroyView() {
+        SKLog.d("SKFragment ${hashCode()} onDestroyView ${screenKey}")
+        super.onDestroyView()
+    }
 }

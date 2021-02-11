@@ -22,7 +22,6 @@ open class SKActivity : AppCompatActivity() {
             SKLog.d("-------- SKActivity screenProxy $this")
             screenKey = key
             bindTo(this@SKActivity, null, layoutInflater)
-//            inflateAndLink(layoutInflater, this@SKActivity, null)
         }
                 .run {
                     setContentView(this)
@@ -31,6 +30,14 @@ open class SKActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
     }
 
+    override fun onDestroy() {
+        SKLog.d("SK Activity onDestroy $screenKey")
+        screenKey?.let { ScreensManager.getInstance(it) }?.apply {
+            SKLog.d("SK Activity onDestroy $screenKey will save State ${this::class.simpleName}")
+            saveState()
+        }
+        super.onDestroy()
+    }
 
     private fun linkToRootStack() {
 

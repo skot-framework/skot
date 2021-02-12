@@ -20,7 +20,6 @@ abstract class ComponentViewImpl<B : Any>(protected val activity: SKActivity, pr
     var collectObservers = false
 
     private val componentObservers:MutableList<SKLiveData<*>.LifecycleOwnerObserver> by lazy {
-        SKLog.d("---- ${this::class.simpleName} componentObservers initilized ")
         mutableListOf() }
 
     fun <D> SKLiveData<D>.observe(onChanged: (D) -> Unit) {

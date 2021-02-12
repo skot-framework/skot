@@ -14,7 +14,7 @@ object RootStackViewProxy: ComponentViewProxy<Unit>(), StackVC {
     override var screens: List<ScreenVC> = emptyList()
         get() = screensLD.value
         set(newVal) {
-            if (!field.isEmpty() && !field.contains(newVal.first())) {
+            if (!field.isEmpty() && !newVal.isEmpty() && !field.contains(newVal.first())) {
                 SKLog.d("----will send setRootScreenMessage  ${newVal.first()}")
                 setRootScreenMessage.post(newVal.first() as ScreenViewProxy<*>)
                 //RootStack.view.setRootScreen(newVal.first())

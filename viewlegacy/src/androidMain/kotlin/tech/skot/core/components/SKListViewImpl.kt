@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import tech.skot.core.SKLog
 import java.lang.IllegalStateException
 
-class SKListViewImpl(activity: SKActivity, fragment: Fragment?, private val recyclerView: RecyclerView) : ComponentViewImpl<RecyclerView>(activity, fragment, recyclerView) {
+class SKListViewImpl(vertical:Boolean, reverse:Boolean, activity: SKActivity, fragment: Fragment?, private val recyclerView: RecyclerView) : ComponentViewImpl<RecyclerView>(activity, fragment, recyclerView) {
 
 
 
@@ -29,7 +29,9 @@ class SKListViewImpl(activity: SKActivity, fragment: Fragment?, private val recy
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             items[position].let { proxy ->
-                holder.componentViewImpl = proxy.bindToItemView(activity, fragment, holder.itemView)
+                val componentViewImpl = proxy.bindToItemView(activity, fragment, holder.itemView)
+                holder.componentViewImpl = componentViewImpl
+                mapProxyIndexComponentViewImpl[proxy] = componentViewImpl
             }
         }
 
@@ -43,17 +45,26 @@ class SKListViewImpl(activity: SKActivity, fragment: Fragment?, private val recy
 
     }
 
+    private val mapProxyIndexComponentViewImpl = mutableMapOf<ComponentViewProxy<*>, ComponentViewImpl<*>>()
+
     private val adapter = Adapter()
 
     var items:List<ComponentViewProxy<*>> = emptyList()
     set(newVal) {
+        field.forEach { proxy ->
+            if (!newVal.contains(proxy)) {
+                mapProxyIndexComponentViewImpl[proxy]?.removeObservers()
+                mapProxyIndexComponentViewImpl.remove(proxy)
+            }
+        }
+
         field = newVal
         adapter.notifyDataSetChanged()
     }
 
 
     init {
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = LinearLayoutManager(context, if (vertical) LinearLayoutManager.VERTICAL else LinearLayoutManager.HORIZONTAL, reverse)
         recyclerView.adapter = adapter
     }
 

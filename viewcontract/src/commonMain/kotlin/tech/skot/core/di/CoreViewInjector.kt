@@ -10,5 +10,5 @@ interface CoreViewInjector {
     fun snackBar(): SnackBarVC
     fun bottomSheet(): BottomSheetVC
     fun pager(screens:List<ScreenVC>, onSwipeToPage:((index:Int)->Unit)?, initialSelectedPageIndex:Int): PagerVC
-    fun skList(): SKListVC
+    fun skList(vertical:Boolean, reverse:Boolean): SKListVC
 }

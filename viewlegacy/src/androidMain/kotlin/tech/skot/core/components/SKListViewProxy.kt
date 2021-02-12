@@ -8,7 +8,7 @@ import tech.skot.core.SKLog
 import tech.skot.view.live.MutableSKLiveData
 import tech.skot.view.live.SKMessage
 
-class SKListViewProxy() : ComponentViewProxy<RecyclerView>(), SKListVC {
+class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean) : ComponentViewProxy<RecyclerView>(), SKListVC {
 
     private val itemsLD: MutableSKLiveData<List<ComponentViewProxy<*>>> = MutableSKLiveData(emptyList())
 
@@ -33,7 +33,7 @@ class SKListViewProxy() : ComponentViewProxy<RecyclerView>(), SKListVC {
     }
 
     override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: RecyclerView, collectingObservers:Boolean) =
-            SKListViewImpl(activity, fragment, binding).apply {
+            SKListViewImpl(vertical, reverse, activity, fragment, binding).apply {
                 collectObservers = collectingObservers
                 itemsLD.observe {
                     onItems(it)

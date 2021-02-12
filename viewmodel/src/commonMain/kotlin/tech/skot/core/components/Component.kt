@@ -23,17 +23,13 @@ abstract class Component<out V : ComponentVC> {
                          block: suspend CoroutineScope.() -> Unit): Job =
             mainScope.launch(context, start, block)
 
+    private val noCrashExceptionHandler = CoroutineExceptionHandler { _, e ->
+        SKLog.e("launchNoCrash", e)
+    }
 
-    protected fun launchNoCrash(context: CoroutineContext = EmptyCoroutineContext,
-                                start: CoroutineStart = CoroutineStart.DEFAULT,
+    protected fun launchNoCrash(start: CoroutineStart = CoroutineStart.DEFAULT,
                                 block: suspend CoroutineScope.() -> Unit): Job =
-            mainScope.launch(context, start) {
-                try {
-                    block()
-                } catch (ex: Exception) {
-                    SKLog.e("launchNoCrash", ex)
-                }
-            }
+            mainScope.launch(noCrashExceptionHandler, start, block)
 
 
     private var removeObservers: MutableSet<() -> Unit> = mutableSetOf()

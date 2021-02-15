@@ -11,4 +11,5 @@ interface CoreViewInjector {
     fun bottomSheet(): BottomSheetVC
     fun pager(screens:List<ScreenVC>, onSwipeToPage:((index:Int)->Unit)?, initialSelectedPageIndex:Int): PagerVC
     fun skList(vertical:Boolean, reverse:Boolean): SKListVC
+    fun webView(config: WebViewVC.Config, openUrlInitial: WebViewVC.OpenUrl?): WebViewVC
 }

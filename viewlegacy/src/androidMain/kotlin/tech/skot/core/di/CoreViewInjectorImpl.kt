@@ -20,6 +20,8 @@ class CoreViewInjectorImpl : CoreViewInjector {
     override fun pager(screens:List<ScreenVC>, onSwipeToPage:((index:Int)->Unit)?, initialSelectedPageIndex:Int) = PagerViewProxy(screens = screens as List<ScreenViewProxy<*>>, onSwipeToPage = onSwipeToPage, initialSelectedPageIndex = initialSelectedPageIndex)
 
     override fun skList(vertical:Boolean, reverse:Boolean) = SKListViewProxy(vertical, reverse)
+
+    override fun webView(config: WebViewVC.Config, openUrlInitial: WebViewVC.OpenUrl?) = WebViewViewProxy(config, openUrlInitial)
 }
 
 val coreViewModuleInjector = module<BaseInjector> {

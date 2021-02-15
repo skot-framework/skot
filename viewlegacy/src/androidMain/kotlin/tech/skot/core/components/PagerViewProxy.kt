@@ -13,8 +13,8 @@ class PagerViewProxy(
     private val selectedPageIndexLD = MutableSKLiveData<Int>(initialSelectedPageIndex)
     override var selectedPageIndex by selectedPageIndexLD
 
-    override fun bindTo(activity: SKActivity, fragment: Fragment?, viewPager2: ViewPager2, collectingObservers:Boolean) =
-            PagerViewImpl(activity, fragment, viewPager2, this).apply {
+    override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: ViewPager2, collectingObservers:Boolean) =
+            PagerViewImpl(activity, fragment, binding, this).apply {
                 collectObservers = collectingObservers
                 onScreens(screens)
                 onOnSwipeToPage(onSwipeToPage)

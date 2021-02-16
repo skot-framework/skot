@@ -25,7 +25,9 @@ fun Fragment.onCreateViewSK(inflater: LayoutInflater,
         if (screenViewImpl != null) {
             return Pair(screenViewImpl, screenViewImpl.inflate(inflater, activity as AppCompatActivity, this@onCreateViewSK))
         } else {
-            SKLog.e("Fragment.onCreateViewSK -> No View for key $viewKey", NullPointerException("screenViewImpl instance not found"))
+            if (ScreenViewImpl.counter > 1L) {
+                SKLog.e("Fragment.onCreateViewSK -> No View for key $viewKey", NullPointerException("screenViewImpl instance not found"))
+            }
             return null
         }
 

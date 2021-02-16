@@ -27,8 +27,6 @@ abstract class SKActivity : AppCompatActivity() {
                 else -> -1
             }
 
-    private var keyToSave: Long? = null
-
 
     fun onCreateSK(savedInstanceState: Bundle?) {
         val viewKey = getKeyForThisActivity(savedInstanceState)
@@ -52,9 +50,7 @@ abstract class SKActivity : AppCompatActivity() {
             if (action != null && action == Intent.ACTION_VIEW && encodedPath != null) {
                 val screenKey = ScreenViewImpl.onLink?.invoke(encodedPath, intent?.data?.encodedFragment)
                 if (screenKey != null) {
-                    screenViewImpl = ScreenViewImpl.getInstance(screenKey).also {
-                        keyToSave = it?.key
-                    }
+                    screenViewImpl = ScreenViewImpl.getInstance(screenKey)
                 } else {
                     SKLog.e("Please set ScreenViewImpl.onLink to treat $encodedPath link", IllegalStateException("ScreenViewImpl.onLink not set"))
                 }
@@ -62,9 +58,7 @@ abstract class SKActivity : AppCompatActivity() {
             } else {
                 val initialGetter = ScreenViewImpl.getInitialViewImpl
                 if (initialGetter != null) {
-                    screenViewImpl = initialGetter().also {
-                        keyToSave = it.key
-                    }
+                    screenViewImpl = initialGetter()
                 } else {
                     SKLog.e("Please set ScreenViewImpl.getInitialViewImpl", IllegalStateException("ScreenViewImpl.getInitialViewImpl not set"))
                 }

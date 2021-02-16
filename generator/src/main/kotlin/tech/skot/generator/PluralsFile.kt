@@ -32,42 +32,26 @@ fun buildPluralsFile(moduleName: String, withPhrase: Boolean = false) {
             .addSuperinterface(ClassName("$appPackageName.model", "Plurals"))
             .addPrimaryConstructorWithParams(listOf(ParamInfos("applicationContext", contextClassName, listOf(KModifier.PRIVATE))))
             .apply {
-                if (withPhrase) {
-                    addProperty(
-                            PropertySpec.builder("phraseWrappedContext", contextClassName)
-                                    .mutable(true)
-                                    .addModifiers(KModifier.PRIVATE)
-                                    .initializer(
-                                    "Phrase.wrap(applicationContext)"
-                            ).build()
-                    )
-                } else {
-                    addProperty(
-                            PropertySpec.builder(
-                                    "applicationContext",
-                                    contextClassName
-                            ).initializer("applicationContext").build()
-                    )
-                }
+                 addProperty(
+                    PropertySpec.builder(
+                            "applicationContext",
+                            contextClassName
+                    ).initializer("applicationContext").build()
+                )
             }
             .addFunction(
-                    FunSpec.builder("reinit")
-                            .addModifiers(KModifier.OVERRIDE)
-                            .addCode(CodeBlock.of("phraseWrappedContext = Phrase.wrap(applicationContext)"))
-                            .build()
-            )
-            .addFunction(
                     FunSpec.builder("compute")
+                            .addModifiers(KModifier.PRIVATE)
                             .addParameter("pluralInt", Int::class)
                             .addParameter("quantity", Int::class)
                             .addParameter("formatArgs", Any::class, KModifier.VARARG)
                             .returns(String::class)
-                            .addCode("""return if (formatArgs.isEmpty()) {
-      ${if (withPhrase) "phraseWrappedContext" else "applicationContext"}.resources.getQuantityString(pluralInt, quantity)
-    }
-  else {
-      ${if (withPhrase) "phraseWrappedContext" else "applicationContext"}.resources.getQuantityString(pluralInt, quantity, *formatArgs)
-    }""".trimIndent())
+                            .beginControlFlow("return if(formatArgs.isEmpty())")
+                            .addStatement("applicationContext.resources.getQuantityString(pluralInt, quantity)")
+                            .endControlFlow()
+                            .beginControlFlow("else")
+                            .addStatement("applicationContext.resources.getQuantityString(pluralInt, quantity, *formatArgs)")
+                            .endControlFlow()
                             .build()
             )
 
@@ -85,15 +69,6 @@ fun buildPluralsFile(moduleName: String, withPhrase: Boolean = false) {
 
 
 
-//            .addProperties(
-//                    strings.map {
-//                        PropertySpec.builder(it, String::class, KModifier.OVERRIDE)
-//                                .initializer(CodeBlock.of("get(R.string.$it)"))
-//                                .build()
-//                    }
-//            )
-
-
     fileAndroid.addImport(modulePackageName, "R")
     fileAndroid.addType(classBuilderAndroid.build())
 
@@ -102,11 +77,6 @@ fun buildPluralsFile(moduleName: String, withPhrase: Boolean = false) {
 
     val fileCommon = FileSpec.builder("$appPackageName.model", "Plurals")
     val classBuilderCommon = TypeSpec.interfaceBuilder("Plurals")
-            .addFunction(
-                    FunSpec.builder("reinit")
-                            .addModifiers(KModifier.ABSTRACT)
-                            .build()
-            )
             .addFunctions(
                     plurals.map {
                         FunSpec.builder(it.decapitalize())

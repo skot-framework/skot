@@ -80,7 +80,7 @@ fun TypeSpec.Builder.addPrimaryConstructorWithParams(vals: List<ParamInfos>): Ty
                     .apply {
                         vals
                                 .forEach {
-                                    addParameter(it.name, it.typeName)
+                                    addParameter(it.name, it.typeName, it.modifiers)
                                 }
                     }
                     .build()

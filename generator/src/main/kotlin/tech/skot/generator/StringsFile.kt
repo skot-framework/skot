@@ -32,36 +32,19 @@ fun buildStringsFile(moduleName: String, withPhrase: Boolean = false) {
             .addSuperinterface(ClassName("$appPackageName.model", "Strings"))
             .addPrimaryConstructorWithParams(listOf(ParamInfos("applicationContext", contextClassName, listOf(KModifier.PRIVATE))))
             .apply {
-                if (withPhrase) {
-                    addProperty(
-                            PropertySpec.builder("phraseWrappedContext", contextClassName)
-                                    .addModifiers(KModifier.PRIVATE)
-                                    .mutable(true)
-                                    .initializer(
-                                    "Phrase.wrap(applicationContext)"
-                            ).build()
-                    )
-                } else {
-                    addProperty(
-                            PropertySpec.builder(
-                                    "applicationContext",
-                                    contextClassName
-                            ).initializer("applicationContext").build()
-                    )
-                }
+                addProperty(
+                        PropertySpec.builder(
+                                "applicationContext",
+                                contextClassName
+                        ).initializer("applicationContext").build()
+                )
             }
-
-            .addFunction(
-                    FunSpec.builder("reinit")
-                            .addModifiers(KModifier.OVERRIDE)
-                            .addCode(CodeBlock.of("phraseWrappedContext = Phrase.wrap(applicationContext)"))
-                            .build()
-            )
             .addFunction(
                     FunSpec.builder("get")
                             .addParameter("strInt", Int::class)
+                            .addModifiers(KModifier.PRIVATE)
                             .returns(String::class)
-                            .addCode(CodeBlock.of("return ${if (withPhrase) "phraseWrappedContext" else "applicationContext"}.getString(strInt)"))
+                            .addCode(CodeBlock.of("return applicationContext.getString(strInt)"))
                             .build()
             )
             .addProperties(
@@ -87,11 +70,6 @@ fun buildStringsFile(moduleName: String, withPhrase: Boolean = false) {
                         PropertySpec.builder(it.decapitalize(), String::class)
                                 .build()
                     }
-            )
-            .addFunction(
-                    FunSpec.builder("reinit")
-                            .addModifiers(KModifier.ABSTRACT)
-                            .build()
             )
 
 

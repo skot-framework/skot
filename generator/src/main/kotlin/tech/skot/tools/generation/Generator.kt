@@ -1,23 +1,25 @@
 package tech.skot.tools.generation
 
 import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import org.w3c.dom.Element
 import tech.skot.core.components.ScreenVC
 import tech.skot.core.components.ComponentVC
-import tech.skot.core.components.Opens
 import tech.skot.tools.generation.viewlegacy.*
 import tech.skot.tools.generation.viewmodel.generateViewModel
 import java.nio.file.Files
 import java.nio.file.Path
 import javax.xml.parsers.DocumentBuilderFactory
 import kotlin.reflect.KClass
-import kotlin.reflect.full.findAnnotation
 
 object Modules {
+    const val app = "androidApp"
     const val viewcontract = "viewcontract"
+    const val modelcontract = "modelcontract"
     const val view = "view"
     const val viewmodel = "viewmodel"
 }
+
 
 class Generator(
         val appPackage: String,
@@ -34,15 +36,37 @@ class Generator(
 //    val mapTypeDef = components.map { it.vc.asTypeName() to it }.toMap()
 
 
-    val viewInjector = ClassName("$appPackage.di","ViewInjector")
+    val viewInjectorInterface = ClassName("$appPackage.di","ViewInjector")
+    val viewInjectorImpl = ClassName("$appPackage.di","ViewInjectorImpl")
     val viewInjectorIntance = ClassName("$appPackage.di","viewInjector")
 
+    val stringsInstance = ClassName(appPackage, "strings")
+    val stringsInterface = ClassName(appPackage, "Strings")
+    val stringsImpl = ClassName(appPackage, "StringsImpl")
+
+    val pluralsInstance = ClassName(appPackage, "plurals")
+    val pluralsInterface = ClassName(appPackage, "Plurals")
+    val pluralsImpl = ClassName(appPackage, "PluralsImpl")
+
+
+
+    val generatedAppModule = ClassName("$appPackage.di", "generatedAppModule")
+
+    val moduleFun = ClassName("tech.skot.core.di", "module")
+    val module = ClassName("tech.skot.core.di", "Module")
+    val getFun = ClassName("tech.skot.core.di", "get")
+    val baseInjector = ClassName("tech.skot.core.di", "BaseInjector")
 
     fun generate() {
 
         generateViewContract()
         generateViewLegacy()
         generateViewModel()
+        deleteModuleGenerated(Modules.modelcontract)
+        deleteModuleGenerated(Modules.app)
+        generateStrings()
+        generatePlurals()
+        generateApp()
     }
 
     fun generatedCommonSources(module: String) =
@@ -68,10 +92,10 @@ class Generator(
 
     private fun generateViewInjector() {
         FileSpec.builder(
-                viewInjector.packageName,
-                viewInjector.simpleName
+                viewInjectorInterface.packageName,
+                viewInjectorInterface.simpleName
 
-        ).addType(TypeSpec.interfaceBuilder(viewInjector.simpleName)
+        ).addType(TypeSpec.interfaceBuilder(viewInjectorInterface.simpleName)
                 .addFunctions(
                         components.map {
                             FunSpec.builder(it.name.decapitalize())
@@ -90,7 +114,7 @@ class Generator(
                         }
                 )
                 .build())
-                .build().writeTo(generatedAndroidSources(Modules.viewcontract))
+                .build().writeTo(generatedCommonSources(Modules.viewcontract))
     }
 
     fun ClassName.existsAndroidInModule(module: String) =
@@ -102,7 +126,42 @@ class Generator(
     fun androidResLayoutPath(module:String, name:String) =
             rootPath.resolve("$module/src/androidMain/res/layout/$name.xml")
 
-    val r = ClassName("$appPackage.${Modules.view}", "R")
+    val viewR = ClassName("$appPackage.${Modules.view}", "R")
+    val appR = ClassName("$appPackage.android", "R")
+
+
+
+    fun generateApp() {
+        generateAppModule()
+    }
+
+
+    fun generateAppModule() {
+        FileSpec.builder(generatedAppModule.packageName, generatedAppModule.simpleName)
+                .addProperty(
+                        PropertySpec.builder(generatedAppModule.simpleName,module.parameterizedBy(baseInjector))
+                                .initializer(CodeBlock.builder()
+                                        .beginControlFlow("module")
+                                        .addStatement("single { ${stringsImpl.simpleName}(androidApplication) as ${stringsInterface.simpleName}}")
+                                        .addStatement("single { ${pluralsImpl.simpleName}(androidApplication) as ${pluralsInterface.simpleName}}")
+                                        .addStatement("single { ${viewInjectorImpl.simpleName}() as ${viewInjectorInterface.simpleName}}")
+                                        .endControlFlow()
+                                        .build())
+                                .build()
+
+                )
+                .addImportClassName(getFun)
+                .addImportClassName(moduleFun)
+                .addImportClassName(baseInjector)
+                .addImportClassName(stringsImpl)
+                .addImportClassName(stringsInterface)
+                .addImportClassName(pluralsImpl)
+                .addImportClassName(pluralsInterface)
+                .addImportClassName(viewInjectorImpl)
+                .addImportClassName(viewInjectorInterface)
+                .build()
+                .writeTo(generatedAndroidSources(Modules.app))
+    }
 
 }
 

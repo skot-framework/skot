@@ -48,7 +48,7 @@ class PluginViewModel: Plugin<Project> {
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
         sourceSets["commonMain"].dependencies {
             implementation(project(":viewcontract"))
-            implementation(project(":modelcontract"))
+            api(project(":modelcontract"))
             api("tech.skot:viewmodel:${Versions.skot}")
         }
 

@@ -14,7 +14,7 @@ fun TypeSpec.Builder.addPrimaryConstructorWithParams(vals: List<ParamInfos>): Ty
                     .apply {
                         vals
                                 .forEach {
-                                    addParameter(it.name, it.typeName)
+                                    addParameter(it.name, it.typeName, it.modifiers)
                                 }
                     }
                     .build()
@@ -33,9 +33,9 @@ fun TypeSpec.Builder.addPrimaryConstructorWithParams(vals: List<ParamInfos>): Ty
 
 fun TypeName.nullable() = this.copy(true)
 
-fun FileSpec.Builder.addImportClassName(className: ClassName) {
+fun FileSpec.Builder.addImportClassName(className: ClassName) =
     addImport(className.packageName, className.simpleName)
-}
+
 
 fun String.packageToPathFragment() = replace('.','/')
 

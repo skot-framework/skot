@@ -20,12 +20,7 @@ val componentViewModel = ClassName(coreComponentsPackage, "Component")
 val mutableSKLiveData = ClassName("tech.skot.view.live", "MutableSKLiveData")
 val skMessage = ClassName("tech.skot.view.live", "SKMessage")
 
-object AndroidClassNames {
-    val skActivity = ClassName(coreComponentsPackage, "SKActivity")
-    val fragment = ClassName("androidx.fragment.app", "Fragment")
-    val view = ClassName("android.view", "View")
 
-}
 
 
 fun PropertyDef.ld() = PropertyDef(name = name.suffix("LD"), type = mutableSKLiveData.parameterizedBy(type))

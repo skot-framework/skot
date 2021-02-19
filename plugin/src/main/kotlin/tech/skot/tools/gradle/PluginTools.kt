@@ -8,10 +8,16 @@ import org.gradle.kotlin.dsl.*
 import tech.skot.Versions
 
 open class SKPluginToolsExtension {
-    var startScreen: String? = null
-    var appPackage: String? = null
-    var baseActivity:String? = null
+//    var startScreen: String? = null
+//    var appPackage: String? = null
+//    var baseActivity:String? = null
+//    var featureModules:List<FeatureModule> = emptyList()
+    var app:App? = null
 }
+
+data class App(val startScreen: String, val packageName: String, val baseActivity:String? = null)
+
+data class FeatureModule(val packageName:String, val startScreen:String)
 
 class PluginTools : Plugin<Project> {
 
@@ -34,12 +40,20 @@ class PluginTools : Plugin<Project> {
 
             doLast {
                 println("Skot version ${Versions.skot}")
-                println("generate .........")
-                project.javaexec {
-                    main = "tech.skot.tools.generation.GenerateKt"
-                    classpath = sourceSet.runtimeClasspath
-                    args = listOf(extension.appPackage, extension.startScreen, extension.baseActivity, project.rootDir.toPath().toString())
+                val app = extension.app
+                if (app == null) {
+                    println("rien à générer .........")
                 }
+                else {
+                    println("génération .........")
+                    project.javaexec {
+                        main = "tech.skot.tools.generation.GenerateKt"
+                        classpath = sourceSet.runtimeClasspath
+                        args = listOf(app.packageName, app.startScreen, app.baseActivity ?: "null", project.rootDir.toPath().toString())
+                    }
+                }
+
+
 
 
 //                println("ktLint ......")

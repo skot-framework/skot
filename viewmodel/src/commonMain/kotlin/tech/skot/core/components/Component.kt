@@ -6,11 +6,11 @@ import tech.skot.core.SKLog
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
-abstract class Component<out V : ComponentVC> {
+abstract class Component<out V : ComponentVC>: CoroutineScope {
     abstract val view: V
 
     protected val job = SupervisorJob()
-    protected val mainScope = CoroutineScope(Dispatchers.Main + job)
+    override val coroutineContext = CoroutineScope(Dispatchers.Main + job).coroutineContext
 
     open fun onRemove() {
         //remove des Pokers
@@ -18,10 +18,6 @@ abstract class Component<out V : ComponentVC> {
         job.cancel()
     }
 
-    protected fun launch(context: CoroutineContext = EmptyCoroutineContext,
-                         start: CoroutineStart = CoroutineStart.DEFAULT,
-                         block: suspend CoroutineScope.() -> Unit): Job =
-            mainScope.launch(context, start, block)
 
     private val noCrashExceptionHandler = CoroutineExceptionHandler { _, e ->
         SKLog.e("launchNoCrash", e)
@@ -29,7 +25,7 @@ abstract class Component<out V : ComponentVC> {
 
     protected fun launchNoCrash(start: CoroutineStart = CoroutineStart.DEFAULT,
                                 block: suspend CoroutineScope.() -> Unit): Job =
-            mainScope.launch(noCrashExceptionHandler, start, block)
+            launch(noCrashExceptionHandler, start, block)
 
 
     private var removeObservers: MutableSet<() -> Unit> = mutableSetOf()

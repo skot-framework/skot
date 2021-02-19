@@ -18,7 +18,7 @@ fun Generator.generateViewLegacy() {
                 .addType(it.buildRAI(viewModuleAndroidPackage))
                 .apply {
                     if (it.hasLayout) {
-                        addImportClassName(r)
+                        addImportClassName(viewR)
                     }
                 }.build()
                 .writeTo(generatedAndroidSources(Modules.view))

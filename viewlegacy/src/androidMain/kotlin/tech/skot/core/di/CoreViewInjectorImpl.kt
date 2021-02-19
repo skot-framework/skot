@@ -24,6 +24,6 @@ class CoreViewInjectorImpl : CoreViewInjector {
     override fun webView(config: WebViewVC.Config, openUrlInitial: WebViewVC.OpenUrl?) = WebViewViewProxy(config, openUrlInitial)
 }
 
-val coreViewModuleInjector = module<BaseInjector> {
+val coreViewModule = module<BaseInjector> {
     single { CoreViewInjectorImpl() as CoreViewInjector }
 }

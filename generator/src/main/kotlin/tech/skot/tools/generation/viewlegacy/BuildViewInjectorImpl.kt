@@ -6,11 +6,10 @@ import tech.skot.tools.generation.Generator
 import tech.skot.tools.generation.addImportClassName
 
 fun Generator.generateViewLegacyInjectorImpl(module: String) {
-    val viewInjectorImpl = ClassName("$appPackage.di", "ViewInjectorImpl")
 
     FileSpec.builder(viewInjectorImpl.packageName, viewInjectorImpl.simpleName)
             .addType(TypeSpec.classBuilder(viewInjectorImpl.simpleName)
-                    .addSuperinterface(viewInjector)
+                    .addSuperinterface(viewInjectorInterface)
                     .addFunctions(
                             components.map { it.asViewLegacyInjection(this) }
                     )

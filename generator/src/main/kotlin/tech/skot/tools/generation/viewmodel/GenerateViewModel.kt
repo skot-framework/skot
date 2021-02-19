@@ -4,6 +4,7 @@ import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import tech.skot.tools.generation.Generator
 import tech.skot.tools.generation.Modules
+import tech.skot.tools.generation.addImportClassName
 import tech.skot.tools.generation.fileClassBuilder
 import tech.skot.tools.generation.viewlegacy.componentViewModel
 import tech.skot.tools.generation.viewlegacy.screenViewModel
@@ -43,6 +44,33 @@ fun Generator.generateViewModel() {
 
         }
     }
+
+    FileSpec.builder("${appPackage}.di", "shortCuts")
+            .addProperty(
+                    PropertySpec
+                            .builder(viewInjectorIntance.simpleName, viewInjectorInterface)
+                            .initializer("get()")
+                            .build()
+            )
+            .addProperty(
+                    PropertySpec
+                            .builder(stringsInstance.simpleName, stringsInterface)
+                            .initializer("get()")
+                            .build()
+            )
+            .addProperty(
+                    PropertySpec
+                            .builder(pluralsInstance.simpleName, pluralsInterface)
+                            .initializer("get()")
+                            .build()
+            )
+            .addImportClassName(getFun)
+            .addImportClassName(stringsInterface)
+            .addImportClassName(pluralsInterface)
+            .addImportClassName(viewInjectorInterface)
+
+            .build()
+            .writeTo(generatedCommonSources(Modules.viewmodel))
 
 }
 

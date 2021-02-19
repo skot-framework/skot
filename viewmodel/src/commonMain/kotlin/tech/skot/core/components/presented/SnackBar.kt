@@ -2,6 +2,7 @@ package tech.skot.core.components.presented
 
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import tech.skot.core.components.Component
 import tech.skot.core.di.coreViewInjector
 
@@ -25,7 +26,6 @@ class SnackBar : Component<SnackBarVC>() {
         disappearJob?.cancel()
         disappearJob = launch {
             delay(3000)
-            logD("-------------- disapear")
             view.state = null
         }
     }

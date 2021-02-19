@@ -8,6 +8,7 @@ import tech.skot.tools.generation.ComponentDef
 import tech.skot.tools.generation.ParamInfos
 import tech.skot.tools.generation.addPrimaryConstructorWithParams
 import tech.skot.tools.generation.nullable
+import tech.skot.tools.generation.AndroidClassNames
 
 const val TODO_GENERATED_BUT_NOT_IMPLEMENTED = "TODO(\"generated but still not implemented\")"
 

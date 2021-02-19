@@ -32,7 +32,7 @@ class PluginApp: Plugin<Project> {
         sourceSets {
             getByName("main") {
                 java.srcDir("src/main/kotlin")
-                java.srcDir("generated/main/kotlin")
+                java.srcDir("generated/androidMain/kotlin")
 //                java.srcDir("src/main/kotlin${extra["env"]}")
             }
             getByName("androidTest") {
@@ -65,9 +65,9 @@ class PluginApp: Plugin<Project> {
 
 
     private fun DependencyHandlerScope.dependencies() {
-        add("api", project(":viewmodel"))
-        add("api", project(":model"))
-        add("api", project(":view"))
+        add("implementation", project(":viewmodel"))
+        add("implementation", project(":model"))
+        add("implementation", project(":view"))
 
         add("debugImplementation","com.squareup.leakcanary:leakcanary-android:2.6")
     }

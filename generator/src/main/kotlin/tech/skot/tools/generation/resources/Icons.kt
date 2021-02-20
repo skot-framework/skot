@@ -7,53 +7,44 @@ import java.util.stream.Collectors
 
 fun Generator.generateIcons() {
 
-    val values = rootPath.resolve(Modules.viewcontract).resolve("src/androidMain/res/values")
+    println("icons .........")
+    println("generate Icons interface .........")
+    val values = rootPath.resolve(Modules.view).resolve("src/androidMain/res_referenced/drawable")
 
 
     if (!Files.exists(values)) {
         return
     }
-    println("icons .........")
-    val strings =
-            Files.list(values).filter { it.fileName.toString().startsWith("strings") }.flatMap {
-                it.getDocumentElement().childElements().stream().filter { it.tagName == "string" }
-                        .map { it.getAttribute("name") }
-            }.collect(Collectors.toList())
+    val icons =
+            Files.list(values).map { it.fileName.toString().substringBeforeLast(".")}.collect(Collectors.toList())
 
 
-    fun String.toStringsPropertyName() = decapitalize()
+    fun String.toIconsPropertyName() = decapitalize()
 
 
     FileSpec.builder(
-            stringsInterface.packageName,
-            stringsInterface.simpleName
-    ).addType(TypeSpec.interfaceBuilder(stringsInterface.simpleName)
+            iconsInterface.packageName,
+            iconsInterface.simpleName
+    ).addType(TypeSpec.interfaceBuilder(iconsInterface.simpleName)
             .addProperties(
-                    strings.map {
-                        PropertySpec.builder(it.toStringsPropertyName(), String::class)
+                    icons.map {
+                        PropertySpec.builder(it.toIconsPropertyName(), tech.skot.core.view.Icon::class)
                                 .build()
                     }
             )
             .build())
             .build()
-            .writeTo(generatedCommonSources(Modules.modelcontract))
+            .writeTo(generatedCommonSources(Modules.viewcontract))
 
 
-    stringsImpl.fileClassBuilder(listOf(viewR)) {
-        addSuperinterface(stringsInterface)
+    println("generate Icons android implementation .........")
+    iconsImpl.fileClassBuilder(listOf(viewR)) {
+        addSuperinterface(iconsInterface)
         addPrimaryConstructorWithParams(listOf(ParamInfos("applicationContext", AndroidClassNames.context, listOf(KModifier.PRIVATE))))
-        addFunction(
-                FunSpec.builder("get")
-                        .addModifiers(KModifier.PRIVATE)
-                        .addParameter("strId", Int::class)
-                        .returns(String::class)
-                        .addStatement("return applicationContext.getString(strId)")
-                        .build()
-        )
         addProperties(
-                strings.map {
-                    PropertySpec.builder(it.toStringsPropertyName(), String::class, KModifier.OVERRIDE)
-                            .getter(FunSpec.getterBuilder().addStatement("return get(R.string.$it)").build())
+                icons.map {
+                    PropertySpec.builder(it.toIconsPropertyName(), tech.skot.core.view.Icon::class, KModifier.OVERRIDE)
+                            .initializer("Icon(R.drawable.$it)")
                             .build()
                 }
         )

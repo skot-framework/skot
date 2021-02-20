@@ -48,6 +48,9 @@ class Generator(
     val pluralsInterface = ClassName(appPackage, "Plurals")
     val pluralsImpl = ClassName(appPackage, "PluralsImpl")
 
+    val iconsInstance = ClassName(appPackage, "icons")
+    val iconsInterface = ClassName(appPackage, "Icons")
+    val iconsImpl = ClassName(appPackage, "IconsImpl")
 
 
     val generatedAppModule = ClassName("$appPackage.di", "generatedAppModule")
@@ -66,6 +69,7 @@ class Generator(
         deleteModuleGenerated(Modules.app)
         generateStrings()
         generatePlurals()
+        generateIcons()
         generateApp()
     }
 
@@ -144,6 +148,7 @@ class Generator(
                                         .beginControlFlow("module")
                                         .addStatement("single { ${stringsImpl.simpleName}(androidApplication) as ${stringsInterface.simpleName}}")
                                         .addStatement("single { ${pluralsImpl.simpleName}(androidApplication) as ${pluralsInterface.simpleName}}")
+                                        .addStatement("single { ${iconsImpl.simpleName}() as ${iconsInterface.simpleName}}")
                                         .addStatement("single { ${viewInjectorImpl.simpleName}() as ${viewInjectorInterface.simpleName}}")
                                         .endControlFlow()
                                         .build())

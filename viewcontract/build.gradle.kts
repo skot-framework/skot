@@ -20,4 +20,10 @@ kotlin {
         api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
     }
 
+    sourceSets {
+        val iosMain by getting {
+        }
+    }
+
+
 }

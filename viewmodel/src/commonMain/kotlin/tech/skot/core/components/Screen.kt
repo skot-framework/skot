@@ -20,7 +20,15 @@ abstract class Screen<V : ScreenVC>: Component<ScreenVC>() {
         parent?.remove(this) ?: throw IllegalStateException("This ${this::class.simpleName} has currently no stack parent")
     }
 
+    fun finishIfInAStack() {
+        parent?.remove(this)
+    }
+
     fun dismiss() {
         presenter?.dismiss() ?: throw IllegalStateException("This ${this::class.simpleName} is not currently displayed as a BottomSheet")
+    }
+
+    fun dismissIfBottomSheet() {
+        presenter?.dismiss()
     }
 }

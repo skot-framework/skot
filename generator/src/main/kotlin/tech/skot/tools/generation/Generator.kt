@@ -162,8 +162,10 @@ class Generator(
                 .addImportClassName(stringsInterface)
                 .addImportClassName(pluralsImpl)
                 .addImportClassName(pluralsInterface)
-                .addImportClassName(viewInjectorImpl)
-                .addImportClassName(viewInjectorInterface)
+                .addImportClassName(iconsImpl)
+                .addImportClassName(iconsInterface)
+//                .addImportClassName(viewInjectorImpl)
+//                .addImportClassName(viewInjectorInterface)
                 .build()
                 .writeTo(generatedAndroidSources(Modules.app))
     }

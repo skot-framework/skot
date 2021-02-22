@@ -64,10 +64,16 @@ fun Generator.generateViewModel() {
                             .initializer("get()")
                             .build()
             )
+            .addProperty(
+                    PropertySpec
+                            .builder(iconsInstance.simpleName, iconsInterface)
+                            .initializer("get()")
+                            .build()
+            )
             .addImportClassName(getFun)
             .addImportClassName(stringsInterface)
             .addImportClassName(pluralsInterface)
-            .addImportClassName(viewInjectorInterface)
+//            .addImportClassName(viewInjectorInterface)
 
             .build()
             .writeTo(generatedCommonSources(Modules.viewmodel))

@@ -22,6 +22,8 @@ class CoreViewInjectorImpl : CoreViewInjector {
     override fun skList(vertical:Boolean, reverse:Boolean) = SKListViewProxy(vertical, reverse)
 
     override fun webView(config: WebViewVC.Config, openUrlInitial: WebViewVC.OpenUrl?) = WebViewViewProxy(config, openUrlInitial)
+
+    override fun frame(screens: Set<ScreenVC>, screenInitial: ScreenVC?) = FrameViewProxy(screens = screens as Set<ScreenViewProxy<*>>, screenInitial = screenInitial as ScreenViewProxy<*>?)
 }
 
 val coreViewModule = module<BaseInjector> {

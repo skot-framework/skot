@@ -40,7 +40,6 @@ fun Generator.generateIcons() {
     println("generate Icons android implementation .........")
     iconsImpl.fileClassBuilder(listOf(viewR)) {
         addSuperinterface(iconsInterface)
-        addPrimaryConstructorWithParams(listOf(ParamInfos("applicationContext", AndroidClassNames.context, listOf(KModifier.PRIVATE))))
         addProperties(
                 icons.map {
                     PropertySpec.builder(it.toIconsPropertyName(), tech.skot.core.view.Icon::class, KModifier.OVERRIDE)

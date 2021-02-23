@@ -14,7 +14,7 @@ fun Generator.generateViewModel() {
     components.forEach {
         it.viewModelGen().fileClassBuilder {
             addModifiers(KModifier.ABSTRACT)
-            superclass((if (it.isScreen) screenViewModel else componentViewModel).parameterizedBy(it.vc.asTypeName()))
+            superclass(it.superVM.parameterizedBy(it.vc.asTypeName()))
         }
                 .writeTo(generatedCommonSources(Modules.viewmodel))
 
@@ -70,9 +70,16 @@ fun Generator.generateViewModel() {
                             .initializer("get()")
                             .build()
             )
+            .addProperty(
+                    PropertySpec
+                            .builder(colorsInstance.simpleName, colorsInterface)
+                            .initializer("get()")
+                            .build()
+            )
             .addImportClassName(getFun)
             .addImportClassName(stringsInterface)
             .addImportClassName(pluralsInterface)
+            .addImportClassName(colorsInterface)
 //            .addImportClassName(viewInjectorInterface)
 
             .build()

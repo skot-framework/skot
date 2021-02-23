@@ -1,9 +1,12 @@
 package tech.skot.core.components
 
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import tech.skot.core.SKLog
+import tech.skot.core.view.Color
 import tech.skot.view.live.SKLiveData
 import tech.skot.view.live.SKMessage
 import java.lang.ref.WeakReference
@@ -39,4 +42,7 @@ abstract class ComponentViewImpl<B : Any>(protected val activity: SKActivity, pr
         observe(lifecycleOwner = this@ComponentViewImpl, onReceive)
     }
 
+    fun TextView.setTextColor(color: Color) {
+        setTextColor(ContextCompat.getColor(context, color.res))
+    }
 }

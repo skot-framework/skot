@@ -52,6 +52,10 @@ class Generator(
     val iconsInterface = ClassName(appPackage, "Icons")
     val iconsImpl = ClassName(appPackage, "IconsImpl")
 
+    val colorsInstance = ClassName(appPackage, "colors")
+    val colorsInterface = ClassName(appPackage, "Colors")
+    val colorsImpl = ClassName(appPackage, "ColorsImpl")
+
 
     val generatedAppModule = ClassName("$appPackage.di", "generatedAppModule")
 
@@ -70,6 +74,7 @@ class Generator(
         generateStrings()
         generatePlurals()
         generateIcons()
+        generateColors()
         generateApp()
     }
 
@@ -149,6 +154,7 @@ class Generator(
                                         .addStatement("single { ${stringsImpl.simpleName}(androidApplication) as ${stringsInterface.simpleName}}")
                                         .addStatement("single { ${pluralsImpl.simpleName}(androidApplication) as ${pluralsInterface.simpleName}}")
                                         .addStatement("single { ${iconsImpl.simpleName}() as ${iconsInterface.simpleName}}")
+                                        .addStatement("single { ${colorsImpl.simpleName}() as ${colorsInterface.simpleName}}")
                                         .addStatement("single { ${viewInjectorImpl.simpleName}() as ${viewInjectorInterface.simpleName}}")
                                         .endControlFlow()
                                         .build())
@@ -164,6 +170,9 @@ class Generator(
                 .addImportClassName(pluralsInterface)
                 .addImportClassName(iconsImpl)
                 .addImportClassName(iconsInterface)
+                .addImportClassName(colorsInterface)
+                .addImportClassName(colorsImpl)
+
 //                .addImportClassName(viewInjectorImpl)
 //                .addImportClassName(viewInjectorInterface)
                 .build()

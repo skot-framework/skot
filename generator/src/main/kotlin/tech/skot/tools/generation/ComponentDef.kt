@@ -36,6 +36,7 @@ data class ComponentDef(
 
     fun toFillVCparams() = (subComponents.toFillParams(init = { "${name.toVM()}.view" }) + fixProperties.toFillParams() + mutableProperties.map { it.initial() }.toFillParams()).joinToString(separator = ",")
 
+    val superVM = vc.supertypes.find { it.isComponent() }.let { it!!.vmClassName() }
     val isScreen = vc.isSubclassOf(ScreenVC::class)
     val hasLayout = !vc.hasAnnotation<NoLayout>()
     val layoutIsRoot = vc.hasAnnotation<LayoutIsRoot>()
@@ -44,6 +45,7 @@ data class ComponentDef(
 
 fun KClass<out ComponentVC>.meOrSubComponentHasState():Boolean = nestedClasses.any { it.hasAnnotation<UIState>() } || ownProperties().any { it.returnType.isComponent() && (it.returnType.classifier as KClass<out ComponentVC>).meOrSubComponentHasState()}
 
+fun KType.vmClassName() = (classifier as KClass<out ComponentVC>).let { ClassName(it.packageName(), it.simpleName!!.toVM()) }
 
 data class PropertyDef(val name: String, val type: TypeName, val meOrSubComponentHasState:Boolean? = null) {
     fun asParam(): ParameterSpec = ParameterSpec.builder(name, type).build()

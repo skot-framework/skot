@@ -70,6 +70,16 @@ gradlePlugin {
             id = "skot-starter"
             implementationClass = "tech.skot.tools.gradle.PluginStarter"
         }
+
+        create("SkotLibrary") {
+            id = "skot-library"
+            implementationClass = "tech.skot.tools.gradle.PluginLibrary"
+        }
+
+        create("SkotLibraryViewlegacy") {
+            id = "skot-library-viewlegacy"
+            implementationClass = "tech.skot.tools.gradle.PluginLibraryViewLegacy"
+        }
     }
 }
 

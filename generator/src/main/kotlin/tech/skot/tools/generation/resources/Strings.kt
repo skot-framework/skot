@@ -15,7 +15,7 @@ fun Generator.generateStrings() {
     }
     println("strings .........")
     val strings =
-            Files.list(values).filter { it.fileName.toString().startsWith("strings") }.flatMap {
+            Files.list(values).flatMap {
                 it.getDocumentElement().childElements().stream().filter { it.tagName == "string" }
                         .map { it.getAttribute("name") }
             }.collect(Collectors.toList())

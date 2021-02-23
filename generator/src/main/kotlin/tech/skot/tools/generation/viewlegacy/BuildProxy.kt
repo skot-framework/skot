@@ -10,6 +10,7 @@ import kotlin.reflect.full.hasAnnotation
 
 const val coreComponentsPackage = "tech.skot.core.components"
 val layoutInflater = ClassName("android.view", "LayoutInflater")
+val viewGroup = ClassName("android.view", "ViewGroup")
 
 val screenProxy = ClassName(coreComponentsPackage, "ScreenViewProxy")
 val componentProxy = ClassName(coreComponentsPackage, "ComponentViewProxy")
@@ -87,7 +88,7 @@ fun ComponentDef.buildProxy(viewModuleAndroidPackage: String, baseActivity: Clas
 
             if (hasLayout) {
                 addProperty(
-                        PropertySpec.builder("layoutId", ClassName("kotlin", "Int").nullable())
+                        PropertySpec.builder("layoutId", ClassName("kotlin", "Int"))
                                 .addModifiers(KModifier.OVERRIDE)
                                 .initializer("R.layout.${layoutName()}")
                                 .build())
@@ -101,16 +102,18 @@ fun ComponentDef.buildProxy(viewModuleAndroidPackage: String, baseActivity: Clas
 
             }
 
-            if (isScreen) {
+//            if (isScreen) {
                 addFunction(
                         FunSpec.builder("inflate")
                                 .addModifiers(KModifier.OVERRIDE)
                                 .addParameter("layoutInflater", layoutInflater)
+                                .addParameter("parent", viewGroup.nullable())
+                                .addParameter("attachToParent", Boolean::class)
                                 .returns(binding(viewModuleAndroidPackage))
-                                .addCode("return ${binding(viewModuleAndroidPackage).simpleName}.inflate(layoutInflater)")
+                                .addCode("return ${binding(viewModuleAndroidPackage).simpleName}.inflate(layoutInflater, parent, attachToParent)")
                                 .build()
                 )
-            }
+//            }
         }
         .addFunction(
                 FunSpec.builder("bindTo")

@@ -8,6 +8,7 @@ import org.gradle.kotlin.dsl.*
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.model.KotlinAndroidExtension
 import tech.skot.Versions
+import tech.skot.tools.gradle.SKLibrary.Companion.addDependenciesToViewContract
 
 //open class SKPluginViewLegacyExtension {
 //}
@@ -23,6 +24,7 @@ class PluginViewLegacy: Plugin<Project> {
 
         project.dependencies {
             dependencies()
+            addDependenciesToViewContract(this, project.rootDir.toPath())
         }
 
     }

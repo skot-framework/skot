@@ -15,6 +15,8 @@ open class SKActivity : AppCompatActivity() {
         var oneActivityAlreadyLaunched = false
     }
 
+    private var screen:ScreenViewImpl<*>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val viewKey = getKeyForThisActivity(savedInstanceState)
@@ -34,7 +36,8 @@ open class SKActivity : AppCompatActivity() {
                 bindTo(this@SKActivity, null, layoutInflater)
             }
                     ?.run {
-                        setContentView(this)
+                        setContentView(this.view)
+                        screen = this
                         linkToRootStack()
                     }
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -48,6 +51,16 @@ open class SKActivity : AppCompatActivity() {
                 savedInstanceState?.containsKey(ScreensManager.SK_EXTRA_VIEW_KEY) == true -> savedInstanceState.getLong(ScreensManager.SK_EXTRA_VIEW_KEY, -1)
                 else -> -1
             }
+
+    override fun onResume() {
+        super.onResume()
+        screen?.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        screen?.onPause()
+    }
 
     override fun onDestroy() {
         screenKey?.let { ScreensManager.getInstance(it) }?.apply {

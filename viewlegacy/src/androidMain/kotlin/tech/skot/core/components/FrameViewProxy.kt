@@ -15,6 +15,7 @@ class FrameViewProxy(
         set(value) = screenLD.postValue(value as ScreenViewProxy<*>)
 
 
+
     override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: FrameLayout, collectingObservers: Boolean) =
             FrameViewImpl(activity, fragment, binding, screens).apply {
                 screenLD.observe {

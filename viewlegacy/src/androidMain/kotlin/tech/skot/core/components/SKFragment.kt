@@ -10,11 +10,15 @@ import tech.skot.core.SKLog
 open class SKFragment : Fragment() {
 
     private var screenKey: Long? = null
+    private var screen:ScreenViewImpl<*>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return arguments?.getLong(ScreensManager.SK_ARGUMENT_VIEW_KEY)?.let { viewKey ->
             ScreensManager.getInstance(viewKey)?.bindTo(activity as SKActivity, this, inflater)
-                    ?.also { screenKey = viewKey }
+                    ?.also {
+                        screenKey = viewKey
+                        screen = it
+                    }?.view
                     ?: View(context).also { screenKey == null }
 
         }

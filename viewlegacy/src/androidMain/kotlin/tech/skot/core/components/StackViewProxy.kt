@@ -1,9 +1,10 @@
 package tech.skot.core.components
 
+import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import tech.skot.view.live.MutableSKLiveData
 
-class StackViewProxy() : ComponentViewProxy<Int>(), StackVC {
+class StackViewProxy() : ComponentViewProxy<FrameLayout>(), StackVC {
 
     private val screensLD: MutableSKLiveData<List<ScreenViewProxy<*>>> = MutableSKLiveData(emptyList())
 
@@ -25,7 +26,7 @@ class StackViewProxy() : ComponentViewProxy<Int>(), StackVC {
         }
     }
 
-    override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: Int, collectingObservers: Boolean) =
+    override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: FrameLayout, collectingObservers: Boolean) =
             StackViewImpl(activity, fragment, binding).apply {
                 collectObservers = collectingObservers
                 screensLD.observe {

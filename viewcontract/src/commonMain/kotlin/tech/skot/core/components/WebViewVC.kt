@@ -1,5 +1,6 @@
 package tech.skot.core.components
 
+@SKLayoutIsSimpleView
 interface WebViewVC: ComponentVC {
     val config:Config
     var openUrl:OpenUrl?

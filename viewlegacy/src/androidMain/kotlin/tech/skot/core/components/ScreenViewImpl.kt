@@ -3,6 +3,7 @@ package tech.skot.core.components
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import tech.skot.core.SKLog
 import tech.skot.view.extensions.updatePadding
 
 
@@ -14,6 +15,14 @@ abstract class ScreenViewImpl<B : ViewBinding>(activity: SKActivity, fragment: F
     private var onBackPressed: (() -> Unit)? = null
     fun setOnBackPressed(onBackPressed: (() -> Unit)?) {
         this.onBackPressed = onBackPressed
+    }
+
+    open fun onResume() {
+        SKLog.d("${this::class.simpleName} ${this.hashCode()} onResume")
+    }
+
+    open fun onPause() {
+        SKLog.d("${this::class.simpleName} ${this.hashCode()} onPause")
     }
 
     init {

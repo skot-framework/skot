@@ -2,13 +2,12 @@ package tech.skot.tools.generation
 
 import com.squareup.kotlinpoet.*
 import tech.skot.core.components.*
-import tech.skot.core.components.Opens
-import tech.skot.core.components.Uses
+import tech.skot.core.components.SKOpens
+import tech.skot.core.components.SKUses
 import tech.skot.core.components.ScreenVC
-import tech.skot.core.components.UIState
-import tech.skot.core.components.NoLayout
-import tech.skot.core.components.LayoutIsRoot
-import tech.skot.core.components.IdLayout
+import tech.skot.core.components.SKUIState
+import tech.skot.core.components.SKLayoutNo
+import tech.skot.core.components.SKLayoutIsRoot
 import tech.skot.tools.generation.viewmodel.toVM
 import java.lang.IllegalStateException
 import kotlin.reflect.*
@@ -38,12 +37,11 @@ data class ComponentDef(
 
     val superVM = vc.supertypes.find { it.isComponent() }.let { it!!.vmClassName() }
     val isScreen = vc.isSubclassOf(ScreenVC::class)
-    val hasLayout = !vc.hasAnnotation<NoLayout>()
-    val layoutIsRoot = vc.hasAnnotation<LayoutIsRoot>()
-    val idLayout = vc.hasAnnotation<IdLayout>()
+    val hasLayout = !vc.hasAnnotation<SKLayoutNo>()
+    val layoutIsRoot = vc.hasAnnotation<SKLayoutIsRoot>()
 }
 
-fun KClass<out ComponentVC>.meOrSubComponentHasState():Boolean = nestedClasses.any { it.hasAnnotation<UIState>() } || ownProperties().any { it.returnType.isComponent() && (it.returnType.classifier as KClass<out ComponentVC>).meOrSubComponentHasState()}
+fun KClass<out ComponentVC>.meOrSubComponentHasState():Boolean = nestedClasses.any { it.hasAnnotation<SKUIState>() } || ownProperties().any { it.returnType.isComponent() && (it.returnType.classifier as KClass<out ComponentVC>).meOrSubComponentHasState()}
 
 fun KType.vmClassName() = (classifier as KClass<out ComponentVC>).let { ClassName(it.packageName(), it.simpleName!!.toVM()) }
 
@@ -59,8 +57,9 @@ data class PropertyDef(val name: String, val type: TypeName, val meOrSubComponen
             (type as? ClassName)?.simpleName == "String" -> "\"???\""
             isLambda -> "{ ${name}() }"
             else -> (type as ClassName).simpleName + "??"
-
     }
+
+    fun inPackage(packageName:String) = (type as? ClassName)?.packageName?.startsWith(packageName)
 
 }
 
@@ -74,15 +73,15 @@ fun MutableSet<KClass<out ComponentVC>>.addLinkedComponents(aComponentClass: KCl
     subComponents.forEach {
         addLinkedComponents(it, appPackageName)
     }
-    aComponentClass.findAnnotation<Opens>()?.let {
-        (it as Opens).screensOpened.forEach {
+    aComponentClass.findAnnotation<SKOpens>()?.let {
+        (it as SKOpens).screensOpened.forEach {
             if (!contains(it)) {
                 addLinkedComponents(it, appPackageName)
             }
         }
     }
-    aComponentClass.findAnnotation<Uses>()?.let {
-        (it as Uses).usedComponents.forEach {
+    aComponentClass.findAnnotation<SKUses>()?.let {
+        (it as SKUses).usedComponents.forEach {
             if (!contains(it)) {
                 addLinkedComponents(it, appPackageName)
             }
@@ -115,6 +114,7 @@ fun KClass<out ComponentVC>.def(): ComponentDef {
                 if (it is KMutableProperty) {
                     throw IllegalStateException("SubComponent ${it.name} of ${this.packageName()}.${this.simpleName} is Mutable, it is not allowed !!!")
                 }
+                println()
                 PropertyDef(it.name, it.returnType.asTypeName(), meOrSubComponentHasState = (it.returnType.classifier as KClass<out ComponentVC>).meOrSubComponentHasState())
             },
             fixProperties = stateProperties.filter { !(it is KMutableProperty) }.map {
@@ -123,7 +123,7 @@ fun KClass<out ComponentVC>.def(): ComponentDef {
             mutableProperties = stateProperties.filter { it is KMutableProperty }.map {
                 PropertyDef(it.name, it.returnType.asTypeName())
             },
-            state = nestedClasses.find { it.hasAnnotation<UIState>() }?.asClassName()
+            state = nestedClasses.find { it.hasAnnotation<SKUIState>() }?.asClassName()
     )
 }
 

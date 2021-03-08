@@ -27,14 +27,14 @@ abstract class ComponentViewProxy<B : Any> : ComponentVC {
     }
 
     fun bindToView(activity: SKActivity, fragment: Fragment?, view: View, collectingObservers:Boolean = false) =
-            bindTo(activity, fragment, bind(view), collectingObservers)
+            bindTo(activity, fragment, bindingOf(view), collectingObservers)
 
     fun inflateInParentAndBind(activity: SKActivity, fragment: Fragment?, parent: ViewGroup) {
         val inflater = fragment?.layoutInflater ?: activity.layoutInflater
         bindTo(activity, fragment, inflate(inflater, parent, true), false)
     }
 
-    open fun bind(view:View):B {
+    open fun bindingOf(view:View):B {
         throw IllegalStateException("You cant't bind this component to a view")
     }
 
@@ -43,7 +43,7 @@ abstract class ComponentViewProxy<B : Any> : ComponentVC {
             throw IllegalStateException("You cant't bind this component to an Item's view, it has no layout Id")
         }
         else {
-            return bindTo(activity, fragment, bind(view), collectingObservers = true)
+            return bindTo(activity, fragment, bindingOf(view), collectingObservers = true)
         }
     }
 }

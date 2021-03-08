@@ -8,6 +8,7 @@ class Frame(val screens: Set<Screen<*>>, screenInitial: Screen<*>? = null) : Com
 
     var screen: Screen<*>? = null
         set(value) {
+            logD("will set screen: ${value}")
             field = value
             view.screen = value?.view
         }

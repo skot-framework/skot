@@ -39,6 +39,7 @@ class PluginLibrary: Plugin<Project> {
         sourceSets {
             getByName("main").java.srcDirs("src/androidMain/kotlin")
             getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")
+            getByName("main").res.srcDir("src/androidMain/res")
             getByName("test").java.srcDirs("src/javaTest/kotlin")
         }
     }

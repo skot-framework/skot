@@ -3,6 +3,7 @@ package tech.skot.core.components
 /**
  * Composant affichant un écran parmis une sélection, gardée en mémoire
  */
+@SKLayoutIsSimpleView
 interface FrameVC:ComponentVC {
 
     val screens:Set<ScreenVC>

@@ -2,15 +2,16 @@ package tech.skot.tools.generation.viewlegacy
 
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import tech.skot.core.components.IdLayout
-import tech.skot.core.components.LayoutIsRoot
-import tech.skot.core.components.NoLayout
+import tech.skot.core.components.SKLayoutNo
+import tech.skot.core.components.SKLayoutIsRoot
+import tech.skot.core.components.SKLayoutIsSimpleView
 import tech.skot.tools.generation.*
+import tech.skot.tools.generation.AndroidClassNames.layoutInflater
+import tech.skot.tools.generation.AndroidClassNames.viewGroup
+import kotlin.reflect.KClass
 import kotlin.reflect.full.hasAnnotation
 
 const val coreComponentsPackage = "tech.skot.core.components"
-val layoutInflater = ClassName("android.view", "LayoutInflater")
-val viewGroup = ClassName("android.view", "ViewGroup")
 
 val screenProxy = ClassName(coreComponentsPackage, "ScreenViewProxy")
 val componentProxy = ClassName(coreComponentsPackage, "ComponentViewProxy")
@@ -32,7 +33,7 @@ fun PropertyDef.onMethod(vararg modifiers: KModifier, body: String? = null) = Fu
         }.build()
 
 
-fun ComponentDef.buildProxy(viewModuleAndroidPackage: String, baseActivity: ClassName?): TypeSpec = TypeSpec.classBuilder(proxy())
+fun ComponentDef.buildProxy(generator: Generator, viewModuleAndroidPackage: String, baseActivity: ClassName?): TypeSpec = TypeSpec.classBuilder(proxy())
         .addPrimaryConstructorWithParams(
                 subComponents.map { ParamInfos(name = it.name, typeName = it.type.toProxy(), modifiers = listOf(KModifier.OVERRIDE), isVal = true) } +
                         fixProperties.map { ParamInfos(name = it.name, typeName = it.type, modifiers = listOf(KModifier.OVERRIDE), isVal = true) } +
@@ -93,7 +94,7 @@ fun ComponentDef.buildProxy(viewModuleAndroidPackage: String, baseActivity: Clas
                                 .initializer("R.layout.${layoutName()}")
                                 .build())
 
-                addFunction(FunSpec.builder("bind")
+                addFunction(FunSpec.builder("bindingOf")
                         .addModifiers(KModifier.OVERRIDE)
                         .addParameter("view", AndroidClassNames.view)
                         .returns(binding(viewModuleAndroidPackage))
@@ -128,7 +129,10 @@ fun ComponentDef.buildProxy(viewModuleAndroidPackage: String, baseActivity: Clas
                         .addStatement("collectObservers = collectingObservers")
                         .apply {
                             subComponents.forEach {
-                                addStatement("${it.name}.bindTo(activity, fragment, ${it.type.binding(it.name)})")
+                                val klass = it.type.kClass()
+                                val bindToView = it.inPackage(generator.appPackage) == false && !klass.hasAnnotation<SKLayoutNo>() && !klass.hasAnnotation<SKLayoutIsRoot>() && !klass.hasAnnotation<SKLayoutIsSimpleView>()
+                                println("---- ${klass.supertypes}")
+                                addStatement("${it.name}.bindTo${if (bindToView) "View" else ""}(activity, fragment, ${klass.binding(it.name)})")
                             }
 
                             if (fixProperties.isNotEmpty() || mutableProperties.isNotEmpty() || state != null) {
@@ -173,12 +177,12 @@ fun ComponentDef.buildRAI(viewModuleAndroidPackage: String): TypeSpec = TypeSpec
         }
         .build()
 
-fun TypeName.binding(name: String): String = (this as ClassName).let {
-    val kClass = Class.forName(it.canonicalName).kotlin
-    return when {
-        kClass.hasAnnotation<NoLayout>() -> "Unit"
-        kClass.hasAnnotation<LayoutIsRoot>() -> "binding.root"
-        kClass.hasAnnotation<IdLayout>() -> "binding.$name.id"
+fun TypeName.kClass() = Class.forName((this as ClassName).canonicalName).kotlin
+
+fun KClass<*>.binding(name: String): String =
+    when {
+        hasAnnotation<SKLayoutNo>() -> "Unit"
+        hasAnnotation<SKLayoutIsRoot>() -> "binding.root"
         else -> "binding.$name"
     }
-}
+

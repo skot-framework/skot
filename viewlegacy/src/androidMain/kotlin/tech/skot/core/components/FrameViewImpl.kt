@@ -8,7 +8,7 @@ class FrameViewImpl(activity: SKActivity, fragment: Fragment?, binding: FrameLay
 
 
     fun onScreen(screen: ScreenViewProxy<*>?) {
-        if (!screens.contains(screen)) {
+        if (screen != null && !screens.contains(screen)) {
             throw IllegalAccessException("The screen you try to add do this Frame is not part of the list, maybe you should use a Stack")
         }
         fragmentManager.apply {

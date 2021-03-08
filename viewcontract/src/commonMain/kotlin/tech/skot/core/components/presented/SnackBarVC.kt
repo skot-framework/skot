@@ -1,10 +1,9 @@
 package tech.skot.core.components.presented
 
 import tech.skot.core.components.ComponentVC
-import tech.skot.core.components.LayoutIsRoot
-import tech.skot.core.components.NoLayout
+import tech.skot.core.components.SKLayoutIsRoot
 
-@LayoutIsRoot
+@SKLayoutIsRoot
 interface SnackBarVC:ComponentVC {
 
     data class Shown(

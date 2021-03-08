@@ -8,6 +8,9 @@ import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import tech.skot.Versions
+import tech.skot.tools.gradle.SKLibrary.Companion.addDependenciesToLibraries
+import java.nio.file.Path
+import java.nio.file.Paths
 
 //open class SKPluginViewContractExtension {
 //}
@@ -15,6 +18,9 @@ import tech.skot.Versions
 class PluginViewContract : Plugin<Project> {
 
     override fun apply(project: Project) {
+
+        println("PluginViewContract")
+
 //        val extension = project.extensions.create<SKPluginContractExtension>("skot")
         project.plugins.apply("com.android.library")
         project.plugins.apply("maven-publish")
@@ -22,7 +28,8 @@ class PluginViewContract : Plugin<Project> {
 
         project.extensions.findByType(LibraryExtension::class)?.conf()
 
-        project.extensions.findByType(KotlinMultiplatformExtension::class)?.conf()
+        project.extensions.findByType(KotlinMultiplatformExtension::class)?.conf(project)
+
 
 
 //        project.task("TestGen") {
@@ -58,7 +65,7 @@ class PluginViewContract : Plugin<Project> {
 
     }
 
-    private fun KotlinMultiplatformExtension.conf() {
+    private fun KotlinMultiplatformExtension.conf(project: Project) {
         jvm("jvm")
         android("android")
 
@@ -66,14 +73,11 @@ class PluginViewContract : Plugin<Project> {
         sourceSets["commonMain"].dependencies {
             api("tech.skot:viewcontract:${Versions.skot}")
         }
-//
-//        sourceSets["jvmMain"].dependencies {
-////            api("tech.skot:contract-jvm:${Versions.skot}")
-//        }
-//        sourceSets["androidMain"].dependencies {
-////            api("tech.skot:contract-jvm:${Versions.skot}")
-//            implementation("tech.skot:core-android:${Versions.skot}")
-//        }
+
+        println("Adding dependencies to libraries ")
+        addDependenciesToLibraries(this, project.rootDir.toPath())
+
+
     }
 
 }

@@ -14,7 +14,7 @@ fun Generator.generateViewLegacy() {
                 it.proxy().packageName,
                 it.proxy().simpleName
         )
-                .addType(it.buildProxy(viewModuleAndroidPackage, baseActivity))
+                .addType(it.buildProxy(this, viewModuleAndroidPackage, baseActivity))
                 .addType(it.buildRAI(viewModuleAndroidPackage))
                 .apply {
                     if (it.hasLayout) {

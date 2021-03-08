@@ -4,4 +4,4 @@ import kotlin.reflect.KClass
 
 
 @Target(AnnotationTarget.CLASS)
-annotation class Opens(val screensOpened: Array<KClass<out ScreenVC>>)
+annotation class SKUses(val usedComponents: Array<KClass<out ComponentVC>>)

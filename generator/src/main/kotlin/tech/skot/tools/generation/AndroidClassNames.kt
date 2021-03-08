@@ -8,4 +8,7 @@ object AndroidClassNames {
     val fragment = ClassName("androidx.fragment.app", "Fragment")
     val view = ClassName("android.view", "View")
     val context = ClassName("android.content", "Context")
+    val layoutInflater = ClassName("android.view", "LayoutInflater")
+    val viewGroup = ClassName("android.view", "ViewGroup")
+
 }

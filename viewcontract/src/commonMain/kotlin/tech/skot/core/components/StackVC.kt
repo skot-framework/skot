@@ -1,6 +1,6 @@
 package tech.skot.core.components
 
-@IdLayout
+@SKLayoutIsSimpleView
 interface StackVC : ComponentVC {
     var screens: List<ScreenVC>
 }

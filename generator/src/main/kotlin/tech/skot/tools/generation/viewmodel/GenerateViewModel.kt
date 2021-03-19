@@ -2,10 +2,7 @@ package tech.skot.tools.generation.viewmodel
 
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import tech.skot.tools.generation.Generator
-import tech.skot.tools.generation.Modules
-import tech.skot.tools.generation.addImportClassName
-import tech.skot.tools.generation.fileClassBuilder
+import tech.skot.tools.generation.*
 import tech.skot.tools.generation.viewlegacy.componentViewModel
 import tech.skot.tools.generation.viewlegacy.screenViewModel
 
@@ -84,6 +81,22 @@ fun Generator.generateViewModel() {
 
             .build()
             .writeTo(generatedCommonSources(Modules.viewmodel))
+
+    val start = ClassName(appPackage, "start")
+    if (!start.existsCommonInModule(Modules.viewmodel)) {
+        val startViewModel = components.first().viewModel()
+        FileSpec.builder(start.packageName, start.simpleName)
+                .addFunction(
+                        FunSpec
+                                .builder("start")
+                                .addCode("RootStack.screens = listOf(${startViewModel.simpleName}())")
+                                .build()
+                )
+                .addImport("tech.skot.core.components", "RootStack")
+                .addImportClassName(startViewModel)
+                .build()
+                .writeTo(commonSources(Modules.viewmodel))
+    }
 
 }
 

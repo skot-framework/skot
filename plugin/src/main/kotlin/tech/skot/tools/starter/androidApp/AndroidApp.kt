@@ -55,6 +55,8 @@ fun StarterGenerator.androidApp(){
         mainPackage = configuration.appPackage
         justAndroid = true
 
+        androidAppTheme = "BaseAppTheme"
+
         buildGradle {
             plugin(BuildGradleGenerator.Plugin.Id("skot-app"))
             plugin(BuildGradleGenerator.Plugin.Kotlin("android"))
@@ -64,6 +66,7 @@ fun StarterGenerator.androidApp(){
         }
 
 
+        println("------generate Application")
 
         FileSpec.builder(configuration.appPackage+".android", androidApplicationClass!!)
                 .addType(
@@ -76,23 +79,25 @@ fun StarterGenerator.androidApp(){
 Timber.plant(Timber.DebugTree())
 injector = BaseInjector(this,
     listOf(
-            appModule,
-            viewModelModule,
-            viewmodelAndroidModule,
-            modelAndroidModule,
             modelFrameworkModule,
-            viewFrameworkModule,
-            viewModule,
-            modelModule
+            coreViewModule,
+            generatedAppModule
     ))
+start()
 """
                                         )
                                         .build())
                                 .build()
                 )
-                .addImport(ClassName("timber.log","Timber"))
+                .addImport("timber.log","Timber")
+                .addImport("tech.skot.core.di","BaseInjector")
+                .addImport("tech.skot.core.di","coreViewModule")
+                .addImport("tech.skot.core.di","injector")
+                .addImport("${configuration.appPackage}.di","generatedAppModule")
+                .addImport(configuration.appPackage,"start")
+                .addImport("tech.skot.di","modelFrameworkModule")
                 .build()
-                .writeTo(rootDir.resolve("androidApp/src/main/kotlin"))
+                .writeTo(rootDir.resolve("androidApp/src/androidMain/kotlin"))
 
 
     }.generate()

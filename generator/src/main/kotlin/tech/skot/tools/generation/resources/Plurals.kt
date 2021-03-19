@@ -1,6 +1,9 @@
 package tech.skot.tools.generation
 
-import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.FileSpec
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.TypeSpec
 import java.nio.file.Files
 import java.util.stream.Collectors
 
@@ -10,15 +13,17 @@ fun Generator.generatePlurals() {
     val values = rootPath.resolve(Modules.view).resolve("src/androidMain/res_referenced/values")
 
 
-    if (!Files.exists(values)) {
-        return
-    }
+
     println("plurals .........")
     val plurals =
-            Files.list(values).filter { it.fileName.toString().startsWith("strings") }.flatMap {
-                it.getDocumentElement().childElements().stream().filter { it.tagName == "plurals" }
-                        .map { it.getAttribute("name") }
-            }.collect(Collectors.toList())
+            if (!Files.exists(values)) {
+                emptyList()
+            } else {
+                Files.list(values).filter { it.fileName.toString().startsWith("strings") }.flatMap {
+                    it.getDocumentElement().childElements().stream().filter { it.tagName == "plurals" }
+                            .map { it.getAttribute("name") }
+                }.collect(Collectors.toList())
+            }
 
 
     fun String.toPluralsFunNAme() = decapitalize()
@@ -74,7 +79,6 @@ fun Generator.generatePlurals() {
         )
     }
             .writeTo(generatedAndroidSources(Modules.app))
-
 
 
 }

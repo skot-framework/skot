@@ -10,15 +10,17 @@ fun Generator.generateStrings() {
     val values = rootPath.resolve(Modules.view).resolve("src/androidMain/res_referenced/values")
 
 
-    if (!Files.exists(values)) {
-        return
-    }
+
     println("strings .........")
     val strings =
-            Files.list(values).flatMap {
-                it.getDocumentElement().childElements().stream().filter { it.tagName == "string" }
-                        .map { it.getAttribute("name") }
-            }.collect(Collectors.toList())
+            if (!Files.exists(values)) {
+                emptyList()
+            } else {
+                Files.list(values).flatMap {
+                    it.getDocumentElement().childElements().stream().filter { it.tagName == "string" }
+                            .map { it.getAttribute("name") }
+                }.collect(Collectors.toList())
+            }
 
 
     fun String.toStringsPropertyName() = decapitalize()
@@ -59,7 +61,6 @@ fun Generator.generateStrings() {
         )
     }
             .writeTo(generatedAndroidSources(Modules.app))
-
 
 
 }

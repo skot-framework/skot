@@ -12,14 +12,15 @@ fun Generator.generateColors() {
     val values = rootPath.resolve(Modules.view).resolve("src/androidMain/res_referenced/values")
 
 
-    if (!Files.exists(values)) {
-        return
-    }
     val colors =
-            Files.list(values).flatMap {
-                it.getDocumentElement().childElements().stream().filter { it.tagName == "color" }
-                        .map { it.getAttribute("name") }
-            }.collect(Collectors.toList())
+            if (!Files.exists(values)) {
+                emptyList()
+            } else {
+                Files.list(values).flatMap {
+                    it.getDocumentElement().childElements().stream().filter { it.tagName == "color" }
+                            .map { it.getAttribute("name") }
+                }.collect(Collectors.toList())
+            }
 
 
     fun String.toColorsPropertyName() = decapitalize()
@@ -52,7 +53,6 @@ fun Generator.generateColors() {
         )
     }
             .writeTo(generatedAndroidSources(Modules.app))
-
 
 
 }

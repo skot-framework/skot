@@ -28,6 +28,39 @@ abstract class Component<out V : ComponentVC>: CoroutineScope {
             launch(noCrashExceptionHandler, start, block)
 
 
+
+    open val loader:Loader? = null
+
+    open fun treatError(exception: Exception, defaultErrorMessage: String?) {
+        throw IllegalStateException("Override treatError function to use this method")
+    }
+
+    fun launchWithLoadingAndError(
+            context: CoroutineContext = EmptyCoroutineContext,
+            start: CoroutineStart = CoroutineStart.DEFAULT,
+            defaultErrorMessage: String? = null,
+            block: suspend CoroutineScope.() -> Unit): Job =
+            if (loader == null) {
+                throw IllegalStateException("Override loader property to use this method")
+            }
+            else {
+                launch(context, start) {
+                    loader?.workStarted()
+                    try {
+                        block()
+                    } catch (ex: Exception) {
+                        if (ex !is CancellationException) {
+                            treatError(ex, defaultErrorMessage)
+                        }
+                    } finally {
+                        loader?.workEnded()
+                    }
+
+                }
+            }
+
+
+
     private var removeObservers: MutableSet<() -> Unit> = mutableSetOf()
     private fun addRemoveObserver(observer: () -> Unit) {
         removeObservers.add(observer)

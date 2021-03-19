@@ -20,19 +20,35 @@ class StarterGenerator(val rootDir: Path, val configuration: StarterConfiguratio
 
         rootDir.writeStringTo(".gitignore", gitIgnore)
 
+        println("---generate buildSrc")
         buildSrc()
+        println("---generate viewContract")
         viewContract()
+        println("---generate modelContract")
         modelContract()
+        println("---generate view")
         view()
+        println("---generate model")
         model()
+        println("---generate viewModel")
         viewModel()
+        println("---generate android App")
         androidApp()
 
+        println("---generate skot module")
+        skotModule()
+
+
+        println("---generate settings.gradle.kts")
         rootDir.writeLinesTo("settings.gradle.kts", modules.map {
             "include(\":$it\")"
         }, evenIfExists = true)
 
+        println("---generate build.gradle.kts")
         rootDir.writeStringTo("build.gradle.kts", rootBuildGradle, evenIfExists = true)
+
+        rootDir.writeStringTo("skot_librairies.properties", "//Add here dependencies to Skot Libraries\n", evenIfExists = false)
+
 
 //        rootDir.writeLinesTo("settings.gradle.kts", modules.map { "include(\":$it\")" })
     }

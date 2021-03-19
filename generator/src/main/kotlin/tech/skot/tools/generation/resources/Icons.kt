@@ -12,11 +12,12 @@ fun Generator.generateIcons() {
     val values = rootPath.resolve(Modules.view).resolve("src/androidMain/res_referenced/drawable")
 
 
-    if (!Files.exists(values)) {
-        return
-    }
     val icons =
-            Files.list(values).map { it.fileName.toString().substringBeforeLast(".")}.collect(Collectors.toList())
+            if (!Files.exists(values)) {
+                emptyList<String>()
+            } else {
+                Files.list(values).map { it.fileName.toString().substringBeforeLast(".") }.collect(Collectors.toList())
+            }
 
 
     fun String.toIconsPropertyName() = decapitalize()
@@ -49,7 +50,6 @@ fun Generator.generateIcons() {
         )
     }
             .writeTo(generatedAndroidSources(Modules.app))
-
 
 
 }

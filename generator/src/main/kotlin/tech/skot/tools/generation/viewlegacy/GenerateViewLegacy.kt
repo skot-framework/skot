@@ -10,6 +10,9 @@ fun Generator.generateViewLegacy() {
     deleteModuleGenerated(Modules.view)
     val viewModuleAndroidPackage = getAndroidPackageName(rootPath.resolve(Modules.view).resolve("src/androidMain"))
     components.forEach {
+        val layoutPath = androidResLayoutPath(Modules.view, it.layoutName())
+
+
         FileSpec.builder(
                 it.proxy().packageName,
                 it.proxy().simpleName
@@ -30,8 +33,8 @@ fun Generator.generateViewLegacy() {
                     .build()
                     .writeTo(androidSources(Modules.view))
         }
-        val layoutPath = androidResLayoutPath(Modules.view, it.layoutName())
         if (!Files.exists(layoutPath)) {
+            Files.createDirectories(layoutPath.parent)
             layoutPath.toFile().writeText(LAYOUT_TEMPLATE)
         }
 

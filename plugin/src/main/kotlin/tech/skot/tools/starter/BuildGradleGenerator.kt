@@ -55,6 +55,8 @@ class BuildGradleGenerator {
 
     var androidBlock:String? = null
 
+    var manual:String? = null
+
     fun generate():List<String> {
         val lines = mutableListOf<String>()
 
@@ -69,6 +71,10 @@ class BuildGradleGenerator {
         }
 
         androidBlock?.let {
+            lines += it.split("\n")
+        }
+
+        manual?.let {
             lines += it.split("\n")
         }
 

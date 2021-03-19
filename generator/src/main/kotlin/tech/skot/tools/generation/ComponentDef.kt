@@ -114,14 +114,13 @@ fun KClass<out ComponentVC>.def(): ComponentDef {
                 if (it is KMutableProperty) {
                     throw IllegalStateException("SubComponent ${it.name} of ${this.packageName()}.${this.simpleName} is Mutable, it is not allowed !!!")
                 }
-                println()
                 PropertyDef(it.name, it.returnType.asTypeName(), meOrSubComponentHasState = (it.returnType.classifier as KClass<out ComponentVC>).meOrSubComponentHasState())
             },
             fixProperties = stateProperties.filter { !(it is KMutableProperty) }.map {
-                PropertyDef(it.name, it.returnType.asTypeName())
+                PropertyDef(name = it.name, type = it.returnType.asTypeName())
             },
             mutableProperties = stateProperties.filter { it is KMutableProperty }.map {
-                PropertyDef(it.name, it.returnType.asTypeName())
+                PropertyDef(name = it.name, type = it.returnType.asTypeName())
             },
             state = nestedClasses.find { it.hasAnnotation<SKUIState>() }?.asClassName()
     )

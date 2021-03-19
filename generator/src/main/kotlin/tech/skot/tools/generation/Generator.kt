@@ -2,6 +2,7 @@ package tech.skot.tools.generation
 
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import org.w3c.dom.Document
 import org.w3c.dom.Element
 import tech.skot.core.components.ScreenVC
 import tech.skot.core.components.ComponentVC
@@ -23,7 +24,7 @@ object Modules {
 
 class Generator(
         val appPackage: String,
-        private val startClass: KClass<ScreenVC>,
+        val startClass: KClass<ScreenVC>,
         val baseActivity: ClassName?,
         val rootPath: Path
 ) {
@@ -190,8 +191,10 @@ fun getAndroidPackageName(path: Path): String {
 //fun List<String>.packageToPath() = map { it.replace('.','/') }.joinToString(separator = "/")
 
 
+fun Path.getDocument(): Document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(this.toFile())
+
 fun Path.getDocumentElement(): Element =
-        DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(this.toFile()).documentElement
+        getDocument().documentElement
 
 fun Element.childElements(): List<Element> {
     val elements: MutableList<Element> = mutableListOf()

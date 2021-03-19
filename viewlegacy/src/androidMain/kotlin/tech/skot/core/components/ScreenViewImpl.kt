@@ -10,7 +10,7 @@ import tech.skot.view.extensions.updatePadding
 abstract class ScreenViewImpl<B : ViewBinding>(activity: SKActivity, fragment: Fragment?, binding: B) : ComponentViewImpl<B>(activity, fragment, binding) {
     val view: View = binding.root
 
-    open fun windowInsetPaddingTop() = false
+    open fun windowInsetPaddingTop() = true
 
     private var onBackPressed: (() -> Unit)? = null
     fun setOnBackPressed(onBackPressed: (() -> Unit)?) {

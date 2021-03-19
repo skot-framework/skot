@@ -13,4 +13,5 @@ interface CoreViewInjector {
     fun skList(vertical:Boolean, reverse:Boolean): SKListVC
     fun webView(config: WebViewVC.Config, openUrlInitial: WebViewVC.OpenUrl?): WebViewVC
     fun frame(screens: Set<ScreenVC>,screenInitial: ScreenVC?): FrameVC
+    fun loader(): LoaderVC
 }

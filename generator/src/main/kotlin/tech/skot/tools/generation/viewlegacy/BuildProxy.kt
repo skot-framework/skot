@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import tech.skot.core.components.SKLayoutNo
 import tech.skot.core.components.SKLayoutIsRoot
 import tech.skot.core.components.SKLayoutIsSimpleView
+import tech.skot.core.components.SKLegacyViewIncluded
 import tech.skot.tools.generation.*
 import tech.skot.tools.generation.AndroidClassNames.layoutInflater
 import tech.skot.tools.generation.AndroidClassNames.viewGroup
@@ -182,6 +183,7 @@ fun TypeName.kClass() = Class.forName((this as ClassName).canonicalName).kotlin
 fun KClass<*>.binding(name: String): String =
     when {
         hasAnnotation<SKLayoutNo>() -> "Unit"
+        hasAnnotation<SKLegacyViewIncluded>() -> "binding.$name.root"
         hasAnnotation<SKLayoutIsRoot>() -> "binding.root"
         else -> "binding.$name"
     }

@@ -3,6 +3,7 @@ package tech.skot.core.components
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import tech.skot.core.SKLog
 
 
 class PagerViewImpl(activity: SKActivity, fragment: Fragment?, private val viewPager2: ViewPager2, private val proxy: PagerViewProxy) : ComponentViewImpl<ViewPager2>(activity, fragment, viewPager2) {
@@ -24,13 +25,18 @@ class PagerViewImpl(activity: SKActivity, fragment: Fragment?, private val viewP
     }
 
     fun onOnSwipeToPage(onSwipeToPage: ((index: Int) -> Unit)?) {
-        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                proxy.selectedPageIndex = position
-                onSwipeToPage?.invoke(position)
-            }
-        })
+        //Attention, sans le post on a un pageSelected à 0 lancé au premier affichage
+        viewPager2.post {
+            viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    proxy.selectedPageIndex = position
+                    onSwipeToPage?.invoke(position)
+                }
+            })
+        }
+
+
     }
 
 }

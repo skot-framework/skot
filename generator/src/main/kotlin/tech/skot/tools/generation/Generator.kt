@@ -4,8 +4,8 @@ import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import org.w3c.dom.Document
 import org.w3c.dom.Element
-import tech.skot.core.components.ScreenVC
 import tech.skot.core.components.ComponentVC
+import tech.skot.core.components.ScreenVC
 import tech.skot.tools.generation.viewlegacy.*
 import tech.skot.tools.generation.viewmodel.generateViewModel
 import java.nio.file.Files
@@ -37,9 +37,9 @@ class Generator(
 //    val mapTypeDef = components.map { it.vc.asTypeName() to it }.toMap()
 
 
-    val viewInjectorInterface = ClassName("$appPackage.di","ViewInjector")
-    val viewInjectorImpl = ClassName("$appPackage.di","ViewInjectorImpl")
-    val viewInjectorIntance = ClassName("$appPackage.di","viewInjector")
+    val viewInjectorInterface = ClassName("$appPackage.di", "ViewInjector")
+    val viewInjectorImpl = ClassName("$appPackage.di", "ViewInjectorImpl")
+    val viewInjectorIntance = ClassName("$appPackage.di", "viewInjector")
 
     val stringsInstance = ClassName(appPackage, "strings")
     val stringsInterface = ClassName(appPackage, "Strings")
@@ -58,7 +58,7 @@ class Generator(
     val colorsImpl = ClassName(appPackage, "ColorsImpl")
 
 
-    val generatedAppModule = ClassName("$appPackage.di", "generatedAppModule")
+    val generatedAppModules = ClassName("$appPackage.di", "generatedAppModules")
 
     val moduleFun = ClassName("tech.skot.core.di", "module")
     val module = ClassName("tech.skot.core.di", "Module")
@@ -91,7 +91,7 @@ class Generator(
     fun androidSources(module: String) =
             rootPath.resolve("$module/src/androidMain/kotlin")
 
-    fun deleteModuleGenerated(module :String) {
+    fun deleteModuleGenerated(module: String) {
         rootPath.resolve("$module/generated").toFile().deleteRecursively()
     }
 
@@ -128,17 +128,16 @@ class Generator(
     }
 
     fun ClassName.existsAndroidInModule(module: String) =
-        Files.exists(androidSources(module).resolve(packageName.packageToPathFragment()).resolve("$simpleName.kt"))
+            Files.exists(androidSources(module).resolve(packageName.packageToPathFragment()).resolve("$simpleName.kt"))
 
     fun ClassName.existsCommonInModule(module: String) =
             Files.exists(commonSources(module).resolve(packageName.packageToPathFragment()).resolve("$simpleName.kt"))
 
-    fun androidResLayoutPath(module:String, name:String) =
+    fun androidResLayoutPath(module: String, name: String) =
             rootPath.resolve("$module/src/androidMain/res/layout/$name.xml")
 
     val viewR = ClassName("$appPackage.${Modules.view}", "R")
     val appR = ClassName("$appPackage.android", "R")
-
 
 
     fun generateApp() {
@@ -147,22 +146,37 @@ class Generator(
 
 
     fun generateAppModule() {
-        FileSpec.builder(generatedAppModule.packageName, generatedAppModule.simpleName)
+        val librariesGroups = getUsedSKLibrariesGroups()
+
+        FileSpec.builder(generatedAppModules.packageName, generatedAppModules.simpleName)
                 .addProperty(
-                        PropertySpec.builder(generatedAppModule.simpleName,module.parameterizedBy(baseInjector))
+                        PropertySpec.builder(generatedAppModules.simpleName, ClassName("kotlin.collections", "List").parameterizedBy(module.parameterizedBy(baseInjector)))
                                 .initializer(CodeBlock.builder()
-                                        .beginControlFlow("module")
+                                        .beginControlFlow("listOf(module")
                                         .addStatement("single { ${stringsImpl.simpleName}(androidApplication) as ${stringsInterface.simpleName}}")
                                         .addStatement("single { ${pluralsImpl.simpleName}(androidApplication) as ${pluralsInterface.simpleName}}")
                                         .addStatement("single { ${iconsImpl.simpleName}() as ${iconsInterface.simpleName}}")
                                         .addStatement("single { ${colorsImpl.simpleName}() as ${colorsInterface.simpleName}}")
                                         .addStatement("single { ${viewInjectorImpl.simpleName}() as ${viewInjectorInterface.simpleName}}")
                                         .endControlFlow()
+                                        .addStatement(",")
+                                        .addStatement("modelFrameworkModule,")
+                                        .addStatement("coreViewModule,")
+                                        .apply {
+                                            librariesGroups
+                                                    .map {
+                                                        "${it.substringAfterLast(".")}Module"
+                                                    }.forEach {
+                                                        addStatement(it)
+                                                    }
+
+                                        }
+                                        .addStatement(")")
                                         .build())
                                 .build()
 
                 )
-                .addImportClassName(getFun)
+//                .addImportClassName(getFun)
                 .addImportClassName(moduleFun)
                 .addImportClassName(baseInjector)
                 .addImportClassName(stringsImpl)
@@ -173,11 +187,23 @@ class Generator(
                 .addImportClassName(iconsInterface)
                 .addImportClassName(colorsInterface)
                 .addImportClassName(colorsImpl)
+                .addImport("tech.skot.di", "modelFrameworkModule")
+                .addImport("tech.skot.core.di", "coreViewModule")
 
-//                .addImportClassName(viewInjectorImpl)
-//                .addImportClassName(viewInjectorInterface)
+                .apply {
+                    getUsedSKLibrariesGroups().map {
+                        addImport("$it.di", "${it.substringAfterLast(".")}Module")
+                    }
+                }
                 .build()
                 .writeTo(generatedAndroidSources(Modules.app))
+    }
+
+
+    fun getUsedSKLibrariesGroups(): List<String> {
+        return Files.readAllLines(rootPath.resolve("skot_librairies.properties"))
+                .filterNot { it.startsWith("//") }
+                .map { it.substringBeforeLast(":") }
     }
 
 }

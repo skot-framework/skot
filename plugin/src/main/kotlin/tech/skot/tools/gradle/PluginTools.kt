@@ -25,7 +25,6 @@ class PluginTools : Plugin<Project> {
         val extension = project.extensions.create<SKPluginToolsExtension>("skot")
         project.plugins.apply("java-library")
         project.plugins.apply("kotlin")
-//        project.plugins.apply("kotlinx-serialization")
 
         project.dependencies {
             dependencies()
@@ -56,13 +55,13 @@ class PluginTools : Plugin<Project> {
 
 
 
-//                println("ktLint ......")
-//                val srcs = "${project.rootDir.toPath().toString()}/**/generated/**/*.kt"
-//                project.javaexec {
-//                    main = "com.pinterest.ktlint.Main"
-//                    classpath = sourceSet.runtimeClasspath
-//                    args = listOf("-F",srcs)
-//                }
+                println("ktLint ......")
+                val srcs = "${project.rootDir.toPath().toString()}/**/generated/**/*.kt"
+                project.javaexec {
+                    main = "com.pinterest.ktlint.Main"
+                    classpath = sourceSet.runtimeClasspath
+                    args = listOf("-F",srcs)
+                }
             }
             dependsOn(project.tasks.getByName("compileKotlin"))
             group = "Skot"

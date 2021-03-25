@@ -78,11 +78,9 @@ fun StarterGenerator.androidApp(){
 """super.onCreate()
 Timber.plant(Timber.DebugTree())
 injector = BaseInjector(this,
-    listOf(
-            modelFrameworkModule,
-            coreViewModule,
-            generatedAppModule
-    ))
+                    generatedAppModules +
+                    listOf(
+                    ))
 start()
 """
                                         )
@@ -91,11 +89,9 @@ start()
                 )
                 .addImport("timber.log","Timber")
                 .addImport("tech.skot.core.di","BaseInjector")
-                .addImport("tech.skot.core.di","coreViewModule")
                 .addImport("tech.skot.core.di","injector")
-                .addImport("${configuration.appPackage}.di","generatedAppModule")
+                .addImport("${configuration.appPackage}.di","generatedAppModules")
                 .addImport(configuration.appPackage,"start")
-                .addImport("tech.skot.di","modelFrameworkModule")
                 .build()
                 .writeTo(rootDir.resolve("androidApp/src/androidMain/kotlin"))
 

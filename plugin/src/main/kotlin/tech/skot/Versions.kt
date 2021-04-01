@@ -4,15 +4,15 @@ import kotlin.Int
 import kotlin.String
 
 object Versions {
-  const val skot: String = "1.0.0-alpha1"
+  const val skot: String = "1.0.0-alpha2"
 
   const val serialization: String = "1.0.1"
 
-  const val ktor: String = "1.5.0"
+  const val ktor: String = "1.5.2"
 
-  const val kotlin: String = "1.4.21"
+  const val kotlin: String = "1.4.30"
 
-  const val kotlinCoroutines: String = "1.4.2"
+  const val kotlinCoroutines: String = "1.4.3"
 
   const val kotlinpoet: String = "1.4.0"
 

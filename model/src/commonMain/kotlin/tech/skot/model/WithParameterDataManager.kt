@@ -23,6 +23,8 @@ interface WithParameterDataManager<D : Any> {
     suspend fun invalidate()
 }
 
+data class DatedDataWithId<D : Any>(val data: D, val id:String?, val timestamp:Long)
+
 class WithParameterDataManagerImpl<D : Any>(
         key: String,
         cacheValidity: Long?,
@@ -63,9 +65,9 @@ abstract class UnivDataManagerImpl<D : Any>(
 
     val updatePoker = MutablePoker()
 
-    private var _value: DatedData<D>? = null
+    private var _value: DatedDataWithId<D>? = null
 
-    private fun DatedData<*>.isValid() = cacheValidity == null || ((timestamp + cacheValidity) > currentTimeMillis())
+    private fun DatedDataWithId<*>.isValid() = cacheValidity == null || ((timestamp + cacheValidity) > currentTimeMillis())
 
 
     protected suspend fun univGetValue(id: String?, fresh: Boolean, speed: Boolean, updateIfSpeed: Boolean, cacheIfError: Boolean): D {
@@ -92,7 +94,7 @@ abstract class UnivDataManagerImpl<D : Any>(
                                 }
 
                         if (cachedData != null) {
-                            _value = DatedData(cachedData, id, cachedStr.timestamp)
+                            _value = DatedDataWithId(cachedData, id, cachedStr.timestamp)
                             if (speed && !isCachedStrValid && updateIfSpeed) {
                                 univUpdate(id)
                             }
@@ -144,7 +146,7 @@ abstract class UnivDataManagerImpl<D : Any>(
                     val now = currentTimeMillis()
 //                    SKLog.d("UnivDataManagerImpl ${key }will put cache data: $freshData ")
                     cache.putString(key, id, freshStrData, now)
-                    _value = DatedData(freshData, id, now)
+                    _value = DatedDataWithId(freshData, id, now)
                     updatePoker.poke()
                     freshData
                 } catch (ex: Exception) {
@@ -169,7 +171,7 @@ abstract class UnivDataManagerImpl<D : Any>(
         val date = tmsp ?: currentTimeMillis()
         val newData = json.decodeFromString(serializer, newStrData)
         cache.putString(key, id, newStrData, date)
-        _value = DatedData(newData, id, date)
+        _value = DatedDataWithId(newData, id, date)
         onNewData?.invoke(newData)
         updatePoker.poke()
     }
@@ -177,7 +179,7 @@ abstract class UnivDataManagerImpl<D : Any>(
 
     protected suspend fun univSetData(id: String?, newData: D, tmsp: Long?) {
         val date = tmsp ?: currentTimeMillis()
-        _value = DatedData(newData, id, date)
+        _value = DatedDataWithId(newData, id, date)
         cache.putString(key, id, json.encodeToString(serializer, newData), date)
         onNewData?.invoke(newData)
         updatePoker.poke()

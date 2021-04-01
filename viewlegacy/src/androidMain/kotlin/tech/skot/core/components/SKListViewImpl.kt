@@ -17,7 +17,6 @@ class SKListViewImpl(vertical:Boolean, reverse:Boolean, activity: SKActivity, fr
 
     inner class ViewHolder(idLayout:Int, parent:ViewGroup):RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(idLayout, parent, false)) {
         var componentViewImpl:ComponentViewImpl<*>? = null
-
     }
 
     inner class Adapter:RecyclerView.Adapter<ViewHolder>() {

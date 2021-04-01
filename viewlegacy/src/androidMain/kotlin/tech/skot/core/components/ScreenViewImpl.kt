@@ -18,11 +18,11 @@ abstract class ScreenViewImpl<B : ViewBinding>(activity: SKActivity, fragment: F
     }
 
     open fun onResume() {
-        SKLog.d("${this::class.simpleName} ${this.hashCode()} onResume")
+//        SKLog.d("${this::class.simpleName} ${this.hashCode()} onResume")
     }
 
     open fun onPause() {
-        SKLog.d("${this::class.simpleName} ${this.hashCode()} onPause")
+//        SKLog.d("${this::class.simpleName} ${this.hashCode()} onPause")
     }
 
     init {

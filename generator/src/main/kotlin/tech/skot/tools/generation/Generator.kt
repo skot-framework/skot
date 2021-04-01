@@ -6,6 +6,7 @@ import org.w3c.dom.Document
 import org.w3c.dom.Element
 import tech.skot.core.components.ComponentVC
 import tech.skot.core.components.ScreenVC
+import tech.skot.tools.generation.model.generateModel
 import tech.skot.tools.generation.viewlegacy.*
 import tech.skot.tools.generation.viewmodel.generateViewModel
 import java.nio.file.Files
@@ -19,6 +20,7 @@ object Modules {
     const val modelcontract = "modelcontract"
     const val view = "view"
     const val viewmodel = "viewmodel"
+    const val model = "model"
 }
 
 
@@ -34,12 +36,21 @@ class Generator(
         addLinkedComponents(startClass, appPackage)
     }.map { it.def() }
 
+    val componentsWithModel = components.filter {
+        it.modelContract().existsCommonInModule(Modules.modelcontract)
+    }
+
 //    val mapTypeDef = components.map { it.vc.asTypeName() to it }.toMap()
 
 
     val viewInjectorInterface = ClassName("$appPackage.di", "ViewInjector")
     val viewInjectorImpl = ClassName("$appPackage.di", "ViewInjectorImpl")
     val viewInjectorIntance = ClassName("$appPackage.di", "viewInjector")
+
+    val modelInjectorInterface = ClassName("$appPackage.di", "ModelInjector")
+    val modelInjectorImpl = ClassName("$appPackage.di", "ModelInjectorImpl")
+    val modelInjectorIntance = ClassName("$appPackage.di", "modelInjector")
+
 
     val stringsInstance = ClassName(appPackage, "strings")
     val stringsInterface = ClassName(appPackage, "Strings")
@@ -70,7 +81,8 @@ class Generator(
         generateViewContract()
         generateViewLegacy()
         generateViewModel()
-        deleteModuleGenerated(Modules.modelcontract)
+        generateModelContract()
+        generateModel()
         deleteModuleGenerated(Modules.app)
         generateStrings()
         generatePlurals()
@@ -117,7 +129,7 @@ class Generator(
                                             it.fixProperties.map { it.asParam() }
                                     )
                                     .addParameters(
-                                            it.mutableProperties.map { it.initial().asParam() }
+                                            it.mutableProperties.map { it.initial().asParam(withDefaultNullIfNullable = true) }
                                     )
                                     .returns(it.vc)
                                     .build()
@@ -125,6 +137,24 @@ class Generator(
                 )
                 .build())
                 .build().writeTo(generatedCommonSources(Modules.viewcontract))
+    }
+
+    private fun generateModelContract() {
+        deleteModuleGenerated(Modules.modelcontract)
+        generateModelInjector()
+    }
+
+    private fun generateModelInjector() {
+        modelInjectorInterface.fileInterfaceBuilder {
+            addFunctions(
+                    componentsWithModel.map {
+                        FunSpec.builder(it.name.decapitalize())
+                                .addModifiers(KModifier.ABSTRACT)
+                                .returns(it.modelContract())
+                                .build()
+                    }
+            )
+        }.writeTo(generatedCommonSources(Modules.modelcontract))
     }
 
     fun ClassName.existsAndroidInModule(module: String) =
@@ -158,6 +188,7 @@ class Generator(
                                         .addStatement("single { ${iconsImpl.simpleName}() as ${iconsInterface.simpleName}}")
                                         .addStatement("single { ${colorsImpl.simpleName}() as ${colorsInterface.simpleName}}")
                                         .addStatement("single { ${viewInjectorImpl.simpleName}() as ${viewInjectorInterface.simpleName}}")
+                                        .addStatement("single { ${modelInjectorImpl.simpleName}() as ${modelInjectorInterface.simpleName}}")
                                         .endControlFlow()
                                         .addStatement(",")
                                         .addStatement("modelFrameworkModule,")
@@ -205,6 +236,8 @@ class Generator(
                 .filterNot { it.startsWith("//") }
                 .map { it.substringBeforeLast(":") }
     }
+
+    fun ComponentDef.hasModel() = componentsWithModel.contains(this)
 
 }
 

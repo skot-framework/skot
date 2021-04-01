@@ -9,9 +9,18 @@ import tech.skot.tools.generation.viewlegacy.screenViewModel
 fun Generator.generateViewModel() {
     deleteModuleGenerated(Modules.viewmodel)
     components.forEach {
-        it.viewModelGen().fileClassBuilder {
+        it.viewModelGen().fileClassBuilder(
+                listOf(modelInjectorIntance)
+        ) {
             addModifiers(KModifier.ABSTRACT)
             superclass(it.superVM.parameterizedBy(it.vc.asTypeName()))
+            if (it.hasModel()) {
+                addProperty(
+                        PropertySpec.builder("model", it.modelContract())
+                                .initializer("modelInjector.${it.name.decapitalize()}()")
+                                .build()
+                )
+            }
         }
                 .writeTo(generatedCommonSources(Modules.viewmodel))
 
@@ -51,6 +60,12 @@ fun Generator.generateViewModel() {
             )
             .addProperty(
                     PropertySpec
+                            .builder(modelInjectorIntance.simpleName, modelInjectorInterface)
+                            .initializer("get()")
+                            .build()
+            )
+            .addProperty(
+                    PropertySpec
                             .builder(stringsInstance.simpleName, stringsInterface)
                             .initializer("get()")
                             .build()
@@ -77,7 +92,7 @@ fun Generator.generateViewModel() {
             .addImportClassName(stringsInterface)
             .addImportClassName(pluralsInterface)
             .addImportClassName(colorsInterface)
-//            .addImportClassName(viewInjectorInterface)
+            .addImportClassName(viewInjectorInterface)
 
             .build()
             .writeTo(generatedCommonSources(Modules.viewmodel))

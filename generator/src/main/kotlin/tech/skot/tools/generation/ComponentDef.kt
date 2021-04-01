@@ -28,6 +28,8 @@ data class ComponentDef(
     fun rai() = ClassName(packageName, name.suffix("RAI"))
     fun viewModelGen() = ClassName(packageName, name.suffix("Gen"))
     fun viewModel() = ClassName(packageName, name)
+    fun modelContract() = ClassName(packageName,name.suffix("Model"))
+    fun model() = ClassName(packageName,name.suffix("ModelImpl"))
 
     fun layoutName() = name.map { if (it.isUpperCase()) "_${it.toLowerCase()}" else it }.joinToString(separator = "").substring(1)
     fun binding(viewModuleAndroidPackage: String) = ClassName("$viewModuleAndroidPackage.databinding", name.suffix("Binding"))
@@ -39,6 +41,8 @@ data class ComponentDef(
     val isScreen = vc.isSubclassOf(ScreenVC::class)
     val hasLayout = !vc.hasAnnotation<SKLayoutNo>()
     val layoutIsRoot = vc.hasAnnotation<SKLayoutIsRoot>()
+
+
 }
 
 fun KClass<out ComponentVC>.meOrSubComponentHasState():Boolean = nestedClasses.any { it.hasAnnotation<SKUIState>() } || ownProperties().any { it.returnType.isComponent() && (it.returnType.classifier as KClass<out ComponentVC>).meOrSubComponentHasState()}
@@ -46,7 +50,12 @@ fun KClass<out ComponentVC>.meOrSubComponentHasState():Boolean = nestedClasses.a
 fun KType.vmClassName() = (classifier as KClass<out ComponentVC>).let { ClassName(it.packageName(), it.simpleName!!.toVM()) }
 
 data class PropertyDef(val name: String, val type: TypeName, val meOrSubComponentHasState:Boolean? = null) {
-    fun asParam(): ParameterSpec = ParameterSpec.builder(name, type).build()
+    fun asParam(withDefaultNullIfNullable:Boolean = false): ParameterSpec = ParameterSpec.builder(name, type)
+            .apply {
+//                if (type.isNullable && withDefaultNullIfNullable) {
+//                    defaultValue("null")
+//                }
+            }.build()
     fun initial(): PropertyDef = PropertyDef(name.initial(), type)
 
     val isLambda = (type as? ParameterizedTypeName)?.rawType?.simpleName?.startsWith("Function") ?: false

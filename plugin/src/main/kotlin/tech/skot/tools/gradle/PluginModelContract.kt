@@ -52,20 +52,9 @@ class PluginModelContract : Plugin<Project> {
         jvm("jvm")
         android("android")
 
-//        sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
-//        sourceSets["commonMain"].dependencies {
-////            api("tech.skot:contract:${Versions.skot}")
-//            api("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
-//            api("com.soywiz.korlibs.klock:klock:${Versions.klock}")
-//        }
-//
-//        sourceSets["jvmMain"].dependencies {
-////            api("tech.skot:contract-jvm:${Versions.skot}")
-//        }
-//        sourceSets["androidMain"].dependencies {
-////            api("tech.skot:contract-jvm:${Versions.skot}")
-//            implementation("tech.skot:core-android:${Versions.skot}")
-//        }
+        sourceSets["commonMain"].dependencies {
+            api("tech.skot:modelcontract:${Versions.skot}")
+        }
     }
 
 }

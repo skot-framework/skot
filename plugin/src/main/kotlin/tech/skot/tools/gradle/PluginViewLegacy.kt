@@ -58,6 +58,7 @@ class PluginViewLegacy: Plugin<Project> {
             targetCompatibility = JavaVersion.VERSION_1_8
         }
 
+
     }
 
 

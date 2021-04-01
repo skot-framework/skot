@@ -9,7 +9,6 @@ import tech.skot.tools.starter.modelcontract.modelContract
 import tech.skot.tools.starter.view.view
 import tech.skot.tools.starter.viewcontract.viewContract
 import tech.skot.tools.starter.viewmodel.viewModel
-import java.nio.file.Files
 import java.nio.file.Path
 
 class StarterGenerator(val rootDir: Path, val configuration: StarterConfiguration) {
@@ -49,7 +48,10 @@ class StarterGenerator(val rootDir: Path, val configuration: StarterConfiguratio
 
         rootDir.writeStringTo("skot_librairies.properties", "//Add here dependencies to Skot Libraries\n", evenIfExists = false)
 
-
+        rootDir.writeStringTo("gradle.properties", """android.enableJetifier=true
+org.gradle.jvmargs=-XX\:MaxHeapSize\=4096 -Xmx4096M
+org.gradle.daemon=true
+android.useAndroidX=true""")
 //        rootDir.writeLinesTo("settings.gradle.kts", modules.map { "include(\":$it\")" })
     }
 

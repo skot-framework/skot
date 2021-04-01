@@ -55,3 +55,16 @@ fun ClassName.fileClassBuilder(imports:List<ClassName> = emptyList(),block:TypeS
         .build()
 
 
+fun ClassName.fileInterfaceBuilder(imports:List<ClassName> = emptyList(),block:TypeSpec.Builder.()->Unit) = FileSpec.builder(packageName, simpleName)
+        .addType(
+                TypeSpec.interfaceBuilder(simpleName)
+                        .apply(block)
+                        .build()
+        )
+        .apply {
+            imports.forEach {
+                addImportClassName(it)
+            }
+        }
+        .build()
+

@@ -1,7 +1,6 @@
 package tech.skot.model
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.KSerializer
@@ -17,7 +16,7 @@ interface Persistor {
         putData(serializer, key, null, data)
     }
 
-    suspend fun <D : Any> getData(serializer: KSerializer<D>, key: String): DatedData<D>?
+    suspend fun <D : Any> getData(serializer: KSerializer<D>, key: String): DatedDataWithId<D>?
     suspend fun <D : Any> getDataSecured(serializer: KSerializer<D>, key: String) = try {
         getData(serializer, key)
     }
@@ -28,7 +27,7 @@ interface Persistor {
     suspend fun putString(key:String, data:String, timestamp: Long = currentTimeMillis()) {
         putString(key, null, data, timestamp)
     }
-    suspend fun getString(key:String): DatedData<String>?
+    suspend fun getString(key:String): DatedDataWithId<String>?
     suspend fun getStringSecured(key:String) = try {
         getString(key)
     }
@@ -60,10 +59,10 @@ abstract class CommonPersistor(dbFilename: String) : Persistor {
     override suspend fun <D : Any> getData(
             serializer: KSerializer<D>,
             key: String
-    ): DatedData<D>? {
+    ): DatedDataWithId<D>? {
         return withContext(Dispatchers.Default) {
             db.persistedQueries.obtainByKey(key).executeAsOneOrNull()?.let {
-                DatedData(Json.decodeFromString(serializer, it.data), it.id, it.timestamp)
+                DatedDataWithId(Json.decodeFromString(serializer, it.data), it.id, it.timestamp)
             }
         }
     }
@@ -74,11 +73,10 @@ abstract class CommonPersistor(dbFilename: String) : Persistor {
         }
     }
 
-    override suspend fun getString(key: String): DatedData<String>? {
+    override suspend fun getString(key: String): DatedDataWithId<String>? {
         return withContext(Dispatchers.Default) {
-            delay(5000)
             db.persistedQueries.obtainByKey(key).executeAsOneOrNull()?.let {
-                DatedData(it.data, it.id, it.timestamp)
+                DatedDataWithId(it.data, it.id, it.timestamp)
             }
         }
     }
@@ -106,7 +104,7 @@ suspend inline fun <reified D : Any> Persistor.putData(key: String, id:String?, 
 }
 
 @InternalSerializationApi
-suspend inline fun <reified D : Any> Persistor.getData(key: String): DatedData<D>? =
+suspend inline fun <reified D : Any> Persistor.getData(key: String): DatedDataWithId<D>? =
         getData(D::class.serializer(), key)
 
 

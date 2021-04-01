@@ -1,12 +1,15 @@
 package tech.skot.core.components
 
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.drop
 import tech.skot.core.Poker
 import tech.skot.core.SKLog
+import tech.skot.model.SKData
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
-abstract class Component<out V : ComponentVC>: CoroutineScope {
+abstract class Component<out V : ComponentVC> : CoroutineScope {
     abstract val view: V
 
     protected val job = SupervisorJob()
@@ -28,24 +31,25 @@ abstract class Component<out V : ComponentVC>: CoroutineScope {
             launch(noCrashExceptionHandler, start, block)
 
 
-
-    open val loader:Loader? = null
+    open val loader: Loader? = null
 
     open fun treatError(exception: Exception, defaultErrorMessage: String?) {
         throw IllegalStateException("Override treatError function to use this method")
     }
 
-    fun launchWithLoadingAndError(
+    fun launchTreatingErrors(
             context: CoroutineContext = EmptyCoroutineContext,
             start: CoroutineStart = CoroutineStart.DEFAULT,
+            withLoader: Boolean = false,
             defaultErrorMessage: String? = null,
             block: suspend CoroutineScope.() -> Unit): Job =
-            if (loader == null) {
-                throw IllegalStateException("Override loader property to use this method")
-            }
-            else {
+            if (withLoader && loader == null) {
+                throw IllegalStateException("You have to override loader property to launchWithLoader")
+            } else {
                 launch(context, start) {
-                    loader?.workStarted()
+                    if (withLoader) {
+                        loader?.workStarted()
+                    }
                     try {
                         block()
                     } catch (ex: Exception) {
@@ -53,13 +57,27 @@ abstract class Component<out V : ComponentVC>: CoroutineScope {
                             treatError(ex, defaultErrorMessage)
                         }
                     } finally {
-                        loader?.workEnded()
+                        if (withLoader) {
+                            loader?.workEnded()
+                        }
                     }
 
                 }
             }
 
-
+    fun launchWithLoaderAndErrors(
+            context: CoroutineContext = EmptyCoroutineContext,
+            start: CoroutineStart = CoroutineStart.DEFAULT,
+            defaultErrorMessage: String? = null,
+            block: suspend CoroutineScope.() -> Unit) {
+        launchTreatingErrors(
+                context = context,
+                start = start,
+                defaultErrorMessage = defaultErrorMessage,
+                withLoader = true,
+                block = block
+        )
+    }
 
     private var removeObservers: MutableSet<() -> Unit> = mutableSetOf()
     private fun addRemoveObserver(observer: () -> Unit) {
@@ -81,6 +99,25 @@ abstract class Component<out V : ComponentVC>: CoroutineScope {
 
     fun logE(message: Any? = "", throwable: Throwable) {
         SKLog.e("${this::class.simpleName} -- $message", throwable)
+    }
+
+
+    fun <D : Any> SKData<D>.onData(
+            validity:Long? = null,
+            withLoaderForFirstData: Boolean = true,
+            block: (d: D) -> Unit
+    ) {
+        launchTreatingErrors(
+                withLoader = withLoaderForFirstData
+        ) {
+            block(get(validity))
+        }
+        launchNoCrash {
+            flow.drop(1).collect {
+                it?.data?.let(block)
+            }
+        }
+
     }
 
 }

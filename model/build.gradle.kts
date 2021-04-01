@@ -33,6 +33,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":core"))
+                api(project(":modelcontract"))
                 api("com.squareup.sqldelight:runtime:${Versions.sqldelight}")
                 api("org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}")
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
@@ -42,6 +43,7 @@ kotlin {
                 api("io.ktor:ktor-client-logging:${Versions.ktor}")
             }
         }
+
 
         val androidMain by getting {
             dependencies {
@@ -90,6 +92,10 @@ android {
     }
 }
 
+dependencies {
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+    androidTestImplementation(project(":androidTests"))
+}
 
 sqldelight {
 

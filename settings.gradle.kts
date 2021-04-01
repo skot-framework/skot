@@ -3,6 +3,7 @@ rootProject.buildFileName = "build.gradle.kts"
 include(":core")
 include(":viewcontract")
 include(":model")
+include(":modelcontract")
 include(":viewmodel")
 include("viewlegacy")
 include(":androidTests")

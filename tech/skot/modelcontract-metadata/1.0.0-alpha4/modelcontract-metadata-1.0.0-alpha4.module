@@ -1,0 +1,54 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../modelcontract-jvm/1.0.0-alpha4/modelcontract-jvm-1.0.0-alpha4.module",
+    "group": "tech.skot",
+    "module": "modelcontract-jvm",
+    "version": "1.0.0-alpha4",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8.1",
+      "buildId": "ukmbwru3nfajnc7s472ijwocfa"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements-published",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.30"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.4.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "modelcontract-metadata-1.0.0-alpha4.jar",
+          "url": "modelcontract-metadata-1.0.0-alpha4.jar",
+          "size": 2383,
+          "sha512": "4499595cd7ff6cd403e29fd5ee10e356cf525bd630ab788c7c78fb9710372e172b00d58c5f53be8a5c0616f422b511383ed3337d0dba5f475db9a22a8e425b62",
+          "sha256": "85ca50428b06a0e9fcf5b007b92d3a29e5813dd73a1ec858148dcdefefd5c2a3",
+          "sha1": "3dc3f3f2139ec0f7e8473fbd9f9bdb4746f84940",
+          "md5": "f937027dfdb461df216135e7433c4d91"
+        }
+      ]
+    }
+  ]
+}

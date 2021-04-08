@@ -1,0 +1,84 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../core/1.0.0-alpha4/core-1.0.0-alpha4.module",
+    "group": "tech.skot",
+    "module": "core",
+    "version": "1.0.0-alpha4",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8.1",
+      "buildId": "ukmbwru3nfajnc7s472ijwocfa"
+    }
+  },
+  "variants": [
+    {
+      "name": "iosX64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.4.3"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.4.30"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.4.30"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "strictly": "1.4.3",
+            "requires": "1.4.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core.klib",
+          "url": "core-iosx64-1.0.0-alpha4.klib",
+          "size": 19587,
+          "sha512": "221a36f5271be13662a536fc6c70ad6e5e1f9df1e64722bbed4b8911a11767a58058fa446f0dfcea45c98ae132fff1ed8d84d5b0ffafd8852df71a2430206329",
+          "sha256": "868a6339b13d1b99471c21f98380a5dec83c9e573a3b5024c55a7e82fb38d673",
+          "sha1": "00632ec83e6e424b00cfef70451683043bbb3f2e",
+          "md5": "b3451e71a62576df9b0d9069323b1230"
+        }
+      ]
+    },
+    {
+      "name": "metadataApiElements-published",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "available-at": {
+        "url": "../../core-metadata/1.0.0-alpha4/core-metadata-1.0.0-alpha4.module",
+        "group": "tech.skot",
+        "module": "core-metadata",
+        "version": "1.0.0-alpha4"
+      }
+    }
+  ]
+}

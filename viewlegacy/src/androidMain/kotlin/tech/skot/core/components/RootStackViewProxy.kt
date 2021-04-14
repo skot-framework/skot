@@ -1,8 +1,6 @@
 package tech.skot.core.components
 
-import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
-import tech.skot.core.SKLog
 import tech.skot.view.live.MutableSKLiveData
 import tech.skot.view.live.SKMessage
 
@@ -23,7 +21,7 @@ object RootStackViewProxy: ComponentViewProxy<Unit>(), StackVC {
 
     val setRootScreenMessage: SKMessage<ScreenViewProxy<*>> = SKMessage(multiReceiver = false)
 
-    override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: Unit, collectingObservers:Boolean): ComponentViewImpl<Unit> {
+    override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: Unit, collectingObservers:Boolean): ComponentView<Unit> {
         throw IllegalAccessException("On ne bind pas la RootStack")
     }
 

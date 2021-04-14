@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import tech.skot.core.SKLog
 
 open class SKActivity : AppCompatActivity() {
 
@@ -15,7 +14,7 @@ open class SKActivity : AppCompatActivity() {
         var oneActivityAlreadyLaunched = false
     }
 
-    private var screen:ScreenViewImpl<*>? = null
+    private var screen:ScreenView<*>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

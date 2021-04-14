@@ -4,7 +4,7 @@ import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 
 
-class StackViewImpl(activity: SKActivity, fragment: Fragment?, private val frameLayout: FrameLayout) : ComponentViewImpl<FrameLayout>(activity, fragment, frameLayout) {
+class StackView(activity: SKActivity, fragment: Fragment?, private val frameLayout: FrameLayout) : ComponentView<FrameLayout>(activity, fragment, frameLayout) {
 
     fun onScreens(screens: List<ScreenViewProxy<*>>) {
 

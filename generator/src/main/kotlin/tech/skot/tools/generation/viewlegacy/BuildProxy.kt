@@ -16,8 +16,8 @@ const val coreComponentsPackage = "tech.skot.core.components"
 
 val screenProxy = ClassName(coreComponentsPackage, "ScreenViewProxy")
 val componentProxy = ClassName(coreComponentsPackage, "ComponentViewProxy")
-val screenViewImpl = ClassName(coreComponentsPackage, "ScreenViewImpl")
-val componentViewImpl = ClassName(coreComponentsPackage, "ComponentViewImpl")
+val screenViewImpl = ClassName(coreComponentsPackage, "ScreenView")
+val componentViewImpl = ClassName(coreComponentsPackage, "ComponentView")
 val screenViewModel = ClassName(coreComponentsPackage, "Screen")
 val componentViewModel = ClassName(coreComponentsPackage, "Component")
 val mutableSKLiveData = ClassName("tech.skot.view.live", "MutableSKLiveData")

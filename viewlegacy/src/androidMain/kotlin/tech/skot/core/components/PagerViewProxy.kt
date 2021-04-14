@@ -14,7 +14,7 @@ class PagerViewProxy(
     override var selectedPageIndex by selectedPageIndexLD
 
     override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: ViewPager2, collectingObservers:Boolean) =
-            PagerViewImpl(activity, fragment, binding, this).apply {
+            PagerView(activity, fragment, binding, this).apply {
                 collectObservers = collectingObservers
                 onScreens(screens)
                 onOnSwipeToPage(onSwipeToPage)

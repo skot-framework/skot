@@ -1,16 +1,12 @@
 package tech.skot.core.components.presented
 
 import android.content.DialogInterface
-import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import tech.skot.core.components.ComponentViewImpl
-import tech.skot.core.components.ComponentViewProxy
+import tech.skot.core.components.ComponentView
 import tech.skot.core.components.SKActivity
-import tech.skot.core.components.SKFragment
-import tech.skot.view.live.MutableSKLiveData
 
-class AlertViewImpl(activity: SKActivity, fragment: Fragment?, private val proxy: AlertViewProxy) : ComponentViewImpl<Unit>(activity, fragment, Unit) {
+class AlertViewImpl(activity: SKActivity, fragment: Fragment?, private val proxy: AlertViewProxy) : ComponentView<Unit>(activity, fragment, Unit) {
 
     data class State(val state:AlertVC.Shown, val alert: AlertDialog)
     private var current:State? = null

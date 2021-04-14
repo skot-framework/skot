@@ -9,7 +9,7 @@ import tech.skot.core.view.Color
 import tech.skot.view.live.SKLiveData
 import tech.skot.view.live.SKMessage
 
-abstract class ComponentViewImpl<B : Any>(val activity: SKActivity, protected val fragment: Fragment?, val binding: B) : LifecycleOwner {
+abstract class ComponentView<B : Any>(val activity: SKActivity, protected val fragment: Fragment?, val binding: B) : LifecycleOwner {
 
     val context = fragment?.context ?: activity
 
@@ -25,7 +25,7 @@ abstract class ComponentViewImpl<B : Any>(val activity: SKActivity, protected va
     }
 
     fun <D> SKLiveData<D>.observe(onChanged: (D) -> Unit) {
-        observe(lifecycleOwner = this@ComponentViewImpl, onChanged).let {
+        observe(lifecycleOwner = this@ComponentView, onChanged).let {
             if (collectObservers) {
                 componentObservers.add(it)
             }
@@ -38,7 +38,7 @@ abstract class ComponentViewImpl<B : Any>(val activity: SKActivity, protected va
     }
 
     fun <D> SKMessage<D>.observe(onReceive: (D) -> Unit) {
-        observe(lifecycleOwner = this@ComponentViewImpl, onReceive)
+        observe(lifecycleOwner = this@ComponentView, onReceive)
     }
 
     fun TextView.setTextColor(color: Color) {

@@ -28,12 +28,12 @@ data class ComponentDef(
     fun rai() = ClassName(packageName, name.suffix("RAI"))
     fun viewModelGen() = ClassName(packageName, name.suffix("Gen"))
     fun viewModel() = ClassName(packageName, name)
-    fun modelContract() = ClassName(packageName,name.suffix("Model"))
-    fun model() = ClassName(packageName,name.suffix("ModelImpl"))
+    fun modelContract() = ClassName(packageName,name.suffix("MC"))
+    fun model() = ClassName(packageName,name.suffix("Model"))
 
     fun layoutName() = name.map { if (it.isUpperCase()) "_${it.toLowerCase()}" else it }.joinToString(separator = "").substring(1)
     fun binding(viewModuleAndroidPackage: String) = ClassName("$viewModuleAndroidPackage.databinding", name.suffix("Binding"))
-    fun viewImpl() = ClassName(packageName, name.suffix("ViewImpl"))
+    fun viewImpl() = ClassName(packageName, name.suffix("View"))
 
     fun toFillVCparams() = (subComponents.toFillParams(init = { "${name.toVM()}.view" }) + fixProperties.toFillParams() + mutableProperties.map { it.initial() }.toFillParams()).joinToString(separator = ",")
 

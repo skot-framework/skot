@@ -11,7 +11,7 @@ class LoaderViewProxy:ComponentViewProxy<View>(), LoaderVC {
 
 
     override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: View, collectingObservers: Boolean) =
-            LoaderViewImpl(activity, fragment, binding).apply {
+            LoaderView(activity, fragment, binding).apply {
                 visibleLD.observe {
                     onVisible(it)
                 }

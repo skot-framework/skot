@@ -14,7 +14,7 @@ import java.lang.IllegalStateException
 abstract class ComponentViewProxy<B : Any> : ComponentVC {
 //    protected val savedStates: MutableMap<String, Any> = mutableMapOf()
 
-    abstract fun bindTo(activity: SKActivity, fragment: Fragment?, binding: B, collectingObservers:Boolean = false): ComponentViewImpl<B>
+    abstract fun bindTo(activity: SKActivity, fragment: Fragment?, binding: B, collectingObservers:Boolean = false): ComponentView<B>
 
     open fun saveState() {
         //surchargée quand le component a un état à sauver
@@ -38,7 +38,7 @@ abstract class ComponentViewProxy<B : Any> : ComponentVC {
         throw IllegalStateException("You cant't bind this component to a view")
     }
 
-    fun bindToItemView(activity: SKActivity, fragment: Fragment?, view:View):ComponentViewImpl<B> {
+    fun bindToItemView(activity: SKActivity, fragment: Fragment?, view:View):ComponentView<B> {
         if (layoutId == null) {
             throw IllegalStateException("You cant't bind this component to an Item's view, it has no layout Id")
         }

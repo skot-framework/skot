@@ -1,18 +1,11 @@
 package tech.skot.core.components
 
-import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LifecycleRegistry
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import tech.skot.core.SKLog
 
 //class SKBottomSheetDialog(context: Context, theme:Int): BottomSheetDialog(context, theme), LifecycleOwner {
 //
@@ -35,7 +28,7 @@ import tech.skot.core.SKLog
 
 class SKBottomSheetDialogFragment(): BottomSheetDialogFragment() {
 
-    private var screen:ScreenViewImpl<*>? = null
+    private var screen:ScreenView<*>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return arguments?.getLong(ScreensManager.SK_ARGUMENT_VIEW_KEY)?.let { viewKey ->

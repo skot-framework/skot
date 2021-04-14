@@ -2,21 +2,18 @@ package tech.skot.core.components
 
 import android.os.Parcelable
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import tech.skot.core.SKLog
 import java.lang.IllegalStateException
 
-class SKListViewImpl(vertical:Boolean, reverse:Boolean, activity: SKActivity, fragment: Fragment?, private val recyclerView: RecyclerView) : ComponentViewImpl<RecyclerView>(activity, fragment, recyclerView) {
+class SKListView(vertical:Boolean, reverse:Boolean, activity: SKActivity, fragment: Fragment?, private val recyclerView: RecyclerView) : ComponentView<RecyclerView>(activity, fragment, recyclerView) {
 
 
 
     inner class ViewHolder(idLayout:Int, parent:ViewGroup):RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(idLayout, parent, false)) {
-        var componentViewImpl:ComponentViewImpl<*>? = null
+        var componentView:ComponentView<*>? = null
     }
 
     inner class Adapter:RecyclerView.Adapter<ViewHolder>() {
@@ -29,22 +26,22 @@ class SKListViewImpl(vertical:Boolean, reverse:Boolean, activity: SKActivity, fr
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             items[position].let { proxy ->
                 val componentViewImpl = proxy.bindToItemView(activity, fragment, holder.itemView)
-                holder.componentViewImpl = componentViewImpl
+                holder.componentView = componentViewImpl
                 mapProxyIndexComponentViewImpl[proxy] = componentViewImpl
             }
         }
 
         override fun onViewRecycled(holder: ViewHolder) {
             super.onViewRecycled(holder)
-            holder.componentViewImpl?.removeObservers()
-            holder.componentViewImpl= null
+            holder.componentView?.removeObservers()
+            holder.componentView= null
 
         }
 
 
     }
 
-    private val mapProxyIndexComponentViewImpl = mutableMapOf<ComponentViewProxy<*>, ComponentViewImpl<*>>()
+    private val mapProxyIndexComponentViewImpl = mutableMapOf<ComponentViewProxy<*>, ComponentView<*>>()
 
     private val adapter = Adapter()
 

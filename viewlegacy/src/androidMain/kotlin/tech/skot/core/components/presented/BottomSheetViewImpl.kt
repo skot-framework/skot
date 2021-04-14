@@ -1,12 +1,10 @@
 package tech.skot.core.components.presented
 
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import tech.skot.core.SKLog
 import tech.skot.core.components.*
 
 
-class BottomSheetViewImpl(activity: SKActivity, fragment: Fragment?, private val proxy: BottomSheetViewProxy) : ComponentViewImpl<Unit>(activity, fragment, Unit) {
+class BottomSheetViewImpl(activity: SKActivity, fragment: Fragment?, private val proxy: BottomSheetViewProxy) : ComponentView<Unit>(activity, fragment, Unit) {
 
     data class State(val state: BottomSheetVC.Shown, val bottomSheet: SKBottomSheetDialogFragment)
 

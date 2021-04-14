@@ -4,7 +4,7 @@ import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import tech.skot.core.SKLog
 
-class FrameViewImpl(activity: SKActivity, fragment: Fragment?, binding: FrameLayout, private val screens: Set<ScreenViewProxy<*>>) : ComponentViewImpl<FrameLayout>(activity, fragment, binding) {
+class FrameView(activity: SKActivity, fragment: Fragment?, binding: FrameLayout, private val screens: Set<ScreenViewProxy<*>>) : ComponentView<FrameLayout>(activity, fragment, binding) {
 
 
     fun onScreen(screen: ScreenViewProxy<*>?) {

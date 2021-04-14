@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import tech.skot.core.SKLog
 import java.net.URLEncoder
 
-class WebViewViewImpl(activity: SKActivity, fragment: Fragment?, private val webView: WebView, private val proxy: WebViewViewProxy) : ComponentViewImpl<WebView>(activity, fragment, webView) {
+class WebViewView(activity: SKActivity, fragment: Fragment?, private val webView: WebView, private val proxy: WebViewViewProxy) : ComponentView<WebView>(activity, fragment, webView) {
 
     init {
         webView.settings.javaScriptEnabled = true

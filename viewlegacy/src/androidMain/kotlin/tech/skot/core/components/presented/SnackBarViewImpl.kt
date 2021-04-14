@@ -1,19 +1,15 @@
 package tech.skot.core.components.presented
 
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
-import tech.skot.core.components.ComponentViewImpl
-import tech.skot.core.components.ComponentViewProxy
+import tech.skot.core.components.ComponentView
 import tech.skot.core.SKLog
 import tech.skot.core.components.SKActivity
-import tech.skot.core.components.SKFragment
-import tech.skot.view.live.MutableSKLiveData
 
-class SnackBarViewImpl(activity: SKActivity, fragment: Fragment?, private val rootView: View, private val proxy:SnackBarViewProxy) : ComponentViewImpl<View>(activity, fragment, rootView) {
+class SnackBarViewImpl(activity: SKActivity, fragment: Fragment?, private val rootView: View, private val proxy:SnackBarViewProxy) : ComponentView<View>(activity, fragment, rootView) {
 
     data class State(val state:SnackBarVC.Shown, val snack:Snackbar)
     private var current:State? = null

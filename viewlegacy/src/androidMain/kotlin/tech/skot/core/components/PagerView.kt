@@ -3,10 +3,9 @@ package tech.skot.core.components
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import tech.skot.core.SKLog
 
 
-class PagerViewImpl(activity: SKActivity, fragment: Fragment?, private val viewPager2: ViewPager2, private val proxy: PagerViewProxy) : ComponentViewImpl<ViewPager2>(activity, fragment, viewPager2) {
+class PagerView(activity: SKActivity, fragment: Fragment?, private val viewPager2: ViewPager2, private val proxy: PagerViewProxy) : ComponentView<ViewPager2>(activity, fragment, viewPager2) {
 
     fun onScreens(screens: List<ScreenViewProxy<*>>) {
         viewPager2.adapter = object : FragmentStateAdapter(fragmentManager, lifecycle) {

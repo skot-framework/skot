@@ -7,9 +7,9 @@ fun StarterGenerator.skotModule(){
             manual = """
 skot {
     app = tech.skot.tools.gradle.App(
-            startScreen = "${configuration.appPackage}.screens.SplashVC",
+            startScreen = ".screens.SplashVC",
             packageName = "${configuration.appPackage}",
-            baseActivity = "${configuration.appPackage}.android.BaseActivity")
+            baseActivity = ".android.BaseActivity")
 }                
             """.trimIndent()
         }

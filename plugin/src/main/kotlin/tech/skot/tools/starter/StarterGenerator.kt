@@ -52,6 +52,14 @@ class StarterGenerator(val rootDir: Path, val configuration: StarterConfiguratio
 org.gradle.jvmargs=-XX\:MaxHeapSize\=4096 -Xmx4096M
 org.gradle.daemon=true
 android.useAndroidX=true""")
+
+        rootDir.writeStringTo(".gitignore", """*.iml
+.gradle
+/local.properties
+/.idea/*
+.DS_Store
+**/build""", evenIfExists = true)
+
 //        rootDir.writeLinesTo("settings.gradle.kts", modules.map { "include(\":$it\")" })
     }
 

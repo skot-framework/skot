@@ -12,6 +12,10 @@ import kotlin.coroutines.EmptyCoroutineContext
 abstract class Component<out V : ComponentVC> : CoroutineScope {
     abstract val view: V
 
+    companion object {
+        var errorTreatment: ((component: Component<*>, exception: Exception, defaultErrorMessage: String?) -> Unit)? = null
+    }
+
     protected val job = SupervisorJob()
     override val coroutineContext = CoroutineScope(Dispatchers.Main + job).coroutineContext
 
@@ -34,7 +38,8 @@ abstract class Component<out V : ComponentVC> : CoroutineScope {
     open val loader: Loader? = null
 
     open fun treatError(exception: Exception, defaultErrorMessage: String?) {
-        throw IllegalStateException("Override treatError function to use this method")
+        errorTreatment?.invoke(this, exception, defaultErrorMessage)
+                ?: throw IllegalStateException("Valorise Component.errorTreatment or override treatError function to use method treating errors")
     }
 
     fun launchTreatingErrors(
@@ -103,7 +108,7 @@ abstract class Component<out V : ComponentVC> : CoroutineScope {
 
 
     fun <D : Any> SKData<D>.onData(
-            validity:Long? = null,
+            validity: Long? = null,
             withLoaderForFirstData: Boolean = true,
             block: (d: D) -> Unit
     ) {

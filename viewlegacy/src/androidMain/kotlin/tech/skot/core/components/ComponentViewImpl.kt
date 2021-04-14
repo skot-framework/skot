@@ -5,13 +5,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
-import tech.skot.core.SKLog
 import tech.skot.core.view.Color
 import tech.skot.view.live.SKLiveData
 import tech.skot.view.live.SKMessage
-import java.lang.ref.WeakReference
 
-abstract class ComponentViewImpl<B : Any>(protected val activity: SKActivity, protected val fragment: Fragment?, val binding: B) : LifecycleOwner {
+abstract class ComponentViewImpl<B : Any>(val activity: SKActivity, protected val fragment: Fragment?, val binding: B) : LifecycleOwner {
 
     val context = fragment?.context ?: activity
 
@@ -22,8 +20,9 @@ abstract class ComponentViewImpl<B : Any>(protected val activity: SKActivity, pr
 
     var collectObservers = false
 
-    private val componentObservers:MutableList<SKLiveData<*>.LifecycleOwnerObserver> by lazy {
-        mutableListOf() }
+    private val componentObservers: MutableList<SKLiveData<*>.LifecycleOwnerObserver> by lazy {
+        mutableListOf()
+    }
 
     fun <D> SKLiveData<D>.observe(onChanged: (D) -> Unit) {
         observe(lifecycleOwner = this@ComponentViewImpl, onChanged).let {

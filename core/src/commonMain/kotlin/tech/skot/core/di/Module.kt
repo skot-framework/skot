@@ -14,6 +14,7 @@ class Module<C:Any> {
     //Les injections se font toujours dans le mainThread (onCreate des vues) donc on peut utiliser des mutableMap normales
     val singles = mutableMapOf<KClass<*>, Single<C,*>>()
     val factories = mutableMapOf<KClass<*>, Factory<C,*>>()
+    val byName = mutableMapOf<String, Any>()
 
     inline fun <reified D> single(noinline def: C.() -> D) {
         singles[D::class] = Single(def)
@@ -22,6 +23,7 @@ class Module<C:Any> {
     inline fun <reified D> factory(noinline def: C.() -> D) {
         factories[D::class] = Factory(def)
     }
+
 
 
 }

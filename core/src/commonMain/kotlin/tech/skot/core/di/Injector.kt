@@ -11,6 +11,7 @@ abstract class Injector<C:Any>(modules: List<Module<in C>>) {
 
     private val singles = modules.flatMap { it.singles.map { it.key to it.value } }.toMap()
     private val factories = modules.flatMap { it.factories.map { it.key to it.value } }.toMap()
+    private val byName = modules.flatMap { it.byName.map { it.key to it.value } }.toMap()
 
 
     private val singleInstances: MutableMap<KClass<*>, Any> = mutableMapOf()
@@ -43,6 +44,12 @@ abstract class Injector<C:Any>(modules: List<Module<in C>>) {
         return get(D::class)
     }
 
+
+    fun <E : Any> getByName(key:String): E{
+        return (byName.get(key) as E?) ?: throw IllegalStateException("Injector, nothing injected for key \"$key\" please use injectForName")
+    }
+
+
 }
 
 expect class BaseInjector : Injector<BaseInjector>
@@ -51,4 +58,8 @@ var injector: Injector<*>? = null
 
 inline fun <reified K : Any> get(): K {
     return injector!!.get(K::class)
+}
+
+inline fun <reified K : Any> getByName(key:String): K {
+    return injector!!.getByName(key)
 }

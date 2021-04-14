@@ -44,6 +44,8 @@ class ModuleGenerator(val name: String, val configuration: StarterConfiguration,
         androidAppTheme = appTheme
     }
 
+    var appName:String? = null
+
     var androidBaseActivity: ClassName? = null
 
     var androidStrings = mutableMapOf<String, String>()
@@ -76,6 +78,7 @@ class ModuleGenerator(val name: String, val configuration: StarterConfiguration,
                 androidApplicationClass != null -> {
                     listOf("\t<application","\t\tandroid:name=\".$androidApplicationClass\"") +
                             (androidAppTheme?.let { listOf("\t\tandroid:theme=\"@style/$it\"") } ?: emptyList<String>()) +
+                            (appName?.let { listOf("\t\tandroid:label=\"$it\"") } ?: emptyList<String>()) +
                             "\t\t>"
                 }
                 androidBaseActivity != null -> {
@@ -95,7 +98,7 @@ class ModuleGenerator(val name: String, val configuration: StarterConfiguration,
                     "<?xml version=\"1.0\" encoding=\"utf-8\"?>",
                     "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"",
                     "\tpackage=\"$it\">") +
-                    androidPermissions.map { "\t<uses-permission android:name=\"$it\" />" } +
+                    androidPermissions.map { "\t<uses-permission android:name=\"android.permission.$it\" />" } +
                     applicationOpenTag +
                     (androidBaseActivity?.let { activityManifestDeclaration.format(it.canonicalName).split("\n") } ?: emptyList<String>()) +
 //                    (if (androidBaseActivity != null) skActivityManifestDeclaration.split("\n") else emptyList<String>()) +

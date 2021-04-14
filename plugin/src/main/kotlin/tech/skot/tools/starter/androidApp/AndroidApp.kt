@@ -29,7 +29,7 @@ const val startGradleAndroidBlock = """android {
     buildTypes {
         getByName("debug") {
             applicationIdSuffix = "dev"
-            manifestPlaceholders["app_name"] = "Dev ${'$'}{Build.appName}"
+            manifestPlaceholders["app_name"] = "D_${'$'}{Build.appName}"
         }
 
         getByName("release") {
@@ -47,7 +47,9 @@ const val startGradleAndroidBlock = """android {
 fun StarterGenerator.androidApp(){
     ModuleGenerator("androidApp", configuration, rootDir).apply {
 
-        androidApplicationClass = "${configuration.appName}Application"
+        val applicationClassPrefix = configuration.appPackage.substringAfterLast(".").capitalize()
+
+        androidApplicationClass = "${applicationClassPrefix}Application"
 
         val androidApplicationId = configuration.appPackage+".android"
 
@@ -56,6 +58,8 @@ fun StarterGenerator.androidApp(){
         justAndroid = true
 
         androidAppTheme = "BaseAppTheme"
+
+        appName = "\${app_name}"
 
         buildGradle {
             plugin(BuildGradleGenerator.Plugin.Id("skot-app"))

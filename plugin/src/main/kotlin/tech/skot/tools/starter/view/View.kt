@@ -52,7 +52,12 @@ fun StarterGenerator.view() {
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical">
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp"
+        android:textStyle="bold"
+        android:text="${configuration.appName}" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,6 +75,9 @@ fun StarterGenerator.view() {
         )
 
 
+        rootDir.writeStringTo("$name/src/androidMain/res_referenced/values/strings.xml","""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+</resources>""")
     }.generate()
     modules.add("view")
 }

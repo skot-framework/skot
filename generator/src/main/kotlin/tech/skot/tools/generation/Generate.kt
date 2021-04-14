@@ -8,16 +8,29 @@ import kotlin.reflect.KClass
 @ExperimentalStdlibApi
 fun main(args: Array<String>) {
     val appPackage = args[0]
-    val startClass = Class.forName(args[1]).kotlin
+
+    val startClassFullName = args[1]?.let {
+        if (it.startsWith(".")) {
+            "$appPackage$it"
+        }
+        else {
+            it
+        }
+    }
+    val startClass = Class.forName(startClassFullName).kotlin
     val strBaseActivity = args[2]
     val rootPath = Paths.get(args[3])
 
-    val baseActivity = if (strBaseActivity == "null") {
-        null
-    }
-    else {
-        strBaseActivity.fullNameAsClassName()
-    }
+    val baseActivity =
+            when {
+                strBaseActivity == "null" -> null
+                strBaseActivity.startsWith(".") -> {
+                    "$appPackage$strBaseActivity".fullNameAsClassName()
+                }
+                else -> {
+                    strBaseActivity.fullNameAsClassName()
+                }
+            }
 
 
     if (! startClass.isScreenVC()) {

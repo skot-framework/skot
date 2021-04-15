@@ -15,6 +15,7 @@ interface SKData<D : Any> {
     val _current: DatedData<D>?
 
     suspend fun update(): D
+    fun fallBackValue(): D?
 
     suspend fun get(validity: Long? = null): D {
         val datedCurrentValue = _current
@@ -46,10 +47,14 @@ fun <D : Any, O : Any> SKData<D>.map(transform: (d: D) -> O): SKData<O> {
         override suspend fun update(): O {
             return transform(this@map.update())
         }
+
+        override fun fallBackValue(): O? {
+            return this@map.fallBackValue()?.let(transform)
+        }
     }
 }
 
-fun <D1:Any, D2:Any> SKData<D1>.combine(other:SKData<D2>) = combineSKData(this, other)
+fun <D1 : Any, D2 : Any> SKData<D1>.combine(other: SKData<D2>) = combineSKData(this, other)
 
 fun <D1 : Any, D2 : Any> combineSKData(data1: SKData<D1>, data2: SKData<D2>): SKData<Pair<D1, D2>> {
     return object : SKData<Pair<D1, D2>> {
@@ -99,6 +104,16 @@ fun <D1 : Any, D2 : Any> combineSKData(data1: SKData<D1>, data2: SKData<D2>): SK
                     data2.get(validity)
                 }
                 Pair(gettedData1.await(), gettedData2.await())
+            }
+        }
+
+        override fun fallBackValue(): Pair<D1, D2>? {
+            val data1FallBackValue = data1.fallBackValue()
+            val data2FallBackValue = data2.fallBackValue()
+            return if (data1FallBackValue != null && data2FallBackValue != null) {
+                Pair(data1FallBackValue, data2FallBackValue)
+            } else {
+                null
             }
         }
     }

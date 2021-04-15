@@ -17,4 +17,13 @@ abstract class SimpleSKData<D : Any> : SKData<D> {
         return newDatedValue.data
     }
 
+    override fun fallBackValue(): D? = flow.value?.data
+
+}
+
+open class DistantSKData<D:Any>(validity:Long? = null, private val fetchData:suspend ()->D): SimpleSKData<D>() {
+    override suspend fun newDatedData() = DatedData(fetchData(), currentTimeMillis())
+    override val defaultValidity = validity ?: super.defaultValidity
+
+
 }

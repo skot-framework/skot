@@ -13,7 +13,7 @@ abstract class Component<out V : ComponentVC> : CoroutineScope {
     abstract val view: V
 
     companion object {
-        var errorTreatment: ((component: Component<*>, exception: Exception, defaultErrorMessage: String?) -> Unit)? = null
+        var errorTreatment: ((component: Component<*>, exception: Exception, errorMessage: String?) -> Unit)? = null
     }
 
     protected val job = SupervisorJob()
@@ -27,7 +27,7 @@ abstract class Component<out V : ComponentVC> : CoroutineScope {
 
 
     private val noCrashExceptionHandler = CoroutineExceptionHandler { _, e ->
-        SKLog.e("launchNoCrash", e)
+        SKLog.i("launchNoCrash ${e.message}")
     }
 
     protected fun launchNoCrash(start: CoroutineStart = CoroutineStart.DEFAULT,
@@ -37,16 +37,17 @@ abstract class Component<out V : ComponentVC> : CoroutineScope {
 
     open val loader: Loader? = null
 
-    open fun treatError(exception: Exception, defaultErrorMessage: String?) {
-        errorTreatment?.invoke(this, exception, defaultErrorMessage)
+    open fun treatError(exception: Exception, errorMessage: String?) {
+        errorTreatment?.invoke(this, exception, errorMessage)
                 ?: throw IllegalStateException("Valorise Component.errorTreatment or override treatError function to use method treating errors")
     }
 
-    fun launchTreatingErrors(
+    fun launchWithOptions(
             context: CoroutineContext = EmptyCoroutineContext,
             start: CoroutineStart = CoroutineStart.DEFAULT,
             withLoader: Boolean = false,
-            defaultErrorMessage: String? = null,
+            specificErrorTreatment:((ex:Exception)->Unit)? = null,
+            errorMessage: String? = null,
             block: suspend CoroutineScope.() -> Unit): Job =
             if (withLoader && loader == null) {
                 throw IllegalStateException("You have to override loader property to launchWithLoader")
@@ -59,7 +60,7 @@ abstract class Component<out V : ComponentVC> : CoroutineScope {
                         block()
                     } catch (ex: Exception) {
                         if (ex !is CancellationException) {
-                            treatError(ex, defaultErrorMessage)
+                            specificErrorTreatment?.invoke(ex) ?: treatError(ex, errorMessage)
                         }
                     } finally {
                         if (withLoader) {
@@ -73,12 +74,12 @@ abstract class Component<out V : ComponentVC> : CoroutineScope {
     fun launchWithLoaderAndErrors(
             context: CoroutineContext = EmptyCoroutineContext,
             start: CoroutineStart = CoroutineStart.DEFAULT,
-            defaultErrorMessage: String? = null,
+            errorMessage: String? = null,
             block: suspend CoroutineScope.() -> Unit) {
-        launchTreatingErrors(
+        launchWithOptions (
                 context = context,
                 start = start,
-                defaultErrorMessage = defaultErrorMessage,
+                errorMessage = errorMessage,
                 withLoader = true,
                 block = block
         )
@@ -110,10 +111,26 @@ abstract class Component<out V : ComponentVC> : CoroutineScope {
     fun <D : Any> SKData<D>.onData(
             validity: Long? = null,
             withLoaderForFirstData: Boolean = true,
+            fallBackDataBeforeFirstDataLoaded: Boolean = false,
+            fallBackDataIfError:Boolean = false,
+            treatErrors:Boolean = true,
+            defaultErrorMessage: String? = null,
             block: (d: D) -> Unit
     ) {
-        launchTreatingErrors(
-                withLoader = withLoaderForFirstData
+        if (fallBackDataBeforeFirstDataLoaded) {
+            fallBackValue()?.let(block)
+        }
+        launchWithOptions (
+                withLoader = withLoaderForFirstData,
+                specificErrorTreatment = { ex ->
+                    if (fallBackDataIfError) {
+                        fallBackValue()?.let(block)
+                    }
+                    if (treatErrors) {
+                        treatError(ex, defaultErrorMessage)
+                    }
+                }
+
         ) {
             block(get(validity))
         }

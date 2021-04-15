@@ -29,6 +29,7 @@ data class ComponentDef(
     fun viewModelGen() = ClassName(packageName, name.suffix("Gen"))
     fun viewModel() = ClassName(packageName, name)
     fun modelContract() = ClassName(packageName,name.suffix("MC"))
+    fun viewContract() = ClassName(packageName,name.suffix("VC"))
     fun model() = ClassName(packageName,name.suffix("Model"))
 
     fun layoutName() = name.map { if (it.isUpperCase()) "_${it.toLowerCase()}" else it }.joinToString(separator = "").substring(1)
@@ -79,6 +80,11 @@ fun List<PropertyDef>.toFillParams(init:(PropertyDef.()->String)? = null) = map 
 fun MutableSet<KClass<out ComponentVC>>.addLinkedComponents(aComponentClass: KClass<out ComponentVC>, appPackageName:String) {
     add(aComponentClass)
     val subComponents = aComponentClass.ownProperties().map { it.returnType }.filter { it.isComponent() && (it.asTypeName() as ClassName).packageName.startsWith(appPackageName)}.map { it.jvmErasure as KClass<out ComponentVC> }
+
+    aComponentClass.nestedClasses.filter { it.isComponent() }.map { it as KClass<out ComponentVC> }.forEach {
+        addLinkedComponents(it, appPackageName)
+    }
+
     subComponents.forEach {
         addLinkedComponents(it, appPackageName)
     }
@@ -151,3 +157,4 @@ fun KClass<*>.packageName() = this.java.`package`.name
 val componentViewType = ComponentVC::class.createType()
 val collectionType = Collection::class.createType(arguments = listOf(KTypeProjection(KVariance.OUT, componentViewType)))
 fun KType.isComponent() = componentViewType.isSupertypeOf(this)
+fun KClass<*>.isComponent() = this.isSubclassOf(ComponentVC::class)

@@ -40,6 +40,8 @@ class Generator(
         it.modelContract().existsCommonInModule(Modules.modelcontract)
     }
 
+
+
 //    val mapTypeDef = components.map { it.vc.asTypeName() to it }.toMap()
 
 
@@ -89,6 +91,7 @@ class Generator(
         generateIcons()
         generateColors()
         generateApp()
+        generateCodeMap()
     }
 
     fun generatedCommonSources(module: String) =

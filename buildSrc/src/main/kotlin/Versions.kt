@@ -8,6 +8,7 @@ object Versions {
     const val ktor = "1.5.2"
     const val sl4j = "1.6.1"
     const val serialization = "1.0.1"
+    const val kotlinxDateTime = "0.1.1"
 
     const val klock = "1.12.1"
 

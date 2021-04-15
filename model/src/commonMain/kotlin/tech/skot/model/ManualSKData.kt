@@ -18,4 +18,6 @@ class ManualSKData<D : Any>(initialValue: D) : SKData<D> {
         return _current!!.data
     }
 
+    override fun fallBackValue(): D?  = _current?.data
+
 }

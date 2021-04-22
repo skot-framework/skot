@@ -1,0 +1,91 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../core/1.0.0-alpha6/core-1.0.0-alpha6.module",
+    "group": "tech.skot",
+    "module": "core",
+    "version": "1.0.0-alpha6",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8.1",
+      "buildId": "zljbyqy3nbb2zhpwyxxxugh5ly"
+    }
+  },
+  "variants": [
+    {
+      "name": "iosX64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.4.3"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.4.30"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-datetime",
+          "version": {
+            "requires": "0.1.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.4.30"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "strictly": "1.4.3",
+            "requires": "1.4.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core.klib",
+          "url": "core-iosx64-1.0.0-alpha6.klib",
+          "size": 20641,
+          "sha512": "193c2d3554dea43782eb9af0cf9ddbeb3f1a0c3e8b6fc2dbb88e21d97bff96346969867c42bc5029bbf4009177677c8b4d1fd84da620205d0e34a7a9d0e7c128",
+          "sha256": "d0ad3c22bd03284d7b579a8143ee4ea97978dd2fe199332da98d0b283bec6101",
+          "sha1": "3ce59661c6a1ecabc3f18eb1a38751da0b0951cf",
+          "md5": "a60b86478a0d9017329b86ff08ff7e7e"
+        }
+      ]
+    },
+    {
+      "name": "metadataApiElements-published",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "available-at": {
+        "url": "../../core-metadata/1.0.0-alpha6/core-metadata-1.0.0-alpha6.module",
+        "group": "tech.skot",
+        "module": "core-metadata",
+        "version": "1.0.0-alpha6"
+      }
+    }
+  ]
+}

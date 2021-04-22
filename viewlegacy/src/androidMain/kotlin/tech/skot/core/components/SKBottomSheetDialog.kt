@@ -28,7 +28,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class SKBottomSheetDialogFragment(): BottomSheetDialogFragment() {
 
-    private var screen:ScreenView<*>? = null
+    private var screen:SKScreenView<*>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return arguments?.getLong(ScreensManager.SK_ARGUMENT_VIEW_KEY)?.let { viewKey ->

@@ -4,8 +4,8 @@ import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import org.w3c.dom.Document
 import org.w3c.dom.Element
-import tech.skot.core.components.ComponentVC
-import tech.skot.core.components.ScreenVC
+import tech.skot.core.components.SKComponentVC
+import tech.skot.core.components.SKScreenVC
 import tech.skot.tools.generation.model.generateModel
 import tech.skot.tools.generation.viewlegacy.*
 import tech.skot.tools.generation.viewmodel.generateViewModel
@@ -26,13 +26,13 @@ object Modules {
 
 class Generator(
         val appPackage: String,
-        val startClass: KClass<ScreenVC>,
+        val startClass: KClass<SKScreenVC>,
         val baseActivity: ClassName?,
         val rootPath: Path
 ) {
 
 
-    val components = mutableSetOf<KClass<out ComponentVC>>().apply {
+    val components = mutableSetOf<KClass<out SKComponentVC>>().apply {
         addLinkedComponents(startClass, appPackage)
     }.map { it.def() }
 

@@ -14,7 +14,7 @@ open class SKActivity : AppCompatActivity() {
         var oneActivityAlreadyLaunched = false
     }
 
-    private var screen:ScreenView<*>? = null
+    private var screen:SKScreenView<*>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,15 +22,15 @@ open class SKActivity : AppCompatActivity() {
 
         if (!oneActivityAlreadyLaunched && viewKey != -1L) {
             oneActivityAlreadyLaunched = true
-            RootStackViewProxy.screensLD.value.getOrNull(0)?.let { startActivityForProxy(it) }
+            SKRootStackViewProxy.screensLD.value.getOrNull(0)?.let { startActivityForProxy(it) }
             finish()
         } else {
             oneActivityAlreadyLaunched = true
             (if (viewKey != -1L) {
                 ScreensManager.getInstance(viewKey)
             } else {
-                RootStackViewProxy.screens.getOrNull(0)
-            } as? ScreenViewProxy<*>)?.run {
+                SKRootStackViewProxy.screens.getOrNull(0)
+            } as? SKScreenViewProxy<*>)?.run {
                 screenKey = key
                 bindTo(this@SKActivity, null, layoutInflater)
             }
@@ -75,13 +75,13 @@ open class SKActivity : AppCompatActivity() {
 
     private fun linkToRootStack() {
 
-        RootStackViewProxy.setRootScreenMessage.observe(this) {
+        SKRootStackViewProxy.setRootScreenMessage.observe(this) {
             startActivity(Intent(this, it.getActivityClass()).apply {
                 putExtra(ScreensManager.SK_EXTRA_VIEW_KEY, it.key)
             })
         }
 
-        RootStackViewProxy.screensLD.observe(this) {
+        SKRootStackViewProxy.screensLD.observe(this) {
             val thisScreenPosition = it.indexOfFirst {
                 it.key == screenKey
             }
@@ -97,7 +97,7 @@ open class SKActivity : AppCompatActivity() {
 
     }
 
-    private fun startActivityForProxy(proxy: ScreenViewProxy<*>) {
+    private fun startActivityForProxy(proxy: SKScreenViewProxy<*>) {
         startActivity(Intent(this, proxy.getActivityClass()).apply {
             putExtra(ScreensManager.SK_EXTRA_VIEW_KEY, proxy.key)
         })

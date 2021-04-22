@@ -15,12 +15,12 @@ import kotlin.reflect.full.hasAnnotation
 
 const val coreComponentsPackage = "tech.skot.core.components"
 
-val screenProxy = ClassName(coreComponentsPackage, "ScreenViewProxy")
-val componentProxy = ClassName(coreComponentsPackage, "ComponentViewProxy")
-val screenViewImpl = ClassName(coreComponentsPackage, "ScreenView")
-val componentViewImpl = ClassName(coreComponentsPackage, "ComponentView")
-val screenViewModel = ClassName(coreComponentsPackage, "Screen")
-val componentViewModel = ClassName(coreComponentsPackage, "Component")
+val screenProxy = ClassName(coreComponentsPackage, "SKScreenViewProxy")
+val componentProxy = ClassName(coreComponentsPackage, "SKComponentViewProxy")
+val screenViewImpl = ClassName(coreComponentsPackage, "SKScreenView")
+val componentViewImpl = ClassName(coreComponentsPackage, "SKComponentView")
+val screenViewModel = ClassName(coreComponentsPackage, "SKScreen")
+val componentViewModel = ClassName(coreComponentsPackage, "SKComponent")
 val mutableSKLiveData = ClassName("tech.skot.view.live", "MutableSKLiveData")
 val skMessage = ClassName("tech.skot.view.live", "SKMessage")
 
@@ -205,8 +205,6 @@ fun ComponentDef.buildProxy(generator: Generator, viewModuleAndroidPackage: Stri
                                     })")
                                     endControlFlow()
                                 }
-                            } else {
-                                addStatement("return ${viewImpl().simpleName}(activity, fragment, binding)")
                             }
 
                         }

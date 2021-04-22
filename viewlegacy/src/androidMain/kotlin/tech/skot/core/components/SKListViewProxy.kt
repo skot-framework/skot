@@ -7,14 +7,14 @@ import tech.skot.core.SKLog
 import tech.skot.view.live.MutableSKLiveData
 import tech.skot.view.live.SKMessage
 
-class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean, private val nbColumns:Int?) : ComponentViewProxy<RecyclerView>(), SKListVC {
+class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean, private val nbColumns:Int?) : SKComponentViewProxy<RecyclerView>(), SKListVC {
 
-    private val itemsLD: MutableSKLiveData<List<ComponentViewProxy<*>>> = MutableSKLiveData(emptyList())
+    private val itemsLD: MutableSKLiveData<List<SKComponentViewProxy<*>>> = MutableSKLiveData(emptyList())
 
-    override var items: List<ComponentVC>
+    override var items: List<SKComponentVC>
         get() = itemsLD.value
         set(newVal) {
-            val newProxyItems = newVal as List<ComponentViewProxy<*>>
+            val newProxyItems = newVal as List<SKComponentViewProxy<*>>
 //            itemsLD.value.lastOrNull()?.let {
 //                if (newProxyList.lastOrNull() != it && newProxyList.contains(it)) {
 //                    it.saveState()

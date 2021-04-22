@@ -4,7 +4,7 @@ import com.squareup.kotlinpoet.*
 import tech.skot.core.components.*
 import tech.skot.core.components.SKOpens
 import tech.skot.core.components.SKUses
-import tech.skot.core.components.ScreenVC
+import tech.skot.core.components.SKScreenVC
 import tech.skot.core.components.SKUIState
 import tech.skot.core.components.SKLayoutNo
 import tech.skot.core.components.SKLayoutIsRoot
@@ -17,7 +17,7 @@ import kotlin.reflect.jvm.jvmErasure
 
 data class ComponentDef(
         val name: String,
-        val vc: KClass<out ComponentVC>,
+        val vc: KClass<out SKComponentVC>,
         val packageName: String,
         val subComponents: List<PropertyDef>,
         val fixProperties: List<PropertyDef>,
@@ -41,15 +41,15 @@ data class ComponentDef(
     fun toFillVCparams() = (subComponents.toFillParams(init = { "${name.toVM()}.view" }) + fixProperties.toFillParams() + mutableProperties.map { it.initial() }.toFillParams()).joinToString(separator = ",")
 
     val superVM = vc.supertypes.find { it.isComponent() }.let { it!!.vmClassName() }
-    val isScreen = vc.isSubclassOf(ScreenVC::class)
+    val isScreen = vc.isSubclassOf(SKScreenVC::class)
     val hasLayout = !vc.hasAnnotation<SKLayoutNo>()
     val layoutIsRoot = vc.hasAnnotation<SKLayoutIsRoot>()
 
 }
 
-fun KClass<out ComponentVC>.meOrSubComponentHasState():Boolean = nestedClasses.any { it.hasAnnotation<SKUIState>() } || ownProperties().any { it.returnType.isComponent() && (it.returnType.classifier as KClass<out ComponentVC>).meOrSubComponentHasState()}
+fun KClass<out SKComponentVC>.meOrSubComponentHasState():Boolean = nestedClasses.any { it.hasAnnotation<SKUIState>() } || ownProperties().any { it.returnType.isComponent() && (it.returnType.classifier as KClass<out SKComponentVC>).meOrSubComponentHasState()}
 
-fun KType.vmClassName() = (classifier as KClass<out ComponentVC>).let { ClassName(it.packageName(), it.simpleName!!.toVM()) }
+fun KType.vmClassName() = (classifier as KClass<out SKComponentVC>).let { ClassName(it.packageName(), it.simpleName!!.toVM()) }
 
 data class PropertyDef(val name: String, val type: TypeName, val meOrSubComponentHasState:Boolean? = null, val passToParentView:Boolean = false) {
     fun asParam(withDefaultNullIfNullable:Boolean = false): ParameterSpec = ParameterSpec.builder(name, type)
@@ -78,11 +78,11 @@ fun List<PropertyDef>.toFillParams(init:(PropertyDef.()->String)? = null) = map 
 
 
 
-fun MutableSet<KClass<out ComponentVC>>.addLinkedComponents(aComponentClass: KClass<out ComponentVC>, appPackageName:String) {
+fun MutableSet<KClass<out SKComponentVC>>.addLinkedComponents(aComponentClass: KClass<out SKComponentVC>, appPackageName:String) {
     add(aComponentClass)
-    val subComponents = aComponentClass.ownProperties().map { it.returnType }.filter { it.isComponent() && (it.asTypeName() as ClassName).packageName.startsWith(appPackageName)}.map { it.jvmErasure as KClass<out ComponentVC> }
+    val subComponents = aComponentClass.ownProperties().map { it.returnType }.filter { it.isComponent() && (it.asTypeName() as ClassName).packageName.startsWith(appPackageName)}.map { it.jvmErasure as KClass<out SKComponentVC> }
 
-    aComponentClass.nestedClasses.filter { it.isComponent() }.map { it as KClass<out ComponentVC> }.forEach {
+    aComponentClass.nestedClasses.filter { it.isComponent() }.map { it as KClass<out SKComponentVC> }.forEach {
         addLinkedComponents(it, appPackageName)
     }
 
@@ -105,18 +105,18 @@ fun MutableSet<KClass<out ComponentVC>>.addLinkedComponents(aComponentClass: KCl
     }
 }
 
-fun KClass<out ComponentVC>.ownProperties(): List<KCallable<*>> {
+fun KClass<out SKComponentVC>.ownProperties(): List<KCallable<*>> {
     val superTypePropertiesNames = superclasses[0].members.filter { it is KProperty }.map { it.name }
     return members.filter { it is KProperty }.filter { !superTypePropertiesNames.contains(it.name) }
 }
 
-fun KClass<out ComponentVC>.ownFunctions(): List<KFunction<*>> {
+fun KClass<out SKComponentVC>.ownFunctions(): List<KFunction<*>> {
     val superTypeKFunctionsNames = superclasses[0].functions.map { it.name }
     return functions.filter { !superTypeKFunctionsNames.contains(it.name) }
 }
 
 
-fun KClass<out ComponentVC>.def(): ComponentDef {
+fun KClass<out SKComponentVC>.def(): ComponentDef {
 
     val ownProperties = ownProperties()
     val subComponentsProperties = ownProperties.filter { it.returnType.isComponent() }
@@ -136,7 +136,7 @@ fun KClass<out ComponentVC>.def(): ComponentDef {
                 if (it is KMutableProperty) {
                     throw IllegalStateException("SubComponent ${it.name} of ${this.packageName()}.${this.simpleName} is Mutable, it is not allowed !!!")
                 }
-                PropertyDef(it.name, it.returnType.asTypeName(), meOrSubComponentHasState = (it.returnType.classifier as KClass<out ComponentVC>).meOrSubComponentHasState(), passToParentView = it.returnType.jvmErasure.hasAnnotation<SKPassToParentView>())
+                PropertyDef(it.name, it.returnType.asTypeName(), meOrSubComponentHasState = (it.returnType.classifier as KClass<out SKComponentVC>).meOrSubComponentHasState(), passToParentView = it.returnType.jvmErasure.hasAnnotation<SKPassToParentView>())
             },
             fixProperties = stateProperties.filter { !(it is KMutableProperty) }.map {
                 PropertyDef(name = it.name, type = it.returnType.asTypeName())
@@ -150,7 +150,7 @@ fun KClass<out ComponentVC>.def(): ComponentDef {
 }
 
 @ExperimentalStdlibApi
-fun KClass<*>.isScreenVC() = supertypes.contains(typeOf<ScreenVC>())
+fun KClass<*>.isScreenVC() = supertypes.contains(typeOf<SKScreenVC>())
 
 @ExperimentalStdlibApi
 fun KClass<*>.isDescendantOf(kType: KType) = supertypes.contains(kType)
@@ -162,7 +162,7 @@ fun String.initial() = suffix("Initial")
 
 fun KClass<*>.packageName() = this.java.`package`.name
 
-val componentViewType = ComponentVC::class.createType()
+val componentViewType = SKComponentVC::class.createType()
 val collectionType = Collection::class.createType(arguments = listOf(KTypeProjection(KVariance.OUT, componentViewType)))
 fun KType.isComponent() = componentViewType.isSupertypeOf(this)
-fun KClass<*>.isComponent() = this.isSubclassOf(ComponentVC::class)
+fun KClass<*>.isComponent() = this.isSubclassOf(SKComponentVC::class)

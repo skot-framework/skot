@@ -1,6 +1,6 @@
 package tech.skot.core.components
 
 @SKLayoutIsSimpleView
-interface SKListVC:ComponentVC {
-    var items:List<ComponentVC>
+interface SKListVC:SKComponentVC {
+    var items:List<SKComponentVC>
 }

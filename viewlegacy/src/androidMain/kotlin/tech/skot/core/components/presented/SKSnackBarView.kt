@@ -6,10 +6,10 @@ import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import tech.skot.core.SKLog
-import tech.skot.core.components.ComponentView
+import tech.skot.core.components.SKComponentView
 import tech.skot.core.components.SKActivity
 
-class SKSnackBarView(activity: SKActivity, fragment: Fragment?, private val rootView: View, private val proxy: SKSnackBarViewProxy) : ComponentView<View>(activity, fragment, rootView) {
+class SKSnackBarView(activity: SKActivity, fragment: Fragment?, private val rootView: View, private val proxy: SKSnackBarViewProxy) : SKComponentView<View>(activity, fragment, rootView) {
 
     data class State(val state: SKSnackBarVC.Shown, val snack: Snackbar)
 

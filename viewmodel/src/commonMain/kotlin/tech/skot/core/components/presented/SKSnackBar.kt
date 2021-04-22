@@ -3,10 +3,10 @@ package tech.skot.core.components.presented
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import tech.skot.core.components.Component
+import tech.skot.core.components.SKComponent
 import tech.skot.core.di.coreViewInjector
 
-class SKSnackBar : Component<SKSnackBarVC>() {
+class SKSnackBar : SKComponent<SKSnackBarVC>() {
 
     override val view = coreViewInjector.snackBar()
 

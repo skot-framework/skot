@@ -3,7 +3,6 @@ package tech.skot.core.components
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
@@ -49,8 +48,8 @@ class TestUseSKData {
 
         val incData = IncrementingSimpleSKData()
 
-        val compo = object :Component<ComponentVC>() {
-            override val view = object :ComponentVC {
+        val compo = object :SKComponent<SKComponentVC>() {
+            override val view = object :SKComponentVC {
 
             }
 

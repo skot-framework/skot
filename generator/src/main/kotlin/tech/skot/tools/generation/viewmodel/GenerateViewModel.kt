@@ -104,10 +104,10 @@ fun Generator.generateViewModel() {
                 .addFunction(
                         FunSpec
                                 .builder("start")
-                                .addCode("RootStack.screens = listOf(${startViewModel.simpleName}())")
+                                .addCode("SKRootStack.screens = listOf(${startViewModel.simpleName}())")
                                 .build()
                 )
-                .addImport("tech.skot.core.components", "RootStack")
+                .addImport("tech.skot.core.components", "SKRootStack")
                 .addImportClassName(startViewModel)
                 .build()
                 .writeTo(commonSources(Modules.viewmodel))

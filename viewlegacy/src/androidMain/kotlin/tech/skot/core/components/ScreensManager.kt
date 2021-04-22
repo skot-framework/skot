@@ -6,11 +6,11 @@ import tech.skot.view.live.SKMessage
 object ScreensManager {
 
     private var counter: Long = 0
-    private val instances: MutableMap<Long, ScreenViewProxy<*>> = mutableMapOf()
+    private val instances: MutableMap<Long, SKScreenViewProxy<*>> = mutableMapOf()
 
-    fun getInstance(key: Long): ScreenViewProxy<*>? = instances.get(key)
+    fun getInstance(key: Long): SKScreenViewProxy<*>? = instances.get(key)
 
-    fun addScreen(screen: ScreenViewProxy<*>): Long {
+    fun addScreen(screen: SKScreenViewProxy<*>): Long {
         val key = counter++
         instances[key] = screen
         return key

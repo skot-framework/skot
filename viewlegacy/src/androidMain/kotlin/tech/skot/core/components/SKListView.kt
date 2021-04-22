@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class SKListView(vertical: Boolean, reverse: Boolean, nbColumns: Int?, activity: SKActivity, fragment: Fragment?, private val recyclerView: RecyclerView) : ComponentView<RecyclerView>(activity, fragment, recyclerView) {
+class SKListView(vertical: Boolean, reverse: Boolean, nbColumns: Int?, activity: SKActivity, fragment: Fragment?, private val recyclerView: RecyclerView) : SKComponentView<RecyclerView>(activity, fragment, recyclerView) {
 
 
     inner class ViewHolder(idLayout: Int, parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(idLayout, parent, false)) {
-        var componentView: ComponentView<*>? = null
+        var componentView: SKComponentView<*>? = null
     }
 
     inner class Adapter : RecyclerView.Adapter<ViewHolder>() {
@@ -41,11 +41,11 @@ class SKListView(vertical: Boolean, reverse: Boolean, nbColumns: Int?, activity:
 
     }
 
-    private val mapProxyIndexComponentViewImpl = mutableMapOf<ComponentViewProxy<*>, ComponentView<*>>()
+    private val mapProxyIndexComponentViewImpl = mutableMapOf<SKComponentViewProxy<*>, SKComponentView<*>>()
 
     private val adapter = Adapter()
 
-    var items: List<ComponentViewProxy<*>> = emptyList()
+    var items: List<SKComponentViewProxy<*>> = emptyList()
         set(newVal) {
             field.forEach { proxy ->
                 if (!newVal.contains(proxy)) {
@@ -71,7 +71,7 @@ class SKListView(vertical: Boolean, reverse: Boolean, nbColumns: Int?, activity:
     }
 
 
-    fun onItems(items: List<ComponentViewProxy<*>>) {
+    fun onItems(items: List<SKComponentViewProxy<*>>) {
         this.items = items
     }
 

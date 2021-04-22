@@ -4,4 +4,4 @@ import kotlin.reflect.KClass
 
 
 @Target(AnnotationTarget.CLASS)
-annotation class SKUses(val usedComponents: Array<KClass<out ComponentVC>>)
+annotation class SKUses(val usedComponents: Array<KClass<out SKComponentVC>>)

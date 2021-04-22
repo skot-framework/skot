@@ -1,31 +1,31 @@
 package tech.skot.core.di
 
 import tech.skot.core.components.*
-import tech.skot.core.components.presented.AlertViewProxy
-import tech.skot.core.components.presented.BottomSheetViewProxy
+import tech.skot.core.components.presented.SKAlertViewProxy
+import tech.skot.core.components.presented.SKBottomSheetViewProxy
 import tech.skot.core.components.presented.SKSnackBarViewProxy
 
 
 class CoreViewInjectorImpl : CoreViewInjector {
-    override fun rootStack() = RootStackViewProxy
+    override fun rootStack() = SKRootStackViewProxy
 
-    override fun stack() = StackViewProxy()
+    override fun stack() = SKStackViewProxy()
 
-    override fun alert() = AlertViewProxy()
+    override fun alert() = SKAlertViewProxy()
 
     override fun snackBar() = SKSnackBarViewProxy()
 
-    override fun bottomSheet() = BottomSheetViewProxy()
+    override fun bottomSheet() = SKBottomSheetViewProxy()
 
-    override fun pager(screens:List<ScreenVC>, onSwipeToPage:((index:Int)->Unit)?, initialSelectedPageIndex:Int) = PagerViewProxy(screens = screens as List<ScreenViewProxy<*>>, onSwipeToPage = onSwipeToPage, initialSelectedPageIndex = initialSelectedPageIndex)
+    override fun pager(screens:List<SKScreenVC>, onSwipeToPage:((index:Int)->Unit)?, initialSelectedPageIndex:Int) = SKPagerViewProxy(screens = screens as List<SKScreenViewProxy<*>>, onSwipeToPage = onSwipeToPage, initialSelectedPageIndex = initialSelectedPageIndex)
 
     override fun skList(vertical:Boolean, reverse:Boolean, nbColumns:Int?) = SKListViewProxy(vertical, reverse, nbColumns)
 
-    override fun webView(config: WebViewVC.Config, openUrlInitial: WebViewVC.OpenUrl?) = WebViewViewProxy(config, openUrlInitial)
+    override fun webView(config: SKWebViewVC.Config, openUrlInitial: SKWebViewVC.OpenUrl?) = SKWebViewViewProxy(config, openUrlInitial)
 
-    override fun frame(screens: Set<ScreenVC>, screenInitial: ScreenVC?) = FrameViewProxy(screens = screens as Set<ScreenViewProxy<*>>, screenInitial = screenInitial as ScreenViewProxy<*>?)
+    override fun frame(screens: Set<SKScreenVC>, screenInitial: SKScreenVC?) = SKFrameViewProxy(screens = screens as Set<SKScreenViewProxy<*>>, screenInitial = screenInitial as SKScreenViewProxy<*>?)
 
-    override fun loader() = LoaderViewProxy()
+    override fun loader() = SKLoaderViewProxy()
 }
 
 val coreViewModule = module<BaseInjector> {

@@ -1,8 +1,7 @@
 package tech.skot.tools.generation
 
 import java.nio.file.Paths
-import tech.skot.core.components.ComponentVC
-import tech.skot.core.components.ScreenVC
+import tech.skot.core.components.SKScreenVC
 import kotlin.reflect.KClass
 
 @ExperimentalStdlibApi
@@ -37,6 +36,6 @@ fun main(args: Array<String>) {
         throw IllegalArgumentException("Start class ${args[0]} is not a ScreenVC !")
     }
 
-    Generator(appPackage, startClass as KClass<ScreenVC>, baseActivity, rootPath)
+    Generator(appPackage, startClass as KClass<SKScreenVC>, baseActivity, rootPath)
             .generate()
 }

@@ -2,8 +2,8 @@ package tech.skot.core.components
 
 import tech.skot.core.di.coreViewInjector
 
-open class SKList(vertical:Boolean = true, reverse:Boolean = false):Component<SKListVC>() {
-    override val view = coreViewInjector.skList(vertical, reverse)
+open class SKList(vertical:Boolean = true, reverse:Boolean = false, nbColumns:Int? = null):Component<SKListVC>() {
+    override val view = coreViewInjector.skList(vertical, reverse, nbColumns)
 
     var items: List<Component<*>> = emptyList()
         set(value) {

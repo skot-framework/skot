@@ -128,7 +128,7 @@ class WebViewView(activity: SKActivity, fragment: Fragment?, private val webView
             try {
                 queryParameterNames.map { it to getQueryParameter(it)!! }.toMap()
             } catch (ex: Exception) {
-                SKLog.e("Pb au parse des paramètres d'une url de redirection", ex)
+                SKLog.e(ex, "Pb au parse des paramètres d'une url de redirection")
                 emptyMap()
             }
 

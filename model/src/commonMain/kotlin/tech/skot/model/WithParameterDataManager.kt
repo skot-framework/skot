@@ -89,7 +89,7 @@ abstract class UnivDataManagerImpl<D : Any>(
                                 try {
                                     json.decodeFromString(serializer, cachedStr.data)
                                 } catch (ex: Exception) {
-                                    SKLog.e("Problème au parse de la donnée $key en cache, le format a probablement changé", ex)
+                                    SKLog.e(ex, "Problème au parse de la donnée $key en cache, le format a probablement changé")
                                     null
                                 }
 
@@ -127,7 +127,7 @@ abstract class UnivDataManagerImpl<D : Any>(
             try {
                 getFreshData(id = id)
             } catch (ex: Exception) {
-                SKLog.e("erreur à la mise à jour suite à utilisation du cache en speed", ex)
+                SKLog.e(ex, "erreur à la mise à jour suite à utilisation du cache en speed")
             }
         }
     }

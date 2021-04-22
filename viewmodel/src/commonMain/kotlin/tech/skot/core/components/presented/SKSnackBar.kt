@@ -6,7 +6,7 @@ import kotlinx.coroutines.launch
 import tech.skot.core.components.Component
 import tech.skot.core.di.coreViewInjector
 
-class SnackBar : Component<SnackBarVC>() {
+class SKSnackBar : Component<SKSnackBarVC>() {
 
     override val view = coreViewInjector.snackBar()
 
@@ -14,10 +14,10 @@ class SnackBar : Component<SnackBarVC>() {
 
     private var disappearJob: Job? = null
     fun show(message: String, action: Action? = null) {
-        view.state = SnackBarVC.Shown(
+        view.state = SKSnackBarVC.Shown(
                 message = message,
                 action = action?.let {
-                    SnackBarVC.Action(
+                    SKSnackBarVC.Action(
                             label = it.label,
                             action = it.action
                     )

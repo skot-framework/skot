@@ -13,7 +13,7 @@ actual object SKLog {
         println("SKLog w ---$message")
     }
 
-    actual fun e(message:String?, e:Throwable) {
+    actual fun e(e:Throwable, message:String?) {
         println("SKLog e ---${message ?: e.message ?: ""}")
         e.printStackTrace()
     }

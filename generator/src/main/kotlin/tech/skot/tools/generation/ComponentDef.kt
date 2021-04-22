@@ -8,6 +8,7 @@ import tech.skot.core.components.ScreenVC
 import tech.skot.core.components.SKUIState
 import tech.skot.core.components.SKLayoutNo
 import tech.skot.core.components.SKLayoutIsRoot
+import tech.skot.core.components.SKPassToParentView
 import tech.skot.tools.generation.viewmodel.toVM
 import java.lang.IllegalStateException
 import kotlin.reflect.*
@@ -21,7 +22,8 @@ data class ComponentDef(
         val subComponents: List<PropertyDef>,
         val fixProperties: List<PropertyDef>,
         val mutableProperties: List<PropertyDef>,
-        val state:ClassName?
+        val state:ClassName?,
+        val ownFunctions: List<KFunction<*>>
 ) {
 
     fun proxy() = ClassName(packageName, name.suffix("ViewProxy"))
@@ -43,14 +45,13 @@ data class ComponentDef(
     val hasLayout = !vc.hasAnnotation<SKLayoutNo>()
     val layoutIsRoot = vc.hasAnnotation<SKLayoutIsRoot>()
 
-
 }
 
 fun KClass<out ComponentVC>.meOrSubComponentHasState():Boolean = nestedClasses.any { it.hasAnnotation<SKUIState>() } || ownProperties().any { it.returnType.isComponent() && (it.returnType.classifier as KClass<out ComponentVC>).meOrSubComponentHasState()}
 
 fun KType.vmClassName() = (classifier as KClass<out ComponentVC>).let { ClassName(it.packageName(), it.simpleName!!.toVM()) }
 
-data class PropertyDef(val name: String, val type: TypeName, val meOrSubComponentHasState:Boolean? = null) {
+data class PropertyDef(val name: String, val type: TypeName, val meOrSubComponentHasState:Boolean? = null, val passToParentView:Boolean = false) {
     fun asParam(withDefaultNullIfNullable:Boolean = false): ParameterSpec = ParameterSpec.builder(name, type)
             .apply {
 //                if (type.isNullable && withDefaultNullIfNullable) {
@@ -109,6 +110,12 @@ fun KClass<out ComponentVC>.ownProperties(): List<KCallable<*>> {
     return members.filter { it is KProperty }.filter { !superTypePropertiesNames.contains(it.name) }
 }
 
+fun KClass<out ComponentVC>.ownFunctions(): List<KFunction<*>> {
+    val superTypeKFunctionsNames = superclasses[0].functions.map { it.name }
+    return functions.filter { !superTypeKFunctionsNames.contains(it.name) }
+}
+
+
 fun KClass<out ComponentVC>.def(): ComponentDef {
 
     val ownProperties = ownProperties()
@@ -129,7 +136,7 @@ fun KClass<out ComponentVC>.def(): ComponentDef {
                 if (it is KMutableProperty) {
                     throw IllegalStateException("SubComponent ${it.name} of ${this.packageName()}.${this.simpleName} is Mutable, it is not allowed !!!")
                 }
-                PropertyDef(it.name, it.returnType.asTypeName(), meOrSubComponentHasState = (it.returnType.classifier as KClass<out ComponentVC>).meOrSubComponentHasState())
+                PropertyDef(it.name, it.returnType.asTypeName(), meOrSubComponentHasState = (it.returnType.classifier as KClass<out ComponentVC>).meOrSubComponentHasState(), passToParentView = it.returnType.jvmErasure.hasAnnotation<SKPassToParentView>())
             },
             fixProperties = stateProperties.filter { !(it is KMutableProperty) }.map {
                 PropertyDef(name = it.name, type = it.returnType.asTypeName())
@@ -137,7 +144,8 @@ fun KClass<out ComponentVC>.def(): ComponentDef {
             mutableProperties = stateProperties.filter { it is KMutableProperty }.map {
                 PropertyDef(name = it.name, type = it.returnType.asTypeName())
             },
-            state = nestedClasses.find { it.hasAnnotation<SKUIState>() }?.asClassName()
+            state = nestedClasses.find { it.hasAnnotation<SKUIState>() }?.asClassName(),
+            ownFunctions = ownFunctions()
     )
 }
 

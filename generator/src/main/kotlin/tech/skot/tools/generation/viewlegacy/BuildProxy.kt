@@ -2,14 +2,15 @@ package tech.skot.tools.generation.viewlegacy
 
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import tech.skot.core.components.SKLayoutNo
 import tech.skot.core.components.SKLayoutIsRoot
 import tech.skot.core.components.SKLayoutIsSimpleView
+import tech.skot.core.components.SKLayoutNo
 import tech.skot.core.components.SKLegacyViewIncluded
 import tech.skot.tools.generation.*
 import tech.skot.tools.generation.AndroidClassNames.layoutInflater
 import tech.skot.tools.generation.AndroidClassNames.viewGroup
 import kotlin.reflect.KClass
+import kotlin.reflect.KFunction
 import kotlin.reflect.full.hasAnnotation
 
 const val coreComponentsPackage = "tech.skot.core.components"
@@ -24,8 +25,6 @@ val mutableSKLiveData = ClassName("tech.skot.view.live", "MutableSKLiveData")
 val skMessage = ClassName("tech.skot.view.live", "SKMessage")
 
 
-
-
 fun PropertyDef.ld() = PropertyDef(name = name.suffix("LD"), type = mutableSKLiveData.parameterizedBy(type))
 fun PropertyDef.onMethod(vararg modifiers: KModifier, body: String? = null) = FunSpec.builder("on${name.capitalize()}")
         .addParameter(name, type).apply {
@@ -33,6 +32,7 @@ fun PropertyDef.onMethod(vararg modifiers: KModifier, body: String? = null) = Fu
             body?.let { addCode(it) }
         }.build()
 
+fun KFunction<*>.dataClassName() = "${name.capitalize()}Data"
 
 fun ComponentDef.buildProxy(generator: Generator, viewModuleAndroidPackage: String, baseActivity: ClassName?): TypeSpec = TypeSpec.classBuilder(proxy())
         .addPrimaryConstructorWithParams(
@@ -63,20 +63,66 @@ fun ComponentDef.buildProxy(generator: Generator, viewModuleAndroidPackage: Stri
             }
 
 
+
+            ownFunctions.forEach {
+                val withParams = it.parameters.size > 1
+                val dataClassName = it.dataClassName()
+                if (withParams) {
+                    addType(
+                            TypeSpec.classBuilder(dataClassName)
+                                    .addModifiers(KModifier.DATA)
+                                    .addPrimaryConstructorWithParams(it.parameters.mapNotNull { kParam ->
+                                        kParam.name?.let {
+                                            ParamInfos(it, kParam.type.asTypeName())
+                                        }
+                                    })
+                                    .build())
+                }
+                addProperty(
+                        PropertySpec.builder("${it.name}Message", skMessage.parameterizedBy(
+                                if (withParams) {
+                                    ClassName("", dataClassName)
+                                } else {
+                                    Unit::class.asTypeName()
+                                }
+                        ), KModifier.PRIVATE)
+                                .initializer("SKMessage()").build())
+                fun postMessageParams(func: KFunction<*>) = if (func.parameters.size == 1) {
+                    "Unit"
+                } else {
+                    it.parameters.filter { it.name != null }
+                            .map { it.name!! }
+                            .joinToString(prefix = "$dataClassName(", postfix = ")", separator = ", ")
+                }
+                addFunction(
+                        FunSpec.builder(it.name)
+                                .addModifiers(KModifier.OVERRIDE)
+                                .addParameters(it.parameters.mapNotNull { kParam ->
+                                    kParam.name?.let {
+                                        ParameterSpec.builder(it, kParam.type.asTypeName()).build()
+                                    }
+                                })
+                                .addCode("${it.name}Message.post(${postMessageParams(it)})")
+                                .build()
+                )
+
+            }
+
+
 //            if (state != null || subComponents.any { it.meOrSubComponentHasState == true }) {
-                addFunction(FunSpec.builder("saveState")
-                        .addModifiers(KModifier.OVERRIDE)
-                        .apply {
-                            if (state != null) {
-                                addStatement("saveSignal.post(Unit)")
-                            }
-                            subComponents.forEach {
-//                                if (it.meOrSubComponentHasState == true) {
-                                    addStatement("${it.name}.saveState()")
-//                                }
-                            }
+            addFunction(FunSpec.builder("saveState")
+                    .addModifiers(KModifier.OVERRIDE)
+                    .apply {
+                        if (state != null) {
+                            addStatement("saveSignal.post(Unit)")
                         }
-                        .build())
+                        subComponents.forEach {
+//                                if (it.meOrSubComponentHasState == true) {
+                            addStatement("${it.name}.saveState()")
+//                                }
+                        }
+                    }
+                    .build())
 //            }
 
 
@@ -104,18 +150,16 @@ fun ComponentDef.buildProxy(generator: Generator, viewModuleAndroidPackage: Stri
 
             }
 
-//            if (isScreen) {
-                addFunction(
-                        FunSpec.builder("inflate")
-                                .addModifiers(KModifier.OVERRIDE)
-                                .addParameter("layoutInflater", layoutInflater)
-                                .addParameter("parent", viewGroup.nullable())
-                                .addParameter("attachToParent", Boolean::class)
-                                .returns(binding(viewModuleAndroidPackage))
-                                .addCode("return ${binding(viewModuleAndroidPackage).simpleName}.inflate(layoutInflater, parent, attachToParent)")
-                                .build()
-                )
-//            }
+            addFunction(
+                    FunSpec.builder("inflate")
+                            .addModifiers(KModifier.OVERRIDE)
+                            .addParameter("layoutInflater", layoutInflater)
+                            .addParameter("parent", viewGroup.nullable())
+                            .addParameter("attachToParent", Boolean::class)
+                            .returns(binding(viewModuleAndroidPackage))
+                            .addCode("return ${binding(viewModuleAndroidPackage).simpleName}.inflate(layoutInflater, parent, attachToParent)")
+                            .build()
+            )
         }
         .addFunction(
                 FunSpec.builder("bindTo")
@@ -126,14 +170,14 @@ fun ComponentDef.buildProxy(generator: Generator, viewModuleAndroidPackage: Stri
                         .addParameter("collectingObservers", ClassName("kotlin", "Boolean"))
                         .returns(viewImpl())
 
-                        .beginControlFlow("return ${viewImpl().simpleName}(activity, fragment, binding).apply")
+                        .beginControlFlow("return ${viewImpl().simpleName}(activity, fragment, binding${
+                            subComponents.filter { it.passToParentView }.map { ", ${it.bindToSubComponent(generator)}" }.joinToString()
+                        }).apply")
                         .addStatement("collectObservers = collectingObservers")
                         .apply {
-                            subComponents.forEach {
-                                val klass = it.type.kClass()
-                                val bindToView = it.inPackage(generator.appPackage) == false && !klass.hasAnnotation<SKLayoutNo>() && !klass.hasAnnotation<SKLayoutIsRoot>() && !klass.hasAnnotation<SKLayoutIsSimpleView>()
-                                println("---- ${klass.supertypes}")
-                                addStatement("${it.name}.bindTo${if (bindToView) "View" else ""}(activity, fragment, ${klass.binding(it.name)})")
+
+                            subComponents.filter { !it.passToParentView }.forEach {
+                                addStatement(it.bindToSubComponent(generator))
                             }
 
                             if (fixProperties.isNotEmpty() || mutableProperties.isNotEmpty() || state != null) {
@@ -152,8 +196,16 @@ fun ComponentDef.buildProxy(generator: Generator, viewModuleAndroidPackage: Stri
                                     endControlFlow()
                                     addStatement("_state?.let { restoreState(it) }")
                                 }
-                            }
-                            else {
+                                ownFunctions.forEach {
+                                    beginControlFlow("${it.name}Message.observe")
+                                    addStatement("${it.name}(${
+                                        it.parameters.filter { it.name != null }
+                                                .map { "it.${it.name}" }
+                                                .joinToString()
+                                    })")
+                                    endControlFlow()
+                                }
+                            } else {
                                 addStatement("return ${viewImpl().simpleName}(activity, fragment, binding)")
                             }
 
@@ -162,6 +214,12 @@ fun ComponentDef.buildProxy(generator: Generator, viewModuleAndroidPackage: Stri
                         .build()
         )
         .build()
+
+fun PropertyDef.bindToSubComponent(generator: Generator): String {
+    val klass = type.kClass()
+    val bindToView = inPackage(generator.appPackage) == false && !klass.hasAnnotation<SKLayoutNo>() && !klass.hasAnnotation<SKLayoutIsRoot>() && !klass.hasAnnotation<SKLayoutIsSimpleView>()
+    return "${name}.bindTo${if (bindToView) "View" else ""}(activity, fragment, ${klass.binding(name)})"
+}
 
 fun ComponentDef.buildRAI(viewModuleAndroidPackage: String): TypeSpec = TypeSpec.interfaceBuilder(rai())
         .apply {
@@ -175,16 +233,29 @@ fun ComponentDef.buildRAI(viewModuleAndroidPackage: String): TypeSpec = TypeSpec
             mutableProperties.forEach {
                 addFunction(it.onMethod(KModifier.ABSTRACT))
             }
+            ownFunctions.forEach {
+                addFunction(
+                        FunSpec.builder(it.name)
+                                .addModifiers(KModifier.ABSTRACT)
+                                .addParameters(it.parameters.mapNotNull { kParam ->
+                                    kParam.name?.let {
+                                        ParameterSpec.builder(it, kParam.type.asTypeName()).build()
+                                    }
+                                })
+                                .build()
+                )
+
+            }
         }
         .build()
 
 fun TypeName.kClass() = Class.forName((this as ClassName).canonicalName).kotlin
 
 fun KClass<*>.binding(name: String): String =
-    when {
-        hasAnnotation<SKLayoutNo>() -> "Unit"
-        hasAnnotation<SKLegacyViewIncluded>() -> "binding.$name.root"
-        hasAnnotation<SKLayoutIsRoot>() -> "binding.root"
-        else -> "binding.$name"
-    }
+        when {
+            hasAnnotation<SKLayoutNo>() -> "Unit"
+            hasAnnotation<SKLegacyViewIncluded>() -> "binding.$name.root"
+            hasAnnotation<SKLayoutIsRoot>() -> "binding.root"
+            else -> "binding.$name"
+        }
 

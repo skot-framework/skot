@@ -15,8 +15,8 @@ actual object SKLog {
         Timber.w(message)
     }
 
-    actual fun e(message: String?, e: Throwable) {
-        Timber.e(e, message)
+    actual fun e(e: Throwable, message: String?) {
+        Timber.e(Throwable(e), message)
     }
 
     actual fun network(message:String) {

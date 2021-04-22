@@ -66,3 +66,14 @@ fun String.toProxy() = when {
 fun TypeName.toProxy() = (this as ClassName).let { ClassName(it.packageName, it.simpleName.toProxy()) }
 
 
+fun String.toView() = when {
+    endsWith("VC") -> {
+        substring(0, indexOf("VC")).suffix("View")
+    }
+    else -> {
+        suffix("View")
+    }
+}
+
+fun TypeName.toView() = (this as ClassName).let { ClassName(it.packageName, it.simpleName.toView()) }
+

@@ -5,18 +5,20 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
-import tech.skot.core.components.ComponentView
 import tech.skot.core.SKLog
+import tech.skot.core.components.ComponentView
 import tech.skot.core.components.SKActivity
 
-class SnackBarViewImpl(activity: SKActivity, fragment: Fragment?, private val rootView: View, private val proxy:SnackBarViewProxy) : ComponentView<View>(activity, fragment, rootView) {
+class SKSnackBarView(activity: SKActivity, fragment: Fragment?, private val rootView: View, private val proxy: SKSnackBarViewProxy) : ComponentView<View>(activity, fragment, rootView) {
 
-    data class State(val state:SnackBarVC.Shown, val snack:Snackbar)
-    private var current:State? = null
+    data class State(val state: SKSnackBarVC.Shown, val snack: Snackbar)
 
-    fun onState(state: SnackBarVC.Shown?) {
+    private var current: State? = null
 
-        SKLog.d("onState $state    current $current")
+    var anchor:View? = null
+
+    fun onState(state: SKSnackBarVC.Shown?) {
+
         if (state != current?.state) {
             if (state != null) {
 
@@ -29,16 +31,19 @@ class SnackBarViewImpl(activity: SKActivity, fragment: Fragment?, private val ro
                                 })
 
                             }
-                            view.apply {
-                                (layoutParams as? FrameLayout.LayoutParams)?.let {
-                                    it.gravity = Gravity.TOP
-                                    it.topMargin = activity.window?.decorView?.rootWindowInsets?.systemWindowInsetTop
-                                            ?: 0
+                            if (state.onTop) {
+                                view.apply {
+                                    (layoutParams as? FrameLayout.LayoutParams)?.let {
+                                        it.gravity = Gravity.TOP
+                                        it.topMargin = activity.window?.decorView?.rootWindowInsets?.systemWindowInsetTop
+                                                ?: 0
 
-                                    layoutParams = it
+                                        layoutParams = it
+                                    }
                                 }
                             }
                             current = State(state, this)
+                            anchor?.let { setAnchorView(it) }
                             show()
                         }
             } else {

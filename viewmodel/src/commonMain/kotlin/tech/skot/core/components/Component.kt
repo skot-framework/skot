@@ -103,8 +103,8 @@ abstract class Component<out V : ComponentVC> : CoroutineScope {
         SKLog.d("${this::class.simpleName} -- $message")
     }
 
-    fun logE(message: Any? = "", throwable: Throwable) {
-        SKLog.e("${this::class.simpleName} -- $message", throwable)
+    fun logE(throwable: Throwable, message: Any? = "") {
+        SKLog.e(throwable, "${this::class.simpleName} -- $message")
     }
 
 

@@ -33,6 +33,12 @@ fun TypeSpec.Builder.addPrimaryConstructorWithParams(vals: List<ParamInfos>): Ty
 
 fun TypeName.nullable() = this.copy(true)
 
+fun TypeName.simpleName():String? = when {
+    (this is ClassName) -> simpleName
+    (this is ParameterizedTypeName) -> this.rawType.simpleName
+    else -> null
+}
+
 fun FileSpec.Builder.addImportClassName(className: ClassName) =
     addImport(className.packageName, className.simpleName)
 

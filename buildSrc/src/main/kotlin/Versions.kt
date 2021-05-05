@@ -1,7 +1,7 @@
 object Versions {
 
     const val group = "tech.skot"
-    const val version = "1.0.0-alpha6"
+    const val version = "1.0.0-alpha7"
 
     const val kotlin = "1.4.30"
     const val kotlinCoroutines = "1.4.3"
@@ -20,7 +20,7 @@ object Versions {
 
     object Android {
 
-        const val gradle = "4.1.3"
+        const val gradle = "4.2.0"
 
         const val minSdk = 22
         const val compileSdk = 29

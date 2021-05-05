@@ -12,7 +12,7 @@ kotlin {
     ios {
         binaries {
             framework {
-                baseName = "core"
+                baseName = "modelContract"
             }
         }
     }
@@ -27,6 +27,7 @@ kotlin {
             dependencies {
                 api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}")
             }
         }
         val jvmTest by getting {

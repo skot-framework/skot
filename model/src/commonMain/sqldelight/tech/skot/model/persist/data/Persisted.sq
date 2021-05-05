@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS persisted (
-    key TEXT NOT NULL PRIMARY KEY,
-    id TEXT,
+    name TEXT NOT NULL PRIMARY KEY,
+    key TEXT,
     timestamp INTEGER NOT NULL,
     data TEXT NOT NULL
 );
@@ -11,12 +11,12 @@ DELETE FROM persisted;
 vacuum:
 VACUUM;
 
-obtainByKey:
-SELECT * FROM persisted WHERE key = ?;
+obtainByName:
+SELECT * FROM persisted WHERE name = ?;
 
-putByKey:
-INSERT OR REPLACE INTO persisted(key, id, timestamp, data)
+putByName:
+INSERT OR REPLACE INTO persisted(name, key, timestamp, data)
 VALUES (?, ?, ?, ?);
 
 remove:
-DELETE FROM persisted WHERE key = ?;
+DELETE FROM persisted WHERE name = ?;

@@ -1,10 +1,12 @@
 package tech.skot.model
 
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
+import kotlin.system.measureTimeMillis
 
 class TestSKData {
 
@@ -12,7 +14,7 @@ class TestSKData {
     @Test
     fun `ManualSKData values are well setted and getted with value property`() {
         runBlocking {
-            val manualSKData = ManualSKData<Int>(0)
+            val manualSKData = SKManualData<Int>(0)
 
             assert(manualSKData.value == 0)
             manualSKData.value = 1
@@ -29,7 +31,7 @@ class TestSKData {
     fun `ManualSKData flows works correctly`() {
         runBlocking {
             var counter = 0
-            val manualSKData = ManualSKData<Int>(counter)
+            val manualSKData = SKManualData<Int>(counter)
             val collecting = launch {
                 manualSKData.flow.collect {
                     println("collected : $it (counter = $counter)")
@@ -96,6 +98,30 @@ class TestSKData {
         }
     }
 
+    open class IncrementingDelayingSimpleSKData : SimpleSKData<Int>() {
+        override val defaultValidity = 200L
+
+        override suspend fun newDatedData(): DatedData<Int> {
+            delay(100)
+            return DatedData((_current?.data ?: -1) + 1)
+        }
+    }
+
+    @Test
+    fun `SimpleSKData concurrent updates`() {
+        println("coucou !!")
+        val testSK = IncrementingDelayingSimpleSKData()
+        runBlocking {
+            println(testSK.get())
+            delay(300)
+            val data1 = async { testSK.get() }
+            val data2 = async { testSK.get() }
+
+            assert(data1.await() == data2.await())
+
+        }
+    }
+
 
     @Test
     fun `SKData map values are well mapped and flow is ok`(){
@@ -159,6 +185,30 @@ class TestSKData {
         }
     }
 
+    @Test
+    fun `SKData combine get() are well parallelized`() {
+        val simple1 = object: SimpleSKData<Int>() {
+            override suspend fun newDatedData(): DatedData<Int> {
+                delay(500)
+                return DatedData(0)
+            }
+        }
+        val simple2 = object: SimpleSKData<Int>() {
+            override suspend fun newDatedData(): DatedData<Int> {
+                delay(500)
+                return DatedData(0)
+            }
+        }
+        val combined = combineSKData(simple1, simple2)
+        runBlocking {
+            val duration = measureTimeMillis {
+                assert(combined.get() == Pair(0,0))
+            }
+            assert(duration < 1000)
+
+        }
+    }
+
 
 
     @Test
@@ -196,4 +246,6 @@ class TestSKData {
             assert(combined.get() == Pair(1,1))
         }
     }
+
+
 }

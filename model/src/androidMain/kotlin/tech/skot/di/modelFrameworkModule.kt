@@ -8,7 +8,7 @@ actual val modelFrameworkModule = module<BaseInjector> {
     factory {
         object : PersistorFactory {
             override fun getPersistor(dbFileName: String) =
-                    AndroidPersistor(androidApplication, dbFileName)
+                    AndroidSKPersistor(androidApplication, dbFileName)
         } as PersistorFactory
     }
 

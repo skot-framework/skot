@@ -35,7 +35,7 @@ class PluginTools : Plugin<Project> {
         val sourceSet = javaPluginConvention.sourceSets["main"]
 
 
-        project.task("generate") {
+        project.task("skGenerate") {
 
             doLast {
                 println("Skot version ${Versions.skot}")

@@ -35,7 +35,6 @@ kotlin {
                 api(project(":core"))
                 api(project(":modelcontract"))
                 api("com.squareup.sqldelight:runtime:${Versions.sqldelight}")
-                api("org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}")
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
                 api("io.ktor:ktor-client-core:${Versions.ktor}")
                 api("io.ktor:ktor-client-serialization:${Versions.ktor}")
@@ -75,6 +74,12 @@ kotlin {
 android {
     defaultConfig {
         minSdkVersion(Versions.Android.minSdk)
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments["clearPackageData"] = "true"
+
+        testOptions {
+            execution = "ANDROIDX_TEST_ORCHESTRATOR"
+        }
     }
     compileSdkVersion(Versions.Android.compileSdk)
 
@@ -90,6 +95,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+//    packagingOptions {
+//        exclude("META-INF/*")
+//    }
+
+
 }
 
 dependencies {

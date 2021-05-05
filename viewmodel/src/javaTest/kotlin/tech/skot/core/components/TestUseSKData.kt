@@ -41,6 +41,11 @@ class TestUseSKData {
         suspend fun newDatedData(): DatedData<Int> {
             return DatedData((_current?.data ?: -1) + 1)
         }
+
+        override fun fallBackValue() :Int {
+            println("fallBackValue used")
+            return -1
+        }
     }
 
     @Test
@@ -53,13 +58,11 @@ class TestUseSKData {
 
             }
 
-
-
             private var counter = 0
             fun test() {
                 launch {
                     incData.onData(withLoaderForFirstData = false) {
-                        println("onData $it $counter")
+                        assert(it == counter)
                         counter++
                     }
                 }

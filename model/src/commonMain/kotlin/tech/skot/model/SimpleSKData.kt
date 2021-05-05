@@ -1,6 +1,10 @@
 package tech.skot.model
 
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import kotlinx.serialization.KSerializer
 
 abstract class SimpleSKData<D : Any> : SKData<D> {
 
@@ -11,19 +15,22 @@ abstract class SimpleSKData<D : Any> : SKData<D> {
 
     abstract suspend fun newDatedData(): DatedData<D>
 
+    private val updateMutex = Mutex()
+
     override suspend fun update(): D {
-        val newDatedValue = newDatedData()
-        flow.value = newDatedValue
-        return newDatedValue.data
+        val refreshDemandTmsp = currentTimeMillis()
+        return updateMutex.withLock {
+            val currentDatedData = _current
+            if (currentDatedData != null && currentDatedData.timestamp > refreshDemandTmsp) {
+                currentDatedData.data
+            } else {
+                val newDatedValue = newDatedData()
+                flow.value = newDatedValue
+                return newDatedValue.data
+            }
+        }
     }
 
-    override fun fallBackValue(): D? = flow.value?.data
-
-}
-
-open class DistantSKData<D:Any>(validity:Long? = null, private val fetchData:suspend ()->D): SimpleSKData<D>() {
-    override suspend fun newDatedData() = DatedData(fetchData(), currentTimeMillis())
-    override val defaultValidity = validity ?: super.defaultValidity
-
+    override suspend fun fallBackValue(): D? = flow.value?.data
 
 }

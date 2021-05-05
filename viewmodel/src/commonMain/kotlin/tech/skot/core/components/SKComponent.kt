@@ -13,7 +13,8 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
     abstract val view: V
 
     companion object {
-        var errorTreatment: ((component: SKComponent<*>, exception: Exception, errorMessage: String?) -> Unit)? = null
+        var errorTreatment: ((component: SKComponent<*>, exception: Exception, errorMessage: String?) -> Unit)? =
+            null
     }
 
     protected val job = SupervisorJob()
@@ -30,58 +31,62 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
         SKLog.i("launchNoCrash ${e.message}")
     }
 
-    protected fun launchNoCrash(start: CoroutineStart = CoroutineStart.DEFAULT,
-                                block: suspend CoroutineScope.() -> Unit): Job =
-            launch(noCrashExceptionHandler, start, block)
+    protected fun launchNoCrash(
+        start: CoroutineStart = CoroutineStart.DEFAULT,
+        block: suspend CoroutineScope.() -> Unit
+    ): Job =
+        launch(noCrashExceptionHandler, start, block)
 
 
     open val loader: SKLoader? = null
 
     open fun treatError(exception: Exception, errorMessage: String?) {
         errorTreatment?.invoke(this, exception, errorMessage)
-                ?: throw IllegalStateException("Valorise Component.errorTreatment or override treatError function to use method treating errors")
+            ?: throw IllegalStateException("Valorise Component.errorTreatment or override treatError function to use method treating errors")
     }
 
     fun launchWithOptions(
-            context: CoroutineContext = EmptyCoroutineContext,
-            start: CoroutineStart = CoroutineStart.DEFAULT,
-            withLoader: Boolean = false,
-            specificErrorTreatment:((ex:Exception)->Unit)? = null,
-            errorMessage: String? = null,
-            block: suspend CoroutineScope.() -> Unit): Job =
-            if (withLoader && loader == null) {
-                throw IllegalStateException("You have to override loader property to launchWithLoader")
-            } else {
-                launch(context, start) {
-                    if (withLoader) {
-                        loader?.workStarted()
-                    }
-                    try {
-                        block()
-                    } catch (ex: Exception) {
-                        if (ex !is CancellationException) {
-                            specificErrorTreatment?.invoke(ex) ?: treatError(ex, errorMessage)
-                        }
-                    } finally {
-                        if (withLoader) {
-                            loader?.workEnded()
-                        }
-                    }
-
+        context: CoroutineContext = EmptyCoroutineContext,
+        start: CoroutineStart = CoroutineStart.DEFAULT,
+        withLoader: Boolean = false,
+        specificErrorTreatment: ((ex: Exception) -> Unit)? = null,
+        errorMessage: String? = null,
+        block: suspend CoroutineScope.() -> Unit
+    ): Job =
+        if (withLoader && loader == null) {
+            throw IllegalStateException("You have to override loader property to launchWithLoader")
+        } else {
+            launch(context, start) {
+                if (withLoader) {
+                    loader?.workStarted()
                 }
+                try {
+                    block()
+                } catch (ex: Exception) {
+                    if (ex !is CancellationException) {
+                        specificErrorTreatment?.invoke(ex) ?: treatError(ex, errorMessage)
+                    }
+                } finally {
+                    if (withLoader) {
+                        loader?.workEnded()
+                    }
+                }
+
             }
+        }
 
     fun launchWithLoaderAndErrors(
-            context: CoroutineContext = EmptyCoroutineContext,
-            start: CoroutineStart = CoroutineStart.DEFAULT,
-            errorMessage: String? = null,
-            block: suspend CoroutineScope.() -> Unit) {
-        launchWithOptions (
-                context = context,
-                start = start,
-                errorMessage = errorMessage,
-                withLoader = true,
-                block = block
+        context: CoroutineContext = EmptyCoroutineContext,
+        start: CoroutineStart = CoroutineStart.DEFAULT,
+        errorMessage: String? = null,
+        block: suspend CoroutineScope.() -> Unit
+    ) {
+        launchWithOptions(
+            context = context,
+            start = start,
+            errorMessage = errorMessage,
+            withLoader = true,
+            block = block
         )
     }
 
@@ -109,36 +114,55 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
 
 
     fun <D : Any> SKData<D>.onData(
-            validity: Long? = null,
-            withLoaderForFirstData: Boolean = true,
-            fallBackDataBeforeFirstDataLoaded: Boolean = false,
-            fallBackDataIfError:Boolean = false,
-            treatErrors:Boolean = true,
-            defaultErrorMessage: String? = null,
-            block: (d: D) -> Unit
+        validity: Long? = null,
+        withLoaderForFirstData: Boolean = true,
+        fallBackDataBeforeFirstDataLoaded: Boolean = false,
+        fallBackDataIfError: Boolean = false,
+        treatErrors: Boolean = true,
+        defaultErrorMessage: String? = null,
+        block: (d: D) -> Unit
     ) {
-        if (fallBackDataBeforeFirstDataLoaded) {
-            fallBackValue()?.let(block)
-        }
-        launchWithOptions (
+
+        fun fallBack(): Job =
+            launchWithOptions(
                 withLoader = withLoaderForFirstData,
                 specificErrorTreatment = { ex ->
-                    if (fallBackDataIfError) {
-                        fallBackValue()?.let(block)
-                    }
-                    if (treatErrors) {
-                        treatError(ex, defaultErrorMessage)
-                    }
+                    logE(ex, "SKData onData fallBackDataBeforeFirstDataLoaded error")
                 }
+            ) {
+                fallBackValue()?.let(block)
+            }
+
+        val fallBackJob: Job? =
+            if (fallBackDataBeforeFirstDataLoaded) {
+                fallBack()
+            } else {
+                null
+            }
+        launchWithOptions(
+            withLoader = withLoaderForFirstData,
+            specificErrorTreatment = { ex ->
+                if (fallBackDataIfError) {
+                    fallBack()
+                }
+                if (treatErrors) {
+                    treatError(ex, defaultErrorMessage)
+                }
+            }
 
         ) {
+            get(validity).let {
+                fallBackJob?.cancel()
+                block(it)
+            }
             block(get(validity))
-        }
-        launchNoCrash {
-            flow.drop(1).collect {
-                it?.data?.let(block)
+            launchNoCrash {
+                flow.drop(1).collect {
+                    it?.data?.let(block)
+                }
             }
         }
+
 
     }
 

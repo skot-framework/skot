@@ -14,20 +14,21 @@ class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean,
     override var items: List<SKComponentVC>
         get() = itemsLD.value
         set(newVal) {
-            val newProxyItems = newVal as List<SKComponentViewProxy<*>>
+//            val newProxyItems = newVal as List<SKComponentViewProxy<*>>
 //            itemsLD.value.lastOrNull()?.let {
 //                if (newProxyList.lastOrNull() != it && newProxyList.contains(it)) {
 //                    it.saveState()
 //                }
 //            }
-            itemsLD.postValue(newProxyItems)
+            SKLog.d("SKListViewProxy set new Value: $newVal")
+            itemsLD.postValue(newVal as List<SKComponentViewProxy<*>>)
         }
 
     private val saveSignal: SKMessage<Unit> = SKMessage()
     private var _state: Parcelable? = null
 
     override fun saveState() {
-        SKLog.d("SKListViewProxy saveState")
+//        SKLog.d("SKListViewProxy saveState")
         saveSignal.post(Unit)
     }
 
@@ -38,11 +39,11 @@ class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean,
                     onItems(it)
                 }
                 saveSignal.observe {
-                    SKLog.d("SKListViewProxy receive Save Signal")
+//                    SKLog.d("SKListViewProxy receive Save Signal")
                     _state = saveState()
                 }
                 _state?.let {
-                    SKLog.d("SKListViewProxy restoreState")
+//                    SKLog.d("SKListViewProxy restoreState")
                     restoreState(it)
                 }
             }

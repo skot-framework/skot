@@ -3,8 +3,8 @@
   <groupId>tech.skot</groupId>
   <artifactId>androidTests-android</artifactId>
   <versioning>
-    <latest>1.0.0-alpha7</latest>
-    <release>1.0.0-alpha7</release>
+    <latest>1.0.0-alpha8</latest>
+    <release>1.0.0-alpha8</release>
     <versions>
       <version>0.0.5</version>
       <version>0.0.6</version>
@@ -55,7 +55,8 @@
       <version>1.0.0-alpha5</version>
       <version>1.0.0-alpha6</version>
       <version>1.0.0-alpha7</version>
+      <version>1.0.0-alpha8</version>
     </versions>
-    <lastUpdated>20210506115847</lastUpdated>
+    <lastUpdated>20210506123808</lastUpdated>
   </versioning>
 </metadata>

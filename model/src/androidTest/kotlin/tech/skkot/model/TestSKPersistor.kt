@@ -7,6 +7,7 @@ import tech.skot.model.AndroidSKPersistor
 import kotlin.test.assertTrue
 import kotlinx.serialization.Serializable
 import tech.skot.model.SKPersistor
+import kotlin.test.assertFails
 
 class TestSKPersistor {
 
@@ -248,5 +249,35 @@ class TestSKPersistor {
         }
     }
 
+    @Serializable
+    data class Data1(val field1:String, val field2:Int)
 
+    @Serializable
+    data class Data1Mod(val field1:String, val field2:String)
+
+    @Test
+    fun testChangingModel() {
+
+
+
+        val persistor = AndroidSKPersistor(InstrumentationRegistry.getInstrumentation().context, "testChangingModel")
+
+        val name = "NAME"
+
+        val data1 = Data1("test", 4)
+        val data1Mod = Data1Mod("test", "4")
+        runBlocking {
+            persistor.putData(Data1.serializer(), name, data1)
+
+            assert(persistor.getData(Data1.serializer(), name)?.data == data1)
+
+            assertFails(""){
+                persistor.getData(Data1Mod.serializer(), name)?.data != data1Mod
+            }
+            assert(persistor.getDataSecured(Data1Mod.serializer(), name)?.data == null)
+        }
+
+
+
+    }
 }

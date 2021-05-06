@@ -87,7 +87,7 @@ abstract class CommonSKPersistor : SKPersistor {
         return withContext(Dispatchers.Default) {
             db.persistedQueries.obtainByName(name).executeAsOneOrNull()?.let {
                 if (it.key == key) {
-                    DatedData(it.data, it.timestamp)
+                    DatedData(it.value, it.timestamp)
                 } else {
                     null
                 }
@@ -99,7 +99,7 @@ abstract class CommonSKPersistor : SKPersistor {
         return withContext(Dispatchers.Default) {
             db.persistedQueries.obtainByName(name).executeAsOneOrNull()?.let {
                 if (it.key == key) {
-                    DatedData(Json.decodeFromString(serializer, it.data), it.timestamp)
+                    DatedData(Json.decodeFromString(serializer, it.value), it.timestamp)
                 } else {
                     null
                 }

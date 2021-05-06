@@ -14,6 +14,9 @@ class SKLoader : SKComponent<SKLoaderVC>() {
         loadingCounter--
     }
 
+    fun isLoading():Boolean = loadingCounter > 0
+    fun isNotLoading():Boolean = !isLoading()
+
     private var loadingCounter = 0
         set(value) {
             field = value

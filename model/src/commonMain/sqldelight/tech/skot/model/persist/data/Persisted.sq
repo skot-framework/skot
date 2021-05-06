@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS persisted (
     name TEXT NOT NULL PRIMARY KEY,
     key TEXT,
     timestamp INTEGER NOT NULL,
-    data TEXT NOT NULL
+    value TEXT NOT NULL
 );
 
 clear:
@@ -15,7 +15,7 @@ obtainByName:
 SELECT * FROM persisted WHERE name = ?;
 
 putByName:
-INSERT OR REPLACE INTO persisted(name, key, timestamp, data)
+INSERT OR REPLACE INTO persisted(name, key, timestamp, value)
 VALUES (?, ?, ?, ?);
 
 remove:

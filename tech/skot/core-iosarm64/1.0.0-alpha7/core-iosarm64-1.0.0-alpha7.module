@@ -1,0 +1,78 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../core/1.0.0-alpha7/core-1.0.0-alpha7.module",
+    "group": "tech.skot",
+    "module": "core",
+    "version": "1.0.0-alpha7",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8.1",
+      "buildId": "vuponvlkt5blhpe5a4symex76e"
+    }
+  },
+  "variants": [
+    {
+      "name": "iosArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.5.0-RC-native-mt"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-datetime",
+          "version": {
+            "requires": "0.2.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "strictly": "1.5.0-RC-native-mt",
+            "requires": "1.5.0-RC-native-mt"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core.klib",
+          "url": "core-iosarm64-1.0.0-alpha7.klib",
+          "size": 20948,
+          "sha512": "6fff764f239184c7e1cb8abefb4ca329e28e7fab95191d8d83e175f6c73598d1a46b29b3495a9278e9d2c48a7f43390f572846c2238ab5d5cea21c386491792f",
+          "sha256": "8e54ec34316df98a90a826da60f004064878997693847c4f8e6b725496982fcd",
+          "sha1": "a0186980e103614982e23e1f8eb36e4259dd1280",
+          "md5": "935cd2f70bb85ac2fc898cf4b41797be"
+        }
+      ]
+    }
+  ]
+}

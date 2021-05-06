@@ -1,0 +1,118 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../modelcontract/1.0.0-alpha7/modelcontract-1.0.0-alpha7.module",
+    "group": "tech.skot",
+    "module": "modelcontract",
+    "version": "1.0.0-alpha7",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8.1",
+      "buildId": "vuponvlkt5blhpe5a4symex76e"
+    }
+  },
+  "variants": [
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.5.0-RC-native-mt"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.2.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "modelcontract-jvm-1.0.0-alpha7.jar",
+          "url": "modelcontract-jvm-1.0.0-alpha7.jar",
+          "size": 33338,
+          "sha512": "d7cde08b43fb68355d7c0b3a8b2a907a29093edca4ba90ca209333411b7c838e2a21c882a9f9cede489180999ce01302b1c2cb69b401ad469b41b9e304d8cb66",
+          "sha256": "0bb43ee8a2b9f6c44564a6d91f4775bd504635da871db44fd11b225875a99e96",
+          "sha1": "3a5e27bfc3a1af505dcab7878259f94d5addbc49",
+          "md5": "143d68b84121781b837998509f439d91"
+        }
+      ]
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.5.0-RC-native-mt"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.2.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "modelcontract-jvm-1.0.0-alpha7.jar",
+          "url": "modelcontract-jvm-1.0.0-alpha7.jar",
+          "size": 33338,
+          "sha512": "d7cde08b43fb68355d7c0b3a8b2a907a29093edca4ba90ca209333411b7c838e2a21c882a9f9cede489180999ce01302b1c2cb69b401ad469b41b9e304d8cb66",
+          "sha256": "0bb43ee8a2b9f6c44564a6d91f4775bd504635da871db44fd11b225875a99e96",
+          "sha1": "3a5e27bfc3a1af505dcab7878259f94d5addbc49",
+          "md5": "143d68b84121781b837998509f439d91"
+        }
+      ]
+    }
+  ]
+}

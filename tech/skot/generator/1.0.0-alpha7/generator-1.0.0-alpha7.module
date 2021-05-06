@@ -1,0 +1,111 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "tech.skot",
+    "module": "generator",
+    "version": "1.0.0-alpha7",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8.1",
+      "buildId": "vuponvlkt5blhpe5a4symex76e"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.localToProject": "public",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "com.squareup",
+          "module": "kotlinpoet",
+          "version": {
+            "requires": "1.4.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.5.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "generator-1.0.0-alpha7.jar",
+          "url": "generator-1.0.0-alpha7.jar",
+          "size": 112780,
+          "sha512": "27076f89e58b77a0c614f369806bcf98ee87bac941842185f3136ec0a73e50d1d76e44b480c15b10dab03345fdae02c67890acfe01c672d7037035c01f309442",
+          "sha256": "de7bd03d584960abb1208e3103b21d1c8f306b4b72c4944eb1e8bdb796e800c3",
+          "sha1": "ab1b5c47e14a3675833137024148b210f3db8468",
+          "md5": "1bcc99207e0007cc62eea66f38d350d6"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.localToProject": "public",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "viewcontract",
+          "version": {
+            "requires": "1.0.0-alpha7"
+          }
+        },
+        {
+          "group": "com.squareup",
+          "module": "kotlinpoet",
+          "version": {
+            "requires": "1.4.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.5.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "generator-1.0.0-alpha7.jar",
+          "url": "generator-1.0.0-alpha7.jar",
+          "size": 112780,
+          "sha512": "27076f89e58b77a0c614f369806bcf98ee87bac941842185f3136ec0a73e50d1d76e44b480c15b10dab03345fdae02c67890acfe01c672d7037035c01f309442",
+          "sha256": "de7bd03d584960abb1208e3103b21d1c8f306b4b72c4944eb1e8bdb796e800c3",
+          "sha1": "ab1b5c47e14a3675833137024148b210f3db8468",
+          "md5": "1bcc99207e0007cc62eea66f38d350d6"
+        }
+      ]
+    }
+  ]
+}

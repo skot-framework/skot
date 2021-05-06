@@ -1,0 +1,90 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../viewcontract/1.0.0-alpha7/viewcontract-1.0.0-alpha7.module",
+    "group": "tech.skot",
+    "module": "viewcontract",
+    "version": "1.0.0-alpha7",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8.1",
+      "buildId": "vuponvlkt5blhpe5a4symex76e"
+    }
+  },
+  "variants": [
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.5.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewcontract-jvm-1.0.0-alpha7.jar",
+          "url": "viewcontract-jvm-1.0.0-alpha7.jar",
+          "size": 33799,
+          "sha512": "87b256bdf95110c6c7d3224c05b39c228b6e68a433a047dc21b1c5f173d155df98763d91ec2cb864c2530cc92a2181647e73d9e3227cc340e8a91bd977c66605",
+          "sha256": "c91e020e61919d928a90e08187801d5c0ccaa37c064f2847f776f8b3211b9a09",
+          "sha1": "79ad341319aa9c4959fe8e5c67dca6160a32c2d0",
+          "md5": "4fd16c49e6f9b180d9d9da54b1e27fa7"
+        }
+      ]
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.5.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewcontract-jvm-1.0.0-alpha7.jar",
+          "url": "viewcontract-jvm-1.0.0-alpha7.jar",
+          "size": 33799,
+          "sha512": "87b256bdf95110c6c7d3224c05b39c228b6e68a433a047dc21b1c5f173d155df98763d91ec2cb864c2530cc92a2181647e73d9e3227cc340e8a91bd977c66605",
+          "sha256": "c91e020e61919d928a90e08187801d5c0ccaa37c064f2847f776f8b3211b9a09",
+          "sha1": "79ad341319aa9c4959fe8e5c67dca6160a32c2d0",
+          "md5": "4fd16c49e6f9b180d9d9da54b1e27fa7"
+        }
+      ]
+    }
+  ]
+}

@@ -19,8 +19,14 @@ dependencies {
     api("com.google.firebase:perf-plugin:1.3.4")
 
     api("com.squareup:kotlinpoet:${Versions.kotlinpoet}")
+}
 
-//    api("com.github.ben-manes:gradle-versions-plugin:+")
+configurations {
+    all {
+        attributes {
+            attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 11)
+        }
+    }
 }
 
 

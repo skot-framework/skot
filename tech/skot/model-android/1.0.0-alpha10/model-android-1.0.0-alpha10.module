@@ -1,0 +1,444 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../model/1.0.0-alpha10/model-1.0.0-alpha10.module",
+    "group": "tech.skot",
+    "module": "model",
+    "version": "1.0.0-alpha10",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8.1",
+      "buildId": "vrvei6o5trhotpxc7jm4yf4dri"
+    }
+  },
+  "variants": [
+    {
+      "name": "debugApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.api.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "com.squareup.sqldelight",
+          "module": "android-driver",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-android",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "1.0.0-alpha10"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "modelcontract",
+          "version": {
+            "requires": "1.0.0-alpha10"
+          }
+        },
+        {
+          "group": "com.squareup.sqldelight",
+          "module": "runtime",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-json",
+          "version": {
+            "requires": "1.2.0"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-core",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-serialization",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-json",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-logging",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.5.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "model-debug.aar",
+          "url": "model-android-1.0.0-alpha10-debug.aar",
+          "size": 103124,
+          "sha512": "8b723b031f8880e96e1c772ad187c319e57ef2ce8a7ca6f0060d09712c25938068df97334e659ecba085059849885eaf4ce36621cf79a7f406b4a20f35a6660e",
+          "sha256": "36e8a57413a7e66a5f065440e20a9715e8bd3f6817f9cb52d7314d8130ca5c4c",
+          "sha1": "378deba58631a9097f0040f3aa278c21c26325eb",
+          "md5": "c1b6628cee7df4676edd6673546fe79e"
+        }
+      ]
+    },
+    {
+      "name": "debugRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.api.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "com.squareup.sqldelight",
+          "module": "android-driver",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-android",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "1.0.0-alpha10"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "modelcontract",
+          "version": {
+            "requires": "1.0.0-alpha10"
+          }
+        },
+        {
+          "group": "com.squareup.sqldelight",
+          "module": "runtime",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-json",
+          "version": {
+            "requires": "1.2.0"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-core",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-serialization",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-json",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-logging",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.5.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "model-debug.aar",
+          "url": "model-android-1.0.0-alpha10-debug.aar",
+          "size": 103124,
+          "sha512": "8b723b031f8880e96e1c772ad187c319e57ef2ce8a7ca6f0060d09712c25938068df97334e659ecba085059849885eaf4ce36621cf79a7f406b4a20f35a6660e",
+          "sha256": "36e8a57413a7e66a5f065440e20a9715e8bd3f6817f9cb52d7314d8130ca5c4c",
+          "sha1": "378deba58631a9097f0040f3aa278c21c26325eb",
+          "md5": "c1b6628cee7df4676edd6673546fe79e"
+        }
+      ]
+    },
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.api.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "com.squareup.sqldelight",
+          "module": "android-driver",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-android",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "1.0.0-alpha10"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "modelcontract",
+          "version": {
+            "requires": "1.0.0-alpha10"
+          }
+        },
+        {
+          "group": "com.squareup.sqldelight",
+          "module": "runtime",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-json",
+          "version": {
+            "requires": "1.2.0"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-core",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-serialization",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-json",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-logging",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.5.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "model-release.aar",
+          "url": "model-android-1.0.0-alpha10.aar",
+          "size": 98785,
+          "sha512": "c0b49e4f5e8b014f6be2e079066ad45023b23b528a3792548b714c73aa31ee63a4ef0f22751f6013839cca4ff1df489df689e492f3fa673047c76457b6691b8e",
+          "sha256": "63b4ac86958735b0b5de8bd28ead95ad570187f0f45612d3e1f8d3577287992d",
+          "sha1": "7edb9979288a9657a7637eb2a2b0af6563cc76ef",
+          "md5": "e456954d605a6458be2a4c6541fd8b0f"
+        }
+      ]
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.api.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "com.squareup.sqldelight",
+          "module": "android-driver",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-android",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "1.0.0-alpha10"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "modelcontract",
+          "version": {
+            "requires": "1.0.0-alpha10"
+          }
+        },
+        {
+          "group": "com.squareup.sqldelight",
+          "module": "runtime",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-json",
+          "version": {
+            "requires": "1.2.0"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-core",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-serialization",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-json",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-logging",
+          "version": {
+            "requires": "1.5.4"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.5.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "model-release.aar",
+          "url": "model-android-1.0.0-alpha10.aar",
+          "size": 98785,
+          "sha512": "c0b49e4f5e8b014f6be2e079066ad45023b23b528a3792548b714c73aa31ee63a4ef0f22751f6013839cca4ff1df489df689e492f3fa673047c76457b6691b8e",
+          "sha256": "63b4ac86958735b0b5de8bd28ead95ad570187f0f45612d3e1f8d3577287992d",
+          "sha1": "7edb9979288a9657a7637eb2a2b0af6563cc76ef",
+          "md5": "e456954d605a6458be2a4c6541fd8b0f"
+        }
+      ]
+    }
+  ]
+}

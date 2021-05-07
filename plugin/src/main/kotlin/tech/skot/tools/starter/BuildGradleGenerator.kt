@@ -15,9 +15,10 @@ class BuildGradleGenerator {
     sealed class Repository(val name:String) {
         open fun generate() = listOf("$name()")
 
-        object Google:Repository("google")
-        object JCenter:Repository("jcenter")
-        object MavenLocal:Repository("mavenLocal")
+        object Google:Repository("google()")
+//        object JCenter:Repository("jcenter")
+        object MavenLocal:Repository("mavenLocal()")
+        object MavenCentral:Repository("mavenCentral()")
         class Maven(val uri:String):Repository("maven") {
             override fun generate()  = block("maven", listOf("url = uri(\"$uri\")"))
         }

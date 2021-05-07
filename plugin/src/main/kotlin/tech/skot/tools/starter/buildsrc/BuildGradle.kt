@@ -4,6 +4,6 @@ import tech.skot.tools.starter.BuildGradleGenerator
 
 
 fun buildGradle() = BuildGradleGenerator().apply {
-    repository(BuildGradleGenerator.Repository.JCenter)
+    repository(BuildGradleGenerator.Repository.MavenCentral)
     plugin(BuildGradleGenerator.Plugin.KotlinDsl)
 }.generate()

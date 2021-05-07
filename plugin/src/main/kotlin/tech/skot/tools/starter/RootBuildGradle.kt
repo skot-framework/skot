@@ -3,7 +3,6 @@ package tech.skot.tools.starter
 val rootBuildGradle = """buildscript {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         mavenLocal()
         maven {
@@ -19,7 +18,6 @@ val rootBuildGradle = """buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenLocal()
         mavenCentral()
         maven {

@@ -96,9 +96,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-//    packagingOptions {
-//        exclude("META-INF/*")
-//    }
+    packagingOptions {
+        if (gradle.startParameter.taskNames.any {
+                it.toUpperCase().contains("ANDROIDTEST")
+            }) {
+            exclude("META-INF/*")
+        }
+    }
 
 
 }

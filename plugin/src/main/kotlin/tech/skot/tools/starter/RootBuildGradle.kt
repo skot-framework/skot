@@ -6,7 +6,7 @@ val rootBuildGradle = """buildscript {
         mavenCentral()
         mavenLocal()
         maven {
-            url = uri("http://raw.github.com/MathieuScotet/skot/repository")
+            url = uri("https://raw.github.com/MathieuScotet/skot/repository")
         }
     }
 
@@ -21,7 +21,7 @@ allprojects {
         mavenLocal()
         mavenCentral()
         maven {
-            url = uri("http://raw.github.com/MathieuScotet/skot/repository")
+            url = uri("https://raw.github.com/MathieuScotet/skot/repository")
         }
         maven {
             url = uri("https://jitpack.io")

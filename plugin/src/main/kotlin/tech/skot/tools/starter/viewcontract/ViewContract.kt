@@ -23,7 +23,7 @@ fun StarterGenerator.viewContract(){
         FileSpec.builder(splashVC.packageName, splashVC.simpleName)
                 .addType(
                         TypeSpec.interfaceBuilder(splashVC.simpleName)
-                                .addSuperinterface(ClassName("tech.skot.core.components", "ScreenVC"))
+                                .addSuperinterface(ClassName("tech.skot.core.components", "SKScreenVC"))
                                 .build()
                 )
                 .build()

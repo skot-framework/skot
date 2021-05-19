@@ -9,6 +9,7 @@ plugins {
 
 
 dependencies {
+//    implementation(project(":metacommon"))
     api("com.android.tools.build:gradle:${Versions.Android.gradle}")
     api("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
     api("org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}")
@@ -24,7 +25,7 @@ dependencies {
 configurations {
     all {
         attributes {
-            attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 11)
+            attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 8)
         }
     }
 }

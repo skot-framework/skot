@@ -33,13 +33,12 @@ fun Generator.generateViewLegacy() {
                     .build()
                     .writeTo(androidSources(Modules.view))
         }
-        if (!Files.exists(layoutPath)) {
+        if (!existsPath(layoutPath, "res")) {
             Files.createDirectories(layoutPath.parent)
             layoutPath.toFile().writeText(LAYOUT_TEMPLATE)
         }
 
     }
-
 
     generateViewLegacyInjectorImpl(Modules.view)
 }

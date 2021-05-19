@@ -18,13 +18,14 @@ publishing {
 configurations {
     all {
         attributes {
-            attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 11)
+            attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 8)
         }
     }
 }
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
+//    implementation(project(":metacommon"))
     implementation(project(":viewcontract"))
     api("com.squareup:kotlinpoet:${Versions.kotlinpoet}")
     api(kotlin("reflect"))

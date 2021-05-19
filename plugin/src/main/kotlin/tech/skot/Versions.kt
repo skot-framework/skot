@@ -4,7 +4,7 @@ import kotlin.Int
 import kotlin.String
 
 object Versions {
-  const val skot: String = "1.0.0-alpha10"
+  const val skot: String = "1.0.0-alpha11"
 
   const val serialization: String = "1.2.0"
 
@@ -18,7 +18,7 @@ object Versions {
 
   const val sl4j: String = "1.6.1"
 
-  const val android_minSdk: Int = 22
+  const val android_minSdk: Int = 21
 
   const val android_compileSdk: Int = 30
 

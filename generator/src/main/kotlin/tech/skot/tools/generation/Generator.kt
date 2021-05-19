@@ -32,6 +32,8 @@ class Generator(
 ) {
 
 
+    val variantsCombinaison = skVariantsCombinaison(rootPath)
+
     val components = mutableSetOf<KClass<out SKComponentVC>>().apply {
         addLinkedComponents(startClass, appPackage)
     }.map { it.def() }
@@ -242,6 +244,15 @@ class Generator(
 
     fun ComponentDef.hasModel() = componentsWithModel.contains(this)
 
+
+    //Regarde si le fichier existe déjà, dans main ou dans une variante de main
+    fun existsPath(path:Path, patternConbinable:String):Boolean {
+        return Files.exists(path)
+                ||
+                variantsCombinaison.any {
+                    Files.exists(path.replaceSegment(patternConbinable, "$patternConbinable$it"))
+                }
+    }
 }
 
 

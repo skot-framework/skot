@@ -13,7 +13,7 @@ class BuildGradleGenerator {
 
 
     sealed class Repository(val name:String) {
-        open fun generate() = listOf("$name()")
+        open fun generate() = listOf("$name")
 
         object Google:Repository("google()")
 //        object JCenter:Repository("jcenter")

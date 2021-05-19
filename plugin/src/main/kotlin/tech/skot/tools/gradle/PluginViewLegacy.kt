@@ -5,8 +5,6 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.*
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.gradle.model.KotlinAndroidExtension
 import tech.skot.Versions
 import tech.skot.tools.gradle.SKLibrary.Companion.addDependenciesToViewContract
 
@@ -20,7 +18,7 @@ class PluginViewLegacy: Plugin<Project> {
         project.plugins.apply("com.android.library")
 //        project.plugins.apply("com.github.ben-manes.versions")
 
-        project.extensions.findByType(LibraryExtension::class)?.android()
+        project.extensions.findByType(LibraryExtension::class)?.android(project)
 
         project.dependencies {
             dependencies()
@@ -30,7 +28,7 @@ class PluginViewLegacy: Plugin<Project> {
     }
 
 
-    private fun LibraryExtension.android() {
+    private fun LibraryExtension.android(project: Project) {
 
         sourceSets.getByName("main") {
             java.srcDir("src/androidMain/kotlin")
@@ -38,6 +36,11 @@ class PluginViewLegacy: Plugin<Project> {
             res.srcDir("src/androidMain/res")
             res.srcDir("src/androidMain/res_referenced")
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
+
+            skVariantsCombinaison(project.rootProject.rootDir.toPath()).forEach {
+                res.srcDir("src/androidMain/res$it")
+                java.srcDir("src/androidMain$it/kotlin")
+            }
         }
 
         defaultConfig {

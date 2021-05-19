@@ -1,6 +1,10 @@
 package tech.skot.tools.generation
 
 import com.squareup.kotlinpoet.*
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.util.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
 import kotlin.reflect.full.isSupertypeOf
@@ -74,3 +78,15 @@ fun ClassName.fileInterfaceBuilder(imports:List<ClassName> = emptyList(),block:T
         }
         .build()
 
+
+fun Path.replaceSegment(segment:String, replacement:String): Path =
+    map {
+        if (it.toString() == segment) {
+            replacement
+        }
+        else {
+            it.toString()
+        }
+    }.let {
+        Paths.get(it.joinToString("/", prefix = if (this.startsWith("/")) "/" else ""))
+    }

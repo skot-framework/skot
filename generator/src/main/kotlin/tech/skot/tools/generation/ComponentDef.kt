@@ -166,3 +166,6 @@ val componentViewType = SKComponentVC::class.createType()
 val collectionType = Collection::class.createType(arguments = listOf(KTypeProjection(KVariance.OUT, componentViewType)))
 fun KType.isComponent() = componentViewType.isSupertypeOf(this)
 fun KClass<*>.isComponent() = this.isSubclassOf(SKComponentVC::class)
+
+val stringType = String::class.createType()
+fun KType.isString() = this == stringType

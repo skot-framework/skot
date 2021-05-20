@@ -36,7 +36,7 @@ class AndroidPersistor(context: Context, dbFilename: String) : Persistor {
     ): DatedData<D>? {
         return withContext(Dispatchers.IO) {
             db.persistedQueries.obtainByKey(key).executeAsOneOrNull()?.let {
-                DatedData(Json.decodeFromString(serializer, it.data), it.id, it.timestamp)
+                DatedData(Json.decodeFromString(serializer, it.data_), it.id, it.timestamp)
             }
         }
     }
@@ -50,7 +50,7 @@ class AndroidPersistor(context: Context, dbFilename: String) : Persistor {
     override suspend fun getString(key: String): DatedData<String>? {
         return withContext(Dispatchers.IO) {
             db.persistedQueries.obtainByKey(key).executeAsOneOrNull()?.let {
-                DatedData(it.data, it.id, it.timestamp)
+                DatedData(it.data_, it.id, it.timestamp)
             }
         }
     }

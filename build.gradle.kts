@@ -11,6 +11,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}")
         classpath("com.squareup.sqldelight:gradle-plugin:${Versions.sqldelight}")
         classpath("com.github.ben-manes:gradle-versions-plugin:+")
+        classpath("com.squareup:kotlinpoet:${Versions.kotlinpoet}")
     }
 }
 

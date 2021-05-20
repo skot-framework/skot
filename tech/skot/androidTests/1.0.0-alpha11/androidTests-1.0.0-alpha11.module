@@ -11,7 +11,7 @@
   "createdBy": {
     "gradle": {
       "version": "6.8.1",
-      "buildId": "7g7z7ezk5vaxvor6gqfcljloxy"
+      "buildId": "hi5k4zmxxffn3jdfvdfn25oce4"
     }
   },
   "variants": [
@@ -42,10 +42,10 @@
           "name": "androidTests-metadata-1.0.0-alpha11.jar",
           "url": "androidTests-1.0.0-alpha11.jar",
           "size": 261,
-          "sha512": "8f435705fe9dc9b9b898ae61b85000d07793854e3c57ac5522a4f153a854ee2e9220861b644bf47eefd23cddbc8d8bb0b1ed705817780707887bbbbd40b9d865",
-          "sha256": "88e40a34efdcd66a2daef5cbcca5d4d0b4699d95b93d65339a8664b017585f06",
-          "sha1": "0a062f23a9de7c76e0de75877705bdc4164f91a5",
-          "md5": "eabf3a039f8fb559fb9a15092e64955d"
+          "sha512": "fc32ef47a1e93d13f19eb8449c44e14684d39e93251252407ac2654ba7edaafa610ed0bae136291099e04d62e392781e5a9c6ac32bf8c79e8b1d93869bf4b7bd",
+          "sha256": "027522444e2c68487d4f97dc55d2e1213677452d5b0d88d091cd40c758bc6a78",
+          "sha1": "4879d41930b723e7e7e26a672498ebb2f3917610",
+          "md5": "d0659f5e12971b3cb9e5d6169fa57b92"
         }
       ]
     },

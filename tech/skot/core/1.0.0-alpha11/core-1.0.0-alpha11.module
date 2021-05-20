@@ -11,7 +11,7 @@
   "createdBy": {
     "gradle": {
       "version": "6.8.1",
-      "buildId": "7g7z7ezk5vaxvor6gqfcljloxy"
+      "buildId": "hi5k4zmxxffn3jdfvdfn25oce4"
     }
   },
   "variants": [
@@ -56,10 +56,10 @@
           "name": "core-metadata-1.0.0-alpha11.jar",
           "url": "core-1.0.0-alpha11.jar",
           "size": 6932,
-          "sha512": "9cd0e453c362632bd19a76c154dc201e5c5371b87c42a38303456438659e9fb8dd3f327c5ee41f17a24ae3de582ede09015b07f28693a64b11e33488782aba47",
-          "sha256": "26caa106f9330ef6c332e0ca216c416a657a880db8f4159b4e4e71eef083a7db",
-          "sha1": "fb373c76d5661c69682faa27a996cb0028af6dd9",
-          "md5": "a1e254111f8b10a6e1669a86a9d74153"
+          "sha512": "67183a40c0f2e451ec8b87ffd3c29b150667c1398052b7869e03138c174157c2e1f0635c699f5bb8d3dde3a29a57c7f82d26e45be3172c987ca48c74a0712707",
+          "sha256": "8c9b7661570f119785699e64bf4f683900fb696a1176ddbac028fb97de0798e6",
+          "sha1": "1a85004a0412103290dfc614df4a5ce5763653db",
+          "md5": "768d266e54b4280ed8003c02912515cb"
         }
       ]
     },

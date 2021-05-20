@@ -12,7 +12,7 @@
   "createdBy": {
     "gradle": {
       "version": "6.8.1",
-      "buildId": "7g7z7ezk5vaxvor6gqfcljloxy"
+      "buildId": "hi5k4zmxxffn3jdfvdfn25oce4"
     }
   },
   "variants": [
@@ -44,10 +44,10 @@
           "name": "viewcontract-jvm-1.0.0-alpha11.jar",
           "url": "viewcontract-jvm-1.0.0-alpha11.jar",
           "size": 33799,
-          "sha512": "0f2f59039e6529acaf8e84d5e66fd4b1f36079af2347ff8839170160c5af47d5de0e7d7b576cc8316df7ed18567ff09d64d67920246a01a5e7f432895a13b512",
-          "sha256": "0c86e6878f83ad3ebd77c5f696a66b51e17f329ddd5bbc7e364c3fc76203cb05",
-          "sha1": "0da6ccb31b6f2ea75f59460e46684dd0a06604d8",
-          "md5": "49c1b83c31dcf51a3336abed0ef33358"
+          "sha512": "25a61cd89adf938894b6034c06c4cfd0c064b3199aa0fd75acf014629b3c96386f0f70f5d1618c77f819d221080f739b6a4bec77d524b27aa4a64f7d4254298b",
+          "sha256": "98c1cf2aad8ca2f4015302803f9a3a4b3d2df8c0e140eab669a32c508ece5068",
+          "sha1": "ad1e986cc0b22e228e9870117b41cd5f17468446",
+          "md5": "a333a8fb158d5a25762e862949a7f4f0"
         }
       ]
     },
@@ -79,10 +79,10 @@
           "name": "viewcontract-jvm-1.0.0-alpha11.jar",
           "url": "viewcontract-jvm-1.0.0-alpha11.jar",
           "size": 33799,
-          "sha512": "0f2f59039e6529acaf8e84d5e66fd4b1f36079af2347ff8839170160c5af47d5de0e7d7b576cc8316df7ed18567ff09d64d67920246a01a5e7f432895a13b512",
-          "sha256": "0c86e6878f83ad3ebd77c5f696a66b51e17f329ddd5bbc7e364c3fc76203cb05",
-          "sha1": "0da6ccb31b6f2ea75f59460e46684dd0a06604d8",
-          "md5": "49c1b83c31dcf51a3336abed0ef33358"
+          "sha512": "25a61cd89adf938894b6034c06c4cfd0c064b3199aa0fd75acf014629b3c96386f0f70f5d1618c77f819d221080f739b6a4bec77d524b27aa4a64f7d4254298b",
+          "sha256": "98c1cf2aad8ca2f4015302803f9a3a4b3d2df8c0e140eab669a32c508ece5068",
+          "sha1": "ad1e986cc0b22e228e9870117b41cd5f17468446",
+          "md5": "a333a8fb158d5a25762e862949a7f4f0"
         }
       ]
     }

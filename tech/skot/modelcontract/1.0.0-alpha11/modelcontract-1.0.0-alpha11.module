@@ -11,7 +11,7 @@
   "createdBy": {
     "gradle": {
       "version": "6.8.1",
-      "buildId": "7g7z7ezk5vaxvor6gqfcljloxy"
+      "buildId": "hi5k4zmxxffn3jdfvdfn25oce4"
     }
   },
   "variants": [
@@ -49,10 +49,10 @@
           "name": "modelcontract-metadata-1.0.0-alpha11.jar",
           "url": "modelcontract-1.0.0-alpha11.jar",
           "size": 2401,
-          "sha512": "59afd336f998ced1b25278f5fb0dbf41e9824034092bb2040f57a542f96ab93ec3a8d843b0d139ca60685aff1001e1e28a2673483a19199c1f5793e4d30e4f14",
-          "sha256": "a14b1556770defa7e1829d2b4d0362b77d1e13b3b1a1a327fa51ef128d902aea",
-          "sha1": "2c24fc096a4491bff6e17de70d9a188174055bbe",
-          "md5": "892fa9f24e867d95d79e92667dbf5141"
+          "sha512": "e5ffd745a3b081d35430382aaa0ef881504d60d6d5ed96135121b627d2c5de817ec994f38a44fb362aa418e99d762798d225fa9f3105814ac3a6a933098817de",
+          "sha256": "2e8da2adb6f5551183dd614e497fffc86de89b14f13daef32701e9f411c6f389",
+          "sha1": "1b17d6d035f1ed3ae8345bab26cd7eec8471ba3f",
+          "md5": "6da895a3f36d8ebbd582a4772e2d4dbb"
         }
       ]
     },

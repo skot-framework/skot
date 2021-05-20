@@ -11,7 +11,7 @@
   "createdBy": {
     "gradle": {
       "version": "6.8.1",
-      "buildId": "7g7z7ezk5vaxvor6gqfcljloxy"
+      "buildId": "hi5k4zmxxffn3jdfvdfn25oce4"
     }
   },
   "variants": [
@@ -35,10 +35,10 @@
           "name": "viewcontract-metadata-1.0.0-alpha11.jar",
           "url": "viewcontract-1.0.0-alpha11.jar",
           "size": 11705,
-          "sha512": "46babfc524e433d17f85182d523fc53d3ded041045bb6d6ab5374668a488c5528f3d2cd4206ce7d20c6e78865d67175aada5ad67b7f0813645923f489ea5e413",
-          "sha256": "7aef889ab7658ee192747b767bbf245714b5aff34a6102b47d4835cd8d241379",
-          "sha1": "4ca0bb3a053598a8f62f8132f396fafe7ad92761",
-          "md5": "d8df5043510e149f3aa5489f093d0d47"
+          "sha512": "7d89ba6d179ec9efbda76043a14a72f30d75ae315d5ea0ddef4f3b4c5ea9c4559b2da5bcb46860326d3b749c3f0a0c4f759400174b01f9387f6d87cacf1bacfc",
+          "sha256": "aefdf5f9eb365918c8238e9ce5d21fbade2e88328042914909d35334b017b7de",
+          "sha1": "ed7986db53af450108ff28707eb2a64ef3445d35",
+          "md5": "a4ac73bb0c3f64d4e7c17396734c1f1a"
         }
       ]
     },

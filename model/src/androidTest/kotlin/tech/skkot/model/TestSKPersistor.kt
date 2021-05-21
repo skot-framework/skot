@@ -276,8 +276,34 @@ class TestSKPersistor {
             }
             assert(persistor.getDataSecured(Data1Mod.serializer(), name)?.data == null)
         }
+    }
 
+    @Serializable
+    open class TestSer(open val test:String)
 
+    class TestSerImpl(override var test: String):TestSer(test)
 
+    @Test
+    fun testSerialization() {
+        val persistor = AndroidSKPersistor(InstrumentationRegistry.getInstrumentation().context, "testSerialization")
+        val name = "TEST"
+
+        runBlocking {
+            val essai = TestSerImpl(test = "avant")
+            essai.test = "après"
+            persistor.putData(
+                serializer = TestSer.serializer(),
+                name = name,
+                essai
+            )
+
+            val restored =
+                persistor.getData(
+                    serializer = TestSer.serializer(),
+                    name = name
+                )?.data
+
+            assert(restored?.test == essai.test)
+        }
     }
 }

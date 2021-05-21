@@ -2,7 +2,7 @@
 object Versions {
 
     const val group = "tech.skot"
-    const val version = "1.0.0-alpha11"
+    const val version = "1.0.0-alpha12"
 
     const val kotlin = "1.5.0"
     const val kotlinCoroutines = "1.5.0-RC-native-mt"
@@ -34,6 +34,7 @@ object Versions {
         const val viewpager2 = "1.0.0"
         const val recyclerview = "1.2.0"
         const val material = "1.3.0"
+        const val lifecycle = "2.3.1"
 
     }
 }

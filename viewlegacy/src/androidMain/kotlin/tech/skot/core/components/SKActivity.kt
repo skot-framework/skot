@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import tech.skot.core.SKFeatureInitializer
 
-open class SKActivity : AppCompatActivity() {
+abstract class SKActivity : AppCompatActivity() {
 
     var screenKey: Long? = null
 
@@ -16,32 +19,38 @@ open class SKActivity : AppCompatActivity() {
 
     private var screen:SKScreenView<*>? = null
 
+    abstract val featureInitializer:SKFeatureInitializer
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewKey = getKeyForThisActivity(savedInstanceState)
+        lifecycleScope.launch {
 
-        if (!oneActivityAlreadyLaunched && viewKey != -1L) {
-            oneActivityAlreadyLaunched = true
-            SKRootStackViewProxy.screensLD.value.getOrNull(0)?.let { startActivityForProxy(it) }
-            finish()
-        } else {
-            oneActivityAlreadyLaunched = true
-            (if (viewKey != -1L) {
-                ScreensManager.getInstance(viewKey)
+            featureInitializer.initializeIfNeeded()
+
+            val viewKey = getKeyForThisActivity(savedInstanceState)
+
+            if (!oneActivityAlreadyLaunched && viewKey != -1L) {
+                oneActivityAlreadyLaunched = true
+                SKRootStackViewProxy.screensLD.value.getOrNull(0)?.let { startActivityForProxy(it) }
+                finish()
             } else {
-                SKRootStackViewProxy.screens.getOrNull(0)
-            } as? SKScreenViewProxy<*>)?.run {
-                screenKey = key
-                bindTo(this@SKActivity, null, layoutInflater)
-            }
+                oneActivityAlreadyLaunched = true
+                (if (viewKey != -1L) {
+                    ScreensManager.getInstance(viewKey)
+                } else {
+                    SKRootStackViewProxy.screens.getOrNull(0)
+                } as? SKScreenViewProxy<*>)?.run {
+                    screenKey = key
+                    bindTo(this@SKActivity, null, layoutInflater)
+                }
                     ?.run {
                         setContentView(this.view)
                         screen = this
                         linkToRootStack()
                     }
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
         }
-
     }
 
     private fun getKeyForThisActivity(savedInstanceState: Bundle?) =

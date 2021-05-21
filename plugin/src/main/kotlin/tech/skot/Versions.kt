@@ -4,7 +4,7 @@ import kotlin.Int
 import kotlin.String
 
 object Versions {
-  const val skot: String = "1.0.0-alpha11"
+  const val skot: String = "1.0.0-alpha12"
 
   const val serialization: String = "1.2.0"
 

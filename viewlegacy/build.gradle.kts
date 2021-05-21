@@ -15,7 +15,8 @@ dependencies {
     api("androidx.viewpager2:viewpager2:${Versions.Android.viewpager2}")
     api("androidx.recyclerview:recyclerview:${Versions.Android.recyclerview}")
     api("com.google.android.material:material:${Versions.Android.material}")
-
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${Versions.Android.lifecycle}")
 }
 
 

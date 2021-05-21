@@ -16,8 +16,9 @@ kotlin {
             }
         }
     }
-    sourceSets["jvmMain"].dependencies {
+    sourceSets["commonMain"].dependencies {
         api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
     }
 
     sourceSets {

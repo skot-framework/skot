@@ -7,8 +7,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.KSerializer
+import tech.skot.core.SKLog
+import kotlin.reflect.KProperty
 
-open class SKManualData<D : Any>(initialValue: D) : SKData<D> {
+open class SKManualData<D : Any?>(initialValue: D, private val onChange:(()->Unit)? = null) : SKData<D> {
     override val flow = MutableStateFlow(DatedData(initialValue, currentTimeMillis()))
     override val defaultValidity = Long.MAX_VALUE
     override val _current: DatedData<D>
@@ -17,7 +19,13 @@ open class SKManualData<D : Any>(initialValue: D) : SKData<D> {
     var value: D
         get() = _current.data
         set(newValue) {
+            val oldValue = flow.value
             flow.value = DatedData(newValue)
+            onChange?.let {
+                if (oldValue != newValue) {
+                    it.invoke()
+                }
+            }
         }
 
     override suspend fun update(): D {
@@ -26,6 +34,11 @@ open class SKManualData<D : Any>(initialValue: D) : SKData<D> {
 
     override suspend fun fallBackValue(): D? = _current.data
 
+    operator fun setValue(thisObj: Any?, property: KProperty<*>, value: D) {
+        this.value = value
+    }
+
+    operator fun getValue(thisObj: Any?, property: KProperty<*>) = this.value
 }
 
 open class SKManualDataWithCache<D : Any>(

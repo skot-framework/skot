@@ -113,7 +113,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
     }
 
 
-    fun <D : Any> SKData<D>.onData(
+    fun <D : Any?> SKData<D>.onData(
         validity: Long? = null,
         withLoaderForFirstData: Boolean = true,
         fallBackDataBeforeFirstDataLoaded: Boolean = false,
@@ -158,7 +158,9 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
             block(get(validity))
             launchNoCrash {
                 flow.drop(1).collect {
-                    it?.data?.let(block)
+                    it?.let {
+                        it.data.let(block)
+                    }
                 }
             }
         }

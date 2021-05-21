@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.combineTransform
 import kotlinx.coroutines.flow.map
 import kotlin.math.min
 
-interface SKData<D : Any> {
+interface SKData<D : Any?> {
 
 
     val flow: Flow<DatedData<D>?>
@@ -29,7 +29,7 @@ interface SKData<D : Any> {
 
 }
 
-fun <D : Any, O : Any> SKData<D>.map(transform: (d: D) -> O): SKData<O> {
+fun <D : Any?, O : Any?> SKData<D>.map(transform: (d: D) -> O): SKData<O> {
     return object : SKData<O> {
         override val defaultValidity = this@map.defaultValidity
         override val flow = this@map.flow.map {

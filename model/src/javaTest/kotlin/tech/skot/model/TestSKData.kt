@@ -23,9 +23,25 @@ class TestSKData {
                 assert(manualSKData.get() == 1)
             }
         }
-
-
     }
+
+    @Test
+    fun `ManualSKData works well with nullable`() {
+        runBlocking {
+            val manualSKData = SKManualData<String?>(null)
+
+            assert(manualSKData.value == null)
+            manualSKData.value = "a"
+            assert(manualSKData.value == "a")
+            launch {
+                assert(manualSKData.get() == "a")
+                manualSKData.value = null
+                assert(manualSKData.value == null)
+            }
+
+        }
+    }
+
 
     @Test
     fun `ManualSKData flows works correctly`() {

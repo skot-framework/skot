@@ -74,10 +74,21 @@ abstract class UnivDataManagerImpl<D : Any>(
             return getFreshData(id)
         } else {
             val currenValue = _value
-            if (currenValue?.isValid() == true && currenValue.id == id) {
+            if (currenValue != null && (speed || currenValue.isValid()) && currenValue.id == id) {
                 return currenValue.data
             } else {
-                val cachedStr = cache.getString(key)
+                val cachedStr = try {
+                    cache.getString(key)
+                }
+                catch (ex:Exception) {
+                    SKLog.e("Problème à la récupération du cache de $key",ex)
+                    try {
+                        cache.remove(key)
+                    }
+                    catch (ex:Exception) {
+                    }
+                    null
+                }
 //                SKLog.d("UnivDataManagerImpl cachedStr!= null ${cachedStr!=null} cachedStr.id ${cachedStr?.id}")
                 if (cachedStr != null && cachedStr.id == id) {
                     val isCachedStrValid = cachedStr.isValid()

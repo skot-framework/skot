@@ -10,36 +10,7 @@ import kotlinx.serialization.KSerializer
 import tech.skot.core.SKLog
 import kotlin.reflect.KProperty
 
-open class SKManualData<D : Any?>(initialValue: D, private val onChange:(()->Unit)? = null) : SKData<D> {
-    override val flow = MutableStateFlow(DatedData(initialValue, currentTimeMillis()))
-    override val defaultValidity = Long.MAX_VALUE
-    override val _current: DatedData<D>
-        get() = flow.value
 
-    var value: D
-        get() = _current.data
-        set(newValue) {
-            val oldValue = flow.value
-            flow.value = DatedData(newValue)
-            onChange?.let {
-                if (oldValue != newValue) {
-                    it.invoke()
-                }
-            }
-        }
-
-    override suspend fun update(): D {
-        return _current.data
-    }
-
-    override suspend fun fallBackValue(): D? = _current.data
-
-    operator fun setValue(thisObj: Any?, property: KProperty<*>, value: D) {
-        this.value = value
-    }
-
-    operator fun getValue(thisObj: Any?, property: KProperty<*>) = this.value
-}
 
 open class SKManualDataWithCache<D : Any>(
     private val name: String,
@@ -59,8 +30,16 @@ open class SKManualDataWithCache<D : Any>(
     private suspend fun initWithCache() {
         initMutex.withLock {
             if (flow.value == null) {
-                flow.value =
-                    cache.getDataSecured(serializer, name, key)?.let { DatedData(it.data, it.timestamp) }
+                val cacheDate = cache.getDate(name, key)
+                if (cacheDate != null) {
+                    try {
+                        flow.value = cache.getData(serializer, name, key)?.let { DatedData(it, cacheDate) }
+                    }
+                    catch (ex:Exception) {
+                        SKLog.e(ex, "SKManualDataWithCache Problème à la récupération du cache de la donnée $name $key")
+                    }
+
+                }
             }
         }
     }
@@ -83,12 +62,17 @@ open class SKManualDataWithCache<D : Any>(
     suspend fun setValue(newValue: D) {
         flow.value = DatedData(newValue)
         CoroutineScope(Dispatchers.Default).launch {
-            cache.putDataSecured(
-                serializer = serializer,
-                name = name,
-                data = newValue,
-                key = key
-            )
+            try {
+                cache.putData(
+                    serializer = serializer,
+                    name = name,
+                    data = newValue,
+                    key = key
+                )
+            }
+            catch (ex:Exception) {
+                SKLog.e(ex, "SKManualDataWithCache Problème à la mise en cache de la donnée $name $key")
+            }
         }
 
 

@@ -11,8 +11,14 @@ DELETE FROM persisted;
 vacuum:
 VACUUM;
 
-obtainByName:
-SELECT * FROM persisted WHERE name = ?;
+obtainDateByName:
+SELECT timestamp FROM persisted WHERE name = ? AND key = ?;
+
+obtainValueByName:
+SELECT value FROM persisted WHERE name = ? AND key = ?;
+
+obtainPartOfValueByName:
+SELECT substr(value, ?, ?) FROM persisted WHERE name = ? AND key = ?;
 
 putByName:
 INSERT OR REPLACE INTO persisted(name, key, timestamp, value)

@@ -1,12 +1,12 @@
 package tech.skot.model
 
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import kotlin.system.measureTimeMillis
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class TestSKData {
 
@@ -191,11 +191,11 @@ class TestSKData {
         val combined = combineSKData(incr1, incr2)
         runBlocking {
             assert(combined.get() == Pair(0,0))
-            delay(200L)
+            delay(300L)
             assert(combined.get() == Pair(1,1))
-            delay(200L)
+            delay(300L)
             incr2.get()
-            delay(200L)
+            delay(300L)
             assert(combined.get() == Pair(2,3))
             assert(combined._current?.data == Pair(2,3))
         }
@@ -263,5 +263,46 @@ class TestSKData {
         }
     }
 
+
+    @Test
+    fun `SKDataWraper works correctly`() {
+
+        val manual1 = SKManualData<String>("start1")
+        val manual2 = SKManualData<String>("start2")
+
+        val changeSK = SKManualData<Int>(0)
+
+        var currentSK:SKData<String>? = manual1
+
+
+        runBlockingTest {
+
+            val wrapped = SKDataWrapper(
+                defaultValue = "wrappedDefaultValue",
+                getSKData = {
+                    currentSK
+                },
+                newSKDataFlow = changeSK.flow,
+                scope = this + Job()
+            )
+
+            assertEquals("start1", wrapped.get())
+            manual1.value = "next1"
+            assert(wrapped.get() == "next1")
+
+            currentSK = manual2
+            println("currentSK changed")
+            assert(wrapped.get() == "next1")
+            changeSK.value = 1
+            assertEquals("start2", wrapped.get())
+
+            currentSK = null
+            changeSK.value = 2
+            assertEquals("wrappedDefaultValue", wrapped.get())
+            manual1.value = "next2"
+            assertEquals("wrappedDefaultValue", wrapped.get())
+        }
+
+    }
 
 }

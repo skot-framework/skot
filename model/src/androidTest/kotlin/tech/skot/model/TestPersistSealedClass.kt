@@ -1,4 +1,4 @@
-package tech.skkot.model
+package tech.skot.model
 
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.Serializable
@@ -31,7 +31,7 @@ class TestPersistSealedClass {
             val restoredDataInStore = cache.getData(
                 State.serializer(),
                 name
-            )?.data
+            )
 
             assert(restoredDataInStore is State.InStore)
             assert((restoredDataInStore as State.InStore).storeName == MAG_1)
@@ -45,7 +45,7 @@ class TestPersistSealedClass {
             val restoreDataNoSession = cache.getData(
                 State.serializer(),
                 name
-            )?.data
+            )
 
             assert(restoreDataNoSession is State.NoSession)
         }

@@ -1,12 +1,10 @@
-package tech.skkot.model
+package tech.skot.model
 
-import android.util.Log
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.serializer
 import org.junit.Test
-import tech.skot.model.SKDistantDataWithCache
 
 class TestSKDistantDataWithCache {
 

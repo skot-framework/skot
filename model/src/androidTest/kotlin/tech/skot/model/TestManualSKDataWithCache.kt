@@ -1,12 +1,10 @@
-package tech.skkot.model
+package tech.skot.model
 
 import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.builtins.serializer
 import org.junit.Test
-import tech.skot.model.AndroidSKPersistor
-import tech.skot.model.SKManualDataWithCache
 
 class TestManualSKDataWithCache {
 

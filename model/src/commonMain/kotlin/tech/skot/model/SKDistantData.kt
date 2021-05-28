@@ -24,7 +24,12 @@ open class SKDistantDataWithCache<D : Any>(
     override suspend fun newDatedData(): DatedData<D> {
         val fetchedData = DatedData(fetchData(), currentTimeMillis())
         CoroutineScope(Dispatchers.Default).launch {
-            cache.putDataSecured(serializer, name, fetchedData.data, key, fetchedData.timestamp)
+            try {
+                cache.putData(serializer, name, fetchedData.data, key, fetchedData.timestamp)
+            }
+            catch (ex:Exception) {
+                SKLog.e(ex, "SKDistantDataWithCache Problème à la mise en cache de la donnée $name $key")
+            }
         }
         return fetchedData
     }
@@ -34,7 +39,17 @@ open class SKDistantDataWithCache<D : Any>(
     private suspend fun initWithCache() {
         initMutex.withLock {
             if (flow.value == null) {
-                flow.value = cache.getDataSecured(serializer, name, key)?.let { DatedData(it.data, it.timestamp) }
+                val cacheDate = cache.getDate(name, key)
+                if (cacheDate != null) {
+                    try {
+                        flow.value = cache.getData(serializer, name, key)?.let { DatedData(it, cacheDate) }
+                    }
+                    catch (ex:Exception) {
+                        SKLog.e(ex, "SKDistantDataWithCache Problème à la récupération du cache de la donnée $name $key")
+                    }
+
+                }
+
             }
         }
     }

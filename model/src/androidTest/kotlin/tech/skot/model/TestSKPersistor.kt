@@ -1,13 +1,11 @@
-package tech.skkot.model
+package tech.skot.model
 
 import androidx.test.platform.app.InstrumentationRegistry
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
-import tech.skot.model.AndroidSKPersistor
 import kotlin.test.assertTrue
 import kotlinx.serialization.Serializable
-import tech.skot.model.SKPersistor
-import kotlin.test.assertFails
 
 class TestSKPersistor {
 
@@ -25,7 +23,7 @@ class TestSKPersistor {
             persistor.putString(name, settedData)
             val savedValue = persistor.getString(name)
             assertTrue("Put data is well saved") {
-                savedValue?.data == settedData
+                savedValue == settedData
             }
 
             val secondName = "nameTest2"
@@ -33,12 +31,12 @@ class TestSKPersistor {
             persistor.putString(secondName, settedSecondData)
             persistor.getString(name).let {
                 assertTrue("First name value still ok") {
-                    it?.data == settedData
+                    it == settedData
                 }
             }
             persistor.getString(secondName).let {
                 assertTrue("Second name value is well saved") {
-                    it?.data == settedSecondData
+                    it == settedSecondData
                 }
             }
 
@@ -61,7 +59,7 @@ class TestSKPersistor {
             persistor.putString(name1, value1)
             persistor.getString(name = name1, key = null).let {
                 assertTrue("Default id is null") {
-                    value1 == it?.data
+                    value1 == it
                 }
             }
 
@@ -80,7 +78,7 @@ class TestSKPersistor {
 
             persistor.getString(name = name1, key = anotherKey).let {
                 assertTrue("new key -> good value") {
-                    it?.data == value2
+                    it == value2
                 }
             }
 
@@ -101,11 +99,13 @@ class TestSKPersistor {
             val persistor2 = AndroidSKPersistor(InstrumentationRegistry.getInstrumentation().context, fileName)
             persistor2.getString(name).let {
                 assertTrue("New Persistor with same file name find value saved before") {
-                    it?.data == value
+                    it == value
                 }
             }
         }
     }
+
+
 
     @Test
     fun testClearAll() {
@@ -119,7 +119,7 @@ class TestSKPersistor {
 
             persistor1.getString(name).let {
                 assertTrue("value well saved") {
-                    it?.data == value
+                    it == value
                 }
             }
             persistor1.clear()
@@ -133,7 +133,7 @@ class TestSKPersistor {
 
             persistor1.getString(name).let {
                 assertTrue("value well saved") {
-                    it?.data == value
+                    it == value
                 }
             }
             persistor1.clear()
@@ -163,12 +163,12 @@ class TestSKPersistor {
 
             persistor1.getString(name).let {
                 assertTrue("value well saved") {
-                    it?.data == value
+                    it == value
                 }
             }
             persistor1.getString(name2).let {
                 assertTrue("value2 well saved") {
-                    it?.data == value2
+                    it == value2
                 }
             }
             persistor1.remove(name)
@@ -179,7 +179,7 @@ class TestSKPersistor {
             }
             persistor1.getString(name2).let {
                 assertTrue("value2 not affected") {
-                    it?.data == value2
+                    it == value2
                 }
             }
 
@@ -213,7 +213,7 @@ class TestSKPersistor {
 
             persistor.getData(TestObject.serializer(), name).let {
                 assertTrue {
-                    it?.data == value
+                    it == value
                 }
             }
 
@@ -225,14 +225,14 @@ class TestSKPersistor {
 
             persistor.getData(TestObject.serializer(), name).let {
                 assertTrue {
-                    it?.data == value
+                    it == value
                 }
             }
 
             persistor.putData(TestObject.serializer(), name, value, key)
             persistor.getData(TestObject.serializer(), name, key).let {
                 assertTrue {
-                    it?.data == value
+                    it == value
                 }
             }
             persistor.getData(TestObject.serializer(), name).let {
@@ -259,7 +259,6 @@ class TestSKPersistor {
     fun testChangingModel() {
 
 
-
         val persistor = AndroidSKPersistor(InstrumentationRegistry.getInstrumentation().context, "testChangingModel")
 
         val name = "NAME"
@@ -269,14 +268,13 @@ class TestSKPersistor {
         runBlocking {
             persistor.putData(Data1.serializer(), name, data1)
 
-            assert(persistor.getData(Data1.serializer(), name)?.data == data1)
-
-            assertFails(""){
-                persistor.getData(Data1Mod.serializer(), name)?.data != data1Mod
-            }
-            assert(persistor.getDataSecured(Data1Mod.serializer(), name)?.data == null)
+            assert(persistor.getData(Data1.serializer(), name) == data1)
+            assert(persistor.getData(Data1Mod.serializer(), name) == null)
         }
     }
+
+
+
 
     @Serializable
     open class TestSer(open val test:String)
@@ -301,9 +299,53 @@ class TestSKPersistor {
                 persistor.getData(
                     serializer = TestSer.serializer(),
                     name = name
-                )?.data
+                )
 
             assert(restored?.test == essai.test)
         }
     }
+
+
+    @Test
+    fun testBlobLimit() {
+
+        runBlocking {
+            val testBigStr = "@".repeat(3000000)
+
+            val cache = testPersistor("testBlobLimit")
+            cache.putString("testBlobLimit", testBigStr)
+            assert(cache.getString("testBlobLimit") == testBigStr)
+        }
+
+
+    }
+
+    @Test
+    fun testDataStoreNoLimit() {
+        runBlocking {
+            val testBigStr = "@".repeat(10000000)
+            val cache = testPersistor("testBlobLimit")
+            cache.putString("testBlobLimit", testBigStr)
+
+            assert(cache.getString("testBlobLimit") == testBigStr)
+
+            delay(1000)
+
+
+
+//            val sb = StringBuilder()
+//            (1..2000000).forEach {
+//                sb.append("1234567890")
+//            }
+//            Log.d("SKOT",sb.toString())
+
+
+//            assert(cache.getStringValue("testBlobLimit") == testBigStr)
+//
+//            val testBigStrTooBig = "@".repeat(3000000)
+//            cache.putString("testBlobLimit", testBigStrTooBig)
+//            assert(cache.getString("testBlobLimit")?.data == null)
+        }
+    }
+
 }

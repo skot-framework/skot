@@ -46,13 +46,9 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-//                api("com.jakewharton.timber:timber:${Versions.Android.timber}")
                 api("com.squareup.sqldelight:android-driver:${Versions.sqldelight}")
 
                 api("io.ktor:ktor-client-android:${Versions.ktor}")
-//                api("io.ktor:ktor-client-json-jvm:${Versions.ktor}")
-//                api("io.ktor:ktor-client-serialization-jvm:${Versions.ktor}")
-//                api("io.ktor:ktor-client-logging-jvm:${Versions.ktor}")
             }
         }
 
@@ -109,6 +105,7 @@ android {
 
 dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlin}")
     androidTestImplementation(project(":androidTests"))
 }
 

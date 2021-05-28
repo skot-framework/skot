@@ -17,7 +17,7 @@ fun Generator.generateViewModel() {
             if (it.hasModel()) {
                 addProperty(
                         PropertySpec.builder("model", it.modelContract())
-                                .initializer("modelInjector.${it.name.decapitalize()}()")
+                                .initializer("modelInjector.${it.name.decapitalize()}(this)")
                                 .build()
                 )
             }

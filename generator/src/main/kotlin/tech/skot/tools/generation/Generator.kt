@@ -25,10 +25,10 @@ object Modules {
 
 
 class Generator(
-        val appPackage: String,
-        val startClass: KClass<SKScreenVC>,
-        val baseActivity: ClassName?,
-        val rootPath: Path
+    val appPackage: String,
+    val startClass: KClass<SKScreenVC>,
+    val baseActivity: ClassName?,
+    val rootPath: Path
 ) {
 
 
@@ -41,7 +41,6 @@ class Generator(
     val componentsWithModel = components.filter {
         it.modelContract().existsCommonInModule(Modules.modelcontract)
     }
-
 
 
 //    val mapTypeDef = components.map { it.vc.asTypeName() to it }.toMap()
@@ -74,6 +73,9 @@ class Generator(
 
 
     val generatedAppModules = ClassName("$appPackage.di", "generatedAppModules")
+    val appFeatureInitializer =
+        ClassName(appPackage, "${appPackage.substringAfterLast(".").capitalize()}Initializer")
+
 
     val moduleFun = ClassName("tech.skot.core.di", "module")
     val module = ClassName("tech.skot.core.di", "Module")
@@ -97,16 +99,16 @@ class Generator(
     }
 
     fun generatedCommonSources(module: String) =
-            rootPath.resolve("$module/generated/commonMain/kotlin")
+        rootPath.resolve("$module/generated/commonMain/kotlin")
 
     fun commonSources(module: String) =
-            rootPath.resolve("$module/src/commonMain/kotlin")
+        rootPath.resolve("$module/src/commonMain/kotlin")
 
     fun generatedAndroidSources(module: String) =
-            rootPath.resolve("$module/generated/androidMain/kotlin")
+        rootPath.resolve("$module/generated/androidMain/kotlin")
 
     fun androidSources(module: String) =
-            rootPath.resolve("$module/src/androidMain/kotlin")
+        rootPath.resolve("$module/src/androidMain/kotlin")
 
     fun deleteModuleGenerated(module: String) {
         rootPath.resolve("$module/generated").toFile().deleteRecursively()
@@ -115,33 +117,47 @@ class Generator(
     private fun generateViewContract() {
         deleteModuleGenerated(Modules.viewcontract)
         generateViewInjector()
+        appFeatureInitializer.fileClassBuilder {
+            primaryConstructor(
+                FunSpec.constructorBuilder()
+                    .addParameter(
+                        ParameterSpec.builder("initialize", LambdaTypeName.get(returnType = Unit::class.asTypeName()).copy(suspending = true))
+                            .build()
+                    )
+                    .build()
+            )
+            superclass(ClassName("tech.skot.core", "SKFeatureInitializer"))
+            superclassConstructorParameters.add(CodeBlock.of("initialize"))
+        }.writeTo(generatedCommonSources(Modules.viewcontract))
     }
 
     private fun generateViewInjector() {
         FileSpec.builder(
-                viewInjectorInterface.packageName,
-                viewInjectorInterface.simpleName
+            viewInjectorInterface.packageName,
+            viewInjectorInterface.simpleName
 
         ).addType(TypeSpec.interfaceBuilder(viewInjectorInterface.simpleName)
-                .addFunctions(
-                        components.map {
-                            FunSpec.builder(it.name.decapitalize())
-                                    .addModifiers(KModifier.ABSTRACT)
-                                    .addParameters(
-                                            it.subComponents.map { it.asParam() }
-                                    )
-                                    .addParameters(
-                                            it.fixProperties.map { it.asParam() }
-                                    )
-                                    .addParameters(
-                                            it.mutableProperties.map { it.initial().asParam(withDefaultNullIfNullable = true) }
-                                    )
-                                    .returns(it.vc)
-                                    .build()
-                        }
-                )
-                .build())
-                .build().writeTo(generatedCommonSources(Modules.viewcontract))
+            .addFunctions(
+                components.map {
+                    FunSpec.builder(it.name.decapitalize())
+                        .addModifiers(KModifier.ABSTRACT)
+                        .addParameters(
+                            it.subComponents.map { it.asParam() }
+                        )
+                        .addParameters(
+                            it.fixProperties.map { it.asParam() }
+                        )
+                        .addParameters(
+                            it.mutableProperties.map {
+                                it.initial().asParam(withDefaultNullIfNullable = true)
+                            }
+                        )
+                        .returns(it.vc)
+                        .build()
+                }
+            )
+            .build())
+            .build().writeTo(generatedCommonSources(Modules.viewcontract))
     }
 
     private fun generateModelContract() {
@@ -152,24 +168,34 @@ class Generator(
     private fun generateModelInjector() {
         modelInjectorInterface.fileInterfaceBuilder {
             addFunctions(
-                    componentsWithModel.map {
-                        FunSpec.builder(it.name.decapitalize())
-                                .addModifiers(KModifier.ABSTRACT)
-                                .returns(it.modelContract())
+                componentsWithModel.map {
+                    FunSpec.builder(it.name.decapitalize())
+                        .addParameter(
+                            ParameterSpec.builder("scope", FrameworkClassNames.coroutineScope)
                                 .build()
-                    }
+                        )
+                        .addModifiers(KModifier.ABSTRACT)
+                        .returns(it.modelContract())
+                        .build()
+                }
             )
         }.writeTo(generatedCommonSources(Modules.modelcontract))
     }
 
     fun ClassName.existsAndroidInModule(module: String) =
-            Files.exists(androidSources(module).resolve(packageName.packageToPathFragment()).resolve("$simpleName.kt"))
+        Files.exists(
+            androidSources(module).resolve(packageName.packageToPathFragment())
+                .resolve("$simpleName.kt")
+        )
 
     fun ClassName.existsCommonInModule(module: String) =
-            Files.exists(commonSources(module).resolve(packageName.packageToPathFragment()).resolve("$simpleName.kt"))
+        Files.exists(
+            commonSources(module).resolve(packageName.packageToPathFragment())
+                .resolve("$simpleName.kt")
+        )
 
     fun androidResLayoutPath(module: String, name: String) =
-            rootPath.resolve("$module/src/androidMain/res/layout/$name.xml")
+        rootPath.resolve("$module/src/androidMain/res/layout/$name.xml")
 
     val viewR = ClassName("$appPackage.${Modules.view}", "R")
     val appR = ClassName("$appPackage.android", "R")
@@ -184,69 +210,83 @@ class Generator(
         val librariesGroups = getUsedSKLibrariesGroups()
 
         FileSpec.builder(generatedAppModules.packageName, generatedAppModules.simpleName)
-                .addProperty(
-                        PropertySpec.builder(generatedAppModules.simpleName, ClassName("kotlin.collections", "List").parameterizedBy(module.parameterizedBy(baseInjector)))
-                                .initializer(CodeBlock.builder()
-                                        .beginControlFlow("listOf(module")
-                                        .addStatement("single { ${stringsImpl.simpleName}(androidApplication) as ${stringsInterface.simpleName}}")
-                                        .addStatement("single { ${pluralsImpl.simpleName}(androidApplication) as ${pluralsInterface.simpleName}}")
-                                        .addStatement("single { ${iconsImpl.simpleName}() as ${iconsInterface.simpleName}}")
-                                        .addStatement("single { ${colorsImpl.simpleName}() as ${colorsInterface.simpleName}}")
-                                        .addStatement("single { ${viewInjectorImpl.simpleName}() as ${viewInjectorInterface.simpleName}}")
-                                        .addStatement("single { ${modelInjectorImpl.simpleName}() as ${modelInjectorInterface.simpleName}}")
-                                        .endControlFlow()
-                                        .addStatement(",")
-                                        .addStatement("modelFrameworkModule,")
-                                        .addStatement("coreViewModule,")
-                                        .apply {
-                                            librariesGroups
-                                                    .map {
-                                                        "${it.substringAfterLast(".")}Module"
-                                                    }.forEach {
-                                                        addStatement(it)
-                                                    }
-
-                                        }
-                                        .addStatement(")")
-                                        .build())
-                                .build()
-
+            .addProperty(
+                PropertySpec.builder(
+                    generatedAppModules.simpleName,
+                    ClassName("kotlin.collections", "List").parameterizedBy(
+                        module.parameterizedBy(baseInjector)
+                    )
                 )
-//                .addImportClassName(getFun)
-                .addImportClassName(moduleFun)
-                .addImportClassName(baseInjector)
-                .addImportClassName(stringsImpl)
-                .addImportClassName(stringsInterface)
-                .addImportClassName(pluralsImpl)
-                .addImportClassName(pluralsInterface)
-                .addImportClassName(iconsImpl)
-                .addImportClassName(iconsInterface)
-                .addImportClassName(colorsInterface)
-                .addImportClassName(colorsImpl)
-                .addImport("tech.skot.di", "modelFrameworkModule")
-                .addImport("tech.skot.core.di", "coreViewModule")
+                    .initializer(CodeBlock.builder()
+                        .beginControlFlow("listOf(module")
+                        .addStatement("single { ${stringsImpl.simpleName}(androidApplication) as ${stringsInterface.simpleName}}")
+                        .addStatement("single { ${pluralsImpl.simpleName}(androidApplication) as ${pluralsInterface.simpleName}}")
+                        .addStatement("single { ${iconsImpl.simpleName}() as ${iconsInterface.simpleName}}")
+                        .addStatement("single { ${colorsImpl.simpleName}() as ${colorsInterface.simpleName}}")
+                        .addStatement("single { ${viewInjectorImpl.simpleName}() as ${viewInjectorInterface.simpleName}}")
+                        .addStatement("single { ${modelInjectorImpl.simpleName}() as ${modelInjectorInterface.simpleName}}")
+                        .beginControlFlow("single")
+                        .beginControlFlow("${appFeatureInitializer.simpleName}")
+                        .addStatement("restoreState()")
+                        .addStatement("start()")
+                        .endControlFlow()
+                        .endControlFlow()
 
-                .apply {
-                    getUsedSKLibrariesGroups().map {
-                        addImport("$it.di", "${it.substringAfterLast(".")}Module")
-                    }
+                        .endControlFlow()
+                        .addStatement(",")
+                        .addStatement("modelFrameworkModule,")
+                        .addStatement("coreViewModule,")
+                        .apply {
+                            librariesGroups
+                                .map {
+                                    "${it.substringAfterLast(".")}Module"
+                                }.forEach {
+                                    addStatement(it)
+                                }
+
+                        }
+                        .addStatement(")")
+                        .build())
+                    .build()
+
+            )
+//                .addImportClassName(getFun)
+            .addImportClassName(moduleFun)
+            .addImportClassName(baseInjector)
+            .addImportClassName(stringsImpl)
+            .addImportClassName(stringsInterface)
+            .addImportClassName(pluralsImpl)
+            .addImportClassName(pluralsInterface)
+            .addImportClassName(iconsImpl)
+            .addImportClassName(iconsInterface)
+            .addImportClassName(colorsInterface)
+            .addImportClassName(colorsImpl)
+            .addImportClassName(appFeatureInitializer)
+            .addImport("tech.skot.di", "modelFrameworkModule")
+            .addImport("tech.skot.core.di", "coreViewModule")
+            .addImport(appPackage, "start")
+            .addImport("$appPackage.state", "restoreState")
+            .apply {
+                getUsedSKLibrariesGroups().map {
+                    addImport("$it.di", "${it.substringAfterLast(".")}Module")
                 }
-                .build()
-                .writeTo(generatedAndroidSources(Modules.app))
+            }
+            .build()
+            .writeTo(generatedAndroidSources(Modules.app))
     }
 
 
     fun getUsedSKLibrariesGroups(): List<String> {
         return Files.readAllLines(rootPath.resolve("skot_librairies.properties"))
-                .filterNot { it.startsWith("//") }
-                .map { it.substringBeforeLast(":") }
+            .filterNot { it.startsWith("//") }
+            .map { it.substringBeforeLast(":") }
     }
 
     fun ComponentDef.hasModel() = componentsWithModel.contains(this)
 
 
     //Regarde si le fichier existe déjà, dans main ou dans une variante de main
-    fun existsPath(path:Path, patternConbinable:String):Boolean {
+    fun existsPath(path: Path, patternConbinable: String): Boolean {
         return Files.exists(path)
                 ||
                 variantsCombinaison.any {
@@ -264,10 +304,11 @@ fun getAndroidPackageName(path: Path): String {
 //fun List<String>.packageToPath() = map { it.replace('.','/') }.joinToString(separator = "/")
 
 
-fun Path.getDocument(): Document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(this.toFile())
+fun Path.getDocument(): Document =
+    DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(this.toFile())
 
 fun Path.getDocumentElement(): Element =
-        getDocument().documentElement
+    getDocument().documentElement
 
 fun Element.childElements(): List<Element> {
     val elements: MutableList<Element> = mutableListOf()

@@ -12,6 +12,7 @@ abstract class SKFeatureInitializer(val initialize:suspend ()->Unit) {
             initializeMutex.withLock {
                 if (!done) {
                     initialize()
+                    done = true
                 }
             }
         }

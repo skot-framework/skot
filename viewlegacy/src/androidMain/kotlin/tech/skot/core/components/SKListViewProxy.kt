@@ -7,11 +7,11 @@ import tech.skot.core.SKLog
 import tech.skot.view.live.MutableSKLiveData
 import tech.skot.view.live.SKMessage
 
-class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean, private val nbColumns:Int?) : SKComponentViewProxy<RecyclerView>(), SKListVC {
+class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean, private val nbColumns:Int?, private val animate:Boolean, private val animateItem:Boolean) : SKComponentViewProxy<RecyclerView>(), SKListVC {
 
-    private val itemsLD: MutableSKLiveData<List<SKComponentViewProxy<*>>> = MutableSKLiveData(emptyList())
+    private val itemsLD: MutableSKLiveData<List<Pair<SKComponentViewProxy<*>, Any>>> = MutableSKLiveData(emptyList())
 
-    override var items: List<SKComponentVC>
+    override var items: List<Pair<SKComponentVC, Any>>
         get() = itemsLD.value
         set(newVal) {
 //            val newProxyItems = newVal as List<SKComponentViewProxy<*>>
@@ -21,7 +21,7 @@ class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean,
 //                }
 //            }
             SKLog.d("SKListViewProxy set new Value: $newVal")
-            itemsLD.postValue(newVal as List<SKComponentViewProxy<*>>)
+            itemsLD.postValue(newVal as List<Pair<SKComponentViewProxy<*>, Any>>)
         }
 
     private val saveSignal: SKMessage<Unit> = SKMessage()
@@ -33,7 +33,7 @@ class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean,
     }
 
     override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: RecyclerView, collectingObservers:Boolean) =
-            SKListView(vertical, reverse, nbColumns, activity, fragment, binding).apply {
+            SKListView(vertical, reverse, nbColumns, animate, animateItem, activity, fragment, binding).apply {
                 collectObservers = collectingObservers
                 itemsLD.observe {
                     onItems(it)

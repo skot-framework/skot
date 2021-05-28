@@ -4,30 +4,41 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 
-class SKListView(vertical: Boolean, reverse: Boolean, nbColumns: Int?, activity: SKActivity, fragment: Fragment?, private val recyclerView: RecyclerView) : SKComponentView<RecyclerView>(activity, fragment, recyclerView) {
+class SKListView(
+    vertical: Boolean,
+    reverse: Boolean,
+    nbColumns: Int?,
+    animate: Boolean,
+    animateItem: Boolean,
+    activity: SKActivity,
+    fragment: Fragment?,
+    private val recyclerView: RecyclerView
+) : SKComponentView<RecyclerView>(activity, fragment, recyclerView) {
 
 
-    inner class ViewHolder(idLayout: Int, parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(idLayout, parent, false)) {
+    inner class ViewHolder(idLayout: Int, parent: ViewGroup) : RecyclerView.ViewHolder(
+        LayoutInflater.from(parent.context).inflate(idLayout, parent, false)
+    ) {
         var componentView: SKComponentView<*>? = null
     }
 
     inner class Adapter : RecyclerView.Adapter<ViewHolder>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(viewType, parent)
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            ViewHolder(viewType, parent)
 
-        override fun getItemViewType(position: Int) = items[position].layoutId
-                ?: throw IllegalStateException("${items[position]::class.simpleName} can't be in a recyclerview")
+        override fun getItemViewType(position: Int) = items[position].first.layoutId
+            ?: throw IllegalStateException("${items[position].first::class.simpleName} can't be in a recyclerview")
 
         override fun getItemCount() = items.size
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             items[position].let { proxy ->
-                val componentViewImpl = proxy.bindToItemView(activity, fragment, holder.itemView)
+                val componentViewImpl =
+                    proxy.first.bindToItemView(activity, fragment, holder.itemView)
                 holder.componentView = componentViewImpl
-                mapProxyIndexComponentViewImpl[proxy] = componentViewImpl
+                mapProxyIndexComponentViewImpl[proxy.first] = componentViewImpl
             }
         }
 
@@ -41,37 +52,56 @@ class SKListView(vertical: Boolean, reverse: Boolean, nbColumns: Int?, activity:
 
     }
 
-    private val mapProxyIndexComponentViewImpl = mutableMapOf<SKComponentViewProxy<*>, SKComponentView<*>>()
+    private val mapProxyIndexComponentViewImpl =
+        mutableMapOf<SKComponentViewProxy<*>, SKComponentView<*>>()
 
     private val adapter = Adapter()
 
-    var items: List<SKComponentViewProxy<*>> = emptyList()
+    var items: List<Pair<SKComponentViewProxy<*>, Any>> = emptyList()
         set(newVal) {
             field.forEach { proxy ->
-                if (!newVal.contains(proxy)) {
-                    mapProxyIndexComponentViewImpl[proxy]?.removeObservers()
-                    mapProxyIndexComponentViewImpl.remove(proxy)
+                if (!newVal.any { it.first == proxy.first }) {
+                    mapProxyIndexComponentViewImpl[proxy.first]?.removeObservers()
+                    mapProxyIndexComponentViewImpl.remove(proxy.first)
                 }
             }
-
+            val diffCallBack = DiffCallBack(field, newVal)
             field = newVal
-            adapter.notifyDataSetChanged()
+            DiffUtil.calculateDiff(diffCallBack, true).dispatchUpdatesTo(adapter)
         }
 
 
     init {
         recyclerView.layoutManager =
-                if (nbColumns != null) {
-                    GridLayoutManager(context, nbColumns, if (vertical) RecyclerView.VERTICAL else RecyclerView.HORIZONTAL, reverse)
-                } else {
-                    LinearLayoutManager(context, if (vertical) LinearLayoutManager.VERTICAL else LinearLayoutManager.HORIZONTAL, reverse)
-                }
+            if (nbColumns != null) {
+                GridLayoutManager(
+                    context,
+                    nbColumns,
+                    if (vertical) RecyclerView.VERTICAL else RecyclerView.HORIZONTAL,
+                    reverse
+                )
+            } else {
+                LinearLayoutManager(
+                    context,
+                    if (vertical) LinearLayoutManager.VERTICAL else LinearLayoutManager.HORIZONTAL,
+                    reverse
+                )
+            }
+
+        when {
+            !animate -> {
+                recyclerView.itemAnimator = null
+            }
+            !animateItem -> {
+                (recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+            }
+        }
 
         recyclerView.adapter = adapter
     }
 
 
-    fun onItems(items: List<SKComponentViewProxy<*>>) {
+    fun onItems(items: List<Pair<SKComponentViewProxy<*>, Any>>) {
         this.items = items
     }
 
@@ -81,5 +111,30 @@ class SKListView(vertical: Boolean, reverse: Boolean, nbColumns: Int?, activity:
 
     fun restoreState(state: Parcelable) {
         recyclerView.layoutManager?.onRestoreInstanceState(state)
+    }
+
+
+    class DiffCallBack(
+        private val oldList: List<Pair<SKComponentViewProxy<*>, Any>>,
+        private val newList: List<Pair<SKComponentViewProxy<*>, Any>>
+    ) : DiffUtil.Callback() {
+        override fun getOldListSize(): Int {
+            return oldList.size
+        }
+
+        override fun getNewListSize(): Int {
+            return newList.size
+        }
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            val oldItem = oldList[oldItemPosition]
+            val newItem = newList[newItemPosition]
+            return oldItem.first.layoutId == newItem.first.layoutId && oldItem.second == newItem.second
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].first == newList[newItemPosition].first
+        }
+
     }
 }

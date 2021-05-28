@@ -168,4 +168,8 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
 
     }
 
+    open fun computeItemId():Any {
+        return this
+    }
+
 }

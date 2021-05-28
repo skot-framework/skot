@@ -19,7 +19,7 @@ class CoreViewInjectorImpl : CoreViewInjector {
 
     override fun pager(screens:List<SKScreenVC>, onSwipeToPage:((index:Int)->Unit)?, initialSelectedPageIndex:Int) = SKPagerViewProxy(screens = screens as List<SKScreenViewProxy<*>>, onSwipeToPage = onSwipeToPage, initialSelectedPageIndex = initialSelectedPageIndex)
 
-    override fun skList(vertical:Boolean, reverse:Boolean, nbColumns:Int?) = SKListViewProxy(vertical, reverse, nbColumns)
+    override fun skList(vertical:Boolean, reverse:Boolean, nbColumns:Int?, animate:Boolean, animateItem:Boolean)  = SKListViewProxy(vertical, reverse, nbColumns, animate, animateItem)
 
     override fun webView(config: SKWebViewVC.Config, openUrlInitial: SKWebViewVC.OpenUrl?) = SKWebViewViewProxy(config, openUrlInitial)
 

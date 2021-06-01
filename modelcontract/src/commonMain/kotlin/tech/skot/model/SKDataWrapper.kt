@@ -7,23 +7,25 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class SKDataWrapper<D: Any>(
-    private val defaultValue:D?,
-    private val getSKData: ()-> SKData<D>?,
-    newSKDataFlow:Flow<*>,
-    private val scope:CoroutineScope
-):SKData<D?> {
 
-    override val flow = MutableStateFlow<DatedData<D?>>(DatedData(defaultValue, currentTimeMillis()))
+class SKDataWrapper<D : Any>(
+    private val defaultValue: D?,
+    private val getSKData: suspend () -> SKData<D>?,
+    newSKDataFlow: Flow<*>,
+    private val scope: CoroutineScope
+) : SKData<D?> {
+
+    override val flow =
+        MutableStateFlow<DatedData<D?>>(DatedData(defaultValue, currentTimeMillis()))
     override val defaultValidity = Long.MAX_VALUE
     override val _current: DatedData<D?>
         get() = flow.value
 
 
-    private var _currentWrappedSKData:SKData<D>? = null
+    private var _currentWrappedSKData: SKData<D>? = null
     private var currentCollectJob: Job? = null
 
-    private fun subscribeToWrapped(){
+    private suspend fun subscribeToWrapped() {
         getSKData().let { newSKToBeWrapped ->
             _currentWrappedSKData = newSKToBeWrapped
             currentCollectJob?.cancel()
@@ -36,20 +38,22 @@ class SKDataWrapper<D: Any>(
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 flow.value = DatedData(defaultValue)
             }
         }
     }
 
-    private val wrappedSkChangedJob:Job? = scope.launch {
+    private val wrappedSkChangedJob: Job? = scope.launch {
         newSKDataFlow.collect {
             subscribeToWrapped()
         }
     }
+
     init {
-        subscribeToWrapped()
+        scope.launch {
+            subscribeToWrapped()
+        }
     }
 
 //    //pour arrêter manuellement le wrapper, pricuipalement utilisé pour les tests, si on ne maîtrise pas le scope
@@ -58,7 +62,7 @@ class SKDataWrapper<D: Any>(
 //    }
 
     override suspend fun update(): D? {
-        return _currentWrappedSKData?.update() ?:_current.data
+        return _currentWrappedSKData?.update() ?: _current.data
     }
 
     override suspend fun fallBackValue(): D? {
@@ -66,3 +70,29 @@ class SKDataWrapper<D: Any>(
     }
 
 }
+
+
+fun <D : Any, R : Any> CoroutineScope.wrap(
+    stepData: SKData<D?>,
+    defaultValue: R? = null,
+    targetSKData: D.() -> SKData<R>?
+): SKData<R?> {
+    return SKDataWrapper(
+        defaultValue = defaultValue,
+        getSKData = {
+            stepData.get()?.let { targetSKData(it) }
+        },
+        newSKDataFlow = stepData.flow,
+        scope = this
+    )
+}
+
+
+fun <D : Any, R : Any> SKData<D?>.wrap(
+    scope: CoroutineScope,
+    defaultValue: R? = null,
+    targetSKData: D.() -> SKData<R>?
+): SKData<R?> {
+    return scope.wrap(this, defaultValue, targetSKData)
+}
+

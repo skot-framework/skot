@@ -17,15 +17,59 @@ class CoreViewInjectorImpl : CoreViewInjector {
 
     override fun bottomSheet() = SKBottomSheetViewProxy()
 
-    override fun pager(screens:List<SKScreenVC>, onSwipeToPage:((index:Int)->Unit)?, initialSelectedPageIndex:Int) = SKPagerViewProxy(screens = screens as List<SKScreenViewProxy<*>>, onSwipeToPage = onSwipeToPage, initialSelectedPageIndex = initialSelectedPageIndex)
+    override fun pager(
+        screens: List<SKScreenVC>,
+        onSwipeToPage: ((index: Int) -> Unit)?,
+        initialSelectedPageIndex: Int
+    ) = SKPagerViewProxy(
+        screens = screens as List<SKScreenViewProxy<*>>,
+        onSwipeToPage = onSwipeToPage,
+        initialSelectedPageIndex = initialSelectedPageIndex
+    )
 
-    override fun skList(vertical:Boolean, reverse:Boolean, nbColumns:Int?, animate:Boolean, animateItem:Boolean)  = SKListViewProxy(vertical, reverse, nbColumns, animate, animateItem)
+    override fun skList(
+        vertical: Boolean,
+        reverse: Boolean,
+        nbColumns: Int?,
+        animate: Boolean,
+        animateItem: Boolean
+    ) = SKListViewProxy(vertical, reverse, nbColumns, animate, animateItem)
 
-    override fun webView(config: SKWebViewVC.Config, openUrlInitial: SKWebViewVC.OpenUrl?) = SKWebViewViewProxy(config, openUrlInitial)
+    override fun webView(config: SKWebViewVC.Config, openUrlInitial: SKWebViewVC.OpenUrl?) =
+        SKWebViewViewProxy(config, openUrlInitial)
 
-    override fun frame(screens: Set<SKScreenVC>, screenInitial: SKScreenVC?) = SKFrameViewProxy(screens = screens as Set<SKScreenViewProxy<*>>, screenInitial = screenInitial as SKScreenViewProxy<*>?)
+    override fun frame(screens: Set<SKScreenVC>, screenInitial: SKScreenVC?) = SKFrameViewProxy(
+        screens = screens as Set<SKScreenViewProxy<*>>,
+        screenInitial = screenInitial as SKScreenViewProxy<*>?
+    )
 
     override fun loader() = SKLoaderViewProxy()
+
+    override fun input(
+        onInputText: (newText: String?) -> Unit,
+        type: SKInputVC.Type?,
+        maxSize: Int?,
+        onFocusLost: (() -> Unit)?,
+        onDone: ((text: String?) -> Unit)?,
+        hintInitial: String?,
+        textInitial: String?,
+        errorInitial: String?,
+        hiddenInitial: Boolean?,
+        enabledInitial: Boolean?
+    ) =
+        SKInputViewProxy(
+            maxSize,
+            onDone,
+            onFocusLost,
+            onInputText,
+            type,
+            enabledInitial,
+            errorInitial,
+            hiddenInitial,
+            hintInitial,
+            textInitial
+        )
+
 }
 
 val coreViewModule = module<BaseInjector> {

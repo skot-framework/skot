@@ -14,4 +14,17 @@ interface CoreViewInjector {
     fun webView(config: SKWebViewVC.Config, openUrlInitial: SKWebViewVC.OpenUrl?): SKWebViewVC
     fun frame(screens: Set<SKScreenVC>, screenInitial: SKScreenVC?): SKFrameVC
     fun loader(): SKLoaderVC
+
+    fun input(
+        onInputText: (newText: String?) -> Unit,
+        type: SKInputVC.Type?,
+        maxSize: Int?,
+        onFocusLost: (() -> Unit)?,
+        onDone: ((text: String?) -> Unit)?,
+        hintInitial: String?,
+        textInitial: String?,
+        errorInitial: String?,
+        hiddenInitial: Boolean?,
+        enabledInitial: Boolean?
+    ) : SKInputVC
 }

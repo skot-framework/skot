@@ -85,7 +85,6 @@ injector = BaseInjector(this,
                     generatedAppModules +
                     listOf(
                     ))
-start()
 """
                                         )
                                         .build())
@@ -95,7 +94,6 @@ start()
                 .addImport("tech.skot.core.di","BaseInjector")
                 .addImport("tech.skot.core.di","injector")
                 .addImport("${configuration.appPackage}.di","generatedAppModules")
-                .addImport(configuration.appPackage,"start")
                 .build()
                 .writeTo(rootDir.resolve("androidApp/src/androidMain/kotlin"))
 

@@ -176,7 +176,7 @@ abstract class CommonSKPersistor : SKPersistor {
         } catch (ex: Exception) {
             var from = 0
             val step = 333333
-            var newText: String? = null
+            var newText: String?
             val stringBuilder = StringBuilder()
 
             db.persistedQueries.transaction {

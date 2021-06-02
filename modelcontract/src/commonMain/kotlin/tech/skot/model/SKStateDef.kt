@@ -1,4 +1,3 @@
 package tech.skot.model
 
-interface SKState {
-}
+interface SKStateDef

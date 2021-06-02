@@ -3,6 +3,7 @@ package tech.skot.tools.generation
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.TypeSpec
 
+@ExperimentalStdlibApi
 fun Generator.generateCodeMap() {
 
     fun buildMap(): String {
@@ -31,6 +32,16 @@ fun Generator.generateCodeMap() {
                     builder.appendLine("")
 
                 }
+
+        if (bmsMap.isNotEmpty()) {
+            builder.appendLine("")
+            builder.appendLine("")
+            builder.appendLine("Les BusinessModel")
+            bmsMap.keys.forEach {
+                builder.appendLine("")
+                builder.appendLine("[${it.simpleName}][$it]")
+            }
+        }
 
         return builder.toString()
     }

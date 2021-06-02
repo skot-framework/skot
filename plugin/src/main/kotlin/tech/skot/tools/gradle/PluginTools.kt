@@ -15,7 +15,7 @@ open class SKPluginToolsExtension {
     var app:App? = null
 }
 
-data class App(val startScreen: String, val packageName: String, val baseActivity:String? = null)
+data class App(val packageName: String, val startScreen: String, val rootState: String? = null, val baseActivity:String = ".android.BaseActivity")
 
 data class FeatureModule(val packageName:String, val startScreen:String)
 
@@ -48,20 +48,20 @@ class PluginTools : Plugin<Project> {
                     project.javaexec {
                         main = "tech.skot.tools.generation.GenerateKt"
                         classpath = sourceSet.runtimeClasspath
-                        args = listOf(app.packageName, app.startScreen, app.baseActivity ?: "null", project.rootDir.toPath().toString())
+                        args = listOf(app.packageName, app.startScreen, app.rootState.toString(), app.baseActivity ?: "null", project.rootDir.toPath().toString())
                     }
                 }
 
 
 
 
-                println("ktLint ......")
-                val srcs = "${project.rootDir.toPath().toString()}/**/generated/**/*.kt"
-                project.javaexec {
-                    main = "com.pinterest.ktlint.Main"
-                    classpath = sourceSet.runtimeClasspath
-                    args = listOf("-F",srcs)
-                }
+//                println("ktLint ......")
+//                val srcs = "${project.rootDir.toPath().toString()}/**/generated/**/*.kt"
+//                project.javaexec {
+//                    main = "com.pinterest.ktlint.Main"
+//                    classpath = sourceSet.runtimeClasspath
+//                    args = listOf("-F",srcs)
+//                }
             }
             dependsOn(project.tasks.getByName("compileKotlin"))
             group = "Skot"

@@ -27,7 +27,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
 //    implementation(project(":metacommon"))
     implementation(project(":viewcontract"))
+    implementation(project(":modelcontract"))
     api("com.squareup:kotlinpoet:${Versions.kotlinpoet}")
     api(kotlin("reflect"))
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+    implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:${Versions.kotlin}")
 }

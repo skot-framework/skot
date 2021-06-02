@@ -17,12 +17,31 @@ fun main(args: Array<String>) {
         }
     }
     val startClass = Class.forName(startClassFullName).kotlin
-    val strBaseActivity = args[2]
-    val rootPath = Paths.get(args[3])
 
+    val rootStateClassFullName = args[2].let {
+        if (it != "null") {
+            if (it.startsWith(".")) {
+                "$appPackage$it"
+            }
+            else {
+                it
+            }
+        }
+        else {
+            null
+        }
+
+    }
+    val rootStateClass = rootStateClassFullName?.let { Class.forName(it).kotlin }
+
+
+
+    val strBaseActivity = args[3]
+    val rootPath = Paths.get(args[4])
+
+    println("########   $appPackage$strBaseActivity")
     val baseActivity =
             when {
-                strBaseActivity == "null" -> null
                 strBaseActivity.startsWith(".") -> {
                     "$appPackage$strBaseActivity".fullNameAsClassName()
                 }
@@ -31,11 +50,12 @@ fun main(args: Array<String>) {
                 }
             }
 
+    println("########   ${baseActivity.simpleName} ${baseActivity.packageName}")
 
     if (! startClass.isScreenVC()) {
         throw IllegalArgumentException("Start class ${args[0]} is not a ScreenVC !")
     }
 
-    Generator(appPackage, startClass as KClass<SKScreenVC>, baseActivity, rootPath)
+    Generator(appPackage, startClass as KClass<SKScreenVC>, rootStateClass, baseActivity, rootPath)
             .generate()
 }

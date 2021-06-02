@@ -1,6 +1,7 @@
 package tech.skot.tools.generation
 
 import com.squareup.kotlinpoet.ClassName
+import kotlinx.serialization.Serializable
 import tech.skot.tools.generation.viewlegacy.coreComponentsPackage
 
 object AndroidClassNames {

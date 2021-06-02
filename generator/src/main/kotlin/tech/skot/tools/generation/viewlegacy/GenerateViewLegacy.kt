@@ -1,14 +1,29 @@
 package tech.skot.tools.generation.viewlegacy
 
-import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.*
 import tech.skot.tools.generation.*
 import java.nio.file.Files
 
 fun Generator.generateViewLegacy() {
-    deleteModuleGenerated(Modules.view)
+
+    println("generate ViewLegacy .....")
     val viewModuleAndroidPackage = getAndroidPackageName(rootPath.resolve(Modules.view).resolve("src/androidMain"))
+
+    if (!baseActivity.existsAndroidInModule(Modules.view)) {
+        baseActivity.fileClassBuilder(
+            listOf(FrameworkClassNames.get)
+        ) {
+            superclass(FrameworkClassNames.skActivity)
+            addModifiers(KModifier.OPEN)
+            addProperty(
+                PropertySpec.builder("featureInitializer", appFeatureInitializer)
+                    .initializer("get()")
+                    .addModifiers(KModifier.OVERRIDE)
+                    .build()
+            )
+        } .writeTo(androidSources(Modules.view))
+    }
+
     components.forEach {
         val layoutPath = androidResLayoutPath(Modules.view, it.layoutName())
 

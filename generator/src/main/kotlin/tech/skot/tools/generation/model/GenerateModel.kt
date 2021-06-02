@@ -1,13 +1,15 @@
 package tech.skot.tools.generation.model
 
-import com.squareup.kotlinpoet.FunSpec
-import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.ParameterSpec
+import com.squareup.kotlinpoet.*
+import org.jetbrains.kotlin.util.capitalizeDecapitalize.decapitalizeAsciiOnly
 import tech.skot.tools.generation.*
+import javax.lang.model.element.ExecutableElement
+import kotlin.reflect.KParameter
+import kotlin.reflect.full.functions
 
+@ExperimentalStdlibApi
 fun Generator.generateModel() {
     println("-----generateModel")
-    deleteModuleGenerated(Modules.model)
     components.forEach {
         if (it.hasModel()) {
             //un model a été défini (par convention de nommage)
@@ -18,21 +20,68 @@ fun Generator.generateModel() {
             if (!it.model().existsCommonInModule(Modules.model)) {
                 println("pas d'implémentation trouvée on génère un squelette")
 
-                it.modelContract().canonicalName.fullNameAsClassName()
-
                 it.model().fileClassBuilder {
                     addSuperinterface(it.modelContract())
+                    addSuperinterface(FrameworkClassNames.coroutineScope)
                     addPrimaryConstructorWithParams(
-                        listOf(ParamInfos("scope", FrameworkClassNames.coroutineScope, listOf(KModifier.PRIVATE)))
+                        listOf(ParamInfos("coroutineContext", FrameworkClassNames.coroutineContext, listOf(KModifier.OVERRIDE)))
+                    + it.states.map {
+                            ParamInfos(it.name, it.stateDef()!!.modelClassName, listOf(KModifier.OVERRIDE))
+                        }
                     )
+
+                    it.modelClass!!.ownProperties().forEach {
+                        addProperty(
+                            PropertySpec.builder(it.name, it.returnType.asTypeName())
+                                .addModifiers(KModifier.OVERRIDE)
+                                .build()
+                        )
+                    }
+
+                    it.modelClass!!.ownFuncs().forEach {
+                        addFunction(
+                            FunSpec.builder(it.name)
+                                .apply {
+                                    if (it.isSuspend) {
+                                        addModifiers(KModifier.SUSPEND)
+                                    }
+                                }
+                                .addParameters(
+                                    it.parameters.filter { it.kind == KParameter.Kind.VALUE }.map {
+                                        ParameterSpec(it.name!!, it.type.asTypeName())
+                                    }
+                                )
+                                .addModifiers(KModifier.OVERRIDE)
+                                .build()
+                        )
+                    }
                 }
                     .writeTo(commonSources(Modules.model))
             }
         }
     }
 
+    println("génération des Business Models")
+
+    rootState?.addBmsTo(bmsMap)
+    bmsMap.forEach { (className, state) ->
+        if (!className.existsCommonInModule(Modules.model)) {
+            className.fileClassBuilder {
+                addPrimaryConstructorWithParams(
+                    state.parentsList.map {
+                        ParamInfos(it.name.decapitalizeAsciiOnly(), it.modelClassName, isPrivate = true)
+                    } + ParamInfos(state.name.decapitalizeAsciiOnly(), state.modelClassName, isPrivate = true)
+                )
+            }.writeTo(commonSources(Modules.model))
+        }
+    }
+
     modelInjectorImpl.fileClassBuilder(
-        componentsWithModel.map { it.model() })
+        imports = componentsWithModel.map { it.model() } + componentsWithModel.flatMap {
+            it.states.map {
+                it.stateDef()!!.modelClassName
+            }
+        })
     {
         addSuperinterface(modelInjectorInterface)
         addFunctions(
@@ -40,13 +89,24 @@ fun Generator.generateModel() {
                 FunSpec.builder(it.name.decapitalize())
                     .addModifiers(KModifier.OVERRIDE)
                     .addParameter(
-                        ParameterSpec.builder("scope", FrameworkClassNames.coroutineScope)
+                        ParameterSpec.builder("coroutineContext", FrameworkClassNames.coroutineContext)
                             .build()
                     )
+                    .addParameters(
+                        it.states.map {
+                            ParameterSpec.builder(it.name, it.stateDef()!!.contractClassName)
+                                .build()
+                        }
+                    )
                     .returns(it.modelContract())
-                    .addCode("return ${it.model().simpleName}(scope)")
+                    .addCode("return ${it.model().simpleName}(${
+                        (listOf("coroutineContext") + it.states.map { 
+                            "${it.name} as ${it.stateDef()!!.modelClassName.simpleName}"
+                        }).joinToString(separator = ", ")
+                    })")
                     .build()
             }
         )
+
     }.writeTo(generatedCommonSources(Modules.model))
 }

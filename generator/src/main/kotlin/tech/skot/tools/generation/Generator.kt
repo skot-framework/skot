@@ -12,7 +12,17 @@ import tech.skot.tools.generation.viewmodel.generateViewModel
 import java.nio.file.Files
 import java.nio.file.Path
 import javax.xml.parsers.DocumentBuilderFactory
+import kotlin.reflect.KCallable
 import kotlin.reflect.KClass
+import kotlin.reflect.jvm.jvmErasure
+
+//val project by lazy {
+//    KotlinCoreEnvironment.createForProduction(
+//        Disposer.newDisposable(),
+//        CompilerConfiguration(),
+//        EnvironmentConfigFiles.JVM_CONFIG_FILES
+//    ).project
+//}
 
 object Modules {
     const val app = "androidApp"
@@ -27,24 +37,54 @@ object Modules {
 class Generator(
     val appPackage: String,
     val startClass: KClass<SKScreenVC>,
-    val baseActivity: ClassName?,
+    val rootStateClass: KClass<*>?,
+    val baseActivity: ClassName,
     val rootPath: Path
 ) {
 
 
     val variantsCombinaison = skVariantsCombinaison(rootPath)
 
+    @ExperimentalStdlibApi
+    val rootState = rootStateClass?.let { StateDef("rootState", appPackage, it) }
+
+    @ExperimentalStdlibApi
+    fun StateDef.addToMap(map: MutableMap<String, StateDef>) {
+        map[kclass.qualifiedName!!] = this
+        subStates.forEach {
+            it.addToMap(map)
+        }
+    }
+
+    @ExperimentalStdlibApi
+    val mapStateDefQualifiedNameStateDef = mutableMapOf<String, StateDef>().apply {
+        rootState?.addToMap(this)
+    }
+
+    @ExperimentalStdlibApi
+    fun KCallable<*>.stateDef() =
+        mapStateDefQualifiedNameStateDef[returnType.jvmErasure.qualifiedName]
+
+
     val components = mutableSetOf<KClass<out SKComponentVC>>().apply {
         addLinkedComponents(startClass, appPackage)
     }.map { it.def() }
 
     val componentsWithModel = components.filter {
-        it.modelContract().existsCommonInModule(Modules.modelcontract)
+        it.modelClass != null
     }
 
-
-//    val mapTypeDef = components.map { it.vc.asTypeName() to it }.toMap()
-
+    @ExperimentalStdlibApi
+    fun StateDef.addBmsTo(map:MutableMap<ClassName, StateDef>) {
+        bmS.forEach {
+            map[it] = this
+        }
+        subStates.forEach {
+            it.addBmsTo(map)
+        }
+    }
+    @ExperimentalStdlibApi
+    val bmsMap = mutableMapOf<ClassName, StateDef>()
 
     val viewInjectorInterface = ClassName("$appPackage.di", "ViewInjector")
     val viewInjectorImpl = ClassName("$appPackage.di", "ViewInjectorImpl")
@@ -76,13 +116,27 @@ class Generator(
     val appFeatureInitializer =
         ClassName(appPackage, "${appPackage.substringAfterLast(".").capitalize()}Initializer")
 
+    val statePersistenceManager = ClassName("$appPackage.states", "statePersistenceManager")
+    val restoreStateFunction = ClassName(statePersistenceManager.packageName, "restoreState")
+    val saveStateFunction = ClassName(statePersistenceManager.packageName, "saveState")
+
+    val shortCuts = ClassName("$appPackage.di", "shortCuts")
 
     val moduleFun = ClassName("tech.skot.core.di", "module")
     val module = ClassName("tech.skot.core.di", "Module")
     val getFun = ClassName("tech.skot.core.di", "get")
     val baseInjector = ClassName("tech.skot.core.di", "BaseInjector")
 
+    @ExperimentalStdlibApi
     fun generate() {
+        deleteModuleGenerated(Modules.viewcontract)
+        deleteModuleGenerated(Modules.view)
+        deleteModuleGenerated(Modules.model)
+        deleteModuleGenerated(Modules.modelcontract)
+        deleteModuleGenerated(Modules.viewmodel)
+
+        rootState?.let { generateStates(it) }
+
 
         generateViewContract()
         generateViewLegacy()
@@ -96,6 +150,54 @@ class Generator(
         generateColors()
         generateApp()
         generateCodeMap()
+
+//        components.forEach {
+//            val file = it.viewModel().run {
+//                commonSources(Modules.viewmodel).resolve(it.packageName.packageToPathFragment())
+//                    .resolve("$simpleName.kt")
+//            }
+//            val text = String(Files.readAllBytes(file))
+//            println("---- ${it.name}")
+////            println(text)
+//
+//            try {
+//                val vFile = LightVirtualFile(
+//                    it.name,KotlinFileType.INSTANCE, text
+//                )
+//
+////                println(project)
+//
+//                val viewProvider = PsiManager.getInstance(project).findViewProvider(vFile)
+//                val ktFile = viewProvider?.getPsi(viewProvider.baseLanguage)  as KtFile
+////
+//////                val viewProvider: FileViewProvider = this.findViewProvider(vFile)
+//////                return viewProvider.getPsi(viewProvider.baseLanguage)
+////
+//////                val ktFile = PsiManager.getInstance(project)
+//////                    .findFile() as KtFile
+////
+//                ktFile.children.forEach {
+//                    when (it) {
+//                        is KtClass -> {
+//                            println("analyse name: ${it.name}")
+//                            it.children.forEach {
+//                                when (it) {
+//                                    is  KtFunction-> {
+//
+//                                    }
+//                                }
+//                            }
+//                            println(it.text)
+//                        }
+//                    }
+//                }
+//            }
+//            catch (ex:Exception) {
+//                println("&&&&&&&&&&&& Exception     $ex")
+//            }
+//
+//        }
+
     }
 
     fun generatedCommonSources(module: String) =
@@ -115,13 +217,16 @@ class Generator(
     }
 
     private fun generateViewContract() {
-        deleteModuleGenerated(Modules.viewcontract)
         generateViewInjector()
         appFeatureInitializer.fileClassBuilder {
             primaryConstructor(
                 FunSpec.constructorBuilder()
                     .addParameter(
-                        ParameterSpec.builder("initialize", LambdaTypeName.get(returnType = Unit::class.asTypeName()).copy(suspending = true))
+                        ParameterSpec.builder(
+                            "initialize",
+                            LambdaTypeName.get(returnType = Unit::class.asTypeName())
+                                .copy(suspending = true)
+                        )
                             .build()
                     )
                     .build()
@@ -160,19 +265,29 @@ class Generator(
             .build().writeTo(generatedCommonSources(Modules.viewcontract))
     }
 
+    @ExperimentalStdlibApi
     private fun generateModelContract() {
-        deleteModuleGenerated(Modules.modelcontract)
         generateModelInjector()
     }
 
+    @ExperimentalStdlibApi
     private fun generateModelInjector() {
         modelInjectorInterface.fileInterfaceBuilder {
             addFunctions(
                 componentsWithModel.map {
                     FunSpec.builder(it.name.decapitalize())
                         .addParameter(
-                            ParameterSpec.builder("scope", FrameworkClassNames.coroutineScope)
+                            ParameterSpec.builder(
+                                "coroutineContext",
+                                FrameworkClassNames.coroutineContext
+                            )
                                 .build()
+                        )
+                        .addParameters(
+                            it.states.map {
+                                ParameterSpec.builder(it.name, it.stateDef()!!.contractClassName)
+                                    .build()
+                            }
                         )
                         .addModifiers(KModifier.ABSTRACT)
                         .returns(it.modelContract())
@@ -201,11 +316,13 @@ class Generator(
     val appR = ClassName("$appPackage.android", "R")
 
 
+    @ExperimentalStdlibApi
     fun generateApp() {
         generateAppModule()
     }
 
 
+    @ExperimentalStdlibApi
     fun generateAppModule() {
         val librariesGroups = getUsedSKLibrariesGroups()
 
@@ -227,7 +344,15 @@ class Generator(
                         .addStatement("single { ${modelInjectorImpl.simpleName}() as ${modelInjectorInterface.simpleName}}")
                         .beginControlFlow("single")
                         .beginControlFlow("${appFeatureInitializer.simpleName}")
-                        .addStatement("restoreState()")
+                        .apply {
+                            rootState?.let {
+                                beginControlFlow("restoreState().let")
+                                addStatement("$appPackage.states.${it.nameAsProperty} = it")
+                                addStatement("${shortCuts.packageName}.${it.nameAsProperty} = it")
+                                endControlFlow()
+                            }
+                        }
+                        //.addStatement("${rootState?} restoreState()")
                         .addStatement("start()")
                         .endControlFlow()
                         .endControlFlow()
@@ -265,7 +390,12 @@ class Generator(
             .addImport("tech.skot.di", "modelFrameworkModule")
             .addImport("tech.skot.core.di", "coreViewModule")
             .addImport(appPackage, "start")
-            .addImport("$appPackage.state", "restoreState")
+            .apply {
+                rootState?.let {
+                    addImport("$appPackage.states", "restoreState")
+                }
+            }
+
             .apply {
                 getUsedSKLibrariesGroups().map {
                     addImport("$it.di", "${it.substringAfterLast(".")}Module")

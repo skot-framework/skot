@@ -13,6 +13,7 @@ import tech.skot.tools.generation.viewmodel.toVM
 import java.lang.IllegalStateException
 import kotlin.reflect.*
 import kotlin.reflect.full.*
+import tech.skot.model.SKStateDef
 import kotlin.reflect.jvm.jvmErasure
 
 data class ComponentDef(
@@ -44,6 +45,21 @@ data class ComponentDef(
     val isScreen = vc.isSubclassOf(SKScreenVC::class)
     val hasLayout = !vc.hasAnnotation<SKLayoutNo>()
     val layoutIsRoot = vc.hasAnnotation<SKLayoutIsRoot>()
+
+    val modelClass = try {
+        Class.forName(modelContract().canonicalName).kotlin
+    }
+    catch (cnfe:ClassNotFoundException) {
+        null
+    }
+
+
+    @ExperimentalStdlibApi
+    val states = modelClass?.ownProperties()?.filter {
+        it.returnType.isSubtypeOf(typeOf<SKStateDef>())
+    } ?: emptyList()
+
+
 
 }
 
@@ -105,10 +121,6 @@ fun MutableSet<KClass<out SKComponentVC>>.addLinkedComponents(aComponentClass: K
     }
 }
 
-fun KClass<out SKComponentVC>.ownProperties(): List<KCallable<*>> {
-    val superTypePropertiesNames = superclasses[0].members.filter { it is KProperty }.map { it.name }
-    return members.filter { it is KProperty }.filter { !superTypePropertiesNames.contains(it.name) }
-}
 
 fun KClass<out SKComponentVC>.ownFunctions(): List<KFunction<*>> {
     val superTypeKFunctionsNames = superclasses[0].functions.map { it.name }
@@ -155,7 +167,7 @@ fun KClass<*>.isScreenVC() = supertypes.contains(typeOf<SKScreenVC>())
 @ExperimentalStdlibApi
 fun KClass<*>.isDescendantOf(kType: KType) = supertypes.contains(kType)
 
-fun String.withOut(suffix: String) = substring(0, indexOf(suffix))
+fun String.withOut(suffix: String) = substring(0, lastIndexOf(suffix))
 fun String.suffix(suffix: String) = "$this$suffix"
 
 fun String.initial() = suffix("Initial")

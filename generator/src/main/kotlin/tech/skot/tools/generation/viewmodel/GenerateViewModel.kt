@@ -6,8 +6,8 @@ import tech.skot.tools.generation.*
 import tech.skot.tools.generation.viewlegacy.componentViewModel
 import tech.skot.tools.generation.viewlegacy.screenViewModel
 
+@ExperimentalStdlibApi
 fun Generator.generateViewModel() {
-    deleteModuleGenerated(Modules.viewmodel)
     components.forEach {
         it.viewModelGen().fileClassBuilder(
                 listOf(modelInjectorIntance)
@@ -15,9 +15,21 @@ fun Generator.generateViewModel() {
             addModifiers(KModifier.ABSTRACT)
             superclass(it.superVM.parameterizedBy(it.vc.asTypeName()))
             if (it.hasModel()) {
+                if (it.states.isNotEmpty()) {
+                    addPrimaryConstructorWithParams(
+                        it.states.map {
+                            ParamInfos(
+                                it.name,
+                                it.stateDef()!!.contractClassName,
+                                isVal = false
+                            )
+                        }
+                    )
+                }
+
                 addProperty(
                         PropertySpec.builder("model", it.modelContract())
-                                .initializer("modelInjector.${it.name.decapitalize()}(this)")
+                                .initializer("modelInjector.${it.name.decapitalize()}(${(listOf("coroutineContext")+it.states.map { it.name }).joinToString(", ")})")
                                 .build()
                 )
             }
@@ -27,11 +39,36 @@ fun Generator.generateViewModel() {
         if (!it.viewModel().existsCommonInModule(Modules.viewmodel)) {
             it.viewModel().fileClassBuilder(it.subComponents.map { it.type.toVM() } + viewInjectorIntance) {
                 superclass(it.viewModelGen())
+
+                if (it.states.isNotEmpty()) {
+                    addPrimaryConstructorWithParams(
+                        it.states.map {
+                            ParamInfos(
+                                it.name,
+                                it.stateDef()!!.contractClassName,
+                                isVal = false
+                            )
+                        }
+                    )
+                    it.states.forEach {
+                        superclassConstructorParameters.add(CodeBlock.of(it.name))
+                    }
+                }
+
                 it.subComponents.forEach {
                     val vmType = it.type.toVM()
                     addProperty(
-                            PropertySpec.builder(it.name, vmType, KModifier.PRIVATE)
-                                    .initializer("${vmType.simpleName}()").build()
+                            PropertySpec.builder(it.name, vmType)
+                                    .initializer("${vmType.simpleName}()")
+                                .apply {
+                                    if (it.name == "loader") {
+                                        addModifiers(KModifier.OVERRIDE)
+                                    }
+                                    else {
+                                        addModifiers(KModifier.PRIVATE)
+                                    }
+                                }
+                                .build()
                     )
                 }
                 addProperty(PropertySpec.builder(
@@ -51,7 +88,7 @@ fun Generator.generateViewModel() {
         }
     }
 
-    FileSpec.builder("${appPackage}.di", "shortCuts")
+    FileSpec.builder(shortCuts.packageName, shortCuts.simpleName)
             .addProperty(
                     PropertySpec
                             .builder(viewInjectorIntance.simpleName, viewInjectorInterface)
@@ -88,6 +125,21 @@ fun Generator.generateViewModel() {
                             .initializer("get()")
                             .build()
             )
+        .apply {
+            if (rootState != null) {
+                addProperty(
+                    PropertySpec.builder(
+                        rootState.nameAsProperty,
+                        rootState.contractClassName,
+                        KModifier.LATEINIT
+                    )
+                        .mutable()
+                        .build()
+                )
+                addImportClassName(rootState.contractClassName)
+            }
+        }
+
             .addImportClassName(getFun)
             .addImportClassName(stringsInterface)
             .addImportClassName(pluralsInterface)

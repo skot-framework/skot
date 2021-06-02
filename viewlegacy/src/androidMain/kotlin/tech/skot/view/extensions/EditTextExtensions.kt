@@ -1,7 +1,9 @@
 package tech.skot.view.extensions
 
+import android.content.Context
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 
 fun EditText.setOnDone(onDone:((str:String?)->Unit)?) {

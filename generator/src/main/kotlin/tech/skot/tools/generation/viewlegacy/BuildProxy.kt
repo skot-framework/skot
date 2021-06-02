@@ -34,7 +34,7 @@ fun PropertyDef.onMethod(vararg modifiers: KModifier, body: String? = null) = Fu
 
 fun KFunction<*>.dataClassName() = "${name.capitalize()}Data"
 
-fun ComponentDef.buildProxy(generator: Generator, viewModuleAndroidPackage: String, baseActivity: ClassName?): TypeSpec = TypeSpec.classBuilder(proxy())
+fun ComponentDef.buildProxy(generator: Generator, viewModuleAndroidPackage: String, baseActivity: ClassName): TypeSpec = TypeSpec.classBuilder(proxy())
         .addPrimaryConstructorWithParams(
                 subComponents.map { ParamInfos(name = it.name, typeName = it.type.toProxy(), modifiers = listOf(KModifier.OVERRIDE), isVal = true) } +
                         fixProperties.map { ParamInfos(name = it.name, typeName = it.type, modifiers = listOf(KModifier.OVERRIDE), isVal = true) } +
@@ -126,11 +126,11 @@ fun ComponentDef.buildProxy(generator: Generator, viewModuleAndroidPackage: Stri
 //            }
 
 
-            if (isScreen && baseActivity != null) {
+            if (isScreen) {
                 addFunction(
                         FunSpec.builder("getActivityClass")
                                 .addModifiers(KModifier.OVERRIDE)
-                                .addCode("return ${baseActivity.packageName}${baseActivity.simpleName}::class.java")
+                                .addCode("return ${baseActivity.packageName}.${baseActivity.simpleName}::class.java")
                                 .build())
             }
 

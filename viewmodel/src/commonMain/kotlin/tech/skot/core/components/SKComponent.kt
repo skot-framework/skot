@@ -18,7 +18,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
     }
 
     protected val job = SupervisorJob()
-    override val coroutineContext = CoroutineScope(Dispatchers.Main + job).coroutineContext
+    final override val coroutineContext = CoroutineScope(Dispatchers.Main + job).coroutineContext
 
     open fun onRemove() {
         //remove des Pokers

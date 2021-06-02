@@ -1,8 +1,19 @@
 package tech.skot.tools.generation
 
 import com.squareup.kotlinpoet.ClassName
+import kotlinx.coroutines.GlobalScope
 
 object FrameworkClassNames {
 //    val icon = ClassName("")
     val coroutineScope = ClassName("kotlinx.coroutines", "CoroutineScope")
+    val coroutineContext = ClassName("kotlin.coroutines", "CoroutineContext")
+
+    val skManualData = ClassName("tech.skot.model","SKManualData")
+    val globalCache = ClassName("tech.skot.model","globalCache")
+    val skActivity = ClassName("tech.skot.core.components","SKActivity")
+    val get = ClassName("tech.skot.core.di","get")
+
+    val globalScope = ClassName("kotlinx.coroutines","GlobalScope")
+    val launch = ClassName("kotlinx.coroutines","launch")
+
 }

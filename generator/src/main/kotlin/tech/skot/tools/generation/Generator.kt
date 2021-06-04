@@ -353,6 +353,7 @@ class Generator(
                             }
                         }
                         //.addStatement("${rootState?} restoreState()")
+                        .addStatement("startModel()")
                         .addStatement("start()")
                         .endControlFlow()
                         .endControlFlow()

@@ -12,7 +12,7 @@ object Versions {
 
   const val kotlin: String = "1.5.0"
 
-  const val kotlinCoroutines: String = "1.5.0-RC-native-mt"
+  const val kotlinCoroutines: String = "1.5.0-native-mt"
 
   const val kotlinpoet: String = "1.4.0"
 

@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
 import tech.skot.model.SKBms
 import tech.skot.model.SKStateDef
+import java.lang.IllegalStateException
 import kotlin.reflect.KClass
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.KType
@@ -22,6 +23,12 @@ class StateDef(
 ) {
 
     class Property(val name: String, val typeName: TypeName, val mutable: Boolean)
+
+    init {
+        if (!kclass.simpleName!!.endsWith("Def")) {
+            throw IllegalStateException("State definition's class ${kclass.simpleName} must ends with \"Def\"")
+        }
+    }
 
     val name: String = kclass.simpleName!!.withOut("Def")
 

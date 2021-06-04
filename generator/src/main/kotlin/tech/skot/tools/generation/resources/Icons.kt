@@ -9,15 +9,21 @@ fun Generator.generateIcons() {
 
     println("icons .........")
     println("generate Icons interface .........")
-    val values = rootPath.resolve(Modules.view).resolve("src/androidMain/res_referenced/drawable")
+    val drawableDir = rootPath.resolve(Modules.view).resolve("src/androidMain/res_referenced/drawable")
+    val drawableXhdpiDir = rootPath.resolve(Modules.view).resolve("src/androidMain/res_referenced/drawable-xhdpi")
 
 
-    val icons =
-            if (!Files.exists(values)) {
+    val icons:List<String> =
+            if (!Files.exists(drawableDir)) {
                 emptyList<String>()
             } else {
-                Files.list(values).map { it.fileName.toString().substringBeforeLast(".") }.collect(Collectors.toList())
-            }
+                Files.list(drawableDir).map { it.fileName.toString().substringBeforeLast(".") }.collect(Collectors.toList())
+            } +
+                    if (!Files.exists(drawableXhdpiDir)) {
+                        emptyList<String>()
+                    } else {
+                        Files.list(drawableXhdpiDir).map { it.fileName.toString().substringBeforeLast(".") }.collect(Collectors.toList())
+                    }
 
 
     fun String.toIconsPropertyName() = decapitalize()

@@ -50,7 +50,7 @@ fun Generator.generateViewLegacy() {
         }
         if (!existsPath(layoutPath, "res")) {
             Files.createDirectories(layoutPath.parent)
-            layoutPath.toFile().writeText(LAYOUT_TEMPLATE)
+            layoutPath.toFile().writeText(LAYOUT_TEMPLATE.format(it.name.uppercase()))
         }
 
     }
@@ -61,10 +61,20 @@ fun Generator.generateViewLegacy() {
 const val LAYOUT_TEMPLATE = """<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-</androidx.constraintlayout.widget.ConstraintLayout>    
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="%s"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
 """
 
 

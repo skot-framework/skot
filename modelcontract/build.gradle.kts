@@ -28,6 +28,7 @@ kotlin {
                 api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
                 api("org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}")
+                api("org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinxDateTime}")
             }
         }
         val jvmTest by getting {

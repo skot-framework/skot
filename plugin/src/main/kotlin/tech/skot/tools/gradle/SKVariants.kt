@@ -65,6 +65,7 @@ fun Project.skBuildSrcVariants(sourceSets: SourceSetContainer) {
         getByName("main") {
             java {
                 skVariantsCombinaison(rootDir.parentFile.toPath()).forEach {
+                    println("#######will add build src set : $it")
                     srcDir("src/main$it/kotlin")
                 }
             }

@@ -40,6 +40,7 @@ class PluginViewModel: Plugin<Project> {
             getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")
             getByName("test").java.srcDirs("src/javaTest/kotlin")
         }
+
     }
 
     private fun KotlinMultiplatformExtension.conf() {

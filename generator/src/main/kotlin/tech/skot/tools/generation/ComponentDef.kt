@@ -24,7 +24,8 @@ data class ComponentDef(
         val fixProperties: List<PropertyDef>,
         val mutableProperties: List<PropertyDef>,
         val state:ClassName?,
-        val ownFunctions: List<KFunction<*>>
+        val ownFunctions: List<KFunction<*>>,
+        val ownFunctionsNotInInterface: List<KFunction<*>>
 ) {
 
     fun proxy() = ClassName(packageName, name.suffix("ViewProxy"))
@@ -59,8 +60,9 @@ data class ComponentDef(
         it.returnType.isSubtypeOf(typeOf<SKStateDef>())
     } ?: emptyList()
 
+    val interfaces = vc.supertypes.filter { !it.isComponent() }.dropLast(1).map { it.jvmErasure.asClassName() }
 
-
+    val interfacesImpl = interfaces.map { ClassName(it.packageName, "${it.simpleName}Impl")  }
 }
 
 fun KClass<out SKComponentVC>.meOrSubComponentHasState():Boolean = nestedClasses.any { it.hasAnnotation<SKUIState>() } || ownProperties().any { it.returnType.isComponent() && (it.returnType.classifier as KClass<out SKComponentVC>).meOrSubComponentHasState()}
@@ -127,6 +129,11 @@ fun KClass<out SKComponentVC>.ownFunctions(): List<KFunction<*>> {
     return functions.filter { !superTypeKFunctionsNames.contains(it.name) }
 }
 
+fun KClass<out SKComponentVC>.ownFunctionsNotInInterface(): List<KFunction<*>> {
+    val superTypeKFunctionsNames = superclasses.flatMap { functions.map { it.name }}
+    return functions.filter { !superTypeKFunctionsNames.contains(it.name) }
+}
+
 
 fun KClass<out SKComponentVC>.def(): ComponentDef {
 
@@ -157,7 +164,9 @@ fun KClass<out SKComponentVC>.def(): ComponentDef {
                 PropertyDef(name = it.name, type = it.returnType.asTypeName())
             },
             state = nestedClasses.find { it.hasAnnotation<SKUIState>() }?.asClassName(),
-            ownFunctions = ownFunctions()
+            ownFunctions = ownFunctions(),
+            ownFunctionsNotInInterface = ownFunctionsNotInInterface()
+
     )
 }
 

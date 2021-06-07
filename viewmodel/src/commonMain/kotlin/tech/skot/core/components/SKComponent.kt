@@ -17,6 +17,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
             null
     }
 
+
     protected val job = SupervisorJob()
     final override val coroutineContext = CoroutineScope(Dispatchers.Main + job).coroutineContext
 

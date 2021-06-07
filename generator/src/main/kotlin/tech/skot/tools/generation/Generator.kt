@@ -66,6 +66,7 @@ class Generator(
         mapStateDefQualifiedNameStateDef[returnType.jvmErasure.qualifiedName]
 
 
+
     val components = mutableSetOf<KClass<out SKComponentVC>>().apply {
         addLinkedComponents(startClass, appPackage)
     }.map { it.def() }
@@ -111,7 +112,7 @@ class Generator(
     val colorsInterface = ClassName(appPackage, "Colors")
     val colorsImpl = ClassName(appPackage, "ColorsImpl")
 
-
+    val skBuild = ClassName(appPackage, "SKBuild")
     val generatedAppModules = ClassName("$appPackage.di", "generatedAppModules")
     val appFeatureInitializer =
         ClassName(appPackage, "${appPackage.substringAfterLast(".").capitalize()}Initializer")
@@ -354,6 +355,7 @@ class Generator(
                         }
                         //.addStatement("${rootState?} restoreState()")
                         .addStatement("startModel()")
+                        .addStatement("startView()")
                         .addStatement("start()")
                         .endControlFlow()
                         .endControlFlow()

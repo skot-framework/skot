@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
+import tech.skot.core.SKLog
 import tech.skot.core.view.Color
 import tech.skot.view.live.SKLiveData
 import tech.skot.view.live.SKMessage
@@ -43,5 +44,13 @@ abstract class SKComponentView<B : Any>(val activity: SKActivity, protected val 
 
     fun TextView.setTextColor(color: Color) {
         setTextColor(ContextCompat.getColor(context, color.res))
+    }
+
+    fun displayError(message:String) {
+        displayError?.invoke(this, message) ?: throw IllegalAccessException("You have to define SKComponentView.displayError")
+    }
+
+    companion object {
+        var displayError:(SKComponentView<*>.(message:String)->Unit)? = null
     }
 }

@@ -19,10 +19,12 @@ abstract class SKScreenViewProxy<B : ViewBinding> : SKComponentViewProxy<B>(), S
     open fun getActivityClass(): Class<*> = SKActivity::class.java
 
     fun bindTo(activity: SKActivity, fragment: Fragment?, layoutInflater: LayoutInflater): SKScreenView<B> {
-        val binding = inflate(layoutInflater, null, false)
-        return bindTo(activity, fragment, binding).apply {
+        return bindTo(activity, fragment, inflate(layoutInflater, null, false), false).apply {
             onBackPressedLD.observe {
                 setOnBackPressed(it)
+            }
+            displayErrorMessage.observe {
+                displayError(it)
             }
         }
 //        return binding.root

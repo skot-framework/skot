@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import tech.skot.core.SKLog
+import tech.skot.view.live.SKMessage
 import java.lang.IllegalStateException
 
 //import androidx.lifecycle.Lifecycle
@@ -14,7 +16,20 @@ import java.lang.IllegalStateException
 abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
 //    protected val savedStates: MutableMap<String, Any> = mutableMapOf()
 
-    abstract fun bindTo(activity: SKActivity, fragment: Fragment?, binding: B, collectingObservers:Boolean = false): SKComponentView<B>
+    protected val displayErrorMessage = SKMessage<String>()
+
+    override fun displayErrorMessage(message: String) {
+        displayErrorMessage.post(message)
+    }
+
+    abstract fun bindTo(activity: SKActivity, fragment: Fragment?, binding: B, collectingObservers:Boolean): SKComponentView<B>
+
+    fun _bindTo(activity: SKActivity, fragment: Fragment?, binding: B, collectingObservers:Boolean = false) =
+        bindTo(activity, fragment, binding, collectingObservers).apply {
+            displayErrorMessage.observe {
+                displayError(it)
+            }
+        }
 
     open fun saveState() {
         //surchargée quand le component a un état à sauver
@@ -27,11 +42,11 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
     }
 
     fun bindToView(activity: SKActivity, fragment: Fragment?, view: View, collectingObservers:Boolean = false) =
-            bindTo(activity, fragment, bindingOf(view), collectingObservers)
+            _bindTo(activity, fragment, bindingOf(view), collectingObservers)
 
     fun inflateInParentAndBind(activity: SKActivity, fragment: Fragment?, parent: ViewGroup) {
         val inflater = fragment?.layoutInflater ?: activity.layoutInflater
-        bindTo(activity, fragment, inflate(inflater, parent, true), false)
+        _bindTo(activity, fragment, inflate(inflater, parent, true), false)
     }
 
     open fun bindingOf(view:View):B {
@@ -43,7 +58,7 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
             throw IllegalStateException("You cant't bind this component to an Item's view, it has no layout Id")
         }
         else {
-            return bindTo(activity, fragment, bindingOf(view), collectingObservers = true)
+            return _bindTo(activity, fragment, bindingOf(view), collectingObservers = true)
         }
     }
 }

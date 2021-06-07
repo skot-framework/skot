@@ -63,6 +63,8 @@ class PluginApp: Plugin<Project> {
             targetCompatibility = JavaVersion.VERSION_1_8
         }
 
+
+
     }
 
 

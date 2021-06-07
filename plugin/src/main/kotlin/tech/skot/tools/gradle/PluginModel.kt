@@ -22,7 +22,7 @@ class PluginModel: Plugin<Project> {
 
         project.extensions.findByType(LibraryExtension::class)?.conf()
 
-        project.extensions.findByType(KotlinMultiplatformExtension::class)?.conf()
+        project.extensions.findByType(KotlinMultiplatformExtension::class)?.conf(project)
 
 
     }
@@ -60,7 +60,7 @@ class PluginModel: Plugin<Project> {
 
     }
 
-    private fun KotlinMultiplatformExtension.conf() {
+    private fun KotlinMultiplatformExtension.conf(project: Project) {
         android("android")
 
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
@@ -72,8 +72,13 @@ class PluginModel: Plugin<Project> {
             implementation("io.ktor:ktor-client-serialization:${Versions.ktor}")
             implementation("io.ktor:ktor-client-logging:${Versions.ktor}")
             implementation("io.ktor:ktor-client-auth:${Versions.ktor}")
+
         }
 
+        skVariantsCombinaison(project.rootProject.rootDir.toPath()).forEach {
+            sourceSets["commonMain"].kotlin.srcDir("src/commonMain/kotlin$it")
+            sourceSets["androidMain"].kotlin.srcDir("src/androidMain/kotlin$it")
+        }
 
         sourceSets["commonTest"].kotlin.srcDir("src/commonTest/kotlin")
 

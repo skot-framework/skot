@@ -12,6 +12,7 @@ import tech.skot.tools.generation.AndroidClassNames.viewGroup
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.full.hasAnnotation
+import kotlin.reflect.jvm.jvmErasure
 
 const val coreComponentsPackage = "tech.skot.core.components"
 
@@ -180,7 +181,7 @@ fun ComponentDef.buildProxy(generator: Generator, viewModuleAndroidPackage: Stri
                                 addStatement(it.bindToSubComponent(generator))
                             }
 
-                            if (fixProperties.isNotEmpty() || mutableProperties.isNotEmpty() || state != null) {
+                            if (fixProperties.isNotEmpty() || mutableProperties.isNotEmpty() || state != null || ownFunctions.isNotEmpty()) {
                                 fixProperties.forEach {
                                     addStatement("${it.onMethod().name}(${it.name})")
                                 }
@@ -198,7 +199,7 @@ fun ComponentDef.buildProxy(generator: Generator, viewModuleAndroidPackage: Stri
                                 }
                                 ownFunctions.forEach {
                                     beginControlFlow("${it.name}Message.observe")
-                                    addStatement("${it.name}(${
+                                    addStatement("this.${it.name}(${
                                         it.parameters.filter { it.name != null }
                                                 .map { "it.${it.name}" }
                                                 .joinToString()
@@ -216,7 +217,7 @@ fun ComponentDef.buildProxy(generator: Generator, viewModuleAndroidPackage: Stri
 fun PropertyDef.bindToSubComponent(generator: Generator): String {
     val klass = type.kClass()
     val bindToView = inPackage(generator.appPackage) == false && !klass.hasAnnotation<SKLayoutNo>() && !klass.hasAnnotation<SKLayoutIsRoot>() && !klass.hasAnnotation<SKLayoutIsSimpleView>()
-    return "${name}.bindTo${if (bindToView) "View" else ""}(activity, fragment, ${klass.binding(name)})"
+    return "${name}.${if (bindToView) "bindToView" else "_bindTo"}(activity, fragment, ${klass.binding(name)})"
 }
 
 fun ComponentDef.buildRAI(viewModuleAndroidPackage: String): TypeSpec = TypeSpec.interfaceBuilder(rai())
@@ -231,7 +232,7 @@ fun ComponentDef.buildRAI(viewModuleAndroidPackage: String): TypeSpec = TypeSpec
             mutableProperties.forEach {
                 addFunction(it.onMethod(KModifier.ABSTRACT))
             }
-            ownFunctions.forEach {
+            ownFunctionsNotInInterface.forEach {
                 addFunction(
                         FunSpec.builder(it.name)
                                 .addModifiers(KModifier.ABSTRACT)

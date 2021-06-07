@@ -1,3 +1,5 @@
 package tech.skot.core.components
 
-interface SKComponentVC
+interface SKComponentVC {
+    fun displayErrorMessage(message:String)
+}

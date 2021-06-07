@@ -7,7 +7,8 @@ import java.nio.file.Files
 fun Generator.generateViewLegacy() {
 
     println("generate ViewLegacy .....")
-    val viewModuleAndroidPackage = getAndroidPackageName(rootPath.resolve(Modules.view).resolve("src/androidMain"))
+    val viewModuleAndroidPackage =
+        getAndroidPackageName(rootPath.resolve(Modules.view).resolve("src/androidMain"))
 
     if (!baseActivity.existsAndroidInModule(Modules.view)) {
         baseActivity.fileClassBuilder(
@@ -21,7 +22,7 @@ fun Generator.generateViewLegacy() {
                     .addModifiers(KModifier.OVERRIDE)
                     .build()
             )
-        } .writeTo(androidSources(Modules.view))
+        }.writeTo(androidSources(Modules.view))
     }
 
     components.forEach {
@@ -29,24 +30,30 @@ fun Generator.generateViewLegacy() {
 
 
         FileSpec.builder(
-                it.proxy().packageName,
-                it.proxy().simpleName
+            it.proxy().packageName,
+            it.proxy().simpleName
         )
-                .addType(it.buildProxy(this, viewModuleAndroidPackage, baseActivity))
-                .addType(it.buildRAI(viewModuleAndroidPackage))
-                .apply {
-                    if (it.hasLayout) {
-                        addImportClassName(viewR)
-                    }
-                }.build()
-                .writeTo(generatedAndroidSources(Modules.view))
+            .addType(it.buildProxy(this, viewModuleAndroidPackage, baseActivity))
+            .addType(it.buildRAI(viewModuleAndroidPackage))
+            .apply {
+                if (it.hasLayout) {
+                    addImportClassName(viewR)
+                }
+            }.build()
+            .writeTo(generatedAndroidSources(Modules.view))
         if (!it.viewImpl().existsAndroidInModule(Modules.view)) {
             FileSpec.builder(
-                    it.viewImpl().packageName,
-                    it.viewImpl().simpleName)
-                    .addType(it.buildViewImpl(viewModuleAndroidPackage))
-                    .build()
-                    .writeTo(androidSources(Modules.view))
+                it.viewImpl().packageName,
+                it.viewImpl().simpleName
+            )
+                .addType(it.buildViewImpl(viewModuleAndroidPackage))
+                .apply {
+                    it.interfacesImpl.forEach {
+                        addImportClassName(it)
+                    }
+                }
+                .build()
+                .writeTo(androidSources(Modules.view))
         }
         if (!existsPath(layoutPath, "res")) {
             Files.createDirectories(layoutPath.parent)
@@ -87,7 +94,8 @@ fun String.toProxy() = when {
     }
 }
 
-fun TypeName.toProxy() = (this as ClassName).let { ClassName(it.packageName, it.simpleName.toProxy()) }
+fun TypeName.toProxy() =
+    (this as ClassName).let { ClassName(it.packageName, it.simpleName.toProxy()) }
 
 
 fun String.toView() = when {
@@ -99,5 +107,6 @@ fun String.toView() = when {
     }
 }
 
-fun TypeName.toView() = (this as ClassName).let { ClassName(it.packageName, it.simpleName.toView()) }
+fun TypeName.toView() =
+    (this as ClassName).let { ClassName(it.packageName, it.simpleName.toView()) }
 

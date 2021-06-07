@@ -39,7 +39,7 @@ class PluginViewLegacy: Plugin<Project> {
 
             skVariantsCombinaison(project.rootProject.rootDir.toPath()).forEach {
                 res.srcDir("src/androidMain/res$it")
-                java.srcDir("src/androidMain$it/kotlin")
+                java.srcDir("src/androidMain/kotlin$it")
             }
         }
 

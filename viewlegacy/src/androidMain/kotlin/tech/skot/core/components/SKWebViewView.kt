@@ -12,9 +12,9 @@ import java.net.URLEncoder
 
 class SKWebViewView(activity: SKActivity, fragment: Fragment?, private val webView: WebView, private val proxy: SKWebViewViewProxy) : SKComponentView<WebView>(activity, fragment, webView) {
 
-    init {
-        webView.settings.javaScriptEnabled = true
-    }
+//    init {
+//        webView.settings.javaScriptEnabled = true
+//    }
 
     fun onConfig(config: SKWebViewVC.Config) {
         webView.settings.apply {

@@ -6,6 +6,7 @@ import tech.skot.tools.generation.*
 import javax.lang.model.element.ExecutableElement
 import kotlin.reflect.KParameter
 import kotlin.reflect.full.functions
+import kotlin.reflect.jvm.jvmErasure
 
 @ExperimentalStdlibApi
 fun Generator.generateModel() {
@@ -51,6 +52,7 @@ fun Generator.generateModel() {
                                         ParameterSpec(it.name!!, it.type.asTypeName())
                                     }
                                 )
+                                .returns(it.returnType.asTypeName())
                                 .addModifiers(KModifier.OVERRIDE)
                                 .build()
                         )

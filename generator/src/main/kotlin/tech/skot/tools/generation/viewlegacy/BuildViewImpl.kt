@@ -20,6 +20,11 @@ fun ComponentDef.buildViewImpl(viewModuleAndroidPackage:String) =
                 )
                 .superclass((if (isScreen) screenViewImpl else componentViewImpl).parameterizedBy(binding(viewModuleAndroidPackage)))
                 .addSuperinterface(rai())
+            .apply {
+                interfaces.forEach {
+                    addSuperinterface(it, delegate = CodeBlock.of("${it.simpleName()}Impl(activity, fragment, binding.root)"))
+                }
+            }
                 .addSuperclassConstructorParameter("activity")
                 .addSuperclassConstructorParameter("fragment")
                 .addSuperclassConstructorParameter("binding")
@@ -32,7 +37,7 @@ fun ComponentDef.buildViewImpl(viewModuleAndroidPackage:String) =
                         addFunction(FunSpec.builder("saveState").addModifiers(KModifier.OVERRIDE).returns(state).addCode(TODO_GENERATED_BUT_NOT_IMPLEMENTED).build())
                         addFunction(FunSpec.builder("restoreState").addParameter("state", state).addModifiers(KModifier.OVERRIDE).addCode(TODO_GENERATED_BUT_NOT_IMPLEMENTED).build())
                     }
-                    ownFunctions.forEach {
+                    ownFunctionsNotInInterface.forEach {
                         addFunction(
                                 FunSpec.builder(it.name)
                                         .addModifiers(KModifier.OVERRIDE)

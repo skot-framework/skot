@@ -2,9 +2,7 @@ package tech.skot.tools.generation
 
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import kotlinx.coroutines.GlobalScope
 import kotlinx.serialization.Serializable
-import org.jetbrains.kotlin.util.capitalizeDecapitalize.decapitalizeAsciiOnly
 
 @ExperimentalStdlibApi
 fun Generator.generateStates(rootState: StateDef) {
@@ -12,20 +10,28 @@ fun Generator.generateStates(rootState: StateDef) {
     fun StateDef.generate() {
 
         contractClassName.fileInterfaceBuilder {
-            addProperties(
-                subStates.map {
+            subStates.forEach {
+                addProperty(
                     PropertySpec.builder(
                         it.nameAsProperty,
                         it.contractClassName.nullable()
                     )
                         .build()
-                }
-            )
+                )
+                addProperty(
+                    PropertySpec.builder(
+                        it.nameAsProperty.suffix("SKData"),
+                        FrameworkClassNames.skManualData.parameterizedBy(WildcardTypeName.producerOf(it.contractClassName.nullable()))
+                    )
+                        .build()
+                )
+            }
+
         }.writeTo(generatedCommonSources(Modules.modelcontract))
 
 
         infosClassName.fileClassBuilder {
-            addSuperinterface(contractClassName)
+//            addSuperinterface(contractClassName)
             addModifiers(KModifier.DATA)
             addAnnotation(Serializable::class)
             addPrimaryConstructorWithParams(
@@ -35,8 +41,7 @@ fun Generator.generateStates(rootState: StateDef) {
                         subStates.map {
                             ParamInfos(
                                 it.nameAsProperty,
-                                it.infosClassName.nullable(),
-                                listOf(KModifier.OVERRIDE)
+                                it.infosClassName.nullable()
                             )
                         }
             )
@@ -48,7 +53,7 @@ fun Generator.generateStates(rootState: StateDef) {
             addPrimaryConstructorWithParams(
                 parentsList.map {
                     ParamInfos(it.nameAsProperty.decapitalize(), it.modelClassName)
-                } + ParamInfos("infos", this@generate.infosClassName)
+                } + ParamInfos("infos", this@generate.infosClassName, isVal = false)
             )
 
             properties.forEach {
@@ -57,6 +62,17 @@ fun Generator.generateStates(rootState: StateDef) {
                         it.name,
                         it.typeName
                     ).mutable(it.mutable)
+                        .apply {
+                            if (it.mutable) {
+                                setter(
+                                    FunSpec.setterBuilder()
+                                        .addParameter("newValue", it.typeName)
+                                        .addStatement("field = newValue")
+                                        .addStatement("saveState()")
+                                        .build()
+                                )
+                            }
+                        }
                         .initializer("infos.${it.name}")
                         .addModifiers(KModifier.OVERRIDE)
                         .build()
@@ -73,6 +89,7 @@ fun Generator.generateStates(rootState: StateDef) {
                         it.nameAsProperty.suffix("SKData"),
                         FrameworkClassNames.skManualData.parameterizedBy(it.modelClassName.nullable())
                     )
+                        .addModifiers(KModifier.OVERRIDE)
                         .initializer("${FrameworkClassNames.skManualData.simpleName}(infos.${it.nameAsProperty}?.let { ${it.modelClassName.simpleName}($subStateConstructorParams) }) { saveState() }")
                         .build()
                 )
@@ -182,7 +199,13 @@ fun Generator.generateStates(rootState: StateDef) {
                     .addStatement("name = $keyName")
                     .addCode(")?.\n")
                     .addStatement("let { ${rootState.modelClassName.simpleName}(it) }")
-                    .addStatement("?: ${rootState.modelClassName.simpleName}(${rootState.infosClassName.simpleName}(${rootState.subStates.joinToString(separator = ", ") { "null" }}))")
+                    .addStatement(
+                        "?: ${rootState.modelClassName.simpleName}(${rootState.infosClassName.simpleName}(${
+                            rootState.subStates.joinToString(
+                                separator = ", "
+                            ) { "null" }
+                        }))"
+                    )
                     .returns(rootState.modelClassName)
                     .build()
             )

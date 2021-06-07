@@ -40,7 +40,6 @@ data class SKLibrary(val group: String, val version: String) {
         fun KotlinMultiplatformExtension.addDependenciesToLibraries(libraries: List<SKLibrary>) {
             sourceSets["commonMain"].dependencies {
                 libraries.forEach { skApi(it) }
-
             }
         }
 

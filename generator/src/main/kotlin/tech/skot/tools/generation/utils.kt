@@ -97,6 +97,21 @@ fun ClassName.fileInterfaceBuilder(
     }
     .build()
 
+fun ClassName.fileObjectBuilder(
+    imports: List<ClassName> = emptyList(),
+    block: TypeSpec.Builder.() -> Unit
+) = FileSpec.builder(packageName, simpleName)
+    .addType(
+        TypeSpec.objectBuilder(simpleName)
+            .apply(block)
+            .build()
+    )
+    .apply {
+        imports.forEach {
+            addImportClassName(it)
+        }
+    }
+    .build()
 
 fun Path.replaceSegment(segment: String, replacement: String): Path =
     map {

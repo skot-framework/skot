@@ -258,7 +258,7 @@ fun ComponentDef.buildProxy(
                                         generator,
                                         includesIds
                                     )
-                                }"
+                                } as ${it.viewImplClassName.simpleName}"
                             }.joinToString()
                     }).apply"
                     )

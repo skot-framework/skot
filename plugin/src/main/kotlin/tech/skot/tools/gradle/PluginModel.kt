@@ -64,6 +64,7 @@ class PluginModel: Plugin<Project> {
         android("android")
 
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
+
         sourceSets["commonMain"].dependencies {
             implementation(project(":modelcontract"))
             api("tech.skot:model:${Versions.skot}")

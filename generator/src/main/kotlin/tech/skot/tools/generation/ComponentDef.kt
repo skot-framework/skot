@@ -90,6 +90,13 @@ data class PropertyDef(val name: String, val type: TypeName, val meOrSubComponen
 
     fun inPackage(packageName:String) = (type as? ClassName)?.packageName?.startsWith(packageName)
 
+    val viewImplClassName:ClassName by lazy {
+        (type as ClassName).let {
+            ClassName(it.packageName, it.simpleName!!.withOut("VC").suffix("View"))
+        }
+
+    }
+
 }
 
 fun List<PropertyDef>.toFillParams(init:(PropertyDef.()->String)? = null) = map { "${it.name} = ${init?.invoke(it) ?: it.initializer()}" }
@@ -130,8 +137,8 @@ fun KClass<out SKComponentVC>.ownFunctions(): List<KFunction<*>> {
 }
 
 fun KClass<out SKComponentVC>.ownFunctionsNotInInterface(): List<KFunction<*>> {
-    val superTypeKFunctionsNames = superclasses.flatMap { functions.map { it.name }}
-    return functions.filter { !superTypeKFunctionsNames.contains(it.name) }
+    val superTypesKFunctionsNames = superclasses.flatMap { it.functions.map { it.name }}
+    return functions.filter { !superTypesKFunctionsNames.contains(it.name) }
 }
 
 

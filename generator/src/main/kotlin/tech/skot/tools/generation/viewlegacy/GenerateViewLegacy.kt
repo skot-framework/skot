@@ -39,6 +39,10 @@ fun Generator.generateViewLegacy() {
                 if (it.hasLayout) {
                     addImportClassName(viewR)
                 }
+                it.subComponents.filter { it.passToParentView }
+                    .forEach {
+                        addImportClassName(it.viewImplClassName)
+                    }
             }.build()
             .writeTo(generatedAndroidSources(Modules.view))
         if (!it.viewImpl().existsAndroidInModule(Modules.view)) {

@@ -1,4 +1,4 @@
-package tech.skot.core.components
+package tech.skot.core.components.inputs
 
 import android.text.Editable
 import android.text.InputFilter
@@ -7,6 +7,8 @@ import android.text.TextWatcher
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
+import tech.skot.core.components.SKActivity
+import tech.skot.core.components.SKComponentView
 import tech.skot.view.extensions.setOnDone
 import tech.skot.view.extensions.setVisible
 

@@ -41,7 +41,8 @@ fun Generator.generateStates(rootState: StateDef) {
                         subStates.map {
                             ParamInfos(
                                 it.nameAsProperty,
-                                it.infosClassName.nullable()
+                                it.infosClassName.nullable(),
+                                default = "null"
                             )
                         }
             )
@@ -115,7 +116,7 @@ fun Generator.generateStates(rootState: StateDef) {
                             addStatement("${it.name} = ${it.name},")
                         }
                         subStates.forEach {
-                            addStatement("${it.nameAsProperty} = ${it.nameAsProperty}?.infos()")
+                            addStatement("${it.nameAsProperty} = ${it.nameAsProperty}?.infos(),")
                         }
                     }
                     .addCode(")\n")

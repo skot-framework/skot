@@ -63,34 +63,11 @@ class PluginModelContract : Plugin<Project> {
 
         sourceSets {
             getByName("main").java.srcDirs("generated/androidMain/kotlin")
-            getByName("main").java.srcDirs("generated/commonMain/kotlin")
+//            getByName("main").java.srcDirs("generated/commonMain/kotlin")
             getByName("main").java.srcDirs("src/androidMain/kotlin")
             getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")
             getByName("main").res.srcDir("src/androidMain/res")
         }
-
-//        buildTypes {
-//            getByName("debug") {
-//
-//                project.tasks.getByName("preBuild").dependsOn(project.tasks.create("setDebugOn") {
-//                    doFirst {
-//
-//                        println("----- setting to true")
-//                        skDebugMode = true
-//                    }
-//                })
-//            }
-//
-//            getByName("release") {
-//                project.tasks.getByName("preBuild").dependsOn(project.tasks.create("setDebugOff") {
-//                    doFirst {
-//                        println("----- setting to false")
-//                        skDebugMode = false
-//                    }
-//                })
-//
-//            }
-//        }
 
 
         lintOptions {
@@ -103,6 +80,7 @@ class PluginModelContract : Plugin<Project> {
         jvm("jvm")
         android("android")
 
+        sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
         sourceSets["commonMain"].dependencies {
             api("tech.skot:modelcontract:${Versions.skot}")
         }

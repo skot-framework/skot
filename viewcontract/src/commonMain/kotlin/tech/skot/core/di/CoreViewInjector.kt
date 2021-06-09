@@ -1,6 +1,9 @@
 package tech.skot.core.di
 
 import tech.skot.core.components.*
+import tech.skot.core.components.inputs.SKButtonVC
+import tech.skot.core.components.inputs.SKComboVC
+import tech.skot.core.components.inputs.SKInputVC
 import tech.skot.core.components.presented.*
 
 interface CoreViewInjector {
@@ -28,4 +31,13 @@ interface CoreViewInjector {
         hiddenInitial: Boolean?,
         enabledInitial: Boolean?
     ) : SKInputVC
+
+    fun combo(hint:String?, onSelected:(newText:String)->Unit, choicesInitial:List<SKComboVC.Choice>, selectedInitial: SKComboVC.Choice?, enabledInitial:Boolean?): SKComboVC
+
+    fun button(
+        onTapInitial: (() -> Unit)?,
+        labelInitial: String?,
+        enabledInitial: Boolean?,
+        hiddenInitial: Boolean?
+    ):SKButtonVC
 }

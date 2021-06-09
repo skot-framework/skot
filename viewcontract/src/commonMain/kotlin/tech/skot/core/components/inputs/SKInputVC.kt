@@ -1,4 +1,7 @@
-package tech.skot.core.components
+package tech.skot.core.components.inputs
+
+import tech.skot.core.components.SKComponentVC
+import tech.skot.core.components.SKLayoutIsSimpleView
 
 @SKLayoutIsSimpleView
 interface SKInputVC: SKComponentVC {

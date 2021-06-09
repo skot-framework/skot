@@ -50,6 +50,9 @@ class StateDef(
                 it.returnType.isSKStateC()
             }
             .map {
+                if (!it.returnType.isMarkedNullable || (it is KMutableProperty)) {
+                    throw IllegalStateException("Sub-states must be declared as immutable properties (\"val\") and nullable")
+                }
                 StateDef(
                     it.name,
                     appPackage,

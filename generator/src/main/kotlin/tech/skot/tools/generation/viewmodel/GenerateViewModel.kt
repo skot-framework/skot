@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import tech.skot.tools.generation.*
 import tech.skot.tools.generation.viewlegacy.componentViewModel
 import tech.skot.tools.generation.viewlegacy.screenViewModel
+import java.lang.IllegalStateException
 
 @ExperimentalStdlibApi
 fun Generator.generateViewModel() {
@@ -20,7 +21,7 @@ fun Generator.generateViewModel() {
                         it.states.map {
                             ParamInfos(
                                 it.name,
-                                it.stateDef()!!.contractClassName,
+                                it.stateDef()?.contractClassName ?: throw IllegalStateException("To use states you have to set the root state in configuration of skot module"),
                                 isVal = false
                             )
                         }

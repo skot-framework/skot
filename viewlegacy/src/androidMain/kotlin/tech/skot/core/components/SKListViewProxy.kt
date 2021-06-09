@@ -20,7 +20,6 @@ class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean,
 //                    it.saveState()
 //                }
 //            }
-            SKLog.d("SKListViewProxy set new Value: $newVal")
             itemsLD.postValue(newVal as List<Pair<SKComponentViewProxy<*>, Any>>)
         }
 

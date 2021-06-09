@@ -1,10 +1,9 @@
-package tech.skot.core.components
+package tech.skot.core.components.inputs
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
+import tech.skot.core.components.SKActivity
+import tech.skot.core.components.SKComponentViewProxy
 import tech.skot.view.live.MutableSKLiveData
 
 class SKInputViewProxy(

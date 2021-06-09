@@ -1,6 +1,7 @@
 package tech.skot.core.di
 
 import tech.skot.core.components.*
+import tech.skot.core.components.inputs.*
 import tech.skot.core.components.presented.SKAlertViewProxy
 import tech.skot.core.components.presented.SKBottomSheetViewProxy
 import tech.skot.core.components.presented.SKSnackBarViewProxy
@@ -78,6 +79,22 @@ class CoreViewInjectorImpl : CoreViewInjector {
             hintInitial,
             textInitial
         )
+
+    override fun combo(hint:String?, onSelected:(newText:String)->Unit, choicesInitial:List<SKComboVC.Choice>, selectedInitial: SKComboVC.Choice?, enabledInitial:Boolean?) = SKComboViewProxy(
+        hint = hint,
+        onSelected = onSelected,
+        choicesInitial = choicesInitial,
+        selectedInitial = selectedInitial,
+        enabledInitial = enabledInitial
+    )
+
+    override fun button(
+        onTapInitial: (() -> Unit)?,
+        labelInitial: String?,
+        enabledInitial: Boolean?,
+        hiddenInitial: Boolean?
+    ) = SKButtonViewProxy(onTapInitial, labelInitial, enabledInitial, hiddenInitial)
+
 
 }
 

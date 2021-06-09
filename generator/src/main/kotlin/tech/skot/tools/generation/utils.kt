@@ -15,7 +15,8 @@ class ParamInfos(
     val modifiers: List<KModifier> = emptyList(),
     val isVal: Boolean = true,
     val mutable: Boolean = false,
-    val isPrivate: Boolean = false
+    val isPrivate: Boolean = false,
+    val default:String? = null
 )
 
 fun TypeSpec.Builder.addPrimaryConstructorWithParams(vals: List<ParamInfos>): TypeSpec.Builder {
@@ -24,7 +25,16 @@ fun TypeSpec.Builder.addPrimaryConstructorWithParams(vals: List<ParamInfos>): Ty
             .apply {
                 vals
                     .forEach {
-                        addParameter(it.name, it.typeName, it.modifiers)
+                        addParameter(
+                            ParameterSpec.builder(it.name, it.typeName, it.modifiers)
+                                .apply {
+                                    if (it.default != null) {
+                                        defaultValue(it.default)
+                                    }
+                                }
+                                .build()
+                        )
+
                     }
             }
             .build()

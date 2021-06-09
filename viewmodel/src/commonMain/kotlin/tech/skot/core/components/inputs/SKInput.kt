@@ -1,5 +1,6 @@
-package tech.skot.core.components
+package tech.skot.core.components.inputs
 
+import tech.skot.core.components.SKComponent
 import tech.skot.core.di.coreViewInjector
 
 open class SKInput(
@@ -100,7 +101,7 @@ open class SKInputRegExp(
     defaultErrorMessage: String? = null,
     maxSize: Int? = null,
     afterValidation: (() -> Unit)? = null
-):SKInput(hint, nullable, onDone, viewType, defaultErrorMessage, maxSize, afterValidation) {
+): SKInput(hint, nullable, onDone, viewType, defaultErrorMessage, maxSize, afterValidation) {
     override fun validate(str: String?): Validity {
         val superValidity = super.validate(str)
         return if (superValidity == Validity.Valid) {

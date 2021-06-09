@@ -32,6 +32,7 @@ class SKDataWrapper<D : Any>(
 
             if (newSKToBeWrapped != null) {
                 currentCollectJob = scope.launch {
+                    newSKToBeWrapped.update()
                     newSKToBeWrapped.flow.collect {
                         it?.let {
                             flow.value = DatedData(it.data, it.timestamp)

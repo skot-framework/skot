@@ -8,7 +8,9 @@ import tech.skot.view.live.MutableSKLiveData
 class SKPagerViewProxy(
         override val screens: List<SKScreenViewProxy<*>>,
         override val onSwipeToPage: ((index: Int) -> Unit)?,
-        initialSelectedPageIndex:Int) : SKComponentViewProxy<ViewPager2>(), SKPagerVC {
+        initialSelectedPageIndex:Int,
+        override val swipable: Boolean
+) : SKComponentViewProxy<ViewPager2>(), SKPagerVC {
 
     private val selectedPageIndexLD = MutableSKLiveData<Int>(initialSelectedPageIndex)
     override var selectedPageIndex by selectedPageIndexLD
@@ -18,6 +20,7 @@ class SKPagerViewProxy(
                 collectObservers = collectingObservers
                 onScreens(screens)
                 onOnSwipeToPage(onSwipeToPage)
+                onSwipable(swipable)
                 selectedPageIndexLD.observe {
                     onSelectedPageIndex(it)
                 }

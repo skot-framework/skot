@@ -17,14 +17,13 @@ open class SKStack : SKComponent<SKStackVC>(), SKScreenParent {
     var content: SKScreen<*>
         get() = screens.last()
         set(value) {
-            SKLog.d("Stack will set screens to $value")
+//            SKLog.d("Stack will set screens to $value")
             screens = listOf(value)
         }
 
     override fun push(screen: SKScreen<*>) {
-        SKLog.d("Will push screen: ${screen::class.simpleName}")
+//        SKLog.d("Will push screen: ${screen::class.simpleName}")
         screens += screen
-
     }
 
     fun pop(ifRoot:(()->Unit)? = null) {

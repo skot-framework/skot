@@ -31,6 +31,14 @@ abstract class SimpleSKData<D : Any> : SKData<D> {
         }
     }
 
+    fun setData(newManualData:D) {
+        setDatedData(DatedData(newManualData, currentTimeMillis()))
+    }
+
+    open fun setDatedData(newDatedData: DatedData<D>) {
+        flow.value = newDatedData
+    }
+
     override suspend fun fallBackValue(): D? = flow.value?.data
 
 }

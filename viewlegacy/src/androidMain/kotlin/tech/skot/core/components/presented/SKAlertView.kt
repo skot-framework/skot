@@ -22,14 +22,14 @@ class SKAlertView(activity: SKActivity, fragment: Fragment?, private val proxy: 
                         .setOnDismissListener {
                             proxy.state = null
                         }
-                        .setCancelable(false)
+                        .setCancelable(state.cancelable)
                         .apply {
                             setPositiveButton(state.mainButton.label, state.mainButton.action?.let { action ->
                                 DialogInterface.OnClickListener { p0, p1 -> action() }
                             })
 
                             state.secondaryButton?.let { button ->
-                                setNeutralButton(button.label, button.action?.let { action ->
+                                setNegativeButton(button.label, button.action?.let { action ->
                                     DialogInterface.OnClickListener { p0, p1 -> action() }
                                 })
                             }

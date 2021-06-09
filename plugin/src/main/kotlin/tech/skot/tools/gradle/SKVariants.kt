@@ -2,9 +2,11 @@ package tech.skot.tools.gradle
 
 import org.gradle.api.Project
 import org.gradle.api.tasks.SourceSetContainer
+import java.io.File
 import java.io.FileInputStream
 import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.Paths
 import java.util.*
 
 data class SKVariants(val variants: List<String>, val env: String?) {
@@ -15,8 +17,10 @@ data class SKVariants(val variants: List<String>, val env: String?) {
     }
 }
 
+const val SKOT_VARIANT_PROPERIES_FILE_NAME = "skot_variants.properties"
+
 fun skReadVariants(path: Path): SKVariants {
-    val propertiesPath = path.resolve("skot_variants.properties")
+    val propertiesPath = path.resolve(SKOT_VARIANT_PROPERIES_FILE_NAME)
     return if (Files.exists(propertiesPath)) {
         val properties = Properties()
         properties.load(FileInputStream(propertiesPath.toFile()))
@@ -70,5 +74,25 @@ fun Project.skBuildSrcVariants(sourceSets: SourceSetContainer) {
                 }
             }
         }
+    }
+}
+
+fun Project.switchTask(name:String, environment:String, vararg variant:String) {
+    task(name) {
+        doFirst {
+            println("Switch to Variant environment=$environment  variants=${variant.joinToString(" ")} ")
+            val rootPath = rootProject.rootDir.toPath()
+            val builSrcRep = rootPath.resolve("buildSrc/build")
+            val propertiesPath = rootPath.resolve(SKOT_VARIANT_PROPERIES_FILE_NAME)
+            Files.write(propertiesPath, listOf(
+                "variants=${variant.joinToString(",")}",
+                "environment=$environment"
+            ))
+            if (Files.exists(builSrcRep)) {
+                builSrcRep.toFile().deleteRecursively()
+            }
+        }
+
+        group = "skot_switch_variant"
     }
 }

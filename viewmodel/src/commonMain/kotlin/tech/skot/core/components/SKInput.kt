@@ -4,13 +4,13 @@ import tech.skot.core.di.coreViewInjector
 
 open class SKInput(
     hint: String? = null,
-    private val nullable: Boolean = true,
+    protected val nullable: Boolean = true,
     onDone: ((text: String?) -> Unit)? = null,
     viewType: SKInputVC.Type? = null,
     protected val defaultErrorMessage: String? = null,
-    private val afterValidation: (() -> Unit)? = null,
-    private val maxSize: Int? = null
-) : SKComponent<SKInputVC>() {
+    private val maxSize: Int? = null,
+    private val afterValidation: (() -> Unit)? = null
+    ) : SKComponent<SKInputVC>() {
 
     sealed class Validity(val errorMessage: String?) {
         abstract val isValid: Boolean
@@ -89,4 +89,28 @@ open class SKInput(
         hiddenInitial = false,
         enabledInitial = true
     )
+}
+
+open class SKInputRegExp(
+    private val regex:Regex,
+    hint: String? = null,
+    nullable: Boolean = true,
+    onDone: ((text: String?) -> Unit)? = null,
+    viewType: SKInputVC.Type? = null,
+    defaultErrorMessage: String? = null,
+    maxSize: Int? = null,
+    afterValidation: (() -> Unit)? = null
+):SKInput(hint, nullable, onDone, viewType, defaultErrorMessage, maxSize, afterValidation) {
+    override fun validate(str: String?): Validity {
+        val superValidity = super.validate(str)
+        return if (superValidity == Validity.Valid) {
+            when  {
+                !str.isNullOrBlank() && !regex.matches(str) -> Validity.Error(errorMessage = defaultErrorMessage)
+                else -> Validity.Valid
+            }
+        }
+        else {
+            superValidity
+        }
+    }
 }

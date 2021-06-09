@@ -15,7 +15,8 @@ fun Generator.generateCodeMap() {
                     val tab = pack.split(".").map { '_' }.joinToString("")
                     val biggestNameLength = comps.map { it.name.length }.maxOrNull() ?: 20
                     builder.appendLine(pack)
-                    comps.forEach { comp ->
+                    comps
+                        .sortedBy { it.name }.forEach { comp ->
                         builder.appendLine("")
                         val endTab = (comp.name.length..biggestNameLength+3).map { '_' }.joinToString("")
                         builder.appendLine("$tab ${comp.name} $endTab")

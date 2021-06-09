@@ -1,6 +1,7 @@
 package tech.skot.model
 
 import org.junit.Test
+import tech.skot.core.SKDateFormat
 
 class TestSKDateFormat {
 

@@ -450,3 +450,12 @@ fun Element.childElements(): List<Element> {
     }
     return elements
 }
+
+fun Document.getElementsWithTagName(tagName:String):List<Element> {
+    val list = getElementsByTagName(tagName)
+    val res = mutableListOf<Element>()
+    (0..(list.length-1)).forEach {
+        (list.item(it) as? Element)?.let { res.add(it) }
+    }
+    return res
+}

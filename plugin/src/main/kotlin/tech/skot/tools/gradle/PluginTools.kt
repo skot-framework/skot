@@ -36,7 +36,6 @@ class PluginTools : Plugin<Project> {
 
 
         project.task("skGenerate") {
-
             doLast {
                 println("Skot version ${Versions.skot}")
                 val app = extension.app
@@ -52,9 +51,6 @@ class PluginTools : Plugin<Project> {
                     }
                 }
 
-
-
-
 //                println("ktLint ......")
 //                val srcs = "${project.rootDir.toPath().toString()}/**/generated/**/*.kt"
 //                project.javaexec {
@@ -67,6 +63,9 @@ class PluginTools : Plugin<Project> {
             group = "Skot"
 
         }
+
+
+
 
 
     }

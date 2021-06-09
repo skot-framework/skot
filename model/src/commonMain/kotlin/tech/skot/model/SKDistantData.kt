@@ -23,15 +23,19 @@ open class SKDistantDataWithCache<D : Any>(
 
     override suspend fun newDatedData(): DatedData<D> {
         val fetchedData = DatedData(fetchData(), currentTimeMillis())
+       saveInCache(fetchedData)
+        return fetchedData
+    }
+
+    private fun saveInCache(newData:DatedData<D>) {
         CoroutineScope(Dispatchers.Default).launch {
             try {
-                cache.putData(serializer, name, fetchedData.data, key, fetchedData.timestamp)
+                cache.putData(serializer, name, newData.data, key, newData.timestamp)
             }
             catch (ex:Exception) {
                 SKLog.e(ex, "SKDistantDataWithCache Problème à la mise en cache de la donnée $name $key")
             }
         }
-        return fetchedData
     }
 
     private val initMutex = Mutex()
@@ -68,5 +72,9 @@ open class SKDistantDataWithCache<D : Any>(
         return super.get(validity)
     }
 
+    override fun setDatedData(newDatedData: DatedData<D>) {
+        super.setDatedData(newDatedData)
+        saveInCache(newDatedData)
+    }
 
 }

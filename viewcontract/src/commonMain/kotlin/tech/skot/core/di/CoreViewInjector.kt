@@ -9,7 +9,8 @@ interface CoreViewInjector {
     fun alert(): SKAlertVC
     fun snackBar(): SKSnackBarVC
     fun bottomSheet(): SKBottomSheetVC
-    fun pager(screens:List<SKScreenVC>, onSwipeToPage:((index:Int)->Unit)?, initialSelectedPageIndex:Int): SKPagerVC
+    fun pager(screens:List<SKScreenVC>, onSwipeToPage:((index:Int)->Unit)?, initialSelectedPageIndex:Int, swipable:Boolean): SKPagerVC
+    fun pagerWithTabs(pager:SKPagerVC, labels:List<String>): SKPagerWithTabsVC
     fun skList(vertical:Boolean, reverse:Boolean, nbColumns:Int?, animate:Boolean, animateItem:Boolean): SKListVC
     fun webView(config: SKWebViewVC.Config, openUrlInitial: SKWebViewVC.OpenUrl?): SKWebViewVC
     fun frame(screens: Set<SKScreenVC>, screenInitial: SKScreenVC?): SKFrameVC

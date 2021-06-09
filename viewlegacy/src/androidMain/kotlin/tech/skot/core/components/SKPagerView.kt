@@ -38,4 +38,8 @@ class SKPagerView(activity: SKActivity, fragment: Fragment?, private val viewPag
 
     }
 
+    fun onSwipable(value:Boolean) {
+        viewPager2.isUserInputEnabled = value
+    }
+
 }

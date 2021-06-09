@@ -10,6 +10,7 @@ interface SKAlertVC:SKComponentVC {
             val title:String?,
             val message:String?,
 //            val onDismissRequest:(()->Unit)?,
+            val cancelable:Boolean,
             val mainButton:Button,
             val secondaryButton:Button?
     )

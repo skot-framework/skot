@@ -17,4 +17,8 @@ object FrameworkClassNames {
     val globalScope = ClassName("kotlinx.coroutines","GlobalScope")
     val launch = ClassName("kotlinx.coroutines","launch")
 
+    val mapSKData = ClassName("tech.skot.model", "map")
+    val combineSKData = ClassName("tech.skot.model", "combineSKData")
+
+    val bm = ClassName("tech.skot.model", "SKBM")
 }

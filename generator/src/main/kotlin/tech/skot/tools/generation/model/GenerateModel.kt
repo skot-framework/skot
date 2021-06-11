@@ -70,10 +70,14 @@ fun Generator.generateModel() {
         if (!className.existsCommonInModule(Modules.model)) {
             className.fileClassBuilder {
                 addPrimaryConstructorWithParams(
+                    listOf(ParamInfos("key", String::class.asTypeName().nullable(), isVal = false)) +
                     state.parentsList.map {
                         ParamInfos(it.name.decapitalizeAsciiOnly(), it.modelClassName, isPrivate = true)
                     } + ParamInfos(state.name.decapitalizeAsciiOnly(), state.modelClassName, isPrivate = true)
                 )
+                superclass(FrameworkClassNames.bm)
+                addSuperclassConstructorParameter("key")
+//                addSuperinterface(FrameworkClassNames.bm)
             }.writeTo(commonSources(Modules.model))
         }
     }

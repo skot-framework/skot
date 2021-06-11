@@ -62,9 +62,12 @@ fun <D : Any?, O : Any?> SKData<D>.map(transform: (d: D) -> O): SKData<O> {
     }
 }
 
-fun <D1 : Any, D2 : Any> SKData<D1>.combine(other: SKData<D2>) = combineSKData(this, other)
+fun <D1 : Any?, D2 : Any?> SKData<D1>.combine(other: SKData<D2>) = combineSKData(this, other)
 
-fun <D1 : Any, D2 : Any> combineSKData(data1: SKData<D1>, data2: SKData<D2>): SKData<Pair<D1, D2>> {
+fun <D1 : Any?, D2 : Any?> combineSKData(
+    data1: SKData<D1>,
+    data2: SKData<D2>
+): SKData<Pair<D1, D2>> {
     return object : SKData<Pair<D1, D2>> {
 
         override val defaultValidity = min(data1.defaultValidity, data2.defaultValidity)
@@ -95,9 +98,10 @@ fun <D1 : Any, D2 : Any> combineSKData(data1: SKData<D1>, data2: SKData<D2>): SK
 
         override suspend fun update(): Pair<D1, D2> {
             return coroutineScope {
-                val updatedData1 = async {
-                    data1.update()
-                }
+                val updatedData1 =
+                    async {
+                        data1.update()
+                    }
                 val updatedData2 =
                     async {
                         data2.update()

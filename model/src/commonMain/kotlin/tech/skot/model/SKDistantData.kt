@@ -13,10 +13,10 @@ open class SKDistantData<D : Any>(validity: Long? = null, private val fetchData:
     override val defaultValidity = validity ?: super.defaultValidity
 }
 
-open class SKDistantDataWithCache<D : Any>(
+abstract class SKDistantDataWithCache<D : Any>(
         private val name: String,
         private val serializer: KSerializer<D>,
-        private val key: String? = null,
+        private val key: String?,
         private val cache: SKPersistor = globalCache,
         validity: Long? = null,
         private val fetchData: suspend () -> D) : SKDistantData<D>(validity, fetchData) {

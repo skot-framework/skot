@@ -12,7 +12,7 @@ import kotlin.reflect.KProperty
 
 
 
-open class SKManualDataWithCache<D : Any>(
+abstract class SKManualDataWithCache<D : Any>(
     private val name: String,
     private val serializer: KSerializer<D>,
     private val key: String? = null,

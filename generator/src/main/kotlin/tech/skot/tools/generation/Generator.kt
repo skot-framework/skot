@@ -54,6 +54,9 @@ class Generator(
         subStates.forEach {
             it.addToMap(map)
         }
+        compositeSubStates.forEach {
+            it.addToMap(map)
+        }
     }
 
     @ExperimentalStdlibApi
@@ -80,7 +83,7 @@ class Generator(
         bmS.forEach {
             map[it] = this
         }
-        subStates.forEach {
+        (subStates + compositeSubStates).forEach {
             it.addBmsTo(map)
         }
     }

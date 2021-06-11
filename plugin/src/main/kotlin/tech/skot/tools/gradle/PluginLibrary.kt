@@ -46,7 +46,7 @@ class PluginLibrary: Plugin<Project> {
 
     private fun KotlinMultiplatformExtension.conf() {
 
-        jvm("jvm")
+//        jvm("jvm")
 
         android("android") {
             publishLibraryVariants("release", "debug")
@@ -55,18 +55,14 @@ class PluginLibrary: Plugin<Project> {
 
         sourceSets["commonMain"].kotlin.srcDir("src/contract/kotlin")
         sourceSets["commonMain"].dependencies {
-            api("tech.skot:viewcontract:${Versions.skot}")
+            api(project(":viewcontract"))
         }
 
-        sourceSets["androidMain"].kotlin.srcDir("src/viewmodel/kotlin")
+//        sourceSets["commonMain"].kotlin.srcDir("src/commin/kotlin")
 
-        sourceSets["androidMain"].dependencies {
+        sourceSets["commonMain"].dependencies {
             implementation("tech.skot:viewmodel:${Versions.skot}")
         }
-
-//        sourceSets["androidMain"].dependencies {
-//        }
-
 
 
     }

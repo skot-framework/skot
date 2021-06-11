@@ -23,7 +23,7 @@ class PluginViewModel: Plugin<Project> {
 
         project.extensions.findByType(LibraryExtension::class)?.conf()
 
-        project.extensions.findByType(KotlinMultiplatformExtension::class)?.conf()
+        project.extensions.findByType(KotlinMultiplatformExtension::class)?.conf(project)
 
     }
 
@@ -43,7 +43,7 @@ class PluginViewModel: Plugin<Project> {
 
     }
 
-    private fun KotlinMultiplatformExtension.conf() {
+    private fun KotlinMultiplatformExtension.conf(project: Project) {
         android("android")
 
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
@@ -69,6 +69,7 @@ class PluginViewModel: Plugin<Project> {
             implementation("org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}")
         }
 
+        SKLibrary.addDependenciesToLibraries(this, project.rootDir.toPath(), "viewmodel")
     }
 
 

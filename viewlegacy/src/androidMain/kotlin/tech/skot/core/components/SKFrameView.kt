@@ -20,7 +20,6 @@ class SKFrameView(activity: SKActivity, fragment: Fragment?, binding: FrameLayou
                 if (alreadyAddedFragment != null) {
                     trans.show(alreadyAddedFragment)
                 } else {
-                    SKLog.d("---- adding ${screen::class.simpleName}")
                     trans.add(binding.id, screen.createFragment(), tag)
                 }
                 fragments.forEach {

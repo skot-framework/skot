@@ -105,7 +105,6 @@ class SKComboView(
     }
 
     fun onSelect(selected: SKComboVC.Choice?) {
-        SKLog.d("--------- onSelect $selected")
         lockSelectedReaction = true
         binding.dropdown.setText(selected?.text, false)
         binding.dropdown.strike(selected?.strikethrough == true)

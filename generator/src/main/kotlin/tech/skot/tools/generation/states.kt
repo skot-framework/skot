@@ -21,7 +21,7 @@ fun Generator.generateStates(rootState: StateDef) {
                 addProperty(
                     PropertySpec.builder(
                         it.nameAsProperty.suffix("SKData"),
-                        FrameworkClassNames.skManualData.parameterizedBy(WildcardTypeName.producerOf(it.contractClassName.nullable()))
+                        FrameworkClassNames.skData.parameterizedBy(WildcardTypeName.producerOf(it.contractClassName.nullable()))
                     )
                         .build()
                 )

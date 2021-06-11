@@ -10,11 +10,12 @@ import androidx.fragment.app.Fragment
 import tech.skot.core.SKLog
 import java.net.URLEncoder
 
-class SKWebViewView(activity: SKActivity, fragment: Fragment?, private val webView: WebView, private val proxy: SKWebViewViewProxy) : SKComponentView<WebView>(activity, fragment, webView) {
-
-//    init {
-//        webView.settings.javaScriptEnabled = true
-//    }
+class SKWebViewView(
+    activity: SKActivity,
+    fragment: Fragment?,
+    private val webView: WebView,
+    private val proxy: SKWebViewViewProxy
+) : SKComponentView<WebView>(activity, fragment, webView) {
 
     fun onConfig(config: SKWebViewVC.Config) {
         webView.settings.apply {
@@ -24,12 +25,17 @@ class SKWebViewView(activity: SKActivity, fragment: Fragment?, private val webVi
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             webView.webViewClient = object : WebViewClient() {
-                override fun shouldOverrideUrlLoading(view: android.webkit.WebView?, request: WebResourceRequest?): Boolean {
+                override fun shouldOverrideUrlLoading(
+                    view: android.webkit.WebView?,
+                    request: WebResourceRequest?
+                ): Boolean {
                     request?.url?.toString()?.let { url ->
                         config.redirect.forEach {
                             if (it.matches(url)) {
-                                return it.onRedirect(url, request.url?.getMapQueryParameters()
-                                        ?: emptyMap())
+                                return it.onRedirect(
+                                    url, request.url?.getMapQueryParameters()
+                                        ?: emptyMap()
+                                )
                             }
                         }
                     }
@@ -41,7 +47,11 @@ class SKWebViewView(activity: SKActivity, fragment: Fragment?, private val webVi
                     super.onPageFinished(view, url)
                 }
 
-                override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
+                override fun onReceivedError(
+                    view: WebView?,
+                    request: WebResourceRequest?,
+                    error: WebResourceError?
+                ) {
                     openingUrl?.error(request?.url)
                     super.onReceivedError(view, request, error)
                 }
@@ -66,7 +76,11 @@ class SKWebViewView(activity: SKActivity, fragment: Fragment?, private val webVi
                     super.onPageFinished(view, url)
                 }
 
-                override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
+                override fun onReceivedError(
+                    view: WebView?,
+                    request: WebResourceRequest?,
+                    error: WebResourceError?
+                ) {
                     openingUrl?.error(request?.url)
                     super.onReceivedError(view, request, error)
                 }
@@ -78,21 +92,18 @@ class SKWebViewView(activity: SKActivity, fragment: Fragment?, private val webVi
     private var openingUrl: SKWebViewVC.OpenUrl? = null
 
     private fun SKWebViewVC.OpenUrl.finished(finishedUrl: String?) {
-        if (url == finishedUrl) {
-            onFinished?.invoke()
-            javascriptOnFinished?.let {
-                webView.evaluateJavascript(it, null)
-            }
-            openingUrl = null
+        onFinished?.invoke()
+        javascriptOnFinished?.let {
+            webView.evaluateJavascript(it, null)
         }
-
     }
 
     private fun SKWebViewVC.OpenUrl.error(requestedUri: Uri?) {
-        if (url == requestedUri?.toString()) {
-            onError?.invoke()
+        requestedUri?.toString()?.let { requestUrl ->
+            if (url == requestUrl) {
+                onError?.invoke()
+            }
         }
-        openingUrl = null
     }
 
     fun onOpenUrl(openUrl: SKWebViewVC.OpenUrl?) {
@@ -103,7 +114,7 @@ class SKWebViewView(activity: SKActivity, fragment: Fragment?, private val webVi
                 val params = posts.map {
                     "${it.key}=${URLEncoder.encode(it.value, "UTF-8")}"
                 }
-                        .joinToString(separator = "&")
+                    .joinToString(separator = "&")
                 binding.postUrl(openUrl.url, params.toByteArray())
             } else {
                 binding.loadUrl(openUrl.url)
@@ -125,12 +136,12 @@ class SKWebViewView(activity: SKActivity, fragment: Fragment?, private val webVi
     }
 
     fun Uri.getMapQueryParameters(): Map<String, String> =
-            try {
-                queryParameterNames.map { it to getQueryParameter(it)!! }.toMap()
-            } catch (ex: Exception) {
-                SKLog.e(ex, "Pb au parse des paramètres d'une url de redirection")
-                emptyMap()
-            }
+        try {
+            queryParameterNames.map { it to getQueryParameter(it)!! }.toMap()
+        } catch (ex: Exception) {
+            SKLog.e(ex, "Pb au parse des paramètres d'une url de redirection")
+            emptyMap()
+        }
 
 
 }

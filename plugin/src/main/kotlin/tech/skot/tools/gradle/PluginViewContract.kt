@@ -19,7 +19,6 @@ class PluginViewContract : Plugin<Project> {
 
     override fun apply(project: Project) {
 
-        println("PluginViewContract")
 
 //        val extension = project.extensions.create<SKPluginContractExtension>("skot")
         project.plugins.apply("com.android.library")
@@ -75,7 +74,7 @@ class PluginViewContract : Plugin<Project> {
         }
 
         println("Adding dependencies to libraries ")
-        addDependenciesToLibraries(this, project.rootDir.toPath())
+        addDependenciesToLibraries(this, project.rootDir.toPath(), "viewcontract")
 
 
     }

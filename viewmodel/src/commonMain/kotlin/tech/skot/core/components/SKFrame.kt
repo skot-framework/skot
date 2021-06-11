@@ -8,7 +8,6 @@ class SKFrame(val screens: Set<SKScreen<*>>, screenInitial: SKScreen<*>? = null)
 
     var screen: SKScreen<*>? = null
         set(value) {
-            logD("will set screen: ${value}")
             field = value
             view.screen = value?.view
         }

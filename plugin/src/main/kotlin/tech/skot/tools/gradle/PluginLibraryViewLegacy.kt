@@ -71,7 +71,7 @@ class PluginLibraryViewLegacy: Plugin<Project> {
 
     private fun DependencyHandlerScope.dependencies() {
         add("implementation", "tech.skot:viewlegacy:${Versions.skot}")
-        add("implementation", project(":library"))
+        add("implementation", project(":viewmodel"))
     }
 
 }

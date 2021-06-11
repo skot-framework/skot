@@ -20,12 +20,14 @@ interface SKData<D : Any?> {
     open suspend fun get(validity: Long? = null): D {
         val datedCurrentValue = _current
         val usedValidity = validity ?: defaultValidity
-        return if (datedCurrentValue == null || usedValidity == 0L || currentTimeMillis() > (datedCurrentValue.timestamp + usedValidity)) {
+        return if (datedCurrentValue == null || usedValidity == 0L || ((datedCurrentValue.timestamp + usedValidity) > 0 && currentTimeMillis() > (datedCurrentValue.timestamp + usedValidity))) {
             update()
         } else {
             datedCurrentValue.data
         }
     }
+
+    suspend fun getDirect() = _current?.data ?: get(validity = Long.MAX_VALUE)
 
 }
 
@@ -38,11 +40,13 @@ fun <D : Any?, O : Any?> SKData<D>.map(transform: (d: D) -> O): SKData<O> {
         override val _current
             get() = this@map._current?.let { transformDatedData(it) }
 
-        private fun transformDatedData(datedData: DatedData<D>) = transform(datedData.data).let { transformedValue ->
-            DatedData(
+        private fun transformDatedData(datedData: DatedData<D>) =
+            transform(datedData.data).let { transformedValue ->
+                DatedData(
                     data = transformedValue,
-                    timestamp = datedData.timestamp)
-        }
+                    timestamp = datedData.timestamp
+                )
+            }
 
         override suspend fun update(): O {
             return transform(this@map.update())
@@ -68,19 +72,23 @@ fun <D1 : Any, D2 : Any> combineSKData(data1: SKData<D1>, data2: SKData<D2>): SK
             get() = buildPair(data1._current, data2._current)
 
 
-        private fun buildPair(datedData1: DatedData<D1>?, datedData2: DatedData<D2>?): DatedData<Pair<D1, D2>>? =
-                if (datedData1 != null && datedData2 != null) {
-                    DatedData(
-                            data = Pair(datedData1.data, datedData2.data),
-                            timestamp = min(datedData1.timestamp, datedData2.timestamp)
-                    )
-                } else {
-                    null
-                }
+        private fun buildPair(
+            datedData1: DatedData<D1>?,
+            datedData2: DatedData<D2>?
+        ): DatedData<Pair<D1, D2>>? =
+            if (datedData1 != null && datedData2 != null) {
+                DatedData(
+                    data = Pair(datedData1.data, datedData2.data),
+                    timestamp = min(datedData1.timestamp, datedData2.timestamp)
+                )
+            } else {
+                null
+            }
 
         override val flow: Flow<DatedData<Pair<D1, D2>>?> = combineTransform(
-                data1.flow,
-                data2.flow) { datedDataFlow1, datedDataFlow2 ->
+            data1.flow,
+            data2.flow
+        ) { datedDataFlow1, datedDataFlow2 ->
             buildPair(datedDataFlow1, datedDataFlow2)?.let { emit(it) }
 
         }
@@ -91,9 +99,9 @@ fun <D1 : Any, D2 : Any> combineSKData(data1: SKData<D1>, data2: SKData<D2>): SK
                     data1.update()
                 }
                 val updatedData2 =
-                        async {
-                            data2.update()
-                        }
+                    async {
+                        data2.update()
+                    }
                 Pair(updatedData1.await(), updatedData2.await())
             }
         }

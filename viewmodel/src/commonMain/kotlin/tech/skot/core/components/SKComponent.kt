@@ -156,7 +156,6 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
                 fallBackJob?.cancel()
                 block(it)
             }
-            block(get(validity))
             launchNoCrash {
                 flow.drop(1).collect {
                     it?.let {
@@ -169,7 +168,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
 
     }
 
-    open fun computeItemId():Any {
+    open fun computeItemId(): Any {
         return this
     }
 

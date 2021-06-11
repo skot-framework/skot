@@ -31,19 +31,19 @@ data class SKLibrary(val group: String, val version: String) {
                     }
         }
 
-        fun addDependenciesToLibraries(kotlinExtension:KotlinMultiplatformExtension, path:Path) {
+        fun addDependenciesToLibraries(kotlinExtension:KotlinMultiplatformExtension, path:Path, module:String) {
             kotlinExtension.addDependenciesToLibraries(
-                    getDeclaredLibraries(path)
+                    getDeclaredLibraries(path), module
             )
         }
 
-        fun KotlinMultiplatformExtension.addDependenciesToLibraries(libraries: List<SKLibrary>) {
+        fun KotlinMultiplatformExtension.addDependenciesToLibraries(libraries: List<SKLibrary>, module:String) {
             sourceSets["commonMain"].dependencies {
-                libraries.forEach { skApi(it) }
+                libraries.forEach { skApi(it,module) }
             }
         }
 
-        fun KotlinDependencyHandler.skApi(library: SKLibrary) = api("${library.group}:library:${library.version}")
+        fun KotlinDependencyHandler.skApi(library: SKLibrary, module:String) = api("${library.group}:$module:${library.version}")
 
         fun addDependenciesToViewContract(dependenciesHandler: DependencyHandlerScope, path: Path) {
             getDeclaredLibraries(path)

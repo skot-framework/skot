@@ -9,6 +9,7 @@ object FrameworkClassNames {
     val coroutineContext = ClassName("kotlin.coroutines", "CoroutineContext")
 
     val skManualData = ClassName("tech.skot.model","SKManualData")
+    val skData = ClassName("tech.skot.model","SKData")
     val globalCache = ClassName("tech.skot.model","globalCache")
     val skActivity = ClassName("tech.skot.core.components","SKActivity")
     val get = ClassName("tech.skot.core.di","get")

@@ -6,7 +6,6 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import kotlin.system.measureTimeMillis
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class TestSKData {
 

@@ -78,6 +78,11 @@ gradlePlugin {
             implementationClass = "tech.skot.tools.gradle.PluginStarter"
         }
 
+        create("SkotLibraryContract") {
+            id = "skot-library-contract"
+            implementationClass = "tech.skot.tools.gradle.PluginLibraryContract"
+        }
+
         create("SkotLibrary") {
             id = "skot-library"
             implementationClass = "tech.skot.tools.gradle.PluginLibrary"

@@ -5,9 +5,8 @@ import tech.skot.core.di.coreViewInjector
 
 open class SKButton(
     label:String? = null,
-    enabled:Boolean = true,
-    hidden:Boolean = false,
-    gone:Boolean = false,
+    enabled:Boolean? = null,
+    hidden:Boolean? = null,
     onTap:(()->Unit)? = null,
     ): SKComponent<SKButtonVC>() {
 

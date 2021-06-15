@@ -9,7 +9,6 @@ import tech.skot.view.extensions.updatePadding
 abstract class SKScreenView<B : ViewBinding>(activity: SKActivity, fragment: Fragment?, binding: B) : SKComponentView<B>(activity, fragment, binding) {
     val view: View = binding.root
 
-    open fun windowInsetPaddingTop() = false
 
     private var onBackPressed: (() -> Unit)? = null
     fun setOnBackPressed(onBackPressed: (() -> Unit)?) {
@@ -24,26 +23,34 @@ abstract class SKScreenView<B : ViewBinding>(activity: SKActivity, fragment: Fra
 //        SKLog.d("${this::class.simpleName} ${this.hashCode()} onPause")
     }
 
+
+    protected fun fullScreen(withPaddingTop:Boolean = true) {
+        activity.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        if (withPaddingTop) {
+            windowInsetPaddingTop()
+        }
+    }
+
+    protected fun windowInsetPaddingTop() {
+        val loadedInsets = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            activity.window?.decorView?.rootWindowInsets
+        } else {
+            TODO("VERSION.SDK_INT < M")
+        }
+        val initialPaddingTop = view.paddingTop
+        if (loadedInsets != null) {
+            view.updatePadding(top = view.paddingTop + loadedInsets.systemWindowInsetTop)
+        } else {
+            view.setOnApplyWindowInsetsListener { view, windowInsets ->
+                view.updatePadding(top = initialPaddingTop + windowInsets.systemWindowInsetTop)
+                windowInsets
+            }
+        }
+    }
+
     init {
         ScreensManager.backPressed.observe(this) {
             onBackPressed?.invoke()
-        }
-
-        if (windowInsetPaddingTop()) {
-            val loadedInsets = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                activity.window?.decorView?.rootWindowInsets
-            } else {
-                TODO("VERSION.SDK_INT < M")
-            }
-            val initialPaddingTop = view.paddingTop
-            if (loadedInsets != null) {
-                view.updatePadding(top = view.paddingTop + loadedInsets.systemWindowInsetTop)
-            } else {
-                view.setOnApplyWindowInsetsListener { view, windowInsets ->
-                    view.updatePadding(top = initialPaddingTop + windowInsets.systemWindowInsetTop)
-                    windowInsets
-                }
-            }
         }
 
     }

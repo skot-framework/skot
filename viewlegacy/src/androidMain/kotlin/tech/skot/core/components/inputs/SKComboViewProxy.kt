@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKComponentViewProxy
 import tech.skot.view.live.MutableSKLiveData
+import tech.skot.viewlegacy.R
 import tech.skot.viewlegacy.databinding.SkComboBinding
 
 class SKComboViewProxy(
@@ -14,6 +15,8 @@ class SKComboViewProxy(
     selectedInitial: SKComboVC.Choice?,
     enabledInitial:Boolean?
 ) : SKComponentViewProxy<SkComboBinding>(), SKComboVC {
+
+    override val layoutId: Int? = R.layout.sk_combo
 
     private val choicesLD = MutableSKLiveData(choicesInitial)
     override var choices by choicesLD

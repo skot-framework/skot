@@ -50,7 +50,7 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
     }
 
     open fun bindingOf(view:View):B {
-        throw IllegalStateException("You cant't bind this component to a view")
+        return (view as? B) ?: throw IllegalStateException("You cant't bind this component to a view")
     }
 
     fun bindToItemView(activity: SKActivity, fragment: Fragment?, view:View):SKComponentView<B> {

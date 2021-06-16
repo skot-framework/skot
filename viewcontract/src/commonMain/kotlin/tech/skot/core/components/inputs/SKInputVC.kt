@@ -28,4 +28,6 @@ interface SKInputVC: SKComponentVC {
     var hidden: Boolean?
     var enabled: Boolean?
 
+    fun requestFocus()
+
 }

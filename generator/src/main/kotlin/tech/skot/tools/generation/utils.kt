@@ -68,6 +68,11 @@ fun TypeName.simpleName(): String? = when {
 fun FileSpec.Builder.addImportClassName(className: ClassName) =
     addImport(className.packageName, className.simpleName)
 
+fun FileSpec.Builder.addImportTypeName(typeName: TypeName) =
+    when(typeName) {
+        is ParameterizedTypeName -> addImportClassName(typeName.rawType)
+        else -> addImportClassName(typeName as ClassName)
+    }
 
 fun String.packageToPathFragment() = replace('.', '/')
 

@@ -49,7 +49,7 @@ fun Generator.generateStates(rootState: StateDef) {
                                 )
                             }
                 )
-            }.writeTo(generatedCommonSources(Modules.model))
+            }.writeTo(generatedCommonSources(Modules.modelcontract))
         }
 
 

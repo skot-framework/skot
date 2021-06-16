@@ -6,6 +6,7 @@ import com.google.android.material.textfield.TextInputLayout
 import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKComponentViewProxy
 import tech.skot.view.live.MutableSKLiveData
+import tech.skot.view.live.SKMessage
 
 class SKInputViewProxy(
     override val maxSize: Int?,
@@ -38,6 +39,12 @@ class SKInputViewProxy(
     private val textLD: MutableSKLiveData<String?> = MutableSKLiveData(textInitial)
 
     override var text: String? by textLD
+
+    private val requestFocusMessage = SKMessage<Unit>()
+    override fun requestFocus() {
+        requestFocusMessage.post(Unit)
+    }
+
 
     companion object {
         var LAYOUT_ID:Int? = null
@@ -73,6 +80,9 @@ class SKInputViewProxy(
         }
         textLD.observe {
             onText(it)
+        }
+        requestFocusMessage.observe {
+            requestFocus()
         }
     }
 

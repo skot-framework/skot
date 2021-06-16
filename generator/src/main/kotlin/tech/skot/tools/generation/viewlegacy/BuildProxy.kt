@@ -2,11 +2,10 @@ package tech.skot.tools.generation.viewlegacy
 
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import org.w3c.dom.Document
 import tech.skot.core.components.SKLayoutIsRoot
+import tech.skot.core.components.SKLayoutIsSimpleView
 import tech.skot.core.components.SKLayoutNo
 import tech.skot.core.components.SKLegacyViewIncluded
-import tech.skot.core.components.SKLayoutIsSimpleView
 import tech.skot.tools.generation.*
 import tech.skot.tools.generation.AndroidClassNames.layoutInflater
 import tech.skot.tools.generation.AndroidClassNames.viewGroup
@@ -320,7 +319,7 @@ fun PropertyDef.bindToSubComponent(generator: Generator, includesIds: Set<String
     fun KClass<*>.binding(name: String): String =
         when {
             hasAnnotation<SKLayoutNo>() -> "Unit"
-            hasAnnotation<SKLegacyViewIncluded>() || (hasAnnotation<SKLayoutIsSimpleView>() &&  tagIsInclude()) -> "binding.$name.root"
+            hasAnnotation<SKLegacyViewIncluded>() || (hasAnnotation<SKLayoutIsSimpleView>() && tagIsInclude()) -> "binding.$name.root"
             hasAnnotation<SKLayoutIsRoot>() -> "binding.root"
             else -> "binding.$name"
         }
@@ -367,7 +366,14 @@ fun ComponentDef.buildRAI(viewModuleAndroidPackage: String): TypeSpec =
         }
         .build()
 
-fun TypeName.kClass() = Class.forName((this as ClassName).canonicalName).kotlin
+fun TypeName.kClass() =
+    Class.forName(
+        when (this) {
+            is ParameterizedTypeName -> rawType
+            else -> this as ClassName
+        }.canonicalName
+    ).kotlin
+//    Class.forName((this as ClassName).canonicalName).kotlin
 
 fun KClass<*>.binding(name: String): String =
     when {

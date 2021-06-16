@@ -2,45 +2,50 @@ package tech.skot.tools.generation
 
 import com.squareup.kotlinpoet.*
 import tech.skot.core.components.*
+import tech.skot.core.components.SKLayoutIsRoot
+import tech.skot.core.components.SKLayoutNo
 import tech.skot.core.components.SKOpens
-import tech.skot.core.components.SKUses
+import tech.skot.core.components.SKPassToParentView
 import tech.skot.core.components.SKScreenVC
 import tech.skot.core.components.SKUIState
-import tech.skot.core.components.SKLayoutNo
-import tech.skot.core.components.SKLayoutIsRoot
-import tech.skot.core.components.SKPassToParentView
+import tech.skot.core.components.SKUses
+import tech.skot.model.SKStateDef
 import tech.skot.tools.generation.viewmodel.toVM
-import java.lang.IllegalStateException
 import kotlin.reflect.*
 import kotlin.reflect.full.*
-import tech.skot.model.SKStateDef
 import kotlin.reflect.jvm.jvmErasure
 
 data class ComponentDef(
-        val name: String,
-        val vc: KClass<out SKComponentVC>,
-        val packageName: String,
-        val subComponents: List<PropertyDef>,
-        val fixProperties: List<PropertyDef>,
-        val mutableProperties: List<PropertyDef>,
-        val state:ClassName?,
-        val ownFunctions: List<KFunction<*>>,
-        val ownFunctionsNotInInterface: List<KFunction<*>>
+    val name: String,
+    val vc: KClass<out SKComponentVC>,
+    val packageName: String,
+    val subComponents: List<PropertyDef>,
+    val fixProperties: List<PropertyDef>,
+    val mutableProperties: List<PropertyDef>,
+    val state: ClassName?,
+    val ownFunctions: List<KFunction<*>>,
+    val ownFunctionsNotInInterface: List<KFunction<*>>
 ) {
 
     fun proxy() = ClassName(packageName, name.suffix("ViewProxy"))
     fun rai() = ClassName(packageName, name.suffix("RAI"))
     fun viewModelGen() = ClassName(packageName, name.suffix("Gen"))
     fun viewModel() = ClassName(packageName, name)
-    fun modelContract() = ClassName(packageName,name.suffix("MC"))
-    fun viewContract() = ClassName(packageName,name.suffix("VC"))
-    fun model() = ClassName(packageName,name.suffix("Model"))
+    fun modelContract() = ClassName(packageName, name.suffix("MC"))
+    fun viewContract() = ClassName(packageName, name.suffix("VC"))
+    fun model() = ClassName(packageName, name.suffix("Model"))
 
-    fun layoutName() = name.map { if (it.isUpperCase()) "_${it.toLowerCase()}" else it }.joinToString(separator = "").substring(1)
-    fun binding(viewModuleAndroidPackage: String) = ClassName("$viewModuleAndroidPackage.databinding", name.suffix("Binding"))
+    fun layoutName() = name.map { if (it.isUpperCase()) "_${it.toLowerCase()}" else it }
+        .joinToString(separator = "").substring(1)
+
+    fun binding(viewModuleAndroidPackage: String) =
+        ClassName("$viewModuleAndroidPackage.databinding", name.suffix("Binding"))
+
     fun viewImpl() = ClassName(packageName, name.suffix("View"))
 
-    fun toFillVCparams() = (subComponents.toFillParams(init = { "${name.toVM()}.view" }) + fixProperties.toFillParams() + mutableProperties.map { it.initial() }.toFillParams()).joinToString(separator = ",")
+    fun toFillVCparams() =
+        (subComponents.toFillParams(init = { "${name.toVM()}.view" }) + fixProperties.toFillParams() + mutableProperties.map { it.initial() }
+            .toFillParams()).joinToString(separator = ",")
 
     val superVM = vc.supertypes.find { it.isComponent() }.let { it!!.vmClassName() }
     val isScreen = vc.isSubclassOf(SKScreenVC::class)
@@ -49,8 +54,7 @@ data class ComponentDef(
 
     val modelClass = try {
         Class.forName(modelContract().canonicalName).kotlin
-    }
-    catch (cnfe:ClassNotFoundException) {
+    } catch (cnfe: ClassNotFoundException) {
         null
     }
 
@@ -60,25 +64,40 @@ data class ComponentDef(
         it.returnType.isSubtypeOf(typeOf<SKStateDef>())
     } ?: emptyList()
 
-    val interfaces = vc.supertypes.filter { !it.isComponent() }.dropLast(1).map { it.jvmErasure.asClassName() }
+    val interfaces =
+        vc.supertypes.filter { !it.isComponent() }.dropLast(1).map { it.jvmErasure.asClassName() }
 
-    val interfacesImpl = interfaces.map { ClassName(it.packageName, "${it.simpleName}Impl")  }
+    val interfacesImpl = interfaces.map { ClassName(it.packageName, "${it.simpleName}Impl") }
 }
 
-fun KClass<out SKComponentVC>.meOrSubComponentHasState():Boolean = nestedClasses.any { it.hasAnnotation<SKUIState>() } || ownProperties().any { it.returnType.isComponent() && (it.returnType.classifier as KClass<out SKComponentVC>).meOrSubComponentHasState()}
+fun KClass<out SKComponentVC>.meOrSubComponentHasState(): Boolean =
+    nestedClasses.any { it.hasAnnotation<SKUIState>() } || ownProperties().any { it.returnType.isComponent() && (it.returnType.classifier as KClass<out SKComponentVC>).meOrSubComponentHasState() }
 
-fun KType.vmClassName() = (classifier as KClass<out SKComponentVC>).let { ClassName(it.packageName(), it.simpleName!!.toVM()) }
+fun KType.vmClassName() = (classifier as KClass<out SKComponentVC>).let {
+    ClassName(
+        it.packageName(),
+        it.simpleName!!.toVM()
+    )
+}
 
-data class PropertyDef(val name: String, val type: TypeName, val meOrSubComponentHasState:Boolean? = null, val passToParentView:Boolean = false) {
-    fun asParam(withDefaultNullIfNullable:Boolean = false): ParameterSpec = ParameterSpec.builder(name, type)
+data class PropertyDef(
+    val name: String,
+    val type: TypeName,
+    val meOrSubComponentHasState: Boolean? = null,
+    val passToParentView: Boolean = false
+) {
+    fun asParam(withDefaultNullIfNullable: Boolean = false): ParameterSpec =
+        ParameterSpec.builder(name, type)
             .apply {
 //                if (type.isNullable && withDefaultNullIfNullable) {
 //                    defaultValue("null")
 //                }
             }.build()
+
     fun initial(): PropertyDef = PropertyDef(name.initial(), type)
 
-    val isLambda = (type as? ParameterizedTypeName)?.rawType?.simpleName?.startsWith("Function") ?: false
+    val isLambda =
+        (type as? ParameterizedTypeName)?.rawType?.simpleName?.startsWith("Function") ?: false
 
     fun initializer() =
         when {
@@ -86,11 +105,11 @@ data class PropertyDef(val name: String, val type: TypeName, val meOrSubComponen
             (type as? ClassName)?.simpleName == "String" -> "\"???\""
             isLambda -> "{ ${name}() }"
             else -> (type as ClassName).simpleName + "??"
-    }
+        }
 
-    fun inPackage(packageName:String) = (type as? ClassName)?.packageName?.startsWith(packageName)
+    fun inPackage(packageName: String) = (type as? ClassName)?.packageName?.startsWith(packageName)
 
-    val viewImplClassName:ClassName by lazy {
+    val viewImplClassName: ClassName by lazy {
         (type as ClassName).let {
             ClassName(it.packageName, it.simpleName!!.withOut("VC").suffix("View"))
         }
@@ -99,15 +118,21 @@ data class PropertyDef(val name: String, val type: TypeName, val meOrSubComponen
 
 }
 
-fun List<PropertyDef>.toFillParams(init:(PropertyDef.()->String)? = null) = map { "${it.name} = ${init?.invoke(it) ?: it.initializer()}" }
+fun List<PropertyDef>.toFillParams(init: (PropertyDef.() -> String)? = null) =
+    map { "${it.name} = ${init?.invoke(it) ?: it.initializer()}" }
 
 
-
-fun MutableSet<KClass<out SKComponentVC>>.addLinkedComponents(aComponentClass: KClass<out SKComponentVC>, appPackageName:String) {
+fun MutableSet<KClass<out SKComponentVC>>.addLinkedComponents(
+    aComponentClass: KClass<out SKComponentVC>,
+    appPackageName: String
+) {
     add(aComponentClass)
-    val subComponents = aComponentClass.ownProperties().map { it.returnType }.filter { it.isComponent() && (it.asTypeName() as ClassName).packageName.startsWith(appPackageName)}.map { it.jvmErasure as KClass<out SKComponentVC> }
+    val subComponents = aComponentClass.ownProperties().map { it.returnType }.filter {
+        it.isComponent() && (it.asTypeName() as? ClassName)?.packageName?.startsWith(appPackageName) == true
+    }.map { it.jvmErasure as KClass<out SKComponentVC> }
 
-    aComponentClass.nestedClasses.filter { it.isComponent() }.map { it as KClass<out SKComponentVC> }.forEach {
+    aComponentClass.nestedClasses.filter { it.isComponent() }
+        .map { it as KClass<out SKComponentVC> }.forEach {
         addLinkedComponents(it, appPackageName)
     }
 
@@ -137,7 +162,7 @@ fun KClass<out SKComponentVC>.ownFunctions(): List<KFunction<*>> {
 }
 
 fun KClass<out SKComponentVC>.ownFunctionsNotInInterface(): List<KFunction<*>> {
-    val superTypesKFunctionsNames = superclasses.flatMap { it.functions.map { it.name }}
+    val superTypesKFunctionsNames = superclasses.flatMap { it.functions.map { it.name } }
     return functions.filter { !superTypesKFunctionsNames.contains(it.name) }
 }
 
@@ -155,24 +180,29 @@ fun KClass<out SKComponentVC>.def(): ComponentDef {
 
 
     return ComponentDef(
-            name = simpleName!!.withOut("VC"),
-            vc = this,
-            packageName = packageName(),
-            subComponents = subComponentsProperties.map {
-                if (it is KMutableProperty) {
-                    throw IllegalStateException("SubComponent ${it.name} of ${this.packageName()}.${this.simpleName} is Mutable, it is not allowed !!!")
-                }
-                PropertyDef(it.name, it.returnType.asTypeName(), meOrSubComponentHasState = (it.returnType.classifier as KClass<out SKComponentVC>).meOrSubComponentHasState(), passToParentView = it.returnType.jvmErasure.hasAnnotation<SKPassToParentView>())
-            },
-            fixProperties = stateProperties.filter { !(it is KMutableProperty) }.map {
-                PropertyDef(name = it.name, type = it.returnType.asTypeName())
-            },
-            mutableProperties = stateProperties.filter { it is KMutableProperty }.map {
-                PropertyDef(name = it.name, type = it.returnType.asTypeName())
-            },
-            state = nestedClasses.find { it.hasAnnotation<SKUIState>() }?.asClassName(),
-            ownFunctions = ownFunctions(),
-            ownFunctionsNotInInterface = ownFunctionsNotInInterface()
+        name = simpleName!!.withOut("VC"),
+        vc = this,
+        packageName = packageName(),
+        subComponents = subComponentsProperties.map {
+            if (it is KMutableProperty) {
+                throw IllegalStateException("SubComponent ${it.name} of ${this.packageName()}.${this.simpleName} is Mutable, it is not allowed !!!")
+            }
+            PropertyDef(
+                it.name,
+                it.returnType.asTypeName(),
+                meOrSubComponentHasState = (it.returnType.classifier as KClass<out SKComponentVC>).meOrSubComponentHasState(),
+                passToParentView = it.returnType.jvmErasure.hasAnnotation<SKPassToParentView>()
+            )
+        },
+        fixProperties = stateProperties.filter { !(it is KMutableProperty) }.map {
+            PropertyDef(name = it.name, type = it.returnType.asTypeName())
+        },
+        mutableProperties = stateProperties.filter { it is KMutableProperty }.map {
+            PropertyDef(name = it.name, type = it.returnType.asTypeName())
+        },
+        state = nestedClasses.find { it.hasAnnotation<SKUIState>() }?.asClassName(),
+        ownFunctions = ownFunctions(),
+        ownFunctionsNotInInterface = ownFunctionsNotInInterface()
 
     )
 }
@@ -191,7 +221,15 @@ fun String.initial() = suffix("Initial")
 fun KClass<*>.packageName() = this.java.`package`.name
 
 val componentViewType = SKComponentVC::class.createType()
-val collectionType = Collection::class.createType(arguments = listOf(KTypeProjection(KVariance.OUT, componentViewType)))
+val collectionType = Collection::class.createType(
+    arguments = listOf(
+        KTypeProjection(
+            KVariance.OUT,
+            componentViewType
+        )
+    )
+)
+
 fun KType.isComponent() = componentViewType.isSupertypeOf(this)
 fun KClass<*>.isComponent() = this.isSubclassOf(SKComponentVC::class)
 

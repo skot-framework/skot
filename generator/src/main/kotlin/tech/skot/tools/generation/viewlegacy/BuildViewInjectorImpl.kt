@@ -1,9 +1,7 @@
 package tech.skot.tools.generation.viewlegacy
 
 import com.squareup.kotlinpoet.*
-import tech.skot.tools.generation.ComponentDef
-import tech.skot.tools.generation.Generator
-import tech.skot.tools.generation.addImportClassName
+import tech.skot.tools.generation.*
 
 fun Generator.generateViewLegacyInjectorImpl(module: String) {
 
@@ -18,7 +16,7 @@ fun Generator.generateViewLegacyInjectorImpl(module: String) {
                 components.forEach {
                     addImportClassName(it.proxy())
                     it.subComponents.forEach {
-                        addImportClassName(it.type.toProxy())
+                        addImportTypeName(it.type.toProxy())
                     }
                 }
 
@@ -43,5 +41,5 @@ fun ComponentDef.asViewLegacyInjection(generator: Generator) =
                 }
                 .returns(vc)
                 .addCode(
-                        "return ${proxy().simpleName}(${(subComponents.map { "${it.name} as ${((it.type.toProxy() as ClassName).simpleName)}" } + (fixProperties.map { it.name } + mutableProperties.map { it.initial().name })).joinToString(separator = ",")})")
+                        "return ${proxy().simpleName}(${(subComponents.map { "${it.name} as ${it.type.toProxy().simpleName()}" } + (fixProperties.map { it.name } + mutableProperties.map { it.initial().name })).joinToString(separator = ",")})")
                 .build()

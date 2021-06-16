@@ -1,6 +1,7 @@
 package tech.skot.tools.generation.viewlegacy
 
 import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import tech.skot.tools.generation.*
 import java.nio.file.Files
 
@@ -98,8 +99,18 @@ fun String.toProxy() = when {
     }
 }
 
-fun TypeName.toProxy() =
-    (this as ClassName).let { ClassName(it.packageName, it.simpleName.toProxy()) }
+fun TypeName.toProxy():TypeName {
+    return if (this is ParameterizedTypeName) {
+        val newRaw:ClassName = rawType.let { ClassName(it.packageName, it.simpleName.toProxy()) }
+        newRaw.parameterizedBy(typeArguments)
+//        ParameterizedTypeName(rawType = newRaw, type)
+    }
+    else {
+        (this as ClassName).let { ClassName(it.packageName, it.simpleName.toProxy()) }
+    }
+}
+
+
 
 
 fun String.toView() = when {

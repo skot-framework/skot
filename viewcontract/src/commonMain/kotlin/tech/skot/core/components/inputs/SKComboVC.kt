@@ -4,14 +4,17 @@ import tech.skot.core.components.SKComponentVC
 
 interface SKComboVC: SKComponentVC {
     val hint: String?
-    val onSelected: (newText: String) -> Unit
+    val onSelected: ((choice: Any?) -> Unit)?
     var choices: List<Choice>
     var selected: Choice?
     var enabled: Boolean?
+    var dropDownDisplayed:Boolean
 
-    data class Choice(
-        val text: String,
+    class Choice(
+        val data:Any?,
+        val text: String = data.toString(),
         val strikethrough: Boolean = false,
-        val colored: Boolean = false
+        val colored: Boolean = false,
+        val inputText:String = text,
     )
 }

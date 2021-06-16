@@ -4,6 +4,7 @@ import tech.skot.core.components.*
 import tech.skot.core.components.inputs.SKButtonVC
 import tech.skot.core.components.inputs.SKComboVC
 import tech.skot.core.components.inputs.SKInputVC
+import tech.skot.core.components.inputs.SKInputWithSuggestionsVC
 import tech.skot.core.components.presented.*
 
 interface CoreViewInjector {
@@ -32,7 +33,26 @@ interface CoreViewInjector {
         enabledInitial: Boolean?
     ) : SKInputVC
 
-    fun combo(hint:String?, onSelected:(newText:String)->Unit, choicesInitial:List<SKComboVC.Choice>, selectedInitial: SKComboVC.Choice?, enabledInitial:Boolean?): SKComboVC
+    fun combo(
+        hint: String?,
+        onSelected: ((choice: Any?) -> Unit)?,
+        choicesInitial: List<SKComboVC.Choice>,
+        selectedInitial: SKComboVC.Choice?,
+        enabledInitial: Boolean?,
+        dropDownDisplayedInitial:Boolean
+    ): SKComboVC
+
+    fun inputWithSuggestions(
+        hint: String?,
+        onSelected: ((choice: Any?) -> Unit)?,
+        choicesInitial: List<SKComboVC.Choice>,
+        selectedInitial: SKComboVC.Choice?,
+        enabledInitial: Boolean?,
+        dropDownDisplayedInitial:Boolean,
+        onInputText:(input:String?) -> Unit,
+        textInitial: String?,
+    ): SKInputWithSuggestionsVC
+
 
     fun button(
         onTapInitial: (() -> Unit)?,

@@ -1,6 +1,7 @@
 package tech.skot.core.components
 
 import android.widget.TextView
+import androidx.annotation.CallSuper
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -33,7 +34,8 @@ abstract class SKComponentView<B : Any>(val activity: SKActivity, protected val 
         }
     }
 
-    fun removeObservers() {
+    @CallSuper
+    open fun removeObservers() {
         componentObservers.forEach { it.remove() }
         componentObservers.clear()
     }

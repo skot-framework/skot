@@ -80,12 +80,41 @@ class CoreViewInjectorImpl : CoreViewInjector {
             textInitial
         )
 
-    override fun combo(hint:String?, onSelected:(newText:String)->Unit, choicesInitial:List<SKComboVC.Choice>, selectedInitial: SKComboVC.Choice?, enabledInitial:Boolean?) = SKComboViewProxy(
+    override fun combo(
+        hint: String?,
+        onSelected: ((choice: Any?) -> Unit)?,
+        choicesInitial: List<SKComboVC.Choice>,
+        selectedInitial: SKComboVC.Choice?,
+        enabledInitial: Boolean?,
+        dropDownDisplayedInitial:Boolean
+    ) = SKComboViewProxy(
         hint = hint,
         onSelected = onSelected,
         choicesInitial = choicesInitial,
         selectedInitial = selectedInitial,
-        enabledInitial = enabledInitial
+        enabledInitial = enabledInitial,
+        dropDownDisplayedInitial = dropDownDisplayedInitial
+    )
+
+    override fun inputWithSuggestions(
+        hint: String?,
+        onSelected: ((choice: Any?) -> Unit)?,
+        choicesInitial: List<SKComboVC.Choice>,
+        selectedInitial: SKComboVC.Choice?,
+        enabledInitial: Boolean?,
+        dropDownDisplayedInitial:Boolean,
+        onInputText:(input:String?) -> Unit,
+        textInitial: String?,
+    ) = SKInputWithSuggestionsViewProxy(
+        hint = hint,
+        onSelected = onSelected,
+        choicesInitial = choicesInitial,
+        selectedInitial = selectedInitial,
+        enabledInitial = enabledInitial,
+        dropDownDisplayedInitial = dropDownDisplayedInitial,
+        onInputText = onInputText,
+        textInitial = textInitial,
+
     )
 
     override fun button(

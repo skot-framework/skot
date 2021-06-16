@@ -2,21 +2,51 @@ package tech.skot.core.components.inputs
 
 import android.view.View
 import androidx.fragment.app.Fragment
+import tech.skot.core.SKLog
 import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKComponentViewProxy
 import tech.skot.view.live.MutableSKLiveData
 import tech.skot.viewlegacy.R
 import tech.skot.viewlegacy.databinding.SkComboBinding
 
+
 class SKComboViewProxy(
-    override val hint: String?,
-    override val onSelected: (newText: String) -> Unit,
+    hint: String?,
+    onSelected: ((choice: Any?) -> Unit)?,
     choicesInitial: List<SKComboVC.Choice>,
     selectedInitial: SKComboVC.Choice?,
-    enabledInitial:Boolean?
-) : SKComponentViewProxy<SkComboBinding>(), SKComboVC {
-
+    enabledInitial: Boolean?,
+    dropDownDisplayedInitial: Boolean
+) : SKCommonComboViewProxy<SkComboBinding>(
+    hint = hint,
+    onSelected = onSelected,
+    choicesInitial = choicesInitial,
+    selectedInitial = selectedInitial,
+    enabledInitial = enabledInitial,
+    dropDownDisplayedInitial = dropDownDisplayedInitial
+) {
     override val layoutId: Int? = R.layout.sk_combo
+    override fun bindingOf(view: View) = SkComboBinding.bind(view)
+
+    override fun bindTo(
+        activity: SKActivity,
+        fragment: Fragment?,
+        binding: SkComboBinding,
+        collectingObservers: Boolean
+    ) = SKComboView(activity, fragment, binding).apply {
+        bind()
+    }
+}
+
+abstract class SKCommonComboViewProxy<Binding: Any>(
+    override val hint: String?,
+    override val onSelected: ((choice: Any?) -> Unit)?,
+    choicesInitial: List<SKComboVC.Choice>,
+    selectedInitial: SKComboVC.Choice?,
+    enabledInitial: Boolean?,
+    dropDownDisplayedInitial: Boolean
+) : SKComponentViewProxy<Binding>(), SKComboVC {
+
 
     private val choicesLD = MutableSKLiveData(choicesInitial)
     override var choices by choicesLD
@@ -27,14 +57,11 @@ class SKComboViewProxy(
     private val enabledLD = MutableSKLiveData(enabledInitial)
     override var enabled by enabledLD
 
-    override fun bindingOf(view: View) = SkComboBinding.bind(view)
+    private val dropDownDisplayedLD = MutableSKLiveData(dropDownDisplayedInitial)
+    override var dropDownDisplayed: Boolean by dropDownDisplayedLD
 
-    override fun bindTo(
-        activity: SKActivity,
-        fragment: Fragment?,
-        binding: SkComboBinding,
-        collectingObservers: Boolean
-    ) = SKComboView(activity, fragment, binding).apply {
+
+    fun SKCommonComboView<Binding>.bind() {
         collectObservers = collectObservers
         onHint(hint)
         onOnSelected(onSelected)
@@ -46,6 +73,9 @@ class SKComboViewProxy(
         }
         enabledLD.observe {
             onEnabled(it)
+        }
+        dropDownDisplayedLD.observe {
+            onDropDownDisplayed(it)
         }
     }
 }

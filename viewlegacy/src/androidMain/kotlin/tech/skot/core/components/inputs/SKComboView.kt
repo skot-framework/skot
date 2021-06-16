@@ -1,17 +1,13 @@
 package tech.skot.core.components.inputs
 
-import android.text.Editable
 import android.text.InputType
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.textfield.TextInputLayout
 import tech.skot.core.SKLog
 import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKComponentView
@@ -23,24 +19,54 @@ class SKComboView(
     activity: SKActivity,
     fragment: Fragment?,
     binding: SkComboBinding
-): SKComponentView<SkComboBinding>(activity, fragment, binding) {
+) : SKCommonComboView<SkComboBinding>(
+    activity,
+    fragment,
+    binding,
+    binding.root,
+    binding.autoComplete
+) {
+    init {
+        autoComplete.apply {
+            isEnabled = false
+            inputType = InputType.TYPE_NULL
+        }
+    }
+}
+
+abstract class SKCommonComboView<Binding : Any>(
+    activity: SKActivity,
+    fragment: Fragment?,
+    binding: Binding,
+    protected val inputLayout: TextInputLayout,
+    protected val autoComplete: AutoCompleteTextView
+) : SKComponentView<Binding>(activity, fragment, binding) {
 
     private var _adapter: BaseAdapter? = null
-    private var _choices:List<SKComboVC.Choice> = emptyList()
+    private var _choices: List<SKComboVC.Choice> = emptyList()
+
 
     init {
-        binding.dropdown.apply {
-            inputType = InputType.TYPE_NULL
-            isEnabled = false
+        autoComplete.apply {
+//            inputInputType?.let { inputType = it }
+//            isEnabled = inputIsEnabled
+////            isEnabled = true
+//            inputType = inputInputType
 
             object : BaseAdapter(), Filterable {
                 override fun getView(position: Int, p1: View?, viewGroup: ViewGroup?): View {
-                    val tv = LayoutInflater.from(context).inflate(R.layout.sk_combo_choice_item, viewGroup, false)
+                    val tv = LayoutInflater.from(context)
+                        .inflate(R.layout.sk_combo_choice_item, viewGroup, false)
                     val choice = _choices[position]
                     (tv as? TextView)?.let { textView ->
                         textView.text = choice.text
                         textView.strike(choice.strikethrough)
-                        textView.setTextColor(ContextCompat.getColor(context, if (choice.colored) R.color.sk_combo_choice_text_colored_color else R.color.sk_combo_choice_text_color))
+                        textView.setTextColor(
+                            ContextCompat.getColor(
+                                context,
+                                if (choice.colored) R.color.sk_combo_choice_text_colored_color else R.color.sk_combo_choice_text_color
+                            )
+                        )
                     }
                     return tv
                 }
@@ -76,44 +102,78 @@ class SKComboView(
 
 
     fun onHint(hint: String?) {
-        binding.root.hint = hint
+        inputLayout.hint = hint
     }
 
-    var lockSelectedReaction = false
+    protected var lockSelectedReaction = false
 
-    fun onOnSelected(onSelected: (newText: String) -> Unit) {
-        binding.dropdown.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-                if (!lockSelectedReaction) {
-                    p0?.let { onSelected(it.toString()) }
+    fun onOnSelected(onSelected: ((data: Any?) -> Unit)?) {
+        if (onSelected != null) {
+            SKLog.d("----- onOnSelected : $onSelected")
+            autoComplete.setOnItemClickListener { parent, view, position, id ->
+                SKLog.d("---- dans OnItemClickListener $position $id")
+                _choices.getOrNull(position)?.let {
+                    SKLog.d("-###### $it")
+                    onSelected(it.data)
+                    SKLog.d("-###### $it   onSelected done")
                 }
-            }
 
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                // na
             }
+        } else {
+            autoComplete.setOnClickListener(null)
+        }
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                // na
-            }
-        })
+
+//        autoComplete.addTextChangedListener(object : TextWatcher {
+//            override fun afterTextChanged(p0: Editable?) {
+//                if (!lockSelectedReaction) {
+////                    p0?.let {
+////                        SKLog.d("---- dans onOnSelected")
+////                        onSelected(it.toString())
+////                    }
+//                }
+//            }
+//
+//            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//                // na
+//            }
+//
+//            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//                // na
+//            }
+//        })
     }
 
-    fun onChoices(choices:List<SKComboVC.Choice>) {
+    fun onChoices(choices: List<SKComboVC.Choice>) {
         _choices = choices
         _adapter?.notifyDataSetChanged()
     }
 
     fun onSelect(selected: SKComboVC.Choice?) {
         lockSelectedReaction = true
-        binding.dropdown.setText(selected?.text, false)
-        binding.dropdown.strike(selected?.strikethrough == true)
-        binding.dropdown.setTextColor(ContextCompat.getColor(activity, if (selected?.colored == true) R.color.sk_combo_choice_text_colored_color else R.color.sk_combo_choice_text_color))
+        SKLog.d("---- dans onSelect selected=${selected?.text}")
+        autoComplete.setText(selected?.inputText, false)
+        autoComplete.strike(selected?.strikethrough == true)
+        autoComplete.setTextColor(
+            ContextCompat.getColor(
+                activity,
+                if (selected?.colored == true) R.color.sk_combo_choice_text_colored_color else R.color.sk_combo_choice_text_color
+            )
+        )
         lockSelectedReaction = false
     }
 
-    fun onEnabled(enabled:Boolean?) {
-        binding.root.isEnabled = enabled != false
+    fun onEnabled(enabled: Boolean?) {
+        inputLayout.isEnabled = enabled != false
+    }
+
+    fun onDropDownDisplayed(state: Boolean) {
+        SKLog.d("onDropDownDisplayed   $state")
+        if (state) {
+            autoComplete.showDropDown()
+        } else {
+            autoComplete.dismissDropDown()
+        }
     }
 
 }

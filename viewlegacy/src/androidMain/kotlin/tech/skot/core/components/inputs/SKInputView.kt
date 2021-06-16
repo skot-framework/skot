@@ -40,6 +40,8 @@ class SKInputView(
 
     private var firstChangeDoneFor = false
 
+    private var watching:TextWatcher? = null
+
     override fun onOnInputText(onInputText: (String?) -> Unit) {
         val watcher = object : TextWatcher {
             // Un premier changement peut être lancé au premier affichage (pour passer de null à "" ??)
@@ -60,7 +62,14 @@ class SKInputView(
                 // nu
             }
         }
+        watching?.let { editText.removeTextChangedListener(it) }
         editText.addTextChangedListener(watcher)
+        watching = watcher
+    }
+
+    override fun removeObservers() {
+        super.removeObservers()
+        watching?.let { editText.removeTextChangedListener(it) }
     }
 
     override fun onType(type: SKInputVC.Type?) {
@@ -98,6 +107,10 @@ class SKInputView(
         } else if (text != oldValue) {
             editText.text.replace(0, oldValue.length, text)
         }
+    }
+
+    fun requestFocus() {
+        editText.requestFocus()
     }
 
 }

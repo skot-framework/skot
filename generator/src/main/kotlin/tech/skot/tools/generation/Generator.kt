@@ -7,6 +7,7 @@ import org.w3c.dom.Element
 import tech.skot.core.components.SKComponentVC
 import tech.skot.core.components.SKScreenVC
 import tech.skot.tools.generation.model.generateModel
+import tech.skot.tools.generation.resources.generateTransitions
 import tech.skot.tools.generation.viewlegacy.*
 import tech.skot.tools.generation.viewmodel.generateViewModel
 import java.nio.file.Files
@@ -98,6 +99,8 @@ class Generator(
     val modelInjectorImpl = ClassName("$appPackage.di", "ModelInjectorImpl")
     val modelInjectorIntance = ClassName("$appPackage.di", "modelInjector")
 
+    val transisitonsInterface = ClassName("$appPackage.view", "Transitions")
+    val transisitonsImpl = ClassName("$appPackage.view", "TransitionsImpl")
 
     val stringsInstance = ClassName(appPackage, "strings")
     val stringsInterface = ClassName(appPackage, "Strings")
@@ -145,6 +148,8 @@ class Generator(
         generateViewContract()
         generateViewLegacy()
         generateViewModel()
+        generateTransitions()
+
         generateModelContract()
         generateModel()
         deleteModuleGenerated(Modules.app)
@@ -346,6 +351,7 @@ class Generator(
                         .addStatement("single { ${colorsImpl.simpleName}() as ${colorsInterface.simpleName}}")
                         .addStatement("single { ${viewInjectorImpl.simpleName}() as ${viewInjectorInterface.simpleName}}")
                         .addStatement("single { ${modelInjectorImpl.simpleName}() as ${modelInjectorInterface.simpleName}}")
+                        .addStatement("single { ${transisitonsImpl.simpleName}() as ${transisitonsInterface.simpleName}}")
                         .beginControlFlow("single")
                         .beginControlFlow("${appFeatureInitializer.simpleName}")
                         .apply {
@@ -393,6 +399,8 @@ class Generator(
             .addImportClassName(colorsInterface)
             .addImportClassName(colorsImpl)
             .addImportClassName(appFeatureInitializer)
+            .addImportClassName(transisitonsInterface)
+            .addImportClassName(transisitonsImpl)
             .addImport("tech.skot.di", "modelFrameworkModule")
             .addImport("tech.skot.core.di", "coreViewModule")
             .addImport(appPackage, "start")

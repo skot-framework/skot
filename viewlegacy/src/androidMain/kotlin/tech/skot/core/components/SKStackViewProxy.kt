@@ -2,26 +2,29 @@ package tech.skot.core.components
 
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
+import tech.skot.view.SKTransitionAndroidLegacy
 import tech.skot.view.live.MutableSKLiveData
+
+class StateProxy(override val screens:List<SKScreenViewProxy<*>>, override val transition:SKTransitionAndroidLegacy?):SKStackVC.State(screens, transition)
 
 class SKStackViewProxy() : SKComponentViewProxy<FrameLayout>(), SKStackVC {
 
-    private val screensLD: MutableSKLiveData<List<SKScreenViewProxy<*>>> = MutableSKLiveData(emptyList())
+    private val stateLD: MutableSKLiveData<StateProxy> = MutableSKLiveData(StateProxy(emptyList(),null))
 
-    override var screens: List<SKScreenVC>
-        get() = screensLD.value
+    override var state: SKStackVC.State
+        get() = stateLD.value
         set(newVal) {
-            val newProxyList = newVal as List<SKScreenViewProxy<*>>
-            screensLD.value.lastOrNull()?.let {
+            val newProxyList = newVal.screens as List<SKScreenViewProxy<*>>
+            stateLD.value.screens.lastOrNull()?.let {
                 if (newProxyList.lastOrNull() != it && newProxyList.contains(it)) {
                     it.saveState()
                 }
             }
-            screensLD.postValue(newProxyList)
+            stateLD.postValue(StateProxy(newProxyList, newVal.transition as SKTransitionAndroidLegacy?))
         }
 
     override fun saveState() {
-        for (screenViewProxy in screensLD.value) {
+        for (screenViewProxy in stateLD.value.screens) {
             screenViewProxy.saveState()
         }
     }
@@ -29,8 +32,8 @@ class SKStackViewProxy() : SKComponentViewProxy<FrameLayout>(), SKStackVC {
     override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: FrameLayout, collectingObservers: Boolean) =
             SKStackView(activity, fragment, binding).apply {
                 collectObservers = collectingObservers
-                screensLD.observe {
-                    onScreens(it)
+                stateLD.observe {
+                    onState(it)
                 }
             }
 

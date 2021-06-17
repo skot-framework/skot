@@ -1,28 +1,45 @@
 package tech.skot.core.components
 
 import androidx.fragment.app.Fragment
-import tech.skot.core.SKLog
+import tech.skot.view.SKTransitionAndroidLegacy
 import tech.skot.view.live.MutableSKLiveData
 import tech.skot.view.live.SKMessage
 
 
-object SKRootStackViewProxy: SKComponentViewProxy<Unit>(), SKStackVC {
+object SKRootStackViewProxy : SKComponentViewProxy<Unit>(), SKStackVC {
 
-    val screensLD: MutableSKLiveData<List<SKScreenViewProxy<*>>> = MutableSKLiveData(emptyList())
+    val stateLD: MutableSKLiveData<StateProxy> =
+        MutableSKLiveData(StateProxy(emptyList(), null))
 
-    override var screens: List<SKScreenVC> = emptyList()
-        get() = screensLD.value
+    override var state: SKStackVC.State = StateProxy(screens = emptyList(), transition = null)
         set(newVal) {
-            if (!field.isEmpty() && !newVal.isEmpty() && !field.contains(newVal.first())) {
-                setRootScreenMessage.post(newVal.first() as SKScreenViewProxy<*>)
+            val newProxyList = newVal.screens as List<SKScreenViewProxy<*>>
+
+
+            if (!field.screens.isEmpty() && !newProxyList.isEmpty() && !field.screens.contains(
+                    newProxyList.first()
+                )
+            ) {
+                setRootScreenMessage.post(newProxyList.first())
             }
             field = newVal
-            screensLD.postValue(newVal as List<SKScreenViewProxy<*>>)
+            stateLD.postValue(
+                StateProxy(
+                    screens = newProxyList,
+                    transition = newVal.transition as SKTransitionAndroidLegacy?
+                )
+            )
         }
+
 
     val setRootScreenMessage: SKMessage<SKScreenViewProxy<*>> = SKMessage(multiReceiver = false)
 
-    override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: Unit, collectingObservers:Boolean): SKComponentView<Unit> {
+    override fun bindTo(
+        activity: SKActivity,
+        fragment: Fragment?,
+        binding: Unit,
+        collectingObservers: Boolean
+    ): SKComponentView<Unit> {
         throw IllegalAccessException("On ne bind pas la RootStack")
     }
 

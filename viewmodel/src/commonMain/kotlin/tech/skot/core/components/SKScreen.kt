@@ -1,23 +1,19 @@
 package tech.skot.core.components
 
 import tech.skot.core.components.presented.SKBottomSheet
+import tech.skot.core.view.SKTransition
 
-
-interface SKScreenParent {
-    fun push(screen: SKScreen<*>)
-    fun remove(screen: SKScreen<*>)
-}
 
 abstract class SKScreen<V : SKScreenVC>: SKComponent<SKScreenVC>() {
-    var parent: SKScreenParent? = null
+    var parent: SKStack? = null
     var presenter: SKBottomSheet? = null
 
     fun push(screen: SKScreen<*>) {
         parent?.push(screen) ?: throw IllegalStateException("This ${this::class.simpleName} has currently no stack parent")
     }
 
-    fun finish() {
-        parent?.remove(this) ?: throw IllegalStateException("This ${this::class.simpleName} has currently no stack parent")
+    fun finish(transition:SKTransition? = null) {
+        parent?.remove(this, transition) ?: throw IllegalStateException("This ${this::class.simpleName} has currently no stack parent")
     }
 
     fun finishIfInAStack() {

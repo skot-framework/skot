@@ -30,14 +30,16 @@ abstract class SKActivity : AppCompatActivity() {
 
             if (!oneActivityAlreadyLaunched && viewKey != -1L) {
                 oneActivityAlreadyLaunched = true
-                SKRootStackViewProxy.screensLD.value.getOrNull(0)?.let { startActivityForProxy(it) }
+                SKRootStackViewProxy.stateLD.value.screens.getOrNull(0)?.let {
+                    startActivityForProxy(it)
+                }
                 finish()
             } else {
                 oneActivityAlreadyLaunched = true
                 (if (viewKey != -1L) {
                     ScreensManager.getInstance(viewKey)
                 } else {
-                    SKRootStackViewProxy.screens.getOrNull(0)
+                    SKRootStackViewProxy.stateLD.value.screens.getOrNull(0)
                 } as? SKScreenViewProxy<*>)?.run {
                     screenKey = key
                     bindTo(this@SKActivity, null, layoutInflater)
@@ -94,16 +96,19 @@ abstract class SKActivity : AppCompatActivity() {
             })
         }
 
-        SKRootStackViewProxy.screensLD.observe(this) {
-            val thisScreenPosition = it.indexOfFirst {
+        SKRootStackViewProxy.stateLD.observe(this) { state ->
+            val thisScreenPosition = state.screens.indexOfFirst {
                 it.key == screenKey
             }
 
             if (thisScreenPosition == -1) {
                 finish()
+                state.transition?.let { overridePendingTransition(it.enterAnim, it.exitAnim) }
             } else {
-                if (it.size > thisScreenPosition + 1) {
-                    startActivityForProxy(it.get(thisScreenPosition + 1))
+                if (state.screens.size > thisScreenPosition + 1) {
+                    startActivityForProxy(state.screens.get(thisScreenPosition + 1))
+                    state.transition?.let { overridePendingTransition(it.enterAnim, it.exitAnim) }
+
                 }
             }
         }

@@ -1,51 +1,56 @@
 package tech.skot.core.components
 
-import tech.skot.core.SKLog
 import tech.skot.core.di.coreViewInjector
+import tech.skot.core.view.SKTransition
 
-open class SKStack : SKComponent<SKStackVC>(), SKScreenParent {
+open class SKStack : SKComponent<SKStackVC>() {
     override val view = coreViewInjector.stack()
 
-    var screens: List<SKScreen<*>> = emptyList()
+    class State(val screens: List<SKScreen<*>>, val transition: SKTransition? = null)
+
+    var state: State = State(emptyList(), null)
         set(value) {
-            view.screens = value.map { it.view }
-            field.forEach { if (!value.contains(it)) it.onRemove() }
-            value.forEach { it.parent = this }
+            view.state = SKStackVC.State(
+                screens = value.screens.map { it.view },
+                transition = value.transition
+            )
+            field.screens.forEach { if (!value.screens.contains(it)) it.onRemove() }
+            value.screens.forEach { it.parent = this }
             field = value
         }
 
     var content: SKScreen<*>
-        get() = screens.last()
+        get() = state.screens.last()
         set(value) {
 //            SKLog.d("Stack will set screens to $value")
-            screens = listOf(value)
+            state = State(listOf(value))
         }
 
-    override fun push(screen: SKScreen<*>) {
+    fun push(screen: SKScreen<*>, transition: SKTransition? = null) {
 //        SKLog.d("Will push screen: ${screen::class.simpleName}")
-        screens += screen
+        state = State(state.screens + screen, transition)
     }
 
-    fun pop(ifRoot:(()->Unit)? = null) {
-        if (screens.size>1) {
-            screens = screens - screens.last()
-        }
-        else {
+    fun pop(transition: SKTransition? = null, ifRoot: (() -> Unit)? = null) {
+        if (state.screens.size > 1) {
+            state = State(state.screens - state.screens.last(), transition)
+        } else {
             ifRoot?.invoke()
         }
 
     }
 
-    override fun remove(screen: SKScreen<*>) {
-        if (screens.contains(screen)) {
-            screens = screens - screen
+    fun remove(screen: SKScreen<*>, transition:SKTransition? = null) {
+        if (state.screens.contains(screen)) {
+            state = State(screens = state.screens - screen, transition = transition)
         }
     }
 
     override fun onRemove() {
         super.onRemove()
-        screens.forEach { it.onRemove() }
+        state.screens.forEach { it.onRemove() }
     }
 
 
 }
+

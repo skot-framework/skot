@@ -21,4 +21,6 @@ object FrameworkClassNames {
     val combineSKData = ClassName("tech.skot.model", "combineSKData")
 
     val bm = ClassName("tech.skot.model", "SKBM")
+
+    val transistionAndroidLegacy = ClassName("tech.skot.view", "SKTransitionAndroidLegacy")
 }

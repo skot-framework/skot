@@ -1,5 +1,6 @@
 package tech.skot.tools.generation
 
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.TypeSpec
 
@@ -20,6 +21,7 @@ fun Generator.generateCodeMap() {
                         builder.appendLine("")
                         val endTab = (comp.name.length..biggestNameLength+3).map { '_' }.joinToString("")
                         builder.appendLine("$tab ${comp.name} $endTab")
+//                            builder.appendLine("[Binding][$appPackage.view.databinding.${comp.name}Binding]")
                         builder.appendLine("[View][${comp.viewImpl()}]")
                         builder.appendLine("[VC][${comp.viewContract()}]")
                         builder.appendLine("[VM][${comp.viewModel()}]")
@@ -27,6 +29,7 @@ fun Generator.generateCodeMap() {
                             builder.appendLine("[MC][${comp.modelContract()}]")
                             builder.appendLine("[Model][${comp.model()}]")
                         }
+
 
 
                     }

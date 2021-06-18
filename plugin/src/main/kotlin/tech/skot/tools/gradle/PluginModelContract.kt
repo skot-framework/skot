@@ -27,7 +27,7 @@ class PluginModelContract : Plugin<Project> {
 
         project.extensions.findByType(LibraryExtension::class)?.conf(project, extension)
 
-        project.extensions.findByType(KotlinMultiplatformExtension::class)?.conf()
+        project.extensions.findByType(KotlinMultiplatformExtension::class)?.conf(project)
 
 
         project.afterEvaluate {
@@ -76,13 +76,19 @@ class PluginModelContract : Plugin<Project> {
 
     }
 
-    private fun KotlinMultiplatformExtension.conf() {
+    private fun KotlinMultiplatformExtension.conf(project: Project) {
         jvm("jvm")
         android("android")
 
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
         sourceSets["commonMain"].dependencies {
             api("tech.skot:modelcontract:${Versions.skot}")
+        }
+
+
+        skVariantsCombinaison(project.rootProject.rootDir.toPath()).forEach {
+            sourceSets["commonMain"].kotlin.srcDir("src/commonMain/kotlin$it")
+            sourceSets["androidMain"].kotlin.srcDir("src/androidMain/kotlin$it")
         }
     }
 

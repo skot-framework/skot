@@ -4,12 +4,12 @@ import tech.skot.core.components.SKComponent
 import tech.skot.core.di.coreViewInjector
 
 abstract class SKBaseCombo<D : Any?, V : SKComboVC>(
-    private val onSelected: ((data: D) -> Unit)?,
     private val label: ((data: D) -> String)?,
     private val inputText: ((data: D) -> String)?,
     private val colored: ((data: D) -> Boolean)?,
-    private val striked: ((data: D) -> Boolean)?
-) : SKComponent<V>() {
+    private val striked: ((data: D) -> Boolean)?,
+    private val onSelected: ((data: D) -> Unit)?,
+    ) : SKComponent<V>() {
 
     var choices: List<D> = emptyList()
         set(newVal) {
@@ -52,12 +52,12 @@ class SKCombo<D : Any?>(
     hint: String? = null,
     initialChoices: List<D> = emptyList(),
     enabled: Boolean = true,
-    onSelected: ((data: D) -> Unit)? = null,
     label: ((data: D) -> String)? = null,
     inputText: ((data: D) -> String)? = null,
     colored: ((data: D) -> Boolean)? = null,
-    striked: ((data: D) -> Boolean)? = null
-) : SKBaseCombo<D, SKComboVC>(
+    striked: ((data: D) -> Boolean)? = null,
+    onSelected: ((data: D) -> Unit)? = null
+    ) : SKBaseCombo<D, SKComboVC>(
     onSelected = onSelected,
     label = label,
     inputText = inputText,

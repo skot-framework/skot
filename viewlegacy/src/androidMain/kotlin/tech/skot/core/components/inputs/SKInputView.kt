@@ -40,7 +40,7 @@ class SKInputView(
 
     private var firstChangeDoneFor = false
 
-    private var watching:TextWatcher? = null
+    private var watching: TextWatcher? = null
 
     override fun onOnInputText(onInputText: (String?) -> Unit) {
         val watcher = object : TextWatcher {
@@ -74,11 +74,16 @@ class SKInputView(
 
     override fun onType(type: SKInputVC.Type?) {
         when (type) {
-            SKInputVC.Type.EMail -> editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
+            SKInputVC.Type.EMail -> editText.inputType =
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
             SKInputVC.Type.Phone -> editText.inputType = InputType.TYPE_CLASS_PHONE
             SKInputVC.Type.Number -> editText.inputType = InputType.TYPE_CLASS_NUMBER
-            SKInputVC.Type.NumberPassword -> editText.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
-            SKInputVC.Type.LongText -> { editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE }
+            SKInputVC.Type.NumberPassword -> editText.inputType =
+                InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
+            SKInputVC.Type.LongText -> {
+                editText.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
+            }
         }
     }
 
@@ -110,7 +115,9 @@ class SKInputView(
     }
 
     fun requestFocus() {
-        editText.requestFocus()
+        editText.post {
+            editText.requestFocus()
+        }
     }
 
 }

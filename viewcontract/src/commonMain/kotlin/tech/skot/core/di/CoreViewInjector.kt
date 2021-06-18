@@ -39,6 +39,7 @@ interface CoreViewInjector {
         choicesInitial: List<SKComboVC.Choice>,
         selectedInitial: SKComboVC.Choice?,
         enabledInitial: Boolean?,
+        hiddenInitial: Boolean?,
         dropDownDisplayedInitial:Boolean
     ): SKComboVC
 
@@ -48,9 +49,9 @@ interface CoreViewInjector {
         choicesInitial: List<SKComboVC.Choice>,
         selectedInitial: SKComboVC.Choice?,
         enabledInitial: Boolean?,
+        hiddenInitial: Boolean?,
         dropDownDisplayedInitial:Boolean,
         onInputText:(input:String?) -> Unit,
-        textInitial: String?,
     ): SKInputWithSuggestionsVC
 
 

@@ -70,6 +70,7 @@ class SKCombo<D : Any?>(
         onSelected = onSelectedLambda(),
         selectedInitial = null,
         enabledInitial = enabled,
+        hiddenInitial = null,
         dropDownDisplayedInitial = false
     )
 }

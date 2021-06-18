@@ -20,6 +20,12 @@ class SKInputWithSuggestionsView(
 
     private var watching:TextWatcher? = null
 
+    private var typedText:String? = null
+    init {
+        autoComplete.setOnFocusChangeListener { v, hasFocus ->
+            SKLog.d("SKInputWithSuggestionsView setOnFocusChangeListener $hasFocus")
+        }
+    }
     fun onOnInputText(onInputText: (String?) -> Unit) {
         val watcher = object : TextWatcher {
             // Un premier changement peut être lancé au premier affichage (pour passer de null à "" ??)
@@ -28,7 +34,8 @@ class SKInputWithSuggestionsView(
                 val newText = p0?.toString()
                 SKLog.d("onOnInputText ---- afterTextChanged   ${p0.toString()} firstChangeDoneFor=$firstChangeDoneFor newText=$newText lockSelectedReaction=$lockSelectedReaction")
                 if (firstChangeDoneFor || !newText.isNullOrBlank()) {
-                    if (!lockSelectedReaction) {
+                    if (!lockSelectedReaction && !(_choices.any { it.text == newText })) {
+                        SKLog.d("onOnInputText ---- afterTextChanged will launch onInputText")
                         onInputText(newText)
                     }
                 }
@@ -53,19 +60,17 @@ class SKInputWithSuggestionsView(
         watching?.let { autoComplete.removeTextChangedListener(it) }
     }
 
-    fun onText(text: String?) {
-        val oldValue = autoComplete.text.toString()
-        if (text.isNullOrBlank()) {
-            if (oldValue.isNotBlank()) {
-                autoComplete.setText(text)
-            }
-        } else if (text != oldValue) {
-            autoComplete.text.replace(0, oldValue.length, text)
+
+    fun requestFocus() {
+        autoComplete.post {
+            autoComplete.requestFocus()
         }
     }
 
-    fun requestFocus() {
-        autoComplete.requestFocus()
+    override fun onSelect(selected: SKComboVC.Choice?) {
+        if (selected != null) {
+            super.onSelect(selected)
+        }
     }
 
 }

@@ -27,8 +27,8 @@ class SKInputWithSuggestions<D : Any?>(
         onSelected = onSelectedLambda(),
         selectedInitial = null,
         enabledInitial = enabled,
+        hiddenInitial = null,
         onInputText = onInputText,
-        textInitial = null,
         dropDownDisplayedInitial = false
     )
 }

@@ -16,25 +16,22 @@ class SKInputWithSuggestionsViewProxy(
     choicesInitial: List<SKComboVC.Choice>,
     selectedInitial: SKComboVC.Choice?,
     enabledInitial: Boolean?,
+    hiddenInitial: Boolean?,
     dropDownDisplayedInitial: Boolean,
     override val onInputText: (input: String?) -> Unit,
-    textInitial: String?,
-
 ) : SKCommonComboViewProxy<SkInputWithSuggestionsBinding>(
     hint,
     onSelected,
     choicesInitial,
     selectedInitial,
     enabledInitial,
+    hiddenInitial,
     dropDownDisplayedInitial
 ),
     SKInputWithSuggestionsVC {
 
     override val layoutId: Int = R.layout.sk_input_with_suggestions
     override fun bindingOf(view: View) = SkInputWithSuggestionsBinding.bind(view)
-
-    private val textLD = MutableSKLiveData(textInitial)
-    override var text: String? by textLD
 
     private val requestFocusMessage = SKMessage<Unit>()
     override fun requestFocus() {
@@ -49,9 +46,6 @@ class SKInputWithSuggestionsViewProxy(
     ) = SKInputWithSuggestionsView(activity, fragment, binding).apply {
         bind()
         onOnInputText(onInputText)
-        textLD.observe {
-            onText(it)
-        }
         requestFocusMessage.observe {
             requestFocus()
         }

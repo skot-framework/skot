@@ -6,10 +6,12 @@
     android:layout_height="wrap_content"
     >
 
-    <AutoCompleteTextView
+    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
         android:id="@+id/autoComplete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textIsSelectable="false"
+        android:inputType="textNoSuggestions"
         style="@style/sk_combo_auto_complete_text_view"
         />
 

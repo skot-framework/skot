@@ -16,6 +16,7 @@ class SKComboViewProxy(
     choicesInitial: List<SKComboVC.Choice>,
     selectedInitial: SKComboVC.Choice?,
     enabledInitial: Boolean?,
+    hiddenInitial:Boolean?,
     dropDownDisplayedInitial: Boolean
 ) : SKCommonComboViewProxy<SkComboBinding>(
     hint = hint,
@@ -23,6 +24,7 @@ class SKComboViewProxy(
     choicesInitial = choicesInitial,
     selectedInitial = selectedInitial,
     enabledInitial = enabledInitial,
+    hiddenInitial = hiddenInitial,
     dropDownDisplayedInitial = dropDownDisplayedInitial
 ) {
     override val layoutId: Int? = R.layout.sk_combo
@@ -44,6 +46,7 @@ abstract class SKCommonComboViewProxy<Binding: Any>(
     choicesInitial: List<SKComboVC.Choice>,
     selectedInitial: SKComboVC.Choice?,
     enabledInitial: Boolean?,
+    hiddenInitial:Boolean?,
     dropDownDisplayedInitial: Boolean
 ) : SKComponentViewProxy<Binding>(), SKComboVC {
 
@@ -56,6 +59,10 @@ abstract class SKCommonComboViewProxy<Binding: Any>(
 
     private val enabledLD = MutableSKLiveData(enabledInitial)
     override var enabled by enabledLD
+
+    private val hiddenLD = MutableSKLiveData(hiddenInitial)
+    override var hidden by hiddenLD
+
 
     private val dropDownDisplayedLD = MutableSKLiveData(dropDownDisplayedInitial)
     override var dropDownDisplayed: Boolean by dropDownDisplayedLD
@@ -73,6 +80,9 @@ abstract class SKCommonComboViewProxy<Binding: Any>(
         }
         enabledLD.observe {
             onEnabled(it)
+        }
+        hiddenLD.observe {
+            onHidden(it)
         }
         dropDownDisplayedLD.observe {
             onDropDownDisplayed(it)

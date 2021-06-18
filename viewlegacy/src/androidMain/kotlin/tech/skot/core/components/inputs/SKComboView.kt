@@ -11,6 +11,7 @@ import com.google.android.material.textfield.TextInputLayout
 import tech.skot.core.SKLog
 import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKComponentView
+import tech.skot.view.extensions.setVisible
 import tech.skot.view.extensions.strike
 import tech.skot.viewlegacy.R
 import tech.skot.viewlegacy.databinding.SkComboBinding
@@ -43,7 +44,7 @@ abstract class SKCommonComboView<Binding : Any>(
 ) : SKComponentView<Binding>(activity, fragment, binding) {
 
     private var _adapter: BaseAdapter? = null
-    private var _choices: List<SKComboVC.Choice> = emptyList()
+    protected var _choices: List<SKComboVC.Choice> = emptyList()
 
 
     init {
@@ -110,6 +111,10 @@ abstract class SKCommonComboView<Binding : Any>(
     fun onOnSelected(onSelected: ((data: Any?) -> Unit)?) {
         if (onSelected != null) {
             SKLog.d("----- onOnSelected : $onSelected")
+            autoComplete.setOnDismissListener {
+                SKLog.d("---- dans OnDismissListener $lockSelectedReaction")
+            }
+
             autoComplete.setOnItemClickListener { parent, view, position, id ->
                 SKLog.d("---- dans OnItemClickListener $position $id")
                 _choices.getOrNull(position)?.let {
@@ -149,7 +154,7 @@ abstract class SKCommonComboView<Binding : Any>(
         _adapter?.notifyDataSetChanged()
     }
 
-    fun onSelect(selected: SKComboVC.Choice?) {
+    open fun onSelect(selected: SKComboVC.Choice?) {
         lockSelectedReaction = true
         SKLog.d("---- dans onSelect selected=${selected?.text}")
         autoComplete.setText(selected?.inputText, false)
@@ -165,6 +170,16 @@ abstract class SKCommonComboView<Binding : Any>(
 
     fun onEnabled(enabled: Boolean?) {
         inputLayout.isEnabled = enabled != false
+    }
+
+    fun onHidden(hidden: Boolean?) {
+        hidden?.let { inputLayout.setVisible(!it) }
+    }
+
+    init {
+        autoComplete.setOnDismissListener {
+
+        }
     }
 
     fun onDropDownDisplayed(state: Boolean) {

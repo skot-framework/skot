@@ -86,6 +86,7 @@ class CoreViewInjectorImpl : CoreViewInjector {
         choicesInitial: List<SKComboVC.Choice>,
         selectedInitial: SKComboVC.Choice?,
         enabledInitial: Boolean?,
+        hiddenInitial: Boolean?,
         dropDownDisplayedInitial:Boolean
     ) = SKComboViewProxy(
         hint = hint,
@@ -93,6 +94,7 @@ class CoreViewInjectorImpl : CoreViewInjector {
         choicesInitial = choicesInitial,
         selectedInitial = selectedInitial,
         enabledInitial = enabledInitial,
+        hiddenInitial = hiddenInitial,
         dropDownDisplayedInitial = dropDownDisplayedInitial
     )
 
@@ -102,19 +104,18 @@ class CoreViewInjectorImpl : CoreViewInjector {
         choicesInitial: List<SKComboVC.Choice>,
         selectedInitial: SKComboVC.Choice?,
         enabledInitial: Boolean?,
+        hiddenInitial: Boolean?,
         dropDownDisplayedInitial:Boolean,
         onInputText:(input:String?) -> Unit,
-        textInitial: String?,
     ) = SKInputWithSuggestionsViewProxy(
         hint = hint,
         onSelected = onSelected,
         choicesInitial = choicesInitial,
         selectedInitial = selectedInitial,
         enabledInitial = enabledInitial,
+        hiddenInitial = hiddenInitial,
         dropDownDisplayedInitial = dropDownDisplayedInitial,
         onInputText = onInputText,
-        textInitial = textInitial,
-
     )
 
     override fun button(

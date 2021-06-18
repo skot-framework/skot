@@ -8,6 +8,7 @@ interface SKComboVC: SKComponentVC {
     var choices: List<Choice>
     var selected: Choice?
     var enabled: Boolean?
+    var hidden:Boolean?
     var dropDownDisplayed:Boolean
 
     class Choice(

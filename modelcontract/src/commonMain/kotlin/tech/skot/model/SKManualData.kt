@@ -1,7 +1,6 @@
 package tech.skot.model
 
 import kotlinx.coroutines.flow.MutableStateFlow
-import tech.skot.core.SKLog
 import kotlin.reflect.KProperty
 
 open class SKManualData<D : Any?>(initialValue: D, private val onChange:(()->Unit)? = null) :

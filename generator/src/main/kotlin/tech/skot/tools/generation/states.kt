@@ -187,8 +187,22 @@ fun Generator.generateStates(rootState: StateDef) {
                         FrameworkClassNames.skManualData.parameterizedBy(it.modelClassName.nullable())
                     )
                         .addModifiers(KModifier.OVERRIDE)
-                        .initializer("${FrameworkClassNames.skManualData.simpleName}(infos.${it.nameAsProperty}?.let { ${it.modelClassName.simpleName}($subStateConstructorParams) }) { saveState() }")
+                        .initializer(
+                            CodeBlock.builder()
+                                .beginControlFlow("${FrameworkClassNames.skManualData.simpleName}(infos.${it.nameAsProperty}?.let { ${it.modelClassName.simpleName}($subStateConstructorParams) })")
+                                .apply {
+                                    compositeSubStates.forEach { compositeSubState ->
+                                        if (compositeSubState.propertiesComposingComposite!!.contains(it)) {
+                                            addStatement("update${compositeSubState.name}()")
+                                        }
+                                    }
+                                }
+                                .addStatement("saveState()")
+                                .endControlFlow()
+                                .build())
                         .build()
+
+
                 )
 
                 addProperty(
@@ -208,44 +222,37 @@ fun Generator.generateStates(rootState: StateDef) {
 
             compositeSubStates.forEach {
 
-                val newComposingList =
-                    it.propertiesComposingComposite?.map { "new${it.nameAsProperty.capitalizeAsciiOnly()}" }
-                val newComposingListWithNames =
-                    it.propertiesComposingComposite?.map { "${it.name.decapitalizeAsciiOnly()} = new${it.nameAsProperty.capitalizeAsciiOnly()}" }
+                //méthode computeState
+                addFunction(FunSpec.builder("compute${it.nameAsProperty}")
+                    .addParameters(
+                        it.propertiesComposingComposite!!.map {
+                            ParameterSpec.builder(it.name.decapitalizeAsciiOnly(), it.modelClassName.nullable())
+                                .build()
+                        }
+                    )
+                    .returns(it.modelClassName.nullable())
+                    .beginControlFlow("return if (${it.propertiesComposingComposite!!.map { "${it.name.decapitalizeAsciiOnly() } != null" }.joinToString(" && ")})")
+                    .addStatement("${it.name}(this, ${it.propertiesComposingComposite!!.map { it.name.decapitalizeAsciiOnly() }.joinToString()})")
+                    .endControlFlow()
+                    .beginControlFlow("else")
+                    .addStatement("null")
+                    .endControlFlow()
+                    .build())
 
-                val compositeConstructorParamsRoot =
-                    (parentsList.map { it.nameAsProperty } + "this")
+
+                addFunction(FunSpec.builder("update${it.name}")
+                    .addStatement("${it.nameAsProperty.suffix("SKData")}.value = compute${it.nameAsProperty}(${it.propertiesComposingComposite!!.map { it.nameAsProperty }.joinToString()})")
+                    .build())
+                
                 addProperty(
                     PropertySpec.builder(
                         it.nameAsProperty.suffix("SKData"),
-                        FrameworkClassNames.skData.parameterizedBy(it.modelClassName.nullable())
+                        FrameworkClassNames.skManualData.parameterizedBy(it.modelClassName.nullable())
                     )
                         .addModifiers(KModifier.OVERRIDE)
                         .initializer(
-                            CodeBlock.builder()
-                                .beginControlFlow(
-                                    "combineSKData(${
-                                        it.propertiesComposingComposite?.map {
-                                            it.nameAsProperty.suffix(
-                                                "SKData"
-                                            )
-                                        }?.joinToString()
-                                    }).map"
-                                )
-                                .addStatement("(${newComposingList?.joinToString()}) ->")
-                                .beginControlFlow(
-                                    "if (${
-                                        newComposingList?.map { "$it != null" }
-                                            ?.joinToString(" && ")
-                                    })"
-                                )
-                                .addStatement("${it.modelClassName.simpleName}(${(compositeConstructorParamsRoot + newComposingListWithNames!!).joinToString()})")
-                                .endControlFlow()
-                                .beginControlFlow("else")
-                                .addStatement("null")
-                                .endControlFlow()
-                                .endControlFlow()
-                                .build()
+                            CodeBlock.of("${FrameworkClassNames.skManualData.simpleName}(compute${it.nameAsProperty}(${it.propertiesComposingComposite.map { it.nameAsProperty }.joinToString()}))")
+
                         )
                         .build()
                 )

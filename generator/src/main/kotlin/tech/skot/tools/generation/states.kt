@@ -28,6 +28,14 @@ fun Generator.generateStates(rootState: StateDef) {
                         .build()
                 )
             }
+            compositeParts.forEach {
+                addProperty(
+                    PropertySpec.builder(
+                        it.name.decapitalizeAsciiOnly(),
+                        it.contract
+                    ).build()
+                )
+            }
 
         }.writeTo(generatedCommonSources(Modules.modelcontract))
 
@@ -62,7 +70,7 @@ fun Generator.generateStates(rootState: StateDef) {
                 )
             } else {
                 emptyList()
-            }
+            } + bmS.map { it.withSuffix("Impl") }
         ) {
             addSuperinterface(contractClassName)
             addSuperinterface(kclass)
@@ -73,7 +81,7 @@ fun Generator.generateStates(rootState: StateDef) {
                     parentsList.map {
                         ParamInfos(it.name.decapitalizeAsciiOnly(), it.modelClassName)
                     } + compositeParts.map {
-                        ParamInfos(it.name.decapitalizeAsciiOnly(), it.model)
+                        ParamInfos(it.name.decapitalizeAsciiOnly(), it.model, modifiers = listOf(KModifier.OVERRIDE))
                     }
                 )
                 compositeParts.forEach {
@@ -290,7 +298,7 @@ fun Generator.generateStates(rootState: StateDef) {
                             it.name.decapitalizeAsciiOnly()
                         }) + "this").joinToString(
                             separator = ", ",
-                            prefix = "${it.simpleName}(",
+                            prefix = "${it.simpleName}Impl(",
                             postfix = ")"
                         )
                     )

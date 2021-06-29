@@ -363,9 +363,8 @@ class Generator(
                             }
                         }
                         //.addStatement("${rootState?} restoreState()")
-                        .addStatement("startModel()")
                         .addStatement("startView()")
-                        .addStatement("start()")
+                        .addStatement("start(startModel())")
                         .endControlFlow()
                         .endControlFlow()
 

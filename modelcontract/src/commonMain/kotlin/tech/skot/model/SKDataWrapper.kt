@@ -45,7 +45,6 @@ class SKDataWrapper<D : Any?>(
 
             if (newSKToBeWrapped != null) {
                 newSKToBeWrapped.get(validity = Long.MAX_VALUE)
-//                println("SKLog --- SKDataWrapper newSKToBeWrapped $newSKToBeWrapped newSKToBeWrapped._current ${newSKToBeWrapped._current}")
                 flow.value = newSKToBeWrapped._current ?: DatedData(defaultValue)
                 currentCollectJob = scope.launch {
                     newSKToBeWrapped.flow.collect {
@@ -60,7 +59,7 @@ class SKDataWrapper<D : Any?>(
         }
     }
 
-    private var wrappedSkChangedJob:Job? = null
+    private var wrappedSkChangedJob: Job? = null
 
     private var launchMutex = Mutex()
     private suspend fun launch() {
@@ -68,7 +67,7 @@ class SKDataWrapper<D : Any?>(
         launchMutex.withLock {
             if (wrappedSkChangedJob == null) {
                 subscribeToWrapped()
-                wrappedSkChangedJob =  scope.launch {
+                wrappedSkChangedJob = scope.launch {
                     newSKDataFlow.drop(1).collect {
                         subscribeToWrapped()
                     }
@@ -76,8 +75,6 @@ class SKDataWrapper<D : Any?>(
             }
         }
     }
-
-
 
 
     //pour arrêter manuellement le wrapper, pricuipalement utilisé pour les tests, si on ne maîtrise pas le scope
@@ -102,14 +99,15 @@ class SKDataWrapper<D : Any?>(
     override suspend fun fallBackValue(): D? {
         return _current.data
     }
-
 }
+
+
 
 
 fun <D : Any?, R : Any?> CoroutineScope.wrap(
     stepData: SKData<D>,
     defaultValue: R,
-    targetSKData: D.() -> SKData<R>?
+    targetSKData: suspend D.() -> SKData<R>?
 ): SKDataWrapper<R> {
     return SKDataWrapper<R>(
         defaultValue = defaultValue,
@@ -125,7 +123,7 @@ fun <D : Any?, R : Any?> CoroutineScope.wrap(
 fun <D : Any?, R : Any?> SKData<D>.wrap(
     scope: CoroutineScope,
     defaultValue: R,
-    targetSKData: D.() -> SKData<R>?
+    targetSKData: suspend D.() -> SKData<R>?
 ): SKDataWrapper<R> {
     return scope.wrap(this, defaultValue, targetSKData)
 }

@@ -17,14 +17,14 @@ class TestSKDistantDataWithCache {
         val persistor = testPersistor()
 
         var compteur = 0
-        val skData = SKDistantDataWithCache<Int>(
+        val skData = object : SKDistantDataWithCache<Int>(
             name = name,
             serializer = Int.serializer(),
             key = key,
-            cache = persistor
-        ) {
-            compteur++
-        }
+            cache = persistor,
+            fetchData = {
+                compteur++
+            }) {}
 
         runBlocking {
             assert(skData.get() == 0)
@@ -33,29 +33,28 @@ class TestSKDistantDataWithCache {
 
             //La sauvegarde en cache est maintenant asynchrone alors on ajoute le délai
             delay(500)
-            val skData2 = SKDistantDataWithCache<Int>(
+            val skData2 = object : SKDistantDataWithCache<Int>(
                 name = name,
                 serializer = Int.serializer(),
                 key = key,
-                cache = persistor
-            ) {
-                compteur++
-            }
+                cache = persistor,
+                fetchData = {
+                    compteur++
+                }) {}
 
             assert(skData2.get() == 1)
         }
     }
 
     @Serializable
-    data class Data1(val champ1:String, val champ2:Int)
+    data class Data1(val champ1: String, val champ2: Int)
 
     @Serializable
-    data class Data1mod(val champ1:String, val champ2mod:Int)
+    data class Data1mod(val champ1: String, val champ2mod: Int)
 
 
     @Test
     fun testModelChangeProof() {
-
 
 
         val name = "NAME"
@@ -67,35 +66,38 @@ class TestSKDistantDataWithCache {
         val cache = testPersistor()
 
         runBlocking {
-            val skData1 = SKDistantDataWithCache<Data1>(
+            val skData1 = object : SKDistantDataWithCache<Data1>(
+                key = null,
                 name = name,
                 serializer = Data1.serializer(),
                 cache = cache,
-            ) {
-                Data1(val1, val2)
-            }
+                fetchData = {
+                    Data1(val1, val2)
+                }) {}
 
             assert(skData1.get() == Data1(val1, val2))
             //Délai car mise en cache asynchrone
             delay(500)
-            val skData1_2 = SKDistantDataWithCache<Data1>(
+            val skData1_2 = object : SKDistantDataWithCache<Data1>(
+                key = null,
                 name = name,
                 serializer = Data1.serializer(),
                 cache = cache,
-                validity = 2000L
-            ) {
-                Data1("dd", 45)
-            }
+                validity = 2000L,
+                fetchData = {
+                    Data1("dd", 45)
+                }) {}
             assert(skData1_2.get() == Data1(val1, val2))
 
-            val skData1_mod = SKDistantDataWithCache<Data1mod>(
+            val skData1_mod = object : SKDistantDataWithCache<Data1mod>(
+                key = null,
                 name = name,
                 serializer = Data1mod.serializer(),
                 cache = cache,
-                validity = 2000L
-            ) {
-                Data1mod(val1mod, val2mod)
-            }
+                validity = 2000L,
+                fetchData = {
+                    Data1mod(val1mod, val2mod)
+                }) {}
             assert(skData1_mod.get() == Data1mod(val1mod, val2mod))
         }
     }

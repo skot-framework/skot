@@ -89,6 +89,7 @@ fun Project.switchTask(name:String, environment:String, vararg variant:String) {
                 "environment=$environment"
             ))
             if (Files.exists(builSrcRep)) {
+                println("Will delete buildSrc/build directory")
                 builSrcRep.toFile().deleteRecursively()
             }
         }

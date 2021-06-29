@@ -152,3 +152,6 @@ fun KClass<*>.ownProperties(): List<KCallable<*>> {
 }
 
 fun KClass<*>.ownFuncs() = ownMembers().filterIsInstance(KFunction::class.java)
+
+
+fun ClassName.withSuffix(suffix:String):ClassName = ClassName(packageName, simpleName.suffix(suffix))

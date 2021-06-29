@@ -25,13 +25,13 @@ open class SKFragment : Fragment() {
     }
 
 
-    override fun onDestroy() {
-        SKLog.d("SKFragment ${hashCode()} onDestroy ${screenKey}")
-        super.onDestroy()
-    }
-
-    override fun onDestroyView() {
-        SKLog.d("SKFragment ${hashCode()} onDestroyView ${screenKey}")
-        super.onDestroyView()
-    }
+//    override fun onDestroy() {
+//        SKLog.d("SKFragment ${hashCode()} onDestroy ${screenKey}")
+//        super.onDestroy()
+//    }
+//
+//    override fun onDestroyView() {
+//        SKLog.d("SKFragment ${hashCode()} onDestroyView ${screenKey}")
+//        super.onDestroyView()
+//    }
 }

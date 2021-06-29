@@ -3,10 +3,7 @@ package tech.skot.tools.generation.model
 import com.squareup.kotlinpoet.*
 import org.jetbrains.kotlin.util.capitalizeDecapitalize.decapitalizeAsciiOnly
 import tech.skot.tools.generation.*
-import javax.lang.model.element.ExecutableElement
 import kotlin.reflect.KParameter
-import kotlin.reflect.full.functions
-import kotlin.reflect.jvm.jvmErasure
 
 @ExperimentalStdlibApi
 fun Generator.generateModel() {
@@ -25,9 +22,19 @@ fun Generator.generateModel() {
                     addSuperinterface(it.modelContract())
                     addSuperinterface(FrameworkClassNames.coroutineScope)
                     addPrimaryConstructorWithParams(
-                        listOf(ParamInfos("coroutineContext", FrameworkClassNames.coroutineContext, listOf(KModifier.OVERRIDE)))
-                    + it.states.map {
-                            ParamInfos(it.name, it.stateDef()!!.modelClassName, listOf(KModifier.OVERRIDE))
+                        listOf(
+                            ParamInfos(
+                                "coroutineContext",
+                                FrameworkClassNames.coroutineContext,
+                                listOf(KModifier.OVERRIDE)
+                            )
+                        )
+                                + it.states.map {
+                            ParamInfos(
+                                it.name,
+                                it.stateDef()!!.modelClassName,
+                                listOf(KModifier.OVERRIDE)
+                            )
                         }
                     )
 
@@ -68,17 +75,47 @@ fun Generator.generateModel() {
     rootState?.addBmsTo(bmsMap)
     bmsMap.forEach { (className, state) ->
         if (!className.existsCommonInModule(Modules.model)) {
-            className.fileClassBuilder {
-                addPrimaryConstructorWithParams(
-                    listOf(ParamInfos("key", String::class.asTypeName().nullable(), isVal = false)) +
-                    state.parentsList.map {
-                        ParamInfos(it.name.decapitalizeAsciiOnly(), it.modelClassName, isPrivate = true)
-                    } + ParamInfos(state.name.decapitalizeAsciiOnly(), state.modelClassName, isPrivate = true)
+            FileSpec.builder(
+                className.packageName,
+                className.simpleName
+            )
+                .addType(
+                    TypeSpec.interfaceBuilder(className.simpleName)
+                        .build()
                 )
-                superclass(FrameworkClassNames.bm)
-                addSuperclassConstructorParameter("key")
-//                addSuperinterface(FrameworkClassNames.bm)
-            }.writeTo(commonSources(Modules.model))
+                .addType(
+                    TypeSpec.classBuilder(className.simpleName + "Impl")
+                        .apply {
+                            addPrimaryConstructorWithParams(
+                                listOf(
+                                    ParamInfos(
+                                        "key",
+                                        String::class.asTypeName().nullable(),
+                                        isVal = false
+                                    )
+                                ) +
+                                        state.parentsList.map {
+                                            ParamInfos(
+                                                it.name.decapitalizeAsciiOnly(),
+                                                it.modelClassName,
+                                                isPrivate = true
+                                            )
+                                        } + ParamInfos(
+                                    state.name.decapitalizeAsciiOnly(),
+                                    state.modelClassName,
+                                    isPrivate = true
+                                )
+                            )
+                            superclass(FrameworkClassNames.bm)
+                            addSuperinterface(className)
+                            addSuperclassConstructorParameter("key")
+                        }
+                        .build()
+                )
+
+                .build()
+
+                .writeTo(commonSources(Modules.model))
         }
     }
 
@@ -95,7 +132,10 @@ fun Generator.generateModel() {
                 FunSpec.builder(it.name.decapitalize())
                     .addModifiers(KModifier.OVERRIDE)
                     .addParameter(
-                        ParameterSpec.builder("coroutineContext", FrameworkClassNames.coroutineContext)
+                        ParameterSpec.builder(
+                            "coroutineContext",
+                            FrameworkClassNames.coroutineContext
+                        )
                             .build()
                     )
                     .addParameters(
@@ -105,11 +145,13 @@ fun Generator.generateModel() {
                         }
                     )
                     .returns(it.modelContract())
-                    .addCode("return ${it.model().simpleName}(${
-                        (listOf("coroutineContext") + it.states.map { 
-                            "${it.name} as ${it.stateDef()!!.modelClassName.simpleName}"
-                        }).joinToString(separator = ", ")
-                    })")
+                    .addCode(
+                        "return ${it.model().simpleName}(${
+                            (listOf("coroutineContext") + it.states.map {
+                                "${it.name} as ${it.stateDef()!!.modelClassName.simpleName}"
+                            }).joinToString(separator = ", ")
+                        })"
+                    )
                     .build()
             }
         )

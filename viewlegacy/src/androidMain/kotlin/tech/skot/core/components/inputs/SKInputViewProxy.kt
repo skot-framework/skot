@@ -1,6 +1,7 @@
 package tech.skot.core.components.inputs
 
 import android.view.View
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
 import tech.skot.core.components.SKActivity
@@ -8,7 +9,7 @@ import tech.skot.core.components.SKComponentViewProxy
 import tech.skot.view.live.MutableSKLiveData
 import tech.skot.view.live.SKMessage
 
-class SKInputViewProxy(
+abstract class SKInputViewProxyCommon<V : View>(
     override val maxSize: Int?,
     override val onDone: Function1<String?, Unit>?,
     override val onFocusLost: Function0<Unit>?,
@@ -19,7 +20,7 @@ class SKInputViewProxy(
     hiddenInitial: Boolean?,
     hintInitial: String?,
     textInitial: String?
-) : SKComponentViewProxy<TextInputLayout>(), SKInputVC {
+) : SKComponentViewProxy<V>(), SKInputVC {
     private val enabledLD: MutableSKLiveData<Boolean?> = MutableSKLiveData(enabledInitial)
 
     override var enabled: Boolean? by enabledLD
@@ -46,20 +47,20 @@ class SKInputViewProxy(
     }
 
 
-    companion object {
-        var LAYOUT_ID:Int? = null
-    }
 
-    override val layoutId: Int?
-        get() = LAYOUT_ID
 
+    abstract fun createView(
+        activity: SKActivity,
+        fragment: Fragment?,
+        binding: V
+    ): SKInputViewCommon<V>
 
     override fun bindTo(
         activity: SKActivity,
         fragment: Fragment?,
-        binding: TextInputLayout,
+        binding: V,
         collectingObservers: Boolean
-    ): SKInputView = SKInputView(activity, fragment, binding).apply {
+    ): SKInputViewCommon<V> = createView(activity, fragment, binding).apply {
         collectObservers = collectingObservers
         onMaxSize(maxSize)
         onOnDone(onDone)
@@ -87,6 +88,79 @@ class SKInputViewProxy(
     }
 
 }
+
+
+class SKInputViewProxy(
+    maxSize: Int?,
+    onDone: Function1<String?, Unit>?,
+    onFocusLost: Function0<Unit>?,
+    onInputText: Function1<String?, Unit>,
+    type: SKInputVC.Type?,
+    enabledInitial: Boolean?,
+    errorInitial: String?,
+    hiddenInitial: Boolean?,
+    hintInitial: String?,
+    textInitial: String?
+) : SKInputViewProxyCommon<TextInputLayout>(
+    maxSize,
+    onDone,
+    onFocusLost,
+    onInputText,
+    type,
+    enabledInitial,
+    errorInitial,
+    hiddenInitial,
+    hintInitial,
+    textInitial
+) {
+
+    companion object {
+        var LAYOUT_ID: Int? = null
+    }
+
+    override val layoutId: Int?
+        get() = LAYOUT_ID
+
+    override fun createView(
+        activity: SKActivity,
+        fragment: Fragment?,
+        binding: TextInputLayout
+    ) = SKInputView(activity, fragment, binding)
+}
+
+
+class SKSimpleInputViewProxy(
+    maxSize: Int?,
+    onDone: Function1<String?, Unit>?,
+    onFocusLost: Function0<Unit>?,
+    onInputText: Function1<String?, Unit>,
+    type: SKInputVC.Type?,
+    enabledInitial: Boolean?,
+    errorInitial: String?,
+    hiddenInitial: Boolean?,
+    hintInitial: String?,
+    textInitial: String?
+) : SKInputViewProxyCommon<EditText>(
+    maxSize,
+    onDone,
+    onFocusLost,
+    onInputText,
+    type,
+    enabledInitial,
+    errorInitial,
+    hiddenInitial,
+    hintInitial,
+    textInitial
+), SKSimpleInputVC {
+
+
+    override fun createView(
+        activity: SKActivity,
+        fragment: Fragment?,
+        binding: EditText
+    ) = SKSimpleInputView(activity, fragment, binding)
+}
+
 
 interface SKInputRAI {
     fun onMaxSize(maxSize: Int?)

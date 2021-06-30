@@ -82,6 +82,31 @@ class CoreViewInjectorImpl : CoreViewInjector {
             textInitial
         )
 
+    override fun inputSimple(
+        onInputText: (newText: String?) -> Unit,
+        type: SKInputVC.Type?,
+        maxSize: Int?,
+        onFocusLost: (() -> Unit)?,
+        onDone: ((text: String?) -> Unit)?,
+        hintInitial: String?,
+        textInitial: String?,
+        errorInitial: String?,
+        hiddenInitial: Boolean?,
+        enabledInitial: Boolean?
+    ) =
+        SKSimpleInputViewProxy(
+            maxSize,
+            onDone,
+            onFocusLost,
+            onInputText,
+            type,
+            enabledInitial,
+            errorInitial,
+            hiddenInitial,
+            hintInitial,
+            textInitial
+        )
+
     override fun combo(
         hint: String?,
         onSelected: ((choice: Any?) -> Unit)?,

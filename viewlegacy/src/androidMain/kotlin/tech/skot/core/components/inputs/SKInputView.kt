@@ -4,6 +4,7 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
+import android.view.View
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
@@ -12,13 +13,13 @@ import tech.skot.core.components.SKComponentView
 import tech.skot.view.extensions.setOnDone
 import tech.skot.view.extensions.setVisible
 
-class SKInputView(
+abstract class SKInputViewCommon<V: View>(
     activity: SKActivity,
     fragment: Fragment?,
-    private val textInputLayout: TextInputLayout
-) : SKComponentView<TextInputLayout>(activity, fragment, textInputLayout), SKInputRAI {
+    view: V
+) : SKComponentView<V>(activity, fragment, view), SKInputRAI {
 
-    val editText: EditText = textInputLayout.editText!!
+    abstract val editText: EditText
 
     override fun onMaxSize(maxSize: Int?) {
         maxSize?.let { editText.filters += InputFilter.LengthFilter(maxSize) }
@@ -87,21 +88,7 @@ class SKInputView(
         }
     }
 
-    override fun onEnabled(enabled: Boolean?) {
-        enabled?.let { textInputLayout.isEnabled = it }
-    }
 
-    override fun onError(error: String?) {
-        textInputLayout.error = error
-    }
-
-    override fun onHidden(hidden: Boolean?) {
-        hidden?.let { binding.setVisible(!it) }
-    }
-
-    override fun onHint(hint: String?) {
-        textInputLayout.hint = hint
-    }
 
     override fun onText(text: String?) {
         val oldValue = editText.text.toString()
@@ -120,4 +107,53 @@ class SKInputView(
         }
     }
 
+}
+
+class SKInputView(
+    activity: SKActivity,
+    fragment: Fragment?,
+    private val textInputLayout: TextInputLayout
+) : SKInputViewCommon<TextInputLayout>(activity, fragment, textInputLayout) {
+
+    override val editText: EditText = textInputLayout.editText!!
+
+    override fun onEnabled(enabled: Boolean?) {
+        enabled?.let { textInputLayout.isEnabled = it }
+    }
+
+    override fun onError(error: String?) {
+        textInputLayout.error = error
+    }
+
+    override fun onHidden(hidden: Boolean?) {
+        hidden?.let { binding.setVisible(!it) }
+    }
+
+    override fun onHint(hint: String?) {
+        textInputLayout.hint = hint
+    }
+}
+
+class SKSimpleInputView(
+    activity: SKActivity,
+    fragment: Fragment?,
+    override val editText: EditText
+) : SKInputViewCommon<EditText>(activity, fragment, editText) {
+
+
+    override fun onEnabled(enabled: Boolean?) {
+        enabled?.let { editText.isEnabled = it }
+    }
+
+    override fun onError(error: String?) {
+        editText.error = error
+    }
+
+    override fun onHidden(hidden: Boolean?) {
+        hidden?.let { binding.setVisible(!it) }
+    }
+
+    override fun onHint(hint: String?) {
+        editText.hint = hint
+    }
 }

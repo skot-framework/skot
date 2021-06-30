@@ -11,7 +11,7 @@ open class SKInput(
     protected val defaultErrorMessage: String? = null,
     private val maxSize: Int? = null,
     private val afterValidation: (() -> Unit)? = null
-    ) : SKComponent<SKInputVC>() {
+) : SKComponent<SKInputVC>() {
 
     sealed class Validity(val errorMessage: String?) {
         abstract val isValid: Boolean
@@ -48,7 +48,7 @@ open class SKInput(
         get() = validity.isValid
 
 
-    private fun onNewValue(str: String?) {
+    protected fun onNewValue(str: String?) {
         if (_value != str && !(str == "" && _value == null)) {
             val formated = format(str)
             view.text = formated
@@ -68,7 +68,7 @@ open class SKInput(
 
     private var validity: Validity = if (nullable) Validity.Valid else _error
 
-    private fun onFocusLost() {
+    protected fun onFocusLost() {
         view.error = validity.errorMessage
     }
 
@@ -99,7 +99,7 @@ open class SKInput(
 }
 
 open class SKInputRegExp(
-    private val regex:Regex,
+    private val regex: Regex,
     hint: String? = null,
     nullable: Boolean = true,
     onDone: ((text: String?) -> Unit)? = null,
@@ -107,17 +107,45 @@ open class SKInputRegExp(
     defaultErrorMessage: String? = null,
     maxSize: Int? = null,
     afterValidation: (() -> Unit)? = null
-): SKInput(hint, nullable, onDone, viewType, defaultErrorMessage, maxSize, afterValidation) {
+) : SKInput(hint, nullable, onDone, viewType, defaultErrorMessage, maxSize, afterValidation) {
     override fun validate(str: String?): Validity {
         val superValidity = super.validate(str)
         return if (superValidity == Validity.Valid) {
-            when  {
+            when {
                 !str.isNullOrBlank() && !regex.matches(str) -> Validity.Error(errorMessage = defaultErrorMessage)
                 else -> Validity.Valid
             }
-        }
-        else {
+        } else {
             superValidity
         }
     }
+}
+
+class SKSimpleInput(
+    hint: String? = null,
+    nullable: Boolean = true,
+    onDone: ((text: String?) -> Unit)? = null,
+    viewType: SKInputVC.Type? = null,
+    defaultErrorMessage: String? = null,
+    maxSize: Int? = null,
+    afterValidation: (() -> Unit)? = null
+) : SKInput(hint, nullable, onDone, viewType, defaultErrorMessage, maxSize, afterValidation) {
+
+    override val view:SKSimpleInputVC = coreViewInjector.inputSimple(
+        onInputText = {
+            onNewValue(it)
+        },
+        type = viewType,
+        maxSize = maxSize,
+        onFocusLost =
+        {
+            onFocusLost()
+        },
+        onDone = onDone,
+        hintInitial = hint,
+        textInitial = null,
+        errorInitial = null,
+        hiddenInitial = false,
+        enabledInitial = true
+    )
 }

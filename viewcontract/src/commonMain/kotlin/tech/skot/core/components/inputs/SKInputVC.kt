@@ -31,3 +31,6 @@ interface SKInputVC: SKComponentVC {
     fun requestFocus()
 
 }
+
+@SKLayoutIsSimpleView
+interface SKSimpleInputVC:SKInputVC

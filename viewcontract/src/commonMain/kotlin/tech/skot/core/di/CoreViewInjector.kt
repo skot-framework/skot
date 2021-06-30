@@ -1,10 +1,7 @@
 package tech.skot.core.di
 
 import tech.skot.core.components.*
-import tech.skot.core.components.inputs.SKButtonVC
-import tech.skot.core.components.inputs.SKComboVC
-import tech.skot.core.components.inputs.SKInputVC
-import tech.skot.core.components.inputs.SKInputWithSuggestionsVC
+import tech.skot.core.components.inputs.*
 import tech.skot.core.components.presented.*
 
 interface CoreViewInjector {
@@ -33,6 +30,19 @@ interface CoreViewInjector {
         hiddenInitial: Boolean?,
         enabledInitial: Boolean?
     ) : SKInputVC
+
+    fun inputSimple(
+        onInputText: (newText: String?) -> Unit,
+        type: SKInputVC.Type?,
+        maxSize: Int?,
+        onFocusLost: (() -> Unit)?,
+        onDone: ((text: String?) -> Unit)?,
+        hintInitial: String?,
+        textInitial: String?,
+        errorInitial: String?,
+        hiddenInitial: Boolean?,
+        enabledInitial: Boolean?
+    ) : SKSimpleInputVC
 
     fun combo(
         hint: String?,

@@ -1,5 +1,7 @@
 package tech.skot.core.components
 
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.annotation.CallSuper
 import androidx.core.content.ContextCompat
@@ -51,6 +53,11 @@ abstract class SKComponentView<B : Any>(val activity: SKActivity, protected val 
     fun displayError(message:String) {
         displayError?.invoke(this, message) ?: throw IllegalAccessException("You have to define SKComponentView.displayError")
     }
+
+    fun closeKeyboard() {
+        (activity.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)?.hideSoftInputFromWindow(activity.window.decorView.windowToken, 0)
+    }
+
 
     companion object {
         var displayError:(SKComponentView<*>.(message:String)->Unit)? = null

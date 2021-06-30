@@ -22,12 +22,21 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
         displayErrorMessage.post(message)
     }
 
+    private val closeKeyboardMessage = SKMessage<Unit>()
+
+    override fun closeKeyboard() {
+        closeKeyboardMessage.post(Unit)
+    }
+
     abstract fun bindTo(activity: SKActivity, fragment: Fragment?, binding: B, collectingObservers:Boolean): SKComponentView<B>
 
     fun _bindTo(activity: SKActivity, fragment: Fragment?, binding: B, collectingObservers:Boolean = false) =
         bindTo(activity, fragment, binding, collectingObservers).apply {
             displayErrorMessage.observe {
                 displayError(it)
+            }
+            closeKeyboardMessage.observe {
+                closeKeyboard()
             }
         }
 

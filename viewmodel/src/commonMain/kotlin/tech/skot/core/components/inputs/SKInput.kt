@@ -72,6 +72,12 @@ open class SKInput(
         view.error = validity.errorMessage
     }
 
+    fun resetWithoutValidate() {
+        view.text = null
+        view.error = null
+        _value = null
+    }
+
 
     override val view = coreViewInjector.input(
         onInputText = {

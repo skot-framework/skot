@@ -156,7 +156,6 @@ abstract class SKCommonComboView<Binding : Any>(
 
     open fun onSelect(selected: SKComboVC.Choice?) {
         lockSelectedReaction = true
-        SKLog.d("---- dans onSelect selected=${selected?.text}")
         autoComplete.setText(selected?.inputText, false)
         autoComplete.strike(selected?.strikethrough == true)
         autoComplete.setTextColor(

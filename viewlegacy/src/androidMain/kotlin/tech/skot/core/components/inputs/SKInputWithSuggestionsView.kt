@@ -67,10 +67,10 @@ class SKInputWithSuggestionsView(
         }
     }
 
-    override fun onSelect(selected: SKComboVC.Choice?) {
-        if (selected != null) {
-            super.onSelect(selected)
-        }
-    }
+//    override fun onSelect(selected: SKComboVC.Choice?) {
+//        if (selected != null) {
+//            super.onSelect(selected)
+//        }
+//    }
 
 }

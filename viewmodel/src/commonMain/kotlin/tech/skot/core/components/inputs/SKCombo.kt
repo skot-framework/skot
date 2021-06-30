@@ -1,6 +1,8 @@
 package tech.skot.core.components.inputs
 
+import tech.skot.core.SKLog
 import tech.skot.core.components.SKComponent
+import tech.skot.core.components.SKLoaderVC
 import tech.skot.core.di.coreViewInjector
 
 abstract class SKBaseCombo<D : Any?, V : SKComboVC>(
@@ -34,6 +36,7 @@ abstract class SKBaseCombo<D : Any?, V : SKComboVC>(
         set(newVal) {
             _value = newVal
             view.dropDownDisplayed = false
+            SKLog.d("@@@@@@@ SKCombo base will set view.selected to $newVal" )
             view.selected = newVal?.toChoice()
         }
 

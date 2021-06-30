@@ -11,5 +11,4 @@ open class SKList(vertical:Boolean = true, reverse:Boolean = false, nbColumns:In
             field.forEach { if (!value.contains(it)) it.onRemove() }
             field = value
         }
-
 }

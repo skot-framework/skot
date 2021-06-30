@@ -45,6 +45,8 @@ class CoreViewInjectorImpl : CoreViewInjector {
         animateItem: Boolean
     ) = SKListViewProxy(vertical, reverse, nbColumns, animate, animateItem)
 
+    override fun skBox(itemsInitial:List<SKComponentVC>, hiddenInitial: Boolean?) = SKBoxViewProxy(itemsInitial as List<SKComponentViewProxy<*>>, hiddenInitial)
+
     override fun webView(config: SKWebViewVC.Config, openUrlInitial: SKWebViewVC.OpenUrl?) =
         SKWebViewViewProxy(config, openUrlInitial)
 

@@ -23,6 +23,11 @@ class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean,
             itemsLD.postValue(newVal as List<Pair<SKComponentViewProxy<*>, Any>>)
         }
 
+    private val srollToPositionMessage = SKMessage<Int>()
+    override fun scrollToPosition(position: Int) {
+        srollToPositionMessage.post(position)
+    }
+
     private val saveSignal: SKMessage<Unit> = SKMessage()
     private var _state: Parcelable? = null
 
@@ -40,6 +45,9 @@ class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean,
                 saveSignal.observe {
 //                    SKLog.d("SKListViewProxy receive Save Signal")
                     _state = saveState()
+                }
+                srollToPositionMessage.observe {
+                    scrollToPosition(it)
                 }
                 _state?.let {
 //                    SKLog.d("SKListViewProxy restoreState")

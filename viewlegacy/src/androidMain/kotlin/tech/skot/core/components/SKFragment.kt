@@ -24,6 +24,15 @@ open class SKFragment : Fragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        screen?.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        screen?.onResume()
+    }
 
 //    override fun onDestroy() {
 //        SKLog.d("SKFragment ${hashCode()} onDestroy ${screenKey}")

@@ -49,10 +49,6 @@ abstract class SKCommonComboView<Binding : Any>(
 
     init {
         autoComplete.apply {
-//            inputInputType?.let { inputType = it }
-//            isEnabled = inputIsEnabled
-////            isEnabled = true
-//            inputType = inputInputType
 
             object : BaseAdapter(), Filterable {
                 override fun getView(position: Int, p1: View?, viewGroup: ViewGroup?): View {
@@ -110,17 +106,13 @@ abstract class SKCommonComboView<Binding : Any>(
 
     fun onOnSelected(onSelected: ((data: Any?) -> Unit)?) {
         if (onSelected != null) {
-            SKLog.d("----- onOnSelected : $onSelected")
-            autoComplete.setOnDismissListener {
-                SKLog.d("---- dans OnDismissListener $lockSelectedReaction")
-            }
+//            autoComplete.setOnDismissListener {
+//                SKLog.d("---- dans OnDismissListener $lockSelectedReaction")
+//            }
 
             autoComplete.setOnItemClickListener { parent, view, position, id ->
-                SKLog.d("---- dans OnItemClickListener $position $id")
                 _choices.getOrNull(position)?.let {
-                    SKLog.d("-###### $it")
                     onSelected(it.data)
-                    SKLog.d("-###### $it   onSelected done")
                 }
 
             }
@@ -128,25 +120,6 @@ abstract class SKCommonComboView<Binding : Any>(
             autoComplete.setOnClickListener(null)
         }
 
-
-//        autoComplete.addTextChangedListener(object : TextWatcher {
-//            override fun afterTextChanged(p0: Editable?) {
-//                if (!lockSelectedReaction) {
-////                    p0?.let {
-////                        SKLog.d("---- dans onOnSelected")
-////                        onSelected(it.toString())
-////                    }
-//                }
-//            }
-//
-//            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//                // na
-//            }
-//
-//            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//                // na
-//            }
-//        })
     }
 
     fun onChoices(choices: List<SKComboVC.Choice>) {
@@ -182,7 +155,6 @@ abstract class SKCommonComboView<Binding : Any>(
     }
 
     fun onDropDownDisplayed(state: Boolean) {
-        SKLog.d("onDropDownDisplayed   $state")
         if (state) {
             autoComplete.showDropDown()
         } else {

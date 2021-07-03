@@ -2,7 +2,13 @@ package tech.skot.core.components
 
 import tech.skot.core.di.coreViewInjector
 
-open class SKList(vertical:Boolean = true, reverse:Boolean = false, nbColumns:Int? = null, animate:Boolean = true, animateItem:Boolean = false):SKComponent<SKListVC>() {
+open class SKList(
+    vertical: Boolean = true,
+    reverse: Boolean = false,
+    nbColumns: Int? = null,
+    animate: Boolean = true,
+    animateItem: Boolean = false
+) : SKComponent<SKListVC>() {
     override val view = coreViewInjector.skList(vertical, reverse, nbColumns, animate, animateItem)
 
     var items: List<SKComponent<*>> = emptyList()
@@ -11,4 +17,8 @@ open class SKList(vertical:Boolean = true, reverse:Boolean = false, nbColumns:In
             field.forEach { if (!value.contains(it)) it.onRemove() }
             field = value
         }
+
+    fun scrollToPosition(position: Int) {
+        view.scrollToPosition(position)
+    }
 }

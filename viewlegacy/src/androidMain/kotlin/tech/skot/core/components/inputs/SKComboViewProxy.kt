@@ -76,7 +76,6 @@ abstract class SKCommonComboViewProxy<Binding: Any>(
             onChoices(it)
         }
         selectedLD.observe {
-            SKLog.d("------ selectedLD on $it")
             onSelect(it)
         }
         enabledLD.observe {

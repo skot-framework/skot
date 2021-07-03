@@ -113,6 +113,10 @@ class SKListView(
         recyclerView.layoutManager?.onRestoreInstanceState(state)
     }
 
+    fun scrollToPosition(position: Int) {
+        (binding.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(position, 0)
+    }
+
 
     class DiffCallBack(
         private val oldList: List<Pair<SKComponentViewProxy<*>, Any>>,

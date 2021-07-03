@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="sk_combo_style_text_input_layout" format="reference"/>
+    <attr name="sk_combo_style_auto_complete_text_view" format="reference"/>
+
+    <attr name="sk_input_with_suggestions_style_text_input_layout" format="reference"/>
+    <attr name="sk_input_with_suggestions_style_auto_complete_text_view" format="reference"/>
+
+<!--    <style name="Skot">-->
+<!--        <item name="sk_combo_style_text_input_layout">@style/sk_combo_text_input_layout</item>-->
+<!--        <item name="sk_combo_style_auto_complete_text_view">@style/sk_combo_auto_complete_text_view</item>-->
+<!--        <item name="sk_input_with_suggestions_style_text_input_layout">@style/sk_input_with_suggestions_text_input_layout</item>-->
+<!--        <item name="sk_input_with_suggestions_style_auto_complete_text_view">@style/sk_input_with_suggestions_auto_complete_text_view</item>-->
+<!--    </style>-->
+</resources>

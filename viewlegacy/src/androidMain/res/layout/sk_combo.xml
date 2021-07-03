@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/sk_combo_text_input_layout"
+    style="?sk_combo_style_text_input_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
@@ -9,7 +9,7 @@
         android:id="@+id/autoComplete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/sk_combo_auto_complete_text_view"
+        style="?sk_combo_style_auto_complete_text_view"
         android:enabled="false"
         />
 

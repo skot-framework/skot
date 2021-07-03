@@ -25,8 +25,19 @@ fun View.setOnClick(myOnClick: (() -> Unit)?, single: Boolean = true, delay: Lon
             }
         })
     }
-
 }
+
+fun View.setOnClickOrGone(myOnClick: (() -> Unit)?, single: Boolean = true, delay: Long = 500) {
+    if (myOnClick != null) {
+        setOnClick(myOnClick, single, delay)
+        setVisible(true)
+    }
+    else {
+        setVisible(false)
+    }
+}
+
+
 
 
 fun View.updatePadding(left:Int? =null, top:Int? = null, right:Int? = null, bottom:Int? = null) {

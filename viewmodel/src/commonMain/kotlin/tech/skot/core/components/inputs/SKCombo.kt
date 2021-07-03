@@ -36,7 +36,6 @@ abstract class SKBaseCombo<D : Any?, V : SKComboVC>(
         set(newVal) {
             _value = newVal
             view.dropDownDisplayed = false
-            SKLog.d("@@@@@@@ SKCombo base will set view.selected to $newVal" )
             view.selected = newVal?.toChoice()
         }
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import tech.skot.core.SKLog
 import tech.skot.view.live.MutableSKLiveData
 
 abstract class SKScreenViewProxy<B : ViewBinding> : SKComponentViewProxy<B>(), SKScreenVC {
@@ -36,6 +37,7 @@ abstract class SKScreenViewProxy<B : ViewBinding> : SKComponentViewProxy<B>(), S
 
     fun createFragment(): SKFragment =
             SKFragment().apply {
+                SKLog.d("ééééééé SKScreenViewProxy  ${this@SKScreenViewProxy::class.simpleName} createFragment ")
                 arguments = Bundle().apply {
                     putLong(ScreensManager.SK_ARGUMENT_VIEW_KEY, key)
                 }

@@ -2,6 +2,7 @@ package tech.skot.core.components
 
 import android.view.View
 import android.view.WindowInsets
+import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import tech.skot.core.SKLog
@@ -24,14 +25,15 @@ abstract class SKScreenView<B : ViewBinding>(
     var previousSystemUiVisibility: Int? = null
     var thisScreenSystemUiVisibility: Int? = null
 
+    @CallSuper
     open fun onResume() {
-        SKLog.d("${this::class.simpleName} ${this.hashCode()} onResume")
-        thisScreenSystemUiVisibility?.let { activity.window.decorView.systemUiVisibility = it }
+//        SKLog.d("######->${this::class.simpleName} ${this.hashCode()} onResume ")
+        activity.window.decorView.systemUiVisibility = thisScreenSystemUiVisibility ?: (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
     }
 
+    @CallSuper
     open fun onPause() {
-        SKLog.d("${this::class.simpleName} ${this.hashCode()} onPause")
-        previousSystemUiVisibility?.let { activity.window.decorView.systemUiVisibility = it }
+//        SKLog.d("######<-${this::class.simpleName} ${this.hashCode()} onPause")
     }
 
 

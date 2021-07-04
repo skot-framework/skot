@@ -124,6 +124,23 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
         block: (d: D) -> Unit
     ) {
 
+        class Treatment(val data:D)
+        var lastTreatedData:Treatment? = null
+
+        fun treatData(data:D) {
+            lastTreatedData.let { currentLast ->
+                if (currentLast == null || data != currentLast.data) {
+                    block(data)
+                    lastTreatedData = Treatment(data)
+                }
+                else {
+                    SKLog.d("@@@@@@@@ data already treated : $data")
+                }
+            }
+
+
+        }
+
         fun fallBack(): Job =
             launchWithOptions(
                 withLoader = withLoaderForFirstData,
@@ -131,7 +148,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
                     logE(ex, "SKData onData fallBackDataBeforeFirstDataLoaded error")
                 }
             ) {
-                fallBackValue()?.let(block)
+                fallBackValue()?.let { treatData(it) }
             }
 
         val fallBackJob: Job? =
@@ -154,12 +171,12 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
         ) {
             get(validity).let {
                 fallBackJob?.cancel()
-                block(it)
+                treatData(it)
             }
             launchNoCrash {
                 flow.drop(1).collect {
                     it?.let {
-                        it.data.let(block)
+                        it.data.let { treatData(it) }
                     }
                 }
             }

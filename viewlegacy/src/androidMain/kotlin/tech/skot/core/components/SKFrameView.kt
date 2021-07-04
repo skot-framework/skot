@@ -2,9 +2,13 @@ package tech.skot.core.components
 
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
-import tech.skot.core.SKLog
 
-class SKFrameView(activity: SKActivity, fragment: Fragment?, binding: FrameLayout, private val screens: Set<SKScreenViewProxy<*>>) : SKComponentView<FrameLayout>(activity, fragment, binding) {
+class SKFrameView(
+    activity: SKActivity,
+    fragment: Fragment?,
+    binding: FrameLayout,
+    private val screens: Set<SKScreenViewProxy<*>>
+) : SKComponentView<FrameLayout>(activity, fragment, binding) {
 
 
     fun onScreen(screen: SKScreenViewProxy<*>?) {
@@ -17,22 +21,38 @@ class SKFrameView(activity: SKActivity, fragment: Fragment?, binding: FrameLayou
             if (screen != null) {
                 val tag = screen.key.toString()
                 val alreadyAddedFragment = findFragmentByTag(tag)
+
+
+                fragments.forEach {
+                    if (it.tag != tag && !it.isHidden) {
+//                        SKLog.d("###### ))) hide ${it::class.simpleName} ${(it as? SKFragment)?.screen?.let { it::class.simpleName }}  ${it.isHidden()}")
+                        trans.hide(it)
+                        it.onPauseRecursive()
+                    }
+                }
                 if (alreadyAddedFragment != null) {
                     trans.show(alreadyAddedFragment)
                 } else {
-                    trans.add(binding.id, screen.createFragment(), tag)
+                    screen.createFragment().let { frag ->
+                        trans.add(binding.id, frag, tag)
+                    }
+
                 }
-                fragments.forEach {
-                    if (it.tag != tag) {
-                        trans.hide(it)
+
+                alreadyAddedFragment?.let {
+                    trans.runOnCommit {
+                        it.onResumeRecursive()
                     }
                 }
+
             } else {
                 fragments.forEach {
                     trans.hide(it)
                 }
+
             }
             trans.commit()
+
         }
     }
 

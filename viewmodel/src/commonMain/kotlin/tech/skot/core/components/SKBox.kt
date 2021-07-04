@@ -15,6 +15,13 @@ open class SKBox(items: List<SKComponent<*>>?) : SKComponent<SKBoxVC>() {
             field = value
         }
 
+    var content: SKComponent<*>? = null
+        set(value) {
+            field = value
+            items = value?.let { listOf(it) } ?: emptyList()
+        }
+
+
     var hidden:Boolean? = null
         set(value) {
             field = value

@@ -11,9 +11,12 @@ class SKStackView(activity: SKActivity, fragment: Fragment?, private val frameLa
         val lastScreen = state.screens.lastOrNull()
         if (lastScreen != null) {
             fragmentManager.apply {
-                val trans = beginTransaction()
-                trans.replace(frameLayout.id, lastScreen.createFragment())
-                trans.commit()
+                val oldFrag = findFragmentById(frameLayout.id)
+                beginTransaction().apply {
+                    replace(frameLayout.id, lastScreen.createFragment())
+                    commit()
+                }
+                oldFrag?.onPauseRecursive()
             }
         }
     }

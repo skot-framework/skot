@@ -4,7 +4,7 @@ import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 
 
-class SKStackView(activity: SKActivity, fragment: Fragment?, private val frameLayout: FrameLayout) : SKComponentView<FrameLayout>(activity, fragment, frameLayout) {
+class SKStackView(proxy:SKStackViewProxy, activity: SKActivity, fragment: Fragment?, private val frameLayout: FrameLayout) : SKComponentView<FrameLayout>(proxy, activity, fragment, frameLayout) {
 
 
     fun onState(state:StateProxy) {

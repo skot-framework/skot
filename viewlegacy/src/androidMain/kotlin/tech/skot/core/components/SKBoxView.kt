@@ -5,10 +5,11 @@ import androidx.fragment.app.Fragment
 import tech.skot.view.extensions.setVisible
 
 class SKBoxView(
+    proxy: SKBoxViewProxy,
     activity: SKActivity,
     fragment: Fragment?,
     viewGroup: ViewGroup
-) : SKComponentView<ViewGroup>(activity, fragment, viewGroup) {
+) : SKComponentView<ViewGroup>(proxy, activity, fragment, viewGroup) {
 
 
     fun onItems(items: List<SKComponentViewProxy<*>>) {

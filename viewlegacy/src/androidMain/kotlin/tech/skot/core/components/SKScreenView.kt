@@ -9,11 +9,11 @@ import tech.skot.view.extensions.updatePadding
 
 
 abstract class SKScreenView<B : ViewBinding>(
-//    proxy: SKComponentViewProxy<B>,
+    override val proxy: SKScreenViewProxy<B>,
     activity: SKActivity,
     fragment: Fragment?,
     binding: B
-) : SKComponentView<B>(activity, fragment, binding) {
+) : SKComponentView<B>(proxy, activity, fragment, binding) {
     val view: View = binding.root
 
 
@@ -29,11 +29,12 @@ abstract class SKScreenView<B : ViewBinding>(
     open fun onResume() {
 //        SKLog.d("######->${this::class.simpleName} ${this.hashCode()} onResume ")
         activity.window.decorView.systemUiVisibility = thisScreenSystemUiVisibility ?: (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
-
+        proxy.onResume?.invoke()
     }
 
     @CallSuper
     open fun onPause() {
+        proxy.onPause?.invoke()
 //        SKLog.d("######<-${this::class.simpleName} ${this.hashCode()} onPause")
     }
 

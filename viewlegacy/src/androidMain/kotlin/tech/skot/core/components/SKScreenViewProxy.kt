@@ -50,4 +50,7 @@ abstract class SKScreenViewProxy<B : ViewBinding> : SKComponentViewProxy<B>(), S
                 }
             }
 
+
+    override var onResume: (() -> Unit)? = null
+    override var onPause: (() -> Unit)? = null
 }

@@ -17,7 +17,7 @@ class SKFrameViewProxy(
 
 
     override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: FrameLayout, collectingObservers: Boolean) =
-            SKFrameView(activity, fragment, binding, screens).apply {
+            SKFrameView(this, activity, fragment, binding, screens).apply {
                 screenLD.observe {
                     onScreen(it)
                 }

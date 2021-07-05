@@ -13,7 +13,7 @@ class SKSnackBarViewProxy() : SKComponentViewProxy<View>(), SKSnackBarVC {
     override var state: SKSnackBarVC.Shown? by stateLD
 
     override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: View, collectingObservers:Boolean) =
-            SKSnackBarView(activity, fragment, binding, this).apply {
+            SKSnackBarView(this, activity, fragment, binding).apply {
                 stateLD.observe {
                     onState(it)
                 }

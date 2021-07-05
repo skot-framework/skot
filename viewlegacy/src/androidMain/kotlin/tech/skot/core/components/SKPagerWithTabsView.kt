@@ -7,12 +7,13 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class SKPagerWithTabsView(
+    override val proxy: SKPagerWithTabsViewProxy,
     activity: SKActivity,
     fragment: Fragment?,
     view: View,
     private val viewPager2: ViewPager2,
     private val tabLayout: TabLayout
-) : SKComponentView<View>(activity, fragment, view) {
+) : SKComponentView<View>(proxy, activity, fragment, view) {
 
     fun onLabels(labels: List<String>) {
         TabLayoutMediator(

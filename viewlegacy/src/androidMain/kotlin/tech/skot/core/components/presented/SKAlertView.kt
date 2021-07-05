@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import tech.skot.core.components.SKComponentView
 import tech.skot.core.components.SKActivity
 
-class SKAlertView(activity: SKActivity, fragment: Fragment?, private val proxy: SKAlertViewProxy) : SKComponentView<Unit>(activity, fragment, Unit) {
+class SKAlertView(override val proxy: SKAlertViewProxy, activity: SKActivity, fragment: Fragment?) : SKComponentView<Unit>(proxy, activity, fragment, Unit) {
 
     data class State(val state:SKAlertVC.Shown, val alert: AlertDialog)
     private var current:State? = null

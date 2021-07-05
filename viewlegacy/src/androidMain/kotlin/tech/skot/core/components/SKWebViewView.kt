@@ -11,11 +11,11 @@ import tech.skot.core.SKLog
 import java.net.URLEncoder
 
 class SKWebViewView(
+    override val proxy: SKWebViewViewProxy,
     activity: SKActivity,
     fragment: Fragment?,
     private val webView: WebView,
-    private val proxy: SKWebViewViewProxy
-) : SKComponentView<WebView>(activity, fragment, webView) {
+) : SKComponentView<WebView>(proxy, activity, fragment, webView) {
 
     fun onConfig(config: SKWebViewVC.Config) {
         webView.settings.apply {

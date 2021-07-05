@@ -35,7 +35,7 @@ class SKComboViewProxy(
         fragment: Fragment?,
         binding: SkComboBinding,
         collectingObservers: Boolean
-    ) = SKComboView(activity, fragment, binding).apply {
+    ) = SKComboView(this, activity, fragment, binding).apply {
         bind()
     }
 }

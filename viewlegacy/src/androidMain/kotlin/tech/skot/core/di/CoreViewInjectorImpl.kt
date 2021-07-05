@@ -1,5 +1,6 @@
 package tech.skot.core.di
 
+import tech.skot.core.view.Icon
 import tech.skot.core.components.*
 import tech.skot.core.components.inputs.*
 import tech.skot.core.components.presented.SKAlertViewProxy
@@ -151,6 +152,13 @@ class CoreViewInjectorImpl : CoreViewInjector {
         enabledInitial: Boolean?,
         hiddenInitial: Boolean?
     ) = SKButtonViewProxy(onTapInitial, labelInitial, enabledInitial, hiddenInitial)
+
+    override fun imageButton(
+        onTapInitial: (() -> Unit)?,
+        iconInitial: Icon,
+        enabledInitial: Boolean?,
+        hiddenInitial: Boolean?
+    ) = SKImageButtonViewProxy(onTapInitial, iconInitial, enabledInitial, hiddenInitial)
 
 
 }

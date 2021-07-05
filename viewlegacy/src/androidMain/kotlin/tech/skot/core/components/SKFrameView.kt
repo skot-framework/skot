@@ -4,11 +4,12 @@ import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 
 class SKFrameView(
+    proxy: SKFrameViewProxy,
     activity: SKActivity,
     fragment: Fragment?,
     binding: FrameLayout,
     private val screens: Set<SKScreenViewProxy<*>>
-) : SKComponentView<FrameLayout>(activity, fragment, binding) {
+) : SKComponentView<FrameLayout>(proxy, activity, fragment, binding) {
 
 
     fun onScreen(screen: SKScreenViewProxy<*>?) {

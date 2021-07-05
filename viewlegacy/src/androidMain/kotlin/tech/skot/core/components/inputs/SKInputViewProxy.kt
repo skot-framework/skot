@@ -125,7 +125,7 @@ class SKInputViewProxy(
         activity: SKActivity,
         fragment: Fragment?,
         binding: TextInputLayout
-    ) = SKInputView(activity, fragment, binding)
+    ) = SKInputView(this, activity, fragment, binding)
 }
 
 
@@ -158,7 +158,7 @@ class SKSimpleInputViewProxy(
         activity: SKActivity,
         fragment: Fragment?,
         binding: EditText
-    ) = SKSimpleInputView(activity, fragment, binding)
+    ) = SKSimpleInputView(this, activity, fragment, binding)
 }
 
 

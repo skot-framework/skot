@@ -1,25 +1,27 @@
 package tech.skot.core.components.inputs
 
-import android.widget.Button
+
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKComponentView
+import tech.skot.core.view.Icon
 import tech.skot.view.extensions.setOnClick
 import tech.skot.view.extensions.setVisible
 
-class SKButtonView(
-    override val proxy: SKButtonViewProxy,
+class SKImageButtonView(
+    override val proxy: SKImageButtonViewProxy,
     activity: SKActivity,
     fragment: Fragment?,
-    button: Button
-) : SKComponentView<Button>(proxy, activity, fragment, button) {
+    button: ImageButton
+) : SKComponentView<ImageButton>(proxy, activity, fragment, button) {
 
     fun onOnTap(onTap: (() -> Unit)?) {
         binding.setOnClick(onTap)
     }
 
-    fun onLabel(label: String?) {
-        label?.let { binding.text = it }
+    fun onIcon(icon: Icon) {
+        binding.setImageResource(icon.res)
     }
 
     fun onEnabled(enabled: Boolean?) {

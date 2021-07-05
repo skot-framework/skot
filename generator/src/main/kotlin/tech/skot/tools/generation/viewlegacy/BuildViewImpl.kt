@@ -10,6 +10,7 @@ fun ComponentDef.buildViewImpl(viewModuleAndroidPackage:String) =
         TypeSpec.classBuilder(viewImpl().simpleName)
                 .addPrimaryConstructorWithParams(
                         listOfNotNull(
+                            ParamInfos("proxy", proxy(), modifiers = listOf(KModifier.OVERRIDE),isVal = true),
                                 ParamInfos("activity", AndroidClassNames.skActivity, isVal = false),
                                 ParamInfos("fragment", AndroidClassNames.fragment.nullable(), isVal = false),
                                 ParamInfos("binding", binding(viewModuleAndroidPackage), isVal = false)
@@ -25,6 +26,7 @@ fun ComponentDef.buildViewImpl(viewModuleAndroidPackage:String) =
                     addSuperinterface(it, delegate = CodeBlock.of("${it.simpleName()}Impl(activity, fragment, binding.root)"))
                 }
             }
+                .addSuperclassConstructorParameter("proxy")
                 .addSuperclassConstructorParameter("activity")
                 .addSuperclassConstructorParameter("fragment")
                 .addSuperclassConstructorParameter("binding")

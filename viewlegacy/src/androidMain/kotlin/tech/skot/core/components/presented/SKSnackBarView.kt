@@ -9,7 +9,7 @@ import tech.skot.core.SKLog
 import tech.skot.core.components.SKComponentView
 import tech.skot.core.components.SKActivity
 
-class SKSnackBarView(activity: SKActivity, fragment: Fragment?, private val rootView: View, private val proxy: SKSnackBarViewProxy) : SKComponentView<View>(activity, fragment, rootView) {
+class SKSnackBarView(override val proxy: SKSnackBarViewProxy, activity: SKActivity, fragment: Fragment?, private val rootView: View) : SKComponentView<View>(proxy, activity, fragment, rootView) {
 
     data class State(val state: SKSnackBarVC.Shown, val snack: Snackbar)
 

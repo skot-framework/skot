@@ -10,14 +10,16 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
 import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKComponentView
+import tech.skot.core.components.SKComponentViewProxy
 import tech.skot.view.extensions.setOnDone
 import tech.skot.view.extensions.setVisible
 
 abstract class SKInputViewCommon<V: View>(
+    override val proxy: SKInputViewProxyCommon<V>,
     activity: SKActivity,
     fragment: Fragment?,
     view: V
-) : SKComponentView<V>(activity, fragment, view), SKInputRAI {
+) : SKComponentView<V>(proxy, activity, fragment, view), SKInputRAI {
 
     abstract val editText: EditText
 
@@ -110,10 +112,11 @@ abstract class SKInputViewCommon<V: View>(
 }
 
 class SKInputView(
+    override val proxy: SKInputViewProxy,
     activity: SKActivity,
     fragment: Fragment?,
     private val textInputLayout: TextInputLayout
-) : SKInputViewCommon<TextInputLayout>(activity, fragment, textInputLayout) {
+) : SKInputViewCommon<TextInputLayout>(proxy, activity, fragment, textInputLayout) {
 
     override val editText: EditText = textInputLayout.editText!!
 
@@ -135,10 +138,11 @@ class SKInputView(
 }
 
 class SKSimpleInputView(
+    override val proxy: SKSimpleInputViewProxy,
     activity: SKActivity,
     fragment: Fragment?,
     override val editText: EditText
-) : SKInputViewCommon<EditText>(activity, fragment, editText) {
+) : SKInputViewCommon<EditText>(proxy, activity, fragment, editText) {
 
 
     override fun onEnabled(enabled: Boolean?) {

@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import tech.skot.core.components.*
 
 
-class SKBottomSheetView(activity: SKActivity, fragment: Fragment?, private val proxy: SKBottomSheetViewProxy) : SKComponentView<Unit>(activity, fragment, Unit) {
+class SKBottomSheetView(override val proxy: SKBottomSheetViewProxy, activity: SKActivity, fragment: Fragment?) : SKComponentView<Unit>(proxy, activity, fragment, Unit) {
 
     data class State(val state: SKBottomSheetVC.Shown, val bottomSheet: SKBottomSheetDialogFragment)
 

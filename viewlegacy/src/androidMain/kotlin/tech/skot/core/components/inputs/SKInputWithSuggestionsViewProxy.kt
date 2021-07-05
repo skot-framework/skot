@@ -43,7 +43,7 @@ class SKInputWithSuggestionsViewProxy(
         fragment: Fragment?,
         binding: SkInputWithSuggestionsBinding,
         collectingObservers: Boolean
-    ) = SKInputWithSuggestionsView(activity, fragment, binding).apply {
+    ) = SKInputWithSuggestionsView(this, activity, fragment, binding).apply {
         bind()
         onOnInputText(onInputText)
         requestFocusMessage.observe {

@@ -12,7 +12,7 @@ class SKAlertViewProxy() : SKComponentViewProxy<Unit>(), SKAlertVC {
     override var state: SKAlertVC.Shown? by stateLD
 
     override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: Unit, collectingObservers:Boolean) =
-            SKAlertView(activity, fragment, this).apply {
+            SKAlertView(this, activity, fragment).apply {
                 stateLD.observe {
                     onState(it)
                 }

@@ -16,6 +16,7 @@ import tech.skot.view.live.SKLiveData
 import tech.skot.view.live.SKMessage
 
 abstract class SKComponentView<B : Any>(
+    open val proxy: SKComponentViewProxy<B>,
     val activity: SKActivity,
     protected val fragment: Fragment?,
     val binding: B

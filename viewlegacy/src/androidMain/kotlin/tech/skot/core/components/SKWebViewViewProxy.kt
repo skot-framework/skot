@@ -17,7 +17,7 @@ class SKWebViewViewProxy(
 
 
     override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: WebView, collectingObservers: Boolean) =
-            SKWebViewView(activity, fragment, binding, this).apply {
+            SKWebViewView(this, activity, fragment, binding).apply {
                 onConfig(config)
                 openUrlLD.observe {
                     onOpenUrl(it)

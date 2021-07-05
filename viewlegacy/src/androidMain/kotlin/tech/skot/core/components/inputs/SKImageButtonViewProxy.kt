@@ -1,24 +1,26 @@
 package tech.skot.core.components.inputs
 
+
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import tech.skot.core.components.SKActivity
-import tech.skot.core.components.SKComponentView
 import tech.skot.core.components.SKComponentViewProxy
+import tech.skot.core.view.Icon
 import tech.skot.view.live.MutableSKLiveData
 
-class SKButtonViewProxy(
+class SKImageButtonViewProxy(
     onTapInitial:(()->Unit)?,
-    labelInitial:String?,
+    inconInitial:Icon,
     enabledInitial:Boolean?,
     hiddenInitial:Boolean?
-): SKComponentViewProxy<Button>(), SKButtonVC {
+): SKComponentViewProxy<ImageButton>(), SKImageButtonVC {
 
     private val onTapLD = MutableSKLiveData(onTapInitial)
     override var onTap: (() -> Unit)? by onTapLD
 
-    private val labelLD = MutableSKLiveData(labelInitial)
-    override var label by labelLD
+    private val iconLD = MutableSKLiveData(inconInitial)
+    override var icon by iconLD
 
     private val enabledLD = MutableSKLiveData(enabledInitial)
     override var enabled by enabledLD
@@ -29,15 +31,15 @@ class SKButtonViewProxy(
     override fun bindTo(
         activity: SKActivity,
         fragment: Fragment?,
-        binding: Button,
+        binding: ImageButton,
         collectingObservers: Boolean
-    ) = SKButtonView(this, activity, fragment, binding).apply {
+    ) = SKImageButtonView(this, activity, fragment, binding).apply {
         collectObservers = collectingObservers
         onTapLD.observe {
             onOnTap(it)
         }
-        labelLD.observe {
-            onLabel(it)
+        iconLD.observe {
+            onIcon(it)
         }
         enabledLD.observe {
             onEnabled(it)

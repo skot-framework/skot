@@ -12,10 +12,11 @@ class SKListView(
     nbColumns: Int?,
     animate: Boolean,
     animateItem: Boolean,
+    proxy:SKListViewProxy,
     activity: SKActivity,
     fragment: Fragment?,
     private val recyclerView: RecyclerView
-) : SKComponentView<RecyclerView>(activity, fragment, recyclerView) {
+) : SKComponentView<RecyclerView>(proxy, activity, fragment, recyclerView) {
 
 
     inner class ViewHolder(idLayout: Int, parent: ViewGroup) : RecyclerView.ViewHolder(

@@ -30,7 +30,7 @@ class SKStackViewProxy() : SKComponentViewProxy<FrameLayout>(), SKStackVC {
     }
 
     override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: FrameLayout, collectingObservers: Boolean) =
-            SKStackView(activity, fragment, binding).apply {
+            SKStackView(this, activity, fragment, binding).apply {
                 collectObservers = collectingObservers
                 stateLD.observe {
                     onState(it)

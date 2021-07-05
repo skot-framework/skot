@@ -11,10 +11,11 @@ import tech.skot.viewlegacy.databinding.SkComboBinding
 import tech.skot.viewlegacy.databinding.SkInputWithSuggestionsBinding
 
 class SKInputWithSuggestionsView(
+    override val proxy: SKInputWithSuggestionsViewProxy,
     activity: SKActivity,
     fragment: Fragment?,
     binding: SkInputWithSuggestionsBinding
-) : SKCommonComboView<SkInputWithSuggestionsBinding>(activity, fragment, binding,  binding.root, binding.autoComplete) {
+) : SKCommonComboView<SkInputWithSuggestionsBinding>(proxy, activity, fragment, binding,  binding.root, binding.autoComplete) {
 
     private var firstChangeDoneFor = false
 

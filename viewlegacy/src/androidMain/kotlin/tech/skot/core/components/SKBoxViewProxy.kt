@@ -29,7 +29,7 @@ class SKBoxViewProxy(itemsInitial: List<SKComponentViewProxy<*>>, hiddenInitial:
         binding: ViewGroup,
         collectingObservers: Boolean
     ): SKComponentView<ViewGroup> =
-        SKBoxView(activity, fragment, binding).apply {
+        SKBoxView(this, activity, fragment, binding).apply {
             collectObservers = collectingObservers
             itemsLD.observe {
                 onItems(it)

@@ -17,10 +17,12 @@ import tech.skot.viewlegacy.R
 import tech.skot.viewlegacy.databinding.SkComboBinding
 
 class SKComboView(
+    override val proxy: SKComboViewProxy,
     activity: SKActivity,
     fragment: Fragment?,
     binding: SkComboBinding
 ) : SKCommonComboView<SkComboBinding>(
+    proxy,
     activity,
     fragment,
     binding,
@@ -36,12 +38,13 @@ class SKComboView(
 }
 
 abstract class SKCommonComboView<Binding : Any>(
+    override val proxy:SKCommonComboViewProxy<Binding>,
     activity: SKActivity,
     fragment: Fragment?,
     binding: Binding,
     protected val inputLayout: TextInputLayout,
     protected val autoComplete: AutoCompleteTextView
-) : SKComponentView<Binding>(activity, fragment, binding) {
+) : SKComponentView<Binding>(proxy, activity, fragment, binding) {
 
     private var _adapter: BaseAdapter? = null
     protected var _choices: List<SKComboVC.Choice> = emptyList()

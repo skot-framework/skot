@@ -37,7 +37,7 @@ class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean,
     }
 
     override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: RecyclerView, collectingObservers:Boolean) =
-            SKListView(vertical, reverse, nbColumns, animate, animateItem, activity, fragment, binding).apply {
+            SKListView(vertical, reverse, nbColumns, animate, animateItem, this, activity, fragment, binding).apply {
                 collectObservers = collectingObservers
                 itemsLD.observe {
                     onItems(it)

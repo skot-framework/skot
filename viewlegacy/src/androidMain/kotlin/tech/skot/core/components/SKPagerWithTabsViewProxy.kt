@@ -19,7 +19,7 @@ class SKPagerWithTabsViewProxy(
     ) :SKPagerWithTabsView {
         val pagerView = binding.findViewWithTag<ViewPager2>("sk_view_pager2")
         val tabLayoutView = binding.findViewWithTag<TabLayout>("sk_tab_layout")
-        return SKPagerWithTabsView(activity, fragment, binding, pagerView, tabLayoutView).apply {
+        return SKPagerWithTabsView(this, activity, fragment, binding, pagerView, tabLayoutView).apply {
             collectObservers = collectingObservers
             pager.bindTo(activity, fragment, pagerView, collectingObservers)
             onLabels(labels)

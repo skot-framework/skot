@@ -249,7 +249,7 @@ fun ComponentDef.buildProxy(
                     .addParameter("collectingObservers", ClassName("kotlin", "Boolean"))
                     .returns(viewImpl())
 
-                    .beginControlFlow("return ${viewImpl().simpleName}(activity, fragment, binding${
+                    .beginControlFlow("return ${viewImpl().simpleName}(this, activity, fragment, binding${
                         subComponents.filter { it.passToParentView }
                             .map {
                                 ", ${

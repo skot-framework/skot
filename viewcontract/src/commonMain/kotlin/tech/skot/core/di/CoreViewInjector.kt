@@ -3,6 +3,7 @@ package tech.skot.core.di
 import tech.skot.core.components.*
 import tech.skot.core.components.inputs.*
 import tech.skot.core.components.presented.*
+import tech.skot.core.view.Icon
 
 interface CoreViewInjector {
     fun rootStack(): SKStackVC
@@ -72,4 +73,11 @@ interface CoreViewInjector {
         enabledInitial: Boolean?,
         hiddenInitial: Boolean?
     ):SKButtonVC
+
+    fun imageButton(
+        onTapInitial: (() -> Unit)?,
+        iconInitial: Icon,
+        enabledInitial: Boolean?,
+        hiddenInitial: Boolean?
+    ):SKImageButtonVC
 }

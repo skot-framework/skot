@@ -6,7 +6,7 @@ object Versions {
 
     const val kotlin = "1.5.0"
     const val kotlinCoroutines = "1.5.0-native-mt"
-    const val ktor = "1.5.4"
+    const val ktor = "1.6.1"
     const val sl4j = "1.6.1"
     const val serialization = "1.2.0"
     const val kotlinxDateTime = "0.2.0"

@@ -3,6 +3,7 @@ package tech.skot.core.components
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import tech.skot.core.SKLog
 import tech.skot.view.live.SKMessage
@@ -42,6 +43,11 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
 
     open fun saveState() {
         //surchargée quand le component a un état à sauver
+    }
+
+    @CallSuper
+    override fun onRemove() {
+
     }
 
     open val layoutId:Int? = null

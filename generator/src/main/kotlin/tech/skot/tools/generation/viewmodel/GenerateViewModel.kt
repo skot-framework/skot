@@ -33,7 +33,34 @@ fun Generator.generateViewModel() {
                                 .initializer("modelInjector.${it.name.decapitalize()}(${(listOf("coroutineContext")+it.states.map { it.name }).joinToString(", ")})")
                                 .build()
                 )
+
+
             }
+
+            it.subComponents.forEach {
+                if (it.name != "loader") {
+                    addProperty(
+                        PropertySpec.builder(it.name, FrameworkClassNames.skComponent, KModifier.ABSTRACT, KModifier.PROTECTED)
+                            .build()
+                    )
+                }
+            }
+
+            addFunction(FunSpec.builder("onRemove")
+                .addModifiers(KModifier.OVERRIDE)
+                .apply {
+                    it.subComponents.forEach {
+                        if (it.name != "loader") {
+                            addStatement("${it.name}.onRemove()")
+                        }
+                        else {
+                            addStatement("loader?.onRemove()")
+                        }
+
+                    }
+                }
+                .addStatement("super.onRemove()")
+                .build())
         }
                 .writeTo(generatedCommonSources(Modules.viewmodel))
 

@@ -30,22 +30,25 @@ fun Generator.generateViewLegacy() {
         val layoutPath = androidResLayoutPath(Modules.view, it.layoutName())
 
 
-        FileSpec.builder(
-            it.proxy().packageName,
-            it.proxy().simpleName
-        )
-            .addType(it.buildProxy(this, viewModuleAndroidPackage, baseActivity))
-            .addType(it.buildRAI(viewModuleAndroidPackage))
-            .apply {
-                if (it.hasLayout) {
-                    addImportClassName(viewR)
-                }
-                it.subComponents.filter { it.passToParentView }
-                    .forEach {
-                        addImportClassName(it.viewImplClassName)
+        if (!it.proxy().existsAndroidInModule(Modules.view)){
+            FileSpec.builder(
+                it.proxy().packageName,
+                it.proxy().simpleName
+            )
+                .addType(it.buildProxy(this, viewModuleAndroidPackage, baseActivity))
+                .addType(it.buildRAI(viewModuleAndroidPackage))
+                .apply {
+                    if (it.hasLayout) {
+                        addImportClassName(viewR)
                     }
-            }.build()
-            .writeTo(generatedAndroidSources(Modules.view))
+                    it.subComponents.filter { it.passToParentView }
+                        .forEach {
+                            addImportClassName(it.viewImplClassName)
+                        }
+                }.build()
+                .writeTo(generatedAndroidSources(Modules.view))
+        }
+
         if (!it.viewImpl().existsAndroidInModule(Modules.view)) {
             FileSpec.builder(
                 it.viewImpl().packageName,

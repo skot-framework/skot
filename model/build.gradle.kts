@@ -18,13 +18,15 @@ kotlin {
         publishLibraryVariantsGroupedByFlavor = true
     }
 
-    ios {
-        binaries {
-            framework {
-                baseName = "sk-model"
-            }
-        }
-    }
+//    ios {
+//        binaries {
+//            framework {
+//                baseName = "sk-model"
+//            }
+//        }
+//    }
+
+    ios()
 
 
 
@@ -38,8 +40,9 @@ kotlin {
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
                 api("io.ktor:ktor-client-core:${Versions.ktor}")
                 api("io.ktor:ktor-client-serialization:${Versions.ktor}")
-                api("io.ktor:ktor-client-json:${Versions.ktor}")
-                api("io.ktor:ktor-client-logging:${Versions.ktor}")
+                api("io.ktor:ktor-client-auth:${Versions.ktor}")
+//                api("io.ktor:ktor-client-json:${Versions.ktor}")
+//                api("io.ktor:ktor-client-logging:${Versions.ktor}")
             }
         }
 
@@ -47,16 +50,22 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 api("com.squareup.sqldelight:android-driver:${Versions.sqldelight}")
-
-                api("io.ktor:ktor-client-android:${Versions.ktor}")
+                api("io.ktor:ktor-client-okhttp:${Versions.ktor}")
+//                api("io.ktor:ktor-client-json-jvm:${Versions.ktor}")
+//                api("io.ktor:ktor-client-serialization-jvm:${Versions.ktor}")
+//                api("io.ktor:ktor-client-logging-jvm:${Versions.ktor}")
+//                api("io.ktor:ktor-client-auth-jvm:${Versions.ktor}")
+//                api("org.slf4j:slf4j-simple:${Versions.sl4j}")
             }
         }
 
         val iosMain by getting {
             dependencies {
                 api("com.squareup.sqldelight:native-driver:${Versions.sqldelight}")
-
                 api("io.ktor:ktor-client-ios:${Versions.ktor}")
+//                api("io.ktor:ktor-client-json-native:${Versions.ktor}")
+//                api("io.ktor:ktor-client-serialization-native:${Versions.ktor}")
+//                api("io.ktor:ktor-client-logging-native:${Versions.ktor}")
             }
         }
 

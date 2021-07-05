@@ -8,7 +8,7 @@ object Versions {
 
   const val serialization: String = "1.2.0"
 
-  const val ktor: String = "1.5.4"
+  const val ktor: String = "1.6.1"
 
   const val kotlin: String = "1.5.0"
 

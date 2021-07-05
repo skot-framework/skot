@@ -24,6 +24,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
     open fun onRemove() {
         //remove des Pokers
         removeObservers.forEach { it.invoke() }
+        view.onRemove()
         job.cancel()
     }
 

@@ -21,4 +21,11 @@ open class SKList(
     fun scrollToPosition(position: Int) {
         view.scrollToPosition(position)
     }
+
+    override fun onRemove() {
+        super.onRemove()
+        items.forEach {
+            it.onRemove()
+        }
+    }
 }

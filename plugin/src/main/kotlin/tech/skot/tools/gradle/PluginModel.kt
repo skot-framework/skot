@@ -78,10 +78,7 @@ class PluginModel: Plugin<Project> {
             implementation(project(":modelcontract"))
             api("tech.skot:model:${Versions.skot}")
             api("org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}")
-//            implementation("io.ktor:ktor-client-json:${Versions.ktor}")
-//            implementation("io.ktor:ktor-client-serialization:${Versions.ktor}")
-//            implementation("io.ktor:ktor-client-logging:${Versions.ktor}")
-//            implementation("io.ktor:ktor-client-auth:${Versions.ktor}")
+
 
         }
 
@@ -104,13 +101,6 @@ class PluginModel: Plugin<Project> {
 
 
         sourceSets["androidMain"].kotlin.srcDir("generated/androidMain/kotlin")
-//        sourceSets["androidMain"].dependencies {
-//            implementation("io.ktor:ktor-client-json-jvm:${Versions.ktor}")
-//            implementation("io.ktor:ktor-client-serialization-jvm:${Versions.ktor}")
-//            implementation("io.ktor:ktor-client-logging-jvm:${Versions.ktor}")
-//            implementation("io.ktor:ktor-client-auth-jvm:${Versions.ktor}")
-//            implementation("org.slf4j:slf4j-simple:${Versions.sl4j}")
-//        }
 
     }
 

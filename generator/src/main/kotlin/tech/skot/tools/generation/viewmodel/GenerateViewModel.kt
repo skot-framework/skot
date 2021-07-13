@@ -3,15 +3,12 @@ package tech.skot.tools.generation.viewmodel
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import tech.skot.tools.generation.*
-import tech.skot.tools.generation.viewlegacy.componentViewModel
-import tech.skot.tools.generation.viewlegacy.screenViewModel
-import java.lang.IllegalStateException
 
 @ExperimentalStdlibApi
 fun Generator.generateViewModel() {
     components.forEach {
         it.viewModelGen().fileClassBuilder(
-                listOf(modelInjectorIntance)
+            listOf(modelInjectorIntance)
         ) {
             addModifiers(KModifier.ABSTRACT)
             superclass(it.superVM.parameterizedBy(it.vc.asTypeName()))
@@ -21,7 +18,8 @@ fun Generator.generateViewModel() {
                         it.states.map {
                             ParamInfos(
                                 it.name,
-                                it.stateDef()?.contractClassName ?: throw IllegalStateException("To use states you have to set the root state in configuration of skot module"),
+                                it.stateDef()?.contractClassName
+                                    ?: throw IllegalStateException("To use states you have to set the root state in configuration of skot module"),
                                 isVal = false
                             )
                         }
@@ -29,9 +27,15 @@ fun Generator.generateViewModel() {
                 }
 
                 addProperty(
-                        PropertySpec.builder("model", it.modelContract())
-                                .initializer("modelInjector.${it.name.decapitalize()}(${(listOf("coroutineContext")+it.states.map { it.name }).joinToString(", ")})")
-                                .build()
+                    PropertySpec.builder("model", it.modelContract())
+                        .initializer(
+                            "modelInjector.${it.name.decapitalize()}(${
+                                (listOf("coroutineContext") + it.states.map { it.name }).joinToString(
+                                    ", "
+                                )
+                            })"
+                        )
+                        .build()
                 )
 
 
@@ -40,7 +44,12 @@ fun Generator.generateViewModel() {
             it.subComponents.forEach {
                 if (it.name != "loader") {
                     addProperty(
-                        PropertySpec.builder(it.name, FrameworkClassNames.skComponent, KModifier.ABSTRACT, KModifier.PROTECTED)
+                        PropertySpec.builder(
+                            it.name,
+                            FrameworkClassNames.skComponent,
+                            KModifier.ABSTRACT,
+                            KModifier.PROTECTED
+                        )
                             .build()
                     )
                 }
@@ -52,8 +61,7 @@ fun Generator.generateViewModel() {
                     it.subComponents.forEach {
                         if (it.name != "loader") {
                             addStatement("${it.name}.onRemove()")
-                        }
-                        else {
+                        } else {
                             addStatement("loader?.onRemove()")
                         }
 
@@ -62,97 +70,95 @@ fun Generator.generateViewModel() {
                 .addStatement("super.onRemove()")
                 .build())
         }
-                .writeTo(generatedCommonSources(Modules.viewmodel))
+            .writeTo(generatedCommonSources(Modules.viewmodel))
 
         if (!it.viewModel().existsCommonInModule(Modules.viewmodel)) {
-            it.viewModel().fileClassBuilder(it.subComponents.map { it.type.toVM() } + viewInjectorIntance) {
-                superclass(it.viewModelGen())
+            it.viewModel()
+                .fileClassBuilder(it.subComponents.map { it.type.toVM() } + viewInjectorIntance) {
+                    superclass(it.viewModelGen())
 
-                if (it.states.isNotEmpty()) {
-                    addPrimaryConstructorWithParams(
-                        it.states.map {
-                            ParamInfos(
-                                it.name,
-                                it.stateDef()!!.contractClassName,
-                                isVal = false
-                            )
+                    if (it.states.isNotEmpty()) {
+                        addPrimaryConstructorWithParams(
+                            it.states.map {
+                                ParamInfos(
+                                    it.name,
+                                    it.stateDef()!!.contractClassName,
+                                    isVal = false
+                                )
+                            }
+                        )
+                        it.states.forEach {
+                            superclassConstructorParameters.add(CodeBlock.of(it.name))
                         }
+                    }
+
+                    it.subComponents.forEach {
+                        val vmType = it.type.toVM()
+                        addProperty(
+                            PropertySpec.builder(it.name, vmType)
+                                .initializer("${vmType.simpleName}()")
+                                .addModifiers(KModifier.OVERRIDE)
+                                .build()
+                        )
+                    }
+                    addProperty(
+                        PropertySpec.builder(
+                            "view", it.vc.asTypeName(), KModifier.OVERRIDE
+                        )
+                            .initializer("viewInjector.${it.name.decapitalize()}(${it.toFillVCparams()})")
+                            .build()
                     )
-                    it.states.forEach {
-                        superclassConstructorParameters.add(CodeBlock.of(it.name))
+                    (it.fixProperties + it.mutableProperties).filter {
+                        it.isLambda
+                    }.forEach {
+                        addFunction(
+                            FunSpec.builder(it.name).addModifiers(KModifier.PRIVATE).build()
+                        )
                     }
                 }
 
-                it.subComponents.forEach {
-                    val vmType = it.type.toVM()
-                    addProperty(
-                            PropertySpec.builder(it.name, vmType)
-                                    .initializer("${vmType.simpleName}()")
-                                .apply {
-                                    if (it.name == "loader") {
-                                        addModifiers(KModifier.OVERRIDE)
-                                    }
-                                    else {
-                                        addModifiers(KModifier.PRIVATE)
-                                    }
-                                }
-                                .build()
-                    )
-                }
-                addProperty(PropertySpec.builder(
-                        "view", it.vc.asTypeName(), KModifier.OVERRIDE)
-                        .initializer("viewInjector.${it.name.decapitalize()}(${it.toFillVCparams()})")
-                        .build()
-                )
-                (it.fixProperties + it.mutableProperties).filter {
-                    it.isLambda
-                }.forEach {
-                    addFunction(FunSpec.builder(it.name).addModifiers(KModifier.PRIVATE).build())
-                }
-            }
-
-                    .writeTo(commonSources(Modules.viewmodel))
+                .writeTo(commonSources(Modules.viewmodel))
 
         }
     }
 
     FileSpec.builder(shortCuts.packageName, shortCuts.simpleName)
-            .addProperty(
-                    PropertySpec
-                            .builder(viewInjectorIntance.simpleName, viewInjectorInterface)
-                            .initializer("get()")
-                            .build()
-            )
-            .addProperty(
-                    PropertySpec
-                            .builder(modelInjectorIntance.simpleName, modelInjectorInterface)
-                            .initializer("get()")
-                            .build()
-            )
-            .addProperty(
-                    PropertySpec
-                            .builder(stringsInstance.simpleName, stringsInterface)
-                            .initializer("get()")
-                            .build()
-            )
-            .addProperty(
-                    PropertySpec
-                            .builder(pluralsInstance.simpleName, pluralsInterface)
-                            .initializer("get()")
-                            .build()
-            )
-            .addProperty(
-                    PropertySpec
-                            .builder(iconsInstance.simpleName, iconsInterface)
-                            .initializer("get()")
-                            .build()
-            )
-            .addProperty(
-                    PropertySpec
-                            .builder(colorsInstance.simpleName, colorsInterface)
-                            .initializer("get()")
-                            .build()
-            )
+        .addProperty(
+            PropertySpec
+                .builder(viewInjectorIntance.simpleName, viewInjectorInterface)
+                .initializer("get()")
+                .build()
+        )
+        .addProperty(
+            PropertySpec
+                .builder(modelInjectorIntance.simpleName, modelInjectorInterface)
+                .initializer("get()")
+                .build()
+        )
+        .addProperty(
+            PropertySpec
+                .builder(stringsInstance.simpleName, stringsInterface)
+                .initializer("get()")
+                .build()
+        )
+        .addProperty(
+            PropertySpec
+                .builder(pluralsInstance.simpleName, pluralsInterface)
+                .initializer("get()")
+                .build()
+        )
+        .addProperty(
+            PropertySpec
+                .builder(iconsInstance.simpleName, iconsInterface)
+                .initializer("get()")
+                .build()
+        )
+        .addProperty(
+            PropertySpec
+                .builder(colorsInstance.simpleName, colorsInterface)
+                .initializer("get()")
+                .build()
+        )
         .addProperty(
             PropertySpec
                 .builder("transitions", transisitonsInterface)
@@ -174,29 +180,30 @@ fun Generator.generateViewModel() {
             }
         }
 
-            .addImportClassName(getFun)
-            .addImportClassName(stringsInterface)
-            .addImportClassName(pluralsInterface)
-            .addImportClassName(colorsInterface)
-            .addImportClassName(viewInjectorInterface)
+        .addImportClassName(getFun)
+        .addImportClassName(stringsInterface)
+        .addImportClassName(pluralsInterface)
+        .addImportClassName(colorsInterface)
+        .addImportClassName(viewInjectorInterface)
 
-            .build()
-            .writeTo(generatedCommonSources(Modules.viewmodel))
+        .build()
+        .writeTo(generatedCommonSources(Modules.viewmodel))
 
     val start = ClassName(appPackage, "start")
     if (!start.existsCommonInModule(Modules.viewmodel)) {
         val startViewModel = components.first().viewModel()
         FileSpec.builder(start.packageName, start.simpleName)
-                .addFunction(
-                        FunSpec
-                                .builder("start")
-                                .addCode("SKRootStack.screens = listOf(${startViewModel.simpleName}())")
-                                .build()
-                )
-                .addImport("tech.skot.core.components", "SKRootStack")
-                .addImportClassName(startViewModel)
-                .build()
-                .writeTo(commonSources(Modules.viewmodel))
+            .addFunction(
+                FunSpec
+                    .builder("start")
+                    .addParameter("unit", UNIT)
+                    .addCode("SKRootStack.content = ${startViewModel.simpleName}()")
+                    .build()
+            )
+            .addImport("tech.skot.core.components", "SKRootStack")
+            .addImportClassName(startViewModel)
+            .build()
+            .writeTo(commonSources(Modules.viewmodel))
     }
 
 }

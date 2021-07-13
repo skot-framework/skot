@@ -70,7 +70,6 @@ class Generator(
         mapStateDefQualifiedNameStateDef[returnType.jvmErasure.qualifiedName]
 
 
-
     val components = mutableSetOf<KClass<out SKComponentVC>>().apply {
         addLinkedComponents(startClass, appPackage)
     }.map { it.def() }
@@ -80,7 +79,7 @@ class Generator(
     }
 
     @ExperimentalStdlibApi
-    fun StateDef.addBmsTo(map:MutableMap<ClassName, StateDef>) {
+    fun StateDef.addBmsTo(map: MutableMap<ClassName, StateDef>) {
         bmS.forEach {
             map[it] = this
         }
@@ -88,6 +87,7 @@ class Generator(
             it.addBmsTo(map)
         }
     }
+
     @ExperimentalStdlibApi
     val bmsMap = mutableMapOf<ClassName, StateDef>()
 
@@ -328,6 +328,7 @@ class Generator(
     @ExperimentalStdlibApi
     fun generateApp() {
         generateAppModule()
+        generateStartsIfNeeded()
     }
 
 
@@ -418,6 +419,57 @@ class Generator(
             .writeTo(generatedAndroidSources(Modules.app))
     }
 
+    fun generateStartsIfNeeded() {
+        val startView = ClassName("$appPackage.di", "startView")
+        if (!startView.existsAndroidInModule(Modules.view)) {
+            FileSpec.builder(startView.packageName, startView.simpleName)
+                .addImportClassName(FrameworkClassNames.skComponentView)
+                .addImportClassName(ClassName("android.view", "Gravity"))
+                .addImportClassName(AndroidClassNames.frameLayout)
+                .addImportClassName(AndroidClassNames.snackBar)
+                .addImportClassName(AndroidClassNames.build)
+                .addFunction(
+                    FunSpec.builder(startView.simpleName)
+                        .addModifiers(KModifier.SUSPEND)
+                        .addCode(
+                            CodeBlock.of(
+                                """SKComponentView.displayError = { message ->
+        Snackbar.make(activity.window.decorView, message, Snackbar.LENGTH_LONG)
+            .apply {
+                view.apply {
+                    (layoutParams as? FrameLayout.LayoutParams)?.let {
+                        it.gravity = Gravity.TOP
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            it.topMargin = activity.window?.decorView?.rootWindowInsets?.systemWindowInsetTop
+                                ?: 0
+                        }
+
+                        layoutParams = it
+                    }
+                }
+                show()
+            }
+    }"""
+                            )
+                        )
+                        .build()
+                )
+                .build()
+                .writeTo(androidSources(Modules.view))
+        }
+
+        val startModel = ClassName("$appPackage.di", "startModel")
+        if (!startView.existsCommonInModule(Modules.model)) {
+            FileSpec.builder(startModel.packageName, startModel.simpleName)
+                .addFunction(
+                    FunSpec.builder(startModel.simpleName)
+                        .addModifiers(KModifier.SUSPEND)
+                        .build()
+                )
+                .build()
+                .writeTo(commonSources(Modules.model))
+        }
+    }
 
     fun getUsedSKLibrariesGroups(): List<String> {
         return Files.readAllLines(rootPath.resolve("skot_librairies.properties"))
@@ -461,10 +513,10 @@ fun Element.childElements(): List<Element> {
     return elements
 }
 
-fun Document.getElementsWithTagName(tagName:String):List<Element> {
+fun Document.getElementsWithTagName(tagName: String): List<Element> {
     val list = getElementsByTagName(tagName)
     val res = mutableListOf<Element>()
-    (0..(list.length-1)).forEach {
+    (0..(list.length - 1)).forEach {
         (list.item(it) as? Element)?.let { res.add(it) }
     }
     return res

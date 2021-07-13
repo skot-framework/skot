@@ -56,6 +56,10 @@ class PluginViewModel: Plugin<Project> {
         sourceSets["androidMain"].dependencies {
         }
 
+        skVariantsCombinaison(project.rootProject.rootDir.toPath()).forEach {
+            sourceSets["commonMain"].kotlin.srcDir("src/commonMain/kotlin$it")
+            sourceSets["androidMain"].kotlin.srcDir("src/androidMain/kotlin$it")
+        }
 
         sourceSets["commonTest"].kotlin.srcDir("src/commonTest/kotlin")
 

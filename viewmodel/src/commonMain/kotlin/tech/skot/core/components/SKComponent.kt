@@ -134,9 +134,6 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
                     block(data)
                     lastTreatedData = Treatment(data)
                 }
-                else {
-                    SKLog.d("@@@@@@@@ data already treated : $data")
-                }
             }
 
 

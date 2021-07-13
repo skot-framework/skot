@@ -11,6 +11,7 @@ object FrameworkClassNames {
 //    val icon = ClassName("")
 
     val skComponentVC = ClassName("tech.skot.core.components", "SKComponentVC")
+    val skComponentView = ClassName("tech.skot.core.components", "SKComponentView")
     val skComponent = ClassName("tech.skot.core.components", "SKComponent").parameterizedBy(WildcardTypeName.producerOf(skComponentVC))
     val coroutineScope = ClassName("kotlinx.coroutines", "CoroutineScope")
     val coroutineContext = ClassName("kotlin.coroutines", "CoroutineContext")

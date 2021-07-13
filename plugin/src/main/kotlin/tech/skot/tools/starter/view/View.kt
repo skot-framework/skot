@@ -25,15 +25,15 @@ fun StarterGenerator.view() {
         val baseActivityClass = ClassName(configuration.appPackage + ".android", "BaseActivity")
         androidBaseActivity = baseActivityClass
 
-        FileSpec.builder(baseActivityClass.packageName, baseActivityClass.simpleName)
-                .addType(
-                        TypeSpec.classBuilder(baseActivityClass.simpleName)
-                                .superclass(ClassName("tech.skot.core.components", "SKActivity"))
-                                .addModifiers(KModifier.OPEN)
-                                .build()
-                )
-                .build()
-                .writeTo(rootDir.resolve("$name/src/androidMain/kotlin"))
+//        FileSpec.builder(baseActivityClass.packageName, baseActivityClass.simpleName)
+//                .addType(
+//                        TypeSpec.classBuilder(baseActivityClass.simpleName)
+//                                .superclass(ClassName("tech.skot.core.components", "SKActivity"))
+//                                .addModifiers(KModifier.OPEN)
+//                                .build()
+//                )
+//                .build()
+//                .writeTo(rootDir.resolve("$name/src/androidMain/kotlin"))
 
         rootDir.writeStringTo("$name/src/androidMain/res/values/style.xml", """<?xml version="1.0" encoding="utf-8"?>
 <resources>

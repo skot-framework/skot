@@ -1,6 +1,5 @@
 package tech.skot.tools.generation
 
-import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.TypeSpec
 
@@ -57,7 +56,7 @@ fun Generator.generateCodeMap() {
                             .build()
             )
             .build()
-            .writeTo(generatedCommonSources(Modules.app))
+            .writeTo(generatedCommonSources(feature ?: modules.app))
 
 }
 

@@ -10,10 +10,10 @@ import kotlin.reflect.typeOf
 
 @ExperimentalStdlibApi
 fun Generator.generateTransitions() {
-    val transitionsNames = if (!transisitonsInterface.existsCommonInModule(Modules.viewcontract)) {
+    val transitionsNames = if (!transisitonsInterface.existsCommonInModule(modules.viewcontract)) {
         transisitonsInterface.fileInterfaceBuilder {
 
-        }.writeTo(commonSources(Modules.viewcontract))
+        }.writeTo(commonSources(modules.viewcontract))
         emptyList()
     } else {
         val skTransitionsType = typeOf<SKTransition>()
@@ -24,7 +24,7 @@ fun Generator.generateTransitions() {
             .map { it.name }
     }
 
-    if (!transisitonsImpl.existsAndroidInModule(Modules.view)) {
+    if (!transisitonsImpl.existsAndroidInModule(modules.view)) {
         transisitonsImpl.fileClassBuilder {
             addSuperinterface(transisitonsInterface)
             addProperties(
@@ -38,7 +38,7 @@ fun Generator.generateTransitions() {
                         .build()
                 }
             )
-        } .writeTo(androidSources(Modules.view))
+        } .writeTo(androidSources(feature ?: modules.view))
     }
 
 

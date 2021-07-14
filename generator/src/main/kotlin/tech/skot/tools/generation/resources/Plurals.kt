@@ -10,7 +10,7 @@ import java.util.stream.Collectors
 
 fun Generator.generatePlurals() {
 
-    val values = rootPath.resolve(Modules.view).resolve("src/androidMain/res_referenced/values")
+    val values = rootPath.resolve(modules.view).resolve("src/androidMain/res_referenced/values")
 
 
 
@@ -45,7 +45,7 @@ fun Generator.generatePlurals() {
             )
             .build())
             .build()
-            .writeTo(generatedCommonSources(Modules.modelcontract))
+            .writeTo(generatedCommonSources(modules.modelcontract))
 
 
     pluralsImpl.fileClassBuilder(listOf(viewR)) {
@@ -78,7 +78,7 @@ fun Generator.generatePlurals() {
                 }
         )
     }
-            .writeTo(generatedAndroidSources(Modules.app))
+            .writeTo(generatedAndroidSources(feature ?: modules.app))
 
 
 }

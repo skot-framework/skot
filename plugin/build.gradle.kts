@@ -63,6 +63,11 @@ gradlePlugin {
             implementationClass = "tech.skot.tools.gradle.PluginApp"
         }
 
+        create("SkotFeature") {
+            id = "skot-feature"
+            implementationClass = "tech.skot.tools.gradle.PluginFeature"
+        }
+
         create("SkotTools") {
             id = "skot-tools"
             implementationClass = "tech.skot.tools.gradle.PluginTools"

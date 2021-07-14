@@ -21,7 +21,7 @@ class PluginViewLegacy: Plugin<Project> {
         project.extensions.findByType(LibraryExtension::class)?.android(project)
 
         project.dependencies {
-            dependencies()
+            dependencies(project)
             addDependenciesToViewContract(this, project.rootDir.toPath())
         }
 
@@ -69,9 +69,12 @@ class PluginViewLegacy: Plugin<Project> {
 
 
 
-    private fun DependencyHandlerScope.dependencies() {
+    private fun DependencyHandlerScope.dependencies(project: Project) {
+
+        val parentProjectPath = project.parent?.path ?: ""
+
         add("api", "tech.skot:viewlegacy:${Versions.skot}")
-        add("api", project(":viewcontract"))
+        add("api", project("$parentProjectPath:viewcontract"))
     }
 
 }

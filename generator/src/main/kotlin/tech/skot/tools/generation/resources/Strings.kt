@@ -7,7 +7,7 @@ import java.util.stream.Collectors
 
 fun Generator.generateStrings() {
 
-    val values = rootPath.resolve(Modules.view).resolve("src/androidMain/res_referenced/values")
+    val values = rootPath.resolve(modules.view).resolve("src/androidMain/res_referenced/values")
 
 
 
@@ -38,7 +38,7 @@ fun Generator.generateStrings() {
             )
             .build())
             .build()
-            .writeTo(generatedCommonSources(Modules.modelcontract))
+            .writeTo(generatedCommonSources(modules.modelcontract))
 
 
     stringsImpl.fileClassBuilder(listOf(viewR)) {
@@ -60,7 +60,7 @@ fun Generator.generateStrings() {
                 }
         )
     }
-            .writeTo(generatedAndroidSources(Modules.app))
+            .writeTo(generatedAndroidSources(feature ?: modules.app))
 
 
 }

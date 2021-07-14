@@ -9,9 +9,9 @@ fun Generator.generateViewLegacy() {
 
     println("generate ViewLegacy .....")
     val viewModuleAndroidPackage =
-        getAndroidPackageName(rootPath.resolve(Modules.view).resolve("src/androidMain"))
+        getAndroidPackageName(rootPath.resolve(modules.view).resolve("src/androidMain"))
 
-    if (!baseActivity.existsAndroidInModule(Modules.view)) {
+    if (!baseActivity.existsAndroidInModule(modules.view)) {
         baseActivity.fileClassBuilder(
             listOf(FrameworkClassNames.get)
         ) {
@@ -23,14 +23,14 @@ fun Generator.generateViewLegacy() {
                     .addModifiers(KModifier.OVERRIDE)
                     .build()
             )
-        }.writeTo(androidSources(Modules.view))
+        }.writeTo(androidSources(modules.view))
     }
 
     components.forEach {
-        val layoutPath = androidResLayoutPath(Modules.view, it.layoutName())
+        val layoutPath = androidResLayoutPath(modules.view, it.layoutName())
 
 
-        if (!it.proxy().existsAndroidInModule(Modules.view)){
+        if (!it.proxy().existsAndroidInModule(modules.view)){
             FileSpec.builder(
                 it.proxy().packageName,
                 it.proxy().simpleName
@@ -46,10 +46,10 @@ fun Generator.generateViewLegacy() {
                             addImportClassName(it.viewImplClassName)
                         }
                 }.build()
-                .writeTo(generatedAndroidSources(Modules.view))
+                .writeTo(generatedAndroidSources(modules.view))
         }
 
-        if (!it.viewImpl().existsAndroidInModule(Modules.view)) {
+        if (!it.viewImpl().existsAndroidInModule(modules.view)) {
             FileSpec.builder(
                 it.viewImpl().packageName,
                 it.viewImpl().simpleName
@@ -61,7 +61,7 @@ fun Generator.generateViewLegacy() {
                     }
                 }
                 .build()
-                .writeTo(androidSources(Modules.view))
+                .writeTo(androidSources(modules.view))
         }
         if (!existsPath(layoutPath, "res")) {
             Files.createDirectories(layoutPath.parent)
@@ -70,7 +70,7 @@ fun Generator.generateViewLegacy() {
 
     }
 
-    generateViewLegacyInjectorImpl(Modules.view)
+    generateViewLegacyInjectorImpl(modules.view)
 }
 
 const val LAYOUT_TEMPLATE = """<?xml version="1.0" encoding="utf-8"?>

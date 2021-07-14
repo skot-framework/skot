@@ -3,7 +3,6 @@ package tech.skot.tools.generation
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import kotlinx.serialization.Serializable
-import org.jetbrains.kotlin.util.capitalizeDecapitalize.capitalizeAsciiOnly
 import org.jetbrains.kotlin.util.capitalizeDecapitalize.decapitalizeAsciiOnly
 
 @ExperimentalStdlibApi
@@ -37,7 +36,7 @@ fun Generator.generateStates(rootState: StateDef) {
                 )
             }
 
-        }.writeTo(generatedCommonSources(Modules.modelcontract))
+        }.writeTo(generatedCommonSources(modules.modelcontract))
 
 
         if (!isCompositeState) {
@@ -57,7 +56,7 @@ fun Generator.generateStates(rootState: StateDef) {
                                 )
                             }
                 )
-            }.writeTo(generatedCommonSources(Modules.modelcontract))
+            }.writeTo(generatedCommonSources(modules.modelcontract))
         }
 
 
@@ -313,7 +312,7 @@ fun Generator.generateStates(rootState: StateDef) {
                 )
             }
         }
-            .writeTo(generatedCommonSources(Modules.model))
+            .writeTo(generatedCommonSources(modules.model))
 
         subStates.forEach {
             it.generate()
@@ -342,17 +341,17 @@ fun Generator.generateStates(rootState: StateDef) {
 //        .writeTo(generatedCommonSources(Modules.viewmodel))
 
     println("génération de statePersistanceManager")
-    if (!statePersistenceManager.existsCommonInModule(Modules.model)) {
-        val keyName = "${rootState.nameAsProperty.uppercase()}_GLOBAL_KEY"
+    if (!statePersistenceManager.existsCommonInModule(modules.model)) {
+        val keyName = "${rootStatePropertyName!!.uppercase()}_GLOBAL_KEY"
         FileSpec.builder(statePersistenceManager.packageName, statePersistenceManager.simpleName)
             .addProperty(
                 PropertySpec.builder(keyName, String::class)
                     .addModifiers(KModifier.CONST)
-                    .initializer("\"${rootState.nameAsProperty.uppercase()}\"")
+                    .initializer("\"${rootStatePropertyName!!.uppercase()}\"")
                     .build()
             )
             .addProperty(
-                PropertySpec.builder(rootState.nameAsProperty, rootState.modelClassName)
+                PropertySpec.builder(rootStatePropertyName!!, rootState.modelClassName)
                     .addModifiers(KModifier.LATEINIT)
                     .mutable()
                     .build()
@@ -364,7 +363,7 @@ fun Generator.generateStates(rootState: StateDef) {
 //                    .beginControlFlow("${rootState.nameAsProperty}.let")
                     .addStatement("serializer = ${rootState.infosClassName.simpleName}.serializer(),")
                     .addStatement("name = $keyName,")
-                    .addStatement("data = ${rootState.nameAsProperty}.infos()")
+                    .addStatement("data = $rootStatePropertyName.infos()")
                     .addStatement(")")
                     .endControlFlow()
                     .build()
@@ -392,7 +391,7 @@ fun Generator.generateStates(rootState: StateDef) {
             .addImportClassName(FrameworkClassNames.launch)
 //            .addImportClassName(rootState.infosClassName)
             .build()
-            .writeTo(commonSources(Modules.model))
+            .writeTo(commonSources(modules.model))
     }
 
 

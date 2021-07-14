@@ -10,8 +10,8 @@ fun Generator.generateIcons() {
 
     println("icons .........")
     println("generate Icons interface .........")
-    val drawableDir = rootPath.resolve(Modules.view).resolve("src/androidMain/res_referenced/drawable")
-    val drawableXhdpiDir = rootPath.resolve(Modules.view).resolve("src/androidMain/res_referenced/drawable-xhdpi")
+    val drawableDir = rootPath.resolve(modules.view).resolve("src/androidMain/res_referenced/drawable")
+    val drawableXhdpiDir = rootPath.resolve(modules.view).resolve("src/androidMain/res_referenced/drawable-xhdpi")
 
     fun Path.listRes():List<String> = if (!Files.exists(this)) {
         emptyList<String>()
@@ -20,8 +20,8 @@ fun Generator.generateIcons() {
     }
     val icons:List<String> =
         drawableDir.listRes() + drawableXhdpiDir.listRes() + variantsCombinaison.flatMap {
-            rootPath.resolve(Modules.view).resolve("src/androidMain/res${it}_referenced/drawable-xhdpi").listRes() +
-                    rootPath.resolve(Modules.view).resolve("src/androidMain/res${it}_referenced/drawable").listRes()
+            rootPath.resolve(modules.view).resolve("src/androidMain/res${it}_referenced/drawable-xhdpi").listRes() +
+                    rootPath.resolve(modules.view).resolve("src/androidMain/res${it}_referenced/drawable").listRes()
         }
 
 
@@ -42,7 +42,7 @@ fun Generator.generateIcons() {
             )
             .build())
             .build()
-            .writeTo(generatedCommonSources(Modules.viewcontract))
+            .writeTo(generatedCommonSources(modules.viewcontract))
 
 
     println("generate Icons android implementation .........")
@@ -56,7 +56,7 @@ fun Generator.generateIcons() {
                 }
         )
     }
-            .writeTo(generatedAndroidSources(Modules.app))
+            .writeTo(generatedAndroidSources(feature ?: modules.app))
 
 
 }

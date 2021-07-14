@@ -9,7 +9,7 @@ fun Generator.generateColors() {
 
     println("colors .........")
     println("generate Colors interface .........")
-    val values = rootPath.resolve(Modules.view).resolve("src/androidMain/res_referenced/values")
+    val values = rootPath.resolve(modules.view).resolve("src/androidMain/res_referenced/values")
 
 
     val colors =
@@ -38,7 +38,7 @@ fun Generator.generateColors() {
             )
             .build())
             .build()
-            .writeTo(generatedCommonSources(Modules.viewcontract))
+            .writeTo(generatedCommonSources(modules.viewcontract))
 
 
     println("generate Colors android implementation .........")
@@ -52,7 +52,7 @@ fun Generator.generateColors() {
                 }
         )
     }
-            .writeTo(generatedAndroidSources(Modules.app))
+            .writeTo(generatedAndroidSources(feature ?: modules.app))
 
 
 }

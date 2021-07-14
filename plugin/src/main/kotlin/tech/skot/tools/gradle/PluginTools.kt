@@ -15,7 +15,7 @@ open class SKPluginToolsExtension {
     var app:App? = null
 }
 
-data class App(val packageName: String, val startScreen: String, val rootState: String? = null, val baseActivity:String = ".android.BaseActivity")
+data class App(val packageName: String, val startScreen: String, val rootState: String? = null, val baseActivity:String = ".android.BaseActivity", val feature:String? = null, val baseActivityVar:String? = null)
 
 data class FeatureModule(val packageName:String, val startScreen:String)
 
@@ -27,7 +27,7 @@ class PluginTools : Plugin<Project> {
         project.plugins.apply("kotlin")
 
         project.dependencies {
-            dependencies()
+            dependencies(project)
         }
 
 
@@ -47,7 +47,7 @@ class PluginTools : Plugin<Project> {
                     project.javaexec {
                         main = "tech.skot.tools.generation.GenerateKt"
                         classpath = sourceSet.runtimeClasspath
-                        args = listOf(app.packageName, app.startScreen, app.rootState.toString(), app.baseActivity ?: "null", project.rootDir.toPath().toString())
+                        args = listOf(app.packageName, app.startScreen, app.rootState.toString(), app.baseActivity ?: "null", (project.parent?.projectDir ?: project.rootDir).toPath().toString(), app.feature ?: "null", app.baseActivityVar ?: "null")
                     }
                 }
 
@@ -71,9 +71,11 @@ class PluginTools : Plugin<Project> {
     }
 
 
-    private fun DependencyHandlerScope.dependencies() {
-        this.add("implementation", project(":viewcontract"))
-        this.add("implementation", project(":modelcontract"))
+    private fun DependencyHandlerScope.dependencies(project: Project) {
+        val parentProjectPath = project.parent?.path ?: ""
+
+        this.add("implementation", project("$parentProjectPath:viewcontract"))
+        this.add("implementation", project("$parentProjectPath:modelcontract"))
         this.add("api", "tech.skot:generator:${Versions.skot}")
         this.add("implementation", "com.pinterest:ktlint:0.40.0")
     }

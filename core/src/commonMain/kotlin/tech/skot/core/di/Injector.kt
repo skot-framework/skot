@@ -9,10 +9,23 @@ import kotlin.reflect.KClass
  */
 abstract class Injector<C:Any>(modules: List<Module<in C>>) {
 
-    private val singles = modules.flatMap { it.singles.map { it.key to it.value } }.toMap()
-    private val factories = modules.flatMap { it.factories.map { it.key to it.value } }.toMap()
-    private val byName = modules.flatMap { it.byName.map { it.key to it.value } }.toMap()
+    private val singles = modules.flatMap { it.singles.map { it.key to it.value } }.toMap().toMutableMap()
+    private val factories = modules.flatMap { it.factories.map { it.key to it.value } }.toMap().toMutableMap()
+    private val byName = modules.flatMap { it.byName.map { it.key to it.value } }.toMap().toMutableMap()
 
+    fun loadModules(newModules: List<Module<in C>>) {
+        newModules.forEach {
+            it.singles.forEach {
+                singles[it.key] = it.value
+            }
+            it.factories.forEach {
+                factories[it.key] = it.value
+            }
+            it.byName.forEach {
+                byName[it.key] = it.value
+            }
+        }
+    }
 
     private val singleInstances: MutableMap<KClass<*>, Any> = mutableMapOf()
 

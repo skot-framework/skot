@@ -46,10 +46,15 @@ class PluginViewModel: Plugin<Project> {
     private fun KotlinMultiplatformExtension.conf(project: Project) {
         android("android")
 
+
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
+
+        val parentProjectPath = project.parent?.path ?: ""
+
+
         sourceSets["commonMain"].dependencies {
-            implementation(project(":viewcontract"))
-            api(project(":modelcontract"))
+            implementation(project("$parentProjectPath:viewcontract"))
+            api(project("$parentProjectPath:modelcontract"))
             api("tech.skot:viewmodel:${Versions.skot}")
         }
 

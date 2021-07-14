@@ -74,8 +74,12 @@ class PluginModel: Plugin<Project> {
 
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
 
+
+
+        val parentProjectPath = project.parent?.path ?: ""
+
         sourceSets["commonMain"].dependencies {
-            implementation(project(":modelcontract"))
+            implementation(project("$parentProjectPath:modelcontract"))
             api("tech.skot:model:${Versions.skot}")
             api("org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}")
 

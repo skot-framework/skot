@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import tech.skot.core.SKFeatureInitializer
+import tech.skot.core.SKLog
 
 abstract class SKActivity : AppCompatActivity() {
 

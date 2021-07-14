@@ -5,6 +5,7 @@ import tech.skot.tools.generation.*
 
 fun Generator.generateViewLegacyInjectorImpl(module: String) {
 
+    println("££££££££££££££ generateViewLegacyInjectorImpl $module")
     FileSpec.builder(viewInjectorImpl.packageName, viewInjectorImpl.simpleName)
             .addType(TypeSpec.classBuilder(viewInjectorImpl.simpleName)
                     .addSuperinterface(viewInjectorInterface)

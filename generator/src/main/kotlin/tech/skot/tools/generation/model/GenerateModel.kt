@@ -15,7 +15,7 @@ fun Generator.generateModel() {
 
             println("Un Model contract trouvé pour ${it.name}")
 
-            if (!it.model().existsCommonInModule(Modules.model)) {
+            if (!it.model().existsCommonInModule(modules.model)) {
                 println("pas d'implémentation trouvée on génère un squelette")
 
                 it.model().fileClassBuilder {
@@ -65,7 +65,7 @@ fun Generator.generateModel() {
                         )
                     }
                 }
-                    .writeTo(commonSources(Modules.model))
+                    .writeTo(commonSources(modules.model))
             }
         }
     }
@@ -74,7 +74,7 @@ fun Generator.generateModel() {
 
     rootState?.addBmsTo(bmsMap)
     bmsMap.forEach { (className, state) ->
-        if (!className.existsCommonInModule(Modules.model)) {
+        if (!className.existsCommonInModule(modules.model)) {
             FileSpec.builder(
                 className.packageName,
                 className.simpleName
@@ -115,7 +115,7 @@ fun Generator.generateModel() {
 
                 .build()
 
-                .writeTo(commonSources(Modules.model))
+                .writeTo(commonSources(modules.model))
         }
     }
 
@@ -156,5 +156,5 @@ fun Generator.generateModel() {
             }
         )
 
-    }.writeTo(generatedCommonSources(Modules.model))
+    }.writeTo(generatedCommonSources(modules.model))
 }

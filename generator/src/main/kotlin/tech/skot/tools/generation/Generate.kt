@@ -56,6 +56,30 @@ fun main(args: Array<String>) {
         throw IllegalArgumentException("Start class ${args[0]} is not a ScreenVC !")
     }
 
-    Generator(appPackage, startClass as KClass<SKScreenVC>, rootStateClass, baseActivity, rootPath)
+    val feature =
+    if (args[5] != "null") {
+        println("########   feature = ${args[5]}")
+        args[5]
+    }
+    else {
+        null
+    }
+
+    val argBaseActVar = args[6]
+    val baseActivityVar =
+        if (argBaseActVar != "null") {
+            println("########   baseActivityVar = ${argBaseActVar}")
+            if (argBaseActVar.startsWith(".")) {
+                "$appPackage$argBaseActVar"
+            }
+            else {
+                argBaseActVar
+            }
+        }
+        else {
+            null
+        }
+
+    Generator(appPackage, startClass as KClass<SKScreenVC>, rootStateClass, baseActivity, rootPath, feature, baseActivityVar)
             .generate()
 }

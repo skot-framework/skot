@@ -2,6 +2,7 @@ package tech.skot.tools.generation
 
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import org.jetbrains.kotlin.util.capitalizeDecapitalize.capitalizeAsciiOnly
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import tech.skot.core.components.SKComponentVC
@@ -25,14 +26,7 @@ import kotlin.reflect.jvm.jvmErasure
 //    ).project
 //}
 
-object Modules {
-    const val app = "androidApp"
-    const val viewcontract = "viewcontract"
-    const val modelcontract = "modelcontract"
-    const val view = "view"
-    const val viewmodel = "viewmodel"
-    const val model = "model"
-}
+
 
 
 class Generator(
@@ -40,14 +34,30 @@ class Generator(
     val startClass: KClass<SKScreenVC>,
     val rootStateClass: KClass<*>?,
     val baseActivity: ClassName,
-    val rootPath: Path
+    val rootPath: Path,
+    val feature:String?,
+    val baseActivityVar:String?
 ) {
 
+
+    class ModulesNames(
+        val app:String = "androidApp",
+        val viewcontract:String = "viewcontract",
+        val modelcontract:String = "modelcontract",
+        val view:String = "view",
+        val viewmodel:String = "viewmodel",
+        val model:String = "model")
+
+    val modules = ModulesNames(view = feature?: "view", app = feature ?: "androidApp")
 
     val variantsCombinaison = skVariantsCombinaison(rootPath)
 
     @ExperimentalStdlibApi
     val rootState = rootStateClass?.let { StateDef("rootState", appPackage, it) }
+    @ExperimentalStdlibApi
+    val rootStatePropertyName = rootState?.let { rootState ->
+        feature?.let { "$feature${rootState.nameAsProperty.capitalizeAsciiOnly()}" } ?: rootState.nameAsProperty
+    }
 
     @ExperimentalStdlibApi
     fun StateDef.addToMap(map: MutableMap<String, StateDef>) {
@@ -136,11 +146,12 @@ class Generator(
 
     @ExperimentalStdlibApi
     fun generate() {
-        deleteModuleGenerated(Modules.viewcontract)
-        deleteModuleGenerated(Modules.view)
-        deleteModuleGenerated(Modules.model)
-        deleteModuleGenerated(Modules.modelcontract)
-        deleteModuleGenerated(Modules.viewmodel)
+        deleteModuleGenerated(modules.viewcontract)
+        deleteModuleGenerated(modules.view)
+        deleteModuleGenerated(modules.model)
+        deleteModuleGenerated(modules.modelcontract)
+        deleteModuleGenerated(modules.viewmodel)
+        deleteModuleGenerated(modules.app)
 
         rootState?.let { generateStates(it) }
 
@@ -152,7 +163,6 @@ class Generator(
 
         generateModelContract()
         generateModel()
-        deleteModuleGenerated(Modules.app)
         generateStrings()
         generatePlurals()
         generateIcons()
@@ -227,22 +237,25 @@ class Generator(
 
     private fun generateViewContract() {
         generateViewInjector()
-        appFeatureInitializer.fileClassBuilder {
-            primaryConstructor(
-                FunSpec.constructorBuilder()
-                    .addParameter(
-                        ParameterSpec.builder(
-                            "initialize",
-                            LambdaTypeName.get(returnType = Unit::class.asTypeName())
-                                .copy(suspending = true)
+        if (feature == null) {
+            appFeatureInitializer.fileClassBuilder {
+                primaryConstructor(
+                    FunSpec.constructorBuilder()
+                        .addParameter(
+                            ParameterSpec.builder(
+                                "initialize",
+                                LambdaTypeName.get(returnType = Unit::class.asTypeName())
+                                    .copy(suspending = true)
+                            )
+                                .build()
                         )
-                            .build()
-                    )
-                    .build()
-            )
-            superclass(ClassName("tech.skot.core", "SKFeatureInitializer"))
-            superclassConstructorParameters.add(CodeBlock.of("initialize"))
-        }.writeTo(generatedCommonSources(Modules.viewcontract))
+                        .build()
+                )
+                superclass(ClassName("tech.skot.core", "SKFeatureInitializer"))
+                superclassConstructorParameters.add(CodeBlock.of("initialize"))
+            }.writeTo(generatedCommonSources(modules.viewcontract))
+        }
+
     }
 
     private fun generateViewInjector() {
@@ -271,7 +284,7 @@ class Generator(
                 }
             )
             .build())
-            .build().writeTo(generatedCommonSources(Modules.viewcontract))
+            .build().writeTo(generatedCommonSources(modules.viewcontract))
     }
 
     @ExperimentalStdlibApi
@@ -303,7 +316,7 @@ class Generator(
                         .build()
                 }
             )
-        }.writeTo(generatedCommonSources(Modules.modelcontract))
+        }.writeTo(generatedCommonSources(modules.modelcontract))
     }
 
     fun ClassName.existsAndroidInModule(module: String) =
@@ -321,14 +334,17 @@ class Generator(
     fun androidResLayoutPath(module: String, name: String) =
         rootPath.resolve("$module/src/androidMain/res/layout/$name.xml")
 
-    val viewR = ClassName("$appPackage.${Modules.view}", "R")
+    val viewR = ClassName("$appPackage.view", "R")
     val appR = ClassName("$appPackage.android", "R")
 
 
     @ExperimentalStdlibApi
     fun generateApp() {
-        generateAppModule()
-        generateStartsIfNeeded()
+        if (feature == null) {
+            generateAppModule()
+            generateStartsIfNeeded()
+        }
+
     }
 
 
@@ -416,12 +432,12 @@ class Generator(
                 }
             }
             .build()
-            .writeTo(generatedAndroidSources(Modules.app))
+            .writeTo(generatedAndroidSources(modules.app))
     }
 
     fun generateStartsIfNeeded() {
         val startView = ClassName("$appPackage.di", "startView")
-        if (!startView.existsAndroidInModule(Modules.view)) {
+        if (!startView.existsAndroidInModule(modules.view)) {
             FileSpec.builder(startView.packageName, startView.simpleName)
                 .addImportClassName(FrameworkClassNames.skComponentView)
                 .addImportClassName(ClassName("android.view", "Gravity"))
@@ -455,11 +471,11 @@ class Generator(
                         .build()
                 )
                 .build()
-                .writeTo(androidSources(Modules.view))
+                .writeTo(androidSources(modules.view))
         }
 
         val startModel = ClassName("$appPackage.di", "startModel")
-        if (!startView.existsCommonInModule(Modules.model)) {
+        if (!startModel.existsCommonInModule(modules.model)) {
             FileSpec.builder(startModel.packageName, startModel.simpleName)
                 .addFunction(
                     FunSpec.builder(startModel.simpleName)
@@ -467,7 +483,7 @@ class Generator(
                         .build()
                 )
                 .build()
-                .writeTo(commonSources(Modules.model))
+                .writeTo(commonSources(modules.model))
         }
     }
 

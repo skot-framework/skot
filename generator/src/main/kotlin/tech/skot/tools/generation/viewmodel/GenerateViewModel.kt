@@ -2,6 +2,7 @@ package tech.skot.tools.generation.viewmodel
 
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import org.jetbrains.kotlin.util.capitalizeDecapitalize.capitalizeAsciiOnly
 import tech.skot.tools.generation.*
 
 @ExperimentalStdlibApi
@@ -70,9 +71,9 @@ fun Generator.generateViewModel() {
                 .addStatement("super.onRemove()")
                 .build())
         }
-            .writeTo(generatedCommonSources(Modules.viewmodel))
+            .writeTo(generatedCommonSources(modules.viewmodel))
 
-        if (!it.viewModel().existsCommonInModule(Modules.viewmodel)) {
+        if (!it.viewModel().existsCommonInModule(modules.viewmodel)) {
             it.viewModel()
                 .fileClassBuilder(it.subComponents.map { it.type.toVM() } + viewInjectorIntance) {
                     superclass(it.viewModelGen())
@@ -117,7 +118,7 @@ fun Generator.generateViewModel() {
                     }
                 }
 
-                .writeTo(commonSources(Modules.viewmodel))
+                .writeTo(commonSources(modules.viewmodel))
 
         }
     }
@@ -169,7 +170,7 @@ fun Generator.generateViewModel() {
             if (rootState != null) {
                 addProperty(
                     PropertySpec.builder(
-                        rootState.nameAsProperty,
+                        rootStatePropertyName!!,
                         rootState.contractClassName,
                         KModifier.LATEINIT
                     )
@@ -187,10 +188,10 @@ fun Generator.generateViewModel() {
         .addImportClassName(viewInjectorInterface)
 
         .build()
-        .writeTo(generatedCommonSources(Modules.viewmodel))
+        .writeTo(generatedCommonSources(modules.viewmodel))
 
     val start = ClassName(appPackage, "start")
-    if (!start.existsCommonInModule(Modules.viewmodel)) {
+    if (!start.existsCommonInModule(modules.viewmodel)) {
         val startViewModel = components.first().viewModel()
         FileSpec.builder(start.packageName, start.simpleName)
             .addFunction(
@@ -203,7 +204,7 @@ fun Generator.generateViewModel() {
             .addImport("tech.skot.core.components", "SKRootStack")
             .addImportClassName(startViewModel)
             .build()
-            .writeTo(commonSources(Modules.viewmodel))
+            .writeTo(commonSources(modules.viewmodel))
     }
 
 }

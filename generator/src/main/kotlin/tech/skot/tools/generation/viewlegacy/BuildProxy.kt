@@ -80,7 +80,7 @@ fun ComponentDef.buildProxy(
         )
         .addSuperinterface(vc)
         .apply {
-            val layoutPath = generator.androidResLayoutPath(Modules.view, layoutName())
+            val layoutPath = generator.androidResLayoutPath(generator.modules.view, layoutName())
             val includesIds: Set<String>? by lazy {
                 if (layoutPath.exists()) {
                     try {
@@ -205,7 +205,8 @@ fun ComponentDef.buildProxy(
                 addFunction(
                     FunSpec.builder("getActivityClass")
                         .addModifiers(KModifier.OVERRIDE)
-                        .addCode("return ${baseActivity.packageName}.${baseActivity.simpleName}::class.java")
+                        .addCode(
+                            generator.baseActivityVar?.let { "return $it" } ?: "return ${baseActivity.packageName}.${baseActivity.simpleName}::class.java")
                         .build()
                 )
             }

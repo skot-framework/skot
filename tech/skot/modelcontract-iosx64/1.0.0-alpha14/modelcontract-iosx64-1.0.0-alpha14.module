@@ -1,0 +1,71 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../modelcontract/1.0.0-alpha14/modelcontract-1.0.0-alpha14.module",
+    "group": "tech.skot",
+    "module": "modelcontract",
+    "version": "1.0.0-alpha14",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8.1",
+      "buildId": "biqopuycmjhqla5bue3ohogk3m"
+    }
+  },
+  "variants": [
+    {
+      "name": "iosX64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "strictly": "1.5.0",
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.2.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-datetime",
+          "version": {
+            "requires": "0.2.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "modelcontract.klib",
+          "url": "modelcontract-iosx64-1.0.0-alpha14.klib",
+          "size": 25595,
+          "sha512": "330812de3ac2f1fdc7b3dd0b5bab4350b383e303eea5a13736415b74c2e19a05347ad6f765d3e178655a6871a9949fd8670c0742acbadb01204c718532bb8754",
+          "sha256": "f4b79526fabccb8f5a7c9165e39ade4d43385a7ae45351c5116db55feb8e962f",
+          "sha1": "25281f00a8b30a6dc2ac8eab7e01f703f9e28b93",
+          "md5": "21dc012a92e9bfe59e9bb0c3904919dd"
+        }
+      ]
+    }
+  ]
+}

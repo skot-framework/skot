@@ -1,0 +1,56 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../viewcontract/1.0.0-alpha14/viewcontract-1.0.0-alpha14.module",
+    "group": "tech.skot",
+    "module": "viewcontract",
+    "version": "1.0.0-alpha14",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8.1",
+      "buildId": "biqopuycmjhqla5bue3ohogk3m"
+    }
+  },
+  "variants": [
+    {
+      "name": "iosX64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.5.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewcontract.klib",
+          "url": "viewcontract-iosx64-1.0.0-alpha14.klib",
+          "size": 38785,
+          "sha512": "bf26f1640bc5d31e8b5c566a3929c8360a377fc0cade1e1b2364de95ba5fd1b20c036c99eeabcf84bd5e7ff03712c017044227aa7e0f4c73f5d3be5c5883fbc5",
+          "sha256": "e99c9b891abbcb5697d6eb720f80e7b59c54eedcf8f216a8f75638d5e53407e5",
+          "sha1": "c63aceca0b5049ff3d87fcee307f9dd5e37b2ed1",
+          "md5": "f6df8e5e8c351ced9c573e8c4caf3af0"
+        }
+      ]
+    }
+  ]
+}

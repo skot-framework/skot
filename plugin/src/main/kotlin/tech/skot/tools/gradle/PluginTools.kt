@@ -5,6 +5,7 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.kotlin.dsl.*
 import tech.skot.Versions
+import java.io.File
 
 open class SKPluginToolsExtension {
 //    var startScreen: String? = null
@@ -51,8 +52,9 @@ class PluginTools : Plugin<Project> {
                 }
 
                 println("ktLint ......")
-                val srcs = "${project.rootDir.toPath().toString()}/**/generated/**/*.kt"
+                val srcs = "**/generated/**/*.kt"
                 project.javaexec {
+                    workingDir = project.rootDir
                     main = "com.pinterest.ktlint.Main"
                     classpath = sourceSet.runtimeClasspath
                     args = listOf("-F",srcs)
@@ -76,7 +78,7 @@ class PluginTools : Plugin<Project> {
         this.add("implementation", project("$parentProjectPath:viewcontract"))
         this.add("implementation", project("$parentProjectPath:modelcontract"))
         this.add("api", "tech.skot:generator:${Versions.skot}")
-        this.add("implementation", "com.pinterest:ktlint:0.40.0")
+        this.add("implementation", "com.pinterest:ktlint:0.42.1")
     }
 
 }

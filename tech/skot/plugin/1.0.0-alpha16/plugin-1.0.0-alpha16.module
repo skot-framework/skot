@@ -1,0 +1,180 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "tech.skot",
+    "module": "plugin",
+    "version": "1.0.0-alpha16",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.localToProject": "public",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "com.android.tools.build",
+          "module": "gradle",
+          "version": {
+            "requires": "7.0.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-serialization",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "com.google.gms",
+          "module": "google-services",
+          "version": {
+            "requires": "4.3.4"
+          }
+        },
+        {
+          "group": "com.google.firebase",
+          "module": "firebase-appdistribution-gradle",
+          "version": {
+            "requires": "2.0.1"
+          }
+        },
+        {
+          "group": "com.google.firebase",
+          "module": "firebase-crashlytics-gradle",
+          "version": {
+            "requires": "2.4.1"
+          }
+        },
+        {
+          "group": "com.google.firebase",
+          "module": "perf-plugin",
+          "version": {
+            "requires": "1.3.4"
+          }
+        },
+        {
+          "group": "com.squareup",
+          "module": "kotlinpoet",
+          "version": {
+            "requires": "1.4.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "plugin-1.0.0-alpha16.jar",
+          "url": "plugin-1.0.0-alpha16.jar",
+          "size": 207986,
+          "sha512": "4d16cac15e07793be189e01f2d4d25e7bf5d0c945f3436f189a79694e2edf720ba26878fee81164bea380370a8a69ae6ea7eeefb8d8364bde6508c9842c228c2",
+          "sha256": "76334fe08f569779d69cf67dc2c843981c23ecbf0351d65e2ab2df24bbad1fb5",
+          "sha1": "3a666d0dad27d448b3f687dcabe7e7f5982aaeb2",
+          "md5": "1a4a4ea3c55b9063a4d36514c6d01d80"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.localToProject": "public",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "com.android.tools.build",
+          "module": "gradle",
+          "version": {
+            "requires": "7.0.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-serialization",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "com.google.gms",
+          "module": "google-services",
+          "version": {
+            "requires": "4.3.4"
+          }
+        },
+        {
+          "group": "com.google.firebase",
+          "module": "firebase-appdistribution-gradle",
+          "version": {
+            "requires": "2.0.1"
+          }
+        },
+        {
+          "group": "com.google.firebase",
+          "module": "firebase-crashlytics-gradle",
+          "version": {
+            "requires": "2.4.1"
+          }
+        },
+        {
+          "group": "com.google.firebase",
+          "module": "perf-plugin",
+          "version": {
+            "requires": "1.3.4"
+          }
+        },
+        {
+          "group": "com.squareup",
+          "module": "kotlinpoet",
+          "version": {
+            "requires": "1.4.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "plugin-1.0.0-alpha16.jar",
+          "url": "plugin-1.0.0-alpha16.jar",
+          "size": 207986,
+          "sha512": "4d16cac15e07793be189e01f2d4d25e7bf5d0c945f3436f189a79694e2edf720ba26878fee81164bea380370a8a69ae6ea7eeefb8d8364bde6508c9842c228c2",
+          "sha256": "76334fe08f569779d69cf67dc2c843981c23ecbf0351d65e2ab2df24bbad1fb5",
+          "sha1": "3a666d0dad27d448b3f687dcabe7e7f5982aaeb2",
+          "md5": "1a4a4ea3c55b9063a4d36514c6d01d80"
+        }
+      ]
+    }
+  ]
+}

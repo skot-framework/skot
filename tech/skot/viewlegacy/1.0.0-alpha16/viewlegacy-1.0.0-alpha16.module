@@ -1,0 +1,112 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "tech.skot",
+    "module": "viewlegacy",
+    "version": "1.0.0-alpha16",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "1.0.0-alpha16"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "viewcontract",
+          "version": {
+            "requires": "1.0.0-alpha16"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewlegacy-metadata-1.0.0-alpha16.jar",
+          "url": "viewlegacy-1.0.0-alpha16.jar",
+          "size": 261,
+          "sha512": "e5757c3991cbe07111a2ab889e1d46cd51e6c064e6eeadd067fc47d1f038bd361b0d08db23539626a5e20d6017e012bfda61b961288feb8cb56f64b83a07a4a2",
+          "sha256": "75ad1fc84cb07f5f8fc3d58a27689a5fcafba59ed6067e673c866d3f0e98b79f",
+          "sha1": "6a60d2826f69d1b0420e445ceb14854d907166ff",
+          "md5": "efa1e2964a98531649d226937f63dafc"
+        }
+      ]
+    },
+    {
+      "name": "debugApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.gradle.internal.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewlegacy-android/1.0.0-alpha16/viewlegacy-android-1.0.0-alpha16.module",
+        "group": "tech.skot",
+        "module": "viewlegacy-android",
+        "version": "1.0.0-alpha16"
+      }
+    },
+    {
+      "name": "debugRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.gradle.internal.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewlegacy-android/1.0.0-alpha16/viewlegacy-android-1.0.0-alpha16.module",
+        "group": "tech.skot",
+        "module": "viewlegacy-android",
+        "version": "1.0.0-alpha16"
+      }
+    },
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.gradle.internal.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewlegacy-android/1.0.0-alpha16/viewlegacy-android-1.0.0-alpha16.module",
+        "group": "tech.skot",
+        "module": "viewlegacy-android",
+        "version": "1.0.0-alpha16"
+      }
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.gradle.internal.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewlegacy-android/1.0.0-alpha16/viewlegacy-android-1.0.0-alpha16.module",
+        "group": "tech.skot",
+        "module": "viewlegacy-android",
+        "version": "1.0.0-alpha16"
+      }
+    }
+  ]
+}

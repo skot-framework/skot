@@ -1,6 +1,5 @@
 package tech.skot.tools.gradle
 
-import com.android.ide.common.util.toPathStringOrNull
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginConvention

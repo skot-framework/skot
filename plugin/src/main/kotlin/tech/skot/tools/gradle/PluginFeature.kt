@@ -31,7 +31,7 @@ class PluginFeature : Plugin<Project> {
     }
 
 
-    private fun DynamicFeatureExtension<*, *, *, *, *>.android(project: Project) {
+    private fun DynamicFeatureExtension.android(project: Project) {
 
         println("############## applying skot-feature LibraryExtension !!!")
         sourceSets {

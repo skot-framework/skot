@@ -18,6 +18,7 @@ class SKBottomSheetView(override val proxy: SKBottomSheetViewProxy, activity: SK
                     show(this@SKBottomSheetView.fragmentManager, "Bottom")
                     setOnDismissListener {
                         proxy.state = null
+                        state.onDismiss?.invoke()
                     }
                     current = State(state, this)
                 }

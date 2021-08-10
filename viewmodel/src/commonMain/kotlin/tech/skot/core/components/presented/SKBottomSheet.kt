@@ -8,11 +8,11 @@ class SKBottomSheet : SKComponent<SKBottomSheetVC>() {
 
     override val view = coreViewInjector.bottomSheet()
 
-    var shownScreen:SKScreen<*>? = null
+    var shownScreen: SKScreen<*>? = null
 
-    fun show(screen: SKScreen<*>) {
+    fun show(screen: SKScreen<*>, onDismiss: (() -> Unit)? = null) {
         shownScreen?.presenter = null
-        view.state = SKBottomSheetVC.Shown(screen = screen.view)
+        view.state = SKBottomSheetVC.Shown(screen = screen.view, onDismiss = onDismiss)
         screen.presenter = this
         shownScreen = screen
     }

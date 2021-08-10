@@ -7,7 +7,7 @@ import tech.skot.core.components.SKScreenVC
 @SKLayoutNo
 interface SKBottomSheetVC:SKComponentVC {
 
-    data class Shown(val screen:SKScreenVC)
+    data class Shown(val screen:SKScreenVC, val onDismiss:(()->Unit)? = null)
 
     var state :Shown?
 }

@@ -176,7 +176,7 @@ fun Generator.generateStates(rootState: StateDef) {
 
 
             val subStateConstructorParams =
-                (parentsList.map { it.nameAsProperty } + "this" + "it")
+                (parentsList.map { it.name.decapitalizeAsciiOnly() } + "this" + "it")
                     .joinToString(", ")
 
             subStates.forEach {

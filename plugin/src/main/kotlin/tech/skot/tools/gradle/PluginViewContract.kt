@@ -74,7 +74,7 @@ class PluginViewContract : Plugin<Project> {
         }
 
         println("Adding dependencies to libraries ")
-        addDependenciesToLibraries(this, project.rootDir.toPath(), "viewcontract")
+        addDependenciesToLibraries(this, (project.parent?.projectDir ?: project.rootDir).toPath(), "viewcontract")
 
 
     }

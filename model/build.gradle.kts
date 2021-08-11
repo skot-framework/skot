@@ -42,7 +42,7 @@ kotlin {
                 api("io.ktor:ktor-client-serialization:${Versions.ktor}")
                 api("io.ktor:ktor-client-auth:${Versions.ktor}")
 //                api("io.ktor:ktor-client-json:${Versions.ktor}")
-//                api("io.ktor:ktor-client-logging:${Versions.ktor}")
+                api("io.ktor:ktor-client-logging:${Versions.ktor}")
             }
         }
 

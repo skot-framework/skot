@@ -4,16 +4,14 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
 import tech.skot.model.SKBms
+import tech.skot.model.SKBySKData
 import tech.skot.model.SKCompositeStateDef
 import tech.skot.model.SKCompositeStateParts
 import tech.skot.model.SKStateDef
 import kotlin.reflect.KClass
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.KType
-import kotlin.reflect.full.findAnnotation
-import kotlin.reflect.full.isSubclassOf
-import kotlin.reflect.full.isSubtypeOf
-import kotlin.reflect.full.superclasses
+import kotlin.reflect.full.*
 import kotlin.reflect.jvm.jvmErasure
 import kotlin.reflect.typeOf
 
@@ -27,7 +25,7 @@ class StateDef(
     val propertiesComposingComposite: List<StateDef>? = null
 ) {
 
-    class Property(val name: String, val typeName: TypeName, val mutable: Boolean)
+    class Property(val name: String, val typeName: TypeName, val mutable: Boolean, val bySkData:Boolean)
     class CompositePartDef(
         val name: String,
         val contract: ClassName,
@@ -76,7 +74,7 @@ class StateDef(
         kclass.ownProperties()
             .filter { !it.returnType.isSKStateC() }
             .map {
-                Property(it.name, it.returnType.asTypeName(), it is KMutableProperty)
+                Property(it.name, it.returnType.asTypeName(), it is KMutableProperty, it.hasAnnotation<SKBySKData>())
             }
 
     init {

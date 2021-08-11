@@ -151,6 +151,18 @@ fun Generator.generateStates(rootState: StateDef) {
 
             if (!isCompositeState) {
                 properties.forEach {
+                    if (it.bySkData) {
+                        addProperty(
+                            PropertySpec.builder(
+                                "${it.name}SKData",
+                                FrameworkClassNames.skManualData.parameterizedBy(it.typeName)
+                            )
+                                .initializer(
+                                    CodeBlock.of("${FrameworkClassNames.skManualData.simpleName}(infos.${it.name})")
+                                )
+                                .build()
+                        )
+                    }
                     addProperty(
                         PropertySpec.builder(
                             it.name,
@@ -158,16 +170,36 @@ fun Generator.generateStates(rootState: StateDef) {
                         ).mutable(it.mutable)
                             .apply {
                                 if (it.mutable) {
-                                    setter(
-                                        FunSpec.setterBuilder()
-                                            .addParameter("newValue", it.typeName)
-                                            .addStatement("field = newValue")
-                                            .addStatement("saveState()")
-                                            .build()
-                                    )
+                                    if (it.bySkData) {
+                                        getter(
+                                            FunSpec.getterBuilder()
+                                                .addStatement("return ${it.name}SKData.value")
+                                                .build()
+                                        )
+                                        setter(
+                                            FunSpec.setterBuilder()
+                                                .addParameter("newValue", it.typeName)
+                                                .addStatement("${it.name}SKData.value = newValue")
+                                                .addStatement("saveState()")
+                                                .build()
+                                        )
+                                    }
+                                    else {
+                                        setter(
+                                            FunSpec.setterBuilder()
+                                                .addParameter("newValue", it.typeName)
+                                                .addStatement("field = newValue")
+                                                .addStatement("saveState()")
+                                                .build()
+                                        )
+                                    }
                                 }
+
+                                if (!it.bySkData) {
+                                    initializer("infos.${it.name}")
+                                }
+
                             }
-                            .initializer("infos.${it.name}")
                             .addModifiers(KModifier.OVERRIDE)
                             .build()
                     )

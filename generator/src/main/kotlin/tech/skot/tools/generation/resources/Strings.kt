@@ -56,7 +56,7 @@ fun Generator.generateStrings() {
         addProperties(
                 strings.map {
                     PropertySpec.builder(it.toStringsPropertyName(), String::class, KModifier.OVERRIDE)
-                            .getter(FunSpec.getterBuilder().addStatement("return get(R.string.$it)").build())
+                            .getter(FunSpec.getterBuilder().addStatement("return get(R.string.${it.replace('.', '_')})").build())
                             .build()
                 }
         )

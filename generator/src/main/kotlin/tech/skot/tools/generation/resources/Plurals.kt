@@ -4,6 +4,7 @@ import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeSpec
+import org.jetbrains.kotlin.util.capitalizeDecapitalize.decapitalizeAsciiOnly
 import java.nio.file.Files
 import java.util.stream.Collectors
 
@@ -26,7 +27,7 @@ fun Generator.generatePlurals() {
             }
 
 
-    fun String.toPluralsFunNAme() = decapitalize()
+    fun String.toPluralsFunNAme() = decapitalizeAsciiOnly().replace('.','_')
 
 
     FileSpec.builder(
@@ -73,7 +74,7 @@ fun Generator.generatePlurals() {
                             .addParameter("quantity", Int::class)
                             .addParameter("formatArgs", Any::class, KModifier.VARARG)
                             .returns(String::class)
-                            .addCode("return compute(R.plurals.$it, quantity, *formatArgs)")
+                            .addCode("return compute(R.plurals.${it.replace('.','_')}, quantity, *formatArgs)")
                             .build()
                 }
         )

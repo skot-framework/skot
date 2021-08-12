@@ -37,7 +37,6 @@ abstract class SKScreenViewProxy<B : ViewBinding> : SKComponentViewProxy<B>(), S
 
     fun createFragment(): SKFragment =
             SKFragment().apply {
-                SKLog.d("ééééééé SKScreenViewProxy  ${this@SKScreenViewProxy::class.simpleName} createFragment ")
                 arguments = Bundle().apply {
                     putLong(ScreensManager.SK_ARGUMENT_VIEW_KEY, key)
                 }

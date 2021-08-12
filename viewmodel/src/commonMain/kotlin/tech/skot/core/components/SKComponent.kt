@@ -187,4 +187,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
         return this
     }
 
+    operator fun plus(otherComponent:SKComponent<*>?):List<SKComponent<*>> = listOfNotNull(this, otherComponent)
+    operator fun plus(otherComponents:List<SKComponent<*>>):List<SKComponent<*>> = listOf(this) + otherComponents
+
 }

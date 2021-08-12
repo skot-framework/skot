@@ -1,6 +1,7 @@
 package tech.skot.tools.generation
 
 import com.squareup.kotlinpoet.*
+import org.jetbrains.kotlin.util.capitalizeDecapitalize.decapitalizeAsciiOnly
 import java.nio.file.Files
 import java.util.stream.Collectors
 
@@ -23,7 +24,7 @@ fun Generator.generateStrings() {
             }
 
 
-    fun String.toStringsPropertyName() = decapitalize()
+    fun String.toStringsPropertyName() = decapitalizeAsciiOnly().replace('.','_')
 
 
     FileSpec.builder(

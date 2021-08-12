@@ -3,8 +3,8 @@
   <groupId>tech.skot</groupId>
   <artifactId>viewmodel-android</artifactId>
   <versioning>
-    <latest>1.0.0-alpha16</latest>
-    <release>1.0.0-alpha16</release>
+    <latest>1.0.0-alpha17</latest>
+    <release>1.0.0-alpha17</release>
     <versions>
       <version>1.0.0-alpha11</version>
       <version>0.0.50</version>
@@ -14,7 +14,8 @@
       <version>1.0.0-alpha14</version>
       <version>1.0.0-alpha15</version>
       <version>1.0.0-alpha16</version>
+      <version>1.0.0-alpha17</version>
     </versions>
-    <lastUpdated>20210810144516</lastUpdated>
+    <lastUpdated>20210812085653</lastUpdated>
   </versioning>
 </metadata>

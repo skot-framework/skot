@@ -1,6 +1,9 @@
 package tech.skot.core.components.presented
 
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import tech.skot.core.SKLog
 import tech.skot.core.components.*
 
 
@@ -14,7 +17,7 @@ class SKBottomSheetView(override val proxy: SKBottomSheetViewProxy, activity: SK
 
         if (state != current?.state) {
             if (state != null) {
-                (state.screen as SKScreenViewProxy<*>).createDialogFragment().apply {
+                (state.screen as SKScreenViewProxy<*>).createDialogFragment(state.expanded).apply {
                     show(this@SKBottomSheetView.fragmentManager, "Bottom")
                     setOnDismissListener {
                         proxy.state = null

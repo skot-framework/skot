@@ -2,9 +2,7 @@ package tech.skot.core.components.presented
 
 import tech.skot.core.components.SKComponentVC
 import tech.skot.core.components.SKLayoutIsRoot
-import tech.skot.core.components.SKPassToParentView
 
-@SKPassToParentView
 @SKLayoutIsRoot
 interface SKSnackBarVC:SKComponentVC {
 

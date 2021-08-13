@@ -42,6 +42,8 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
 
     open val loader: SKLoader? = null
 
+    open val onSwipe:(()->Unit)? = null
+
     open fun treatError(exception: Exception, errorMessage: String?) {
         errorTreatment?.invoke(this, exception, errorMessage)
             ?: throw IllegalStateException("Valorise Component.errorTreatment or override treatError function to use method treating errors")
@@ -135,7 +137,6 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
                     lastTreatedData = Treatment(data)
                 }
             }
-
 
         }
 

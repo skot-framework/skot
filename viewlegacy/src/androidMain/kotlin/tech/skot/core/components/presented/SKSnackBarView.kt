@@ -1,5 +1,6 @@
 package tech.skot.core.components.presented
 
+import android.os.Build
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
@@ -22,7 +23,7 @@ class SKSnackBarView(override val proxy: SKSnackBarViewProxy, activity: SKActivi
         if (state != current?.state) {
             if (state != null) {
 
-                Snackbar.make(rootView, state.message, Snackbar.LENGTH_INDEFINITE)
+                Snackbar.make(activity.window.decorView, state.message, Snackbar.LENGTH_INDEFINITE)
                         .apply {
                             state.action?.let { (label, action) ->
                                 setAction(label, View.OnClickListener {
@@ -35,8 +36,10 @@ class SKSnackBarView(override val proxy: SKSnackBarViewProxy, activity: SKActivi
                                 view.apply {
                                     (layoutParams as? FrameLayout.LayoutParams)?.let {
                                         it.gravity = Gravity.TOP
-                                        it.topMargin = activity.window?.decorView?.rootWindowInsets?.systemWindowInsetTop
-                                                ?: 0
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                            it.topMargin = activity.window?.decorView?.rootWindowInsets?.systemWindowInsetTop
+                                                    ?: 0
+                                        }
 
                                         layoutParams = it
                                     }

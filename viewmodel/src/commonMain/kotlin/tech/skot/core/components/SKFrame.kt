@@ -1,5 +1,6 @@
 package tech.skot.core.components
 
+import tech.skot.core.SKLog
 import tech.skot.core.di.coreViewInjector
 
 class SKFrame(val screens: Set<SKScreen<*>>, screenInitial: SKScreen<*>? = null) : SKComponent<SKFrameVC>() {
@@ -8,6 +9,7 @@ class SKFrame(val screens: Set<SKScreen<*>>, screenInitial: SKScreen<*>? = null)
 
     var screen: SKScreen<*>? = null
         set(value) {
+            SKLog.d("@@@@@@@ SKFrame will set screen: $value")
             field = value
             view.screen = value?.view
         }

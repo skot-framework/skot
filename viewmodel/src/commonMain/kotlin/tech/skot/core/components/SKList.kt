@@ -13,7 +13,7 @@ open class SKList(
 
     var items: List<SKComponent<*>> = emptyList()
         set(value) {
-            view.items = value.map { Pair(it.view, it.computeItemId()) }
+            view.items = value.map { Triple(it.view, it.computeItemId(), it.onSwipe) }
             field.forEach { if (!value.contains(it)) it.onRemove() }
             field = value
         }

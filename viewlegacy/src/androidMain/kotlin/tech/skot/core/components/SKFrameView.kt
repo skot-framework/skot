@@ -2,6 +2,7 @@ package tech.skot.core.components
 
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
+import tech.skot.core.SKLog
 
 class SKFrameView(
     proxy: SKFrameViewProxy,
@@ -12,6 +13,20 @@ class SKFrameView(
 ) : SKComponentView<FrameLayout>(proxy, activity, fragment, binding) {
 
 
+    init {
+        fragmentManager.apply {
+            val fragmentsToRemove = fragments.filter { it is SKFragment }
+            if (fragmentsToRemove.isNotEmpty()) {
+                beginTransaction().let { trans ->
+                    fragmentsToRemove.forEach {
+                        trans.remove(it)
+                    }
+                    trans.commitNow()
+                }
+            }
+        }
+    }
+
     fun onScreen(screen: SKScreenViewProxy<*>?) {
         if (screen != null && !screens.contains(screen)) {
             throw IllegalAccessException("The screen you try to add do this Frame is not part of the list, maybe you should use a Stack")
@@ -20,6 +35,7 @@ class SKFrameView(
             val trans = beginTransaction()
 
             if (screen != null) {
+
                 val tag = screen.key.toString()
                 val alreadyAddedFragment = findFragmentByTag(tag)
 
@@ -31,6 +47,7 @@ class SKFrameView(
                         it.onPauseRecursive()
                     }
                 }
+
                 if (alreadyAddedFragment != null) {
                     trans.show(alreadyAddedFragment)
                 } else {

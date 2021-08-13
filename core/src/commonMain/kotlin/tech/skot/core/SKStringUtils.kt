@@ -1,8 +1,8 @@
 package tech.skot.core
 
-val skRegexPlaceholder: Regex by lazy {
-    Regex("%[dsS@]")
-}
+//val skRegexPlaceholder: Regex by lazy {
+//    Regex("%[dsS@]")
+//}
 
 //fun String.skFormat(vararg values: String): String {
 //    var current: String = this
@@ -18,4 +18,4 @@ val skRegexPlaceholder: Regex by lazy {
 //    return current
 //}
 
-expect fun String.skFormat(vararg values: String): String
+expect fun String.skFormat(vararg values: Any): String

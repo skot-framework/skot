@@ -1,10 +1,12 @@
 package tech.skot.core.components
 
+import android.content.Context
 import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.*
+import tech.skot.core.SKLog
 
 class SKListView(
     vertical: Boolean,
@@ -12,7 +14,7 @@ class SKListView(
     nbColumns: Int?,
     animate: Boolean,
     animateItem: Boolean,
-    proxy:SKListViewProxy,
+    proxy: SKListViewProxy,
     activity: SKActivity,
     fragment: Fragment?,
     private val recyclerView: RecyclerView
@@ -58,7 +60,7 @@ class SKListView(
 
     private val adapter = Adapter()
 
-    var items: List<Pair<SKComponentViewProxy<*>, Any>> = emptyList()
+    var items: List<Triple<SKComponentViewProxy<*>, Any, (() -> Unit)?>> = emptyList()
         set(newVal) {
             field.forEach { proxy ->
                 if (!newVal.any { it.first == proxy.first }) {
@@ -102,7 +104,7 @@ class SKListView(
     }
 
 
-    fun onItems(items: List<Pair<SKComponentViewProxy<*>, Any>>) {
+    fun onItems(items: List<Triple<SKComponentViewProxy<*>, Any, (() -> Unit)?>>) {
         this.items = items
     }
 
@@ -120,8 +122,8 @@ class SKListView(
 
 
     class DiffCallBack(
-        private val oldList: List<Pair<SKComponentViewProxy<*>, Any>>,
-        private val newList: List<Pair<SKComponentViewProxy<*>, Any>>
+        private val oldList: List<Triple<SKComponentViewProxy<*>, Any, (() -> Unit)?>>,
+        private val newList: List<Triple<SKComponentViewProxy<*>, Any, (() -> Unit)?>>
     ) : DiffUtil.Callback() {
         override fun getOldListSize(): Int {
             return oldList.size
@@ -142,4 +144,29 @@ class SKListView(
         }
 
     }
+}
+
+abstract class SKListItemTouchHelperCallBack(private val listView: SKListView) :
+    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        listView.items[viewHolder.absoluteAdapterPosition].third?.invoke()
+    }
+
+    override fun getSwipeDirs(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ): Int {
+        val position = viewHolder.adapterPosition
+        val item = if (position >= 0) listView.items.getOrNull(position) else null
+        if (item == null) {
+            SKLog.e(IllegalStateException("getSwipeDirs item null"), "getSwipeDirs item null")
+        }
+        return if (item?.third != null) {
+            super.getSwipeDirs(recyclerView, viewHolder)
+        } else {
+            0
+        }
+    }
+
 }

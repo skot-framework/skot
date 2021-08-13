@@ -13,15 +13,16 @@ class SKSnackBar : SKComponent<SKSnackBarVC>() {
     data class Action(val label: String, val action: () -> Unit)
 
     private var disappearJob: Job? = null
-    fun show(message: String, action: Action? = null) {
+    fun show(message: String, action: Action? = null, onTop: Boolean = false) {
         view.state = SKSnackBarVC.Shown(
-                message = message,
-                action = action?.let {
-                    SKSnackBarVC.Action(
-                            label = it.label,
-                            action = it.action
-                    )
-                },
+            message = message,
+            action = action?.let {
+                SKSnackBarVC.Action(
+                    label = it.label,
+                    action = it.action
+                )
+            },
+            onTop = onTop
         )
         disappearJob?.cancel()
         disappearJob = launch {

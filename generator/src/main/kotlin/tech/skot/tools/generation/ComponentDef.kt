@@ -191,7 +191,7 @@ fun KClass<out SKComponentVC>.def(): ComponentDef {
                 it.name,
                 it.returnType.asTypeName(),
                 meOrSubComponentHasState = (it.returnType.classifier as KClass<out SKComponentVC>).meOrSubComponentHasState(),
-                passToParentView = it.returnType.jvmErasure.hasAnnotation<SKPassToParentView>()
+                passToParentView = it.hasAnnotation<SKPassToParentView>()
             )
         },
         fixProperties = stateProperties.filter { !(it is KMutableProperty) }.map {

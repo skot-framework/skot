@@ -4,19 +4,19 @@ import timber.log.Timber
 
 actual object SKLog {
     actual fun d(message: String) {
-        Timber.d(message)
+        Timber.tag("SKLog").d(message)
     }
 
     actual fun i(message: String) {
-        Timber.i(message)
+        Timber.tag("SKLog").i(message)
     }
 
     actual fun w(message: String) {
-        Timber.w(message)
+        Timber.tag("SKLog").w(message)
     }
 
     actual fun e(e: Throwable, message: String?) {
-        Timber.e(Throwable(e), message)
+        Timber.tag("SKLog").e(Throwable(e), message)
     }
 
     actual fun network(message:String) {

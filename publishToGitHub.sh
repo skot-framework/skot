@@ -28,5 +28,4 @@ git push origin repository
 echo "taggage branche courante"
 cd $4
 git tag v$3
-git push origin v$3
 echo "done"

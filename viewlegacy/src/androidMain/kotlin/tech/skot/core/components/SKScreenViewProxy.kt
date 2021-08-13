@@ -42,10 +42,11 @@ abstract class SKScreenViewProxy<B : ViewBinding> : SKComponentViewProxy<B>(), S
                 }
             }
 
-    fun createDialogFragment(): SKBottomSheetDialogFragment =
+    fun createDialogFragment(expanded:Boolean): SKBottomSheetDialogFragment =
             SKBottomSheetDialogFragment().apply {
                 arguments = Bundle().apply {
                     putLong(ScreensManager.SK_ARGUMENT_VIEW_KEY, key)
+                    putBoolean(SK_BOTTOM_SHEET_DIALOG_EXPANDED, expanded)
                 }
             }
 

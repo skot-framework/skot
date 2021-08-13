@@ -12,5 +12,5 @@ annotation class SKLayoutNo()
 @Target(AnnotationTarget.CLASS)
 annotation class SKLegacyViewIncluded()
 
-@Target(AnnotationTarget.CLASS)
+@Target(AnnotationTarget.PROPERTY)
 annotation class SKPassToParentView

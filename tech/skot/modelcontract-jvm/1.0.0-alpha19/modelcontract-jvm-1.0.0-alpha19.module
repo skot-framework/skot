@@ -1,0 +1,133 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../modelcontract/1.0.0-alpha19/modelcontract-1.0.0-alpha19.module",
+    "group": "tech.skot",
+    "module": "modelcontract",
+    "version": "1.0.0-alpha19",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "strictly": "1.5.1",
+            "requires": "1.5.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.2.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-datetime",
+          "version": {
+            "requires": "0.2.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "modelcontract-jvm-1.0.0-alpha19.jar",
+          "url": "modelcontract-jvm-1.0.0-alpha19.jar",
+          "size": 57610,
+          "sha512": "f279439b0821a3788775d43427227bdfe1076ff1998a07f23c4b99d84d0375b1a2f3ff4efdd8c1be38c465ae7885726a4d639fc41df7e715db27d4cbedcd4efb",
+          "sha256": "81127aec69407a1254dfbddcaf6d25b902d0c14791cca5e2b6bb903716d7bfe8",
+          "sha1": "ba2d5b9389bd759ff8bd8275aec2748ff4fa42b1",
+          "md5": "6d7fa097e5e641afd8862f009df108cc"
+        }
+      ]
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "strictly": "1.5.1",
+            "requires": "1.5.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.2.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-datetime",
+          "version": {
+            "requires": "0.2.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "modelcontract-jvm-1.0.0-alpha19.jar",
+          "url": "modelcontract-jvm-1.0.0-alpha19.jar",
+          "size": 57610,
+          "sha512": "f279439b0821a3788775d43427227bdfe1076ff1998a07f23c4b99d84d0375b1a2f3ff4efdd8c1be38c465ae7885726a4d639fc41df7e715db27d4cbedcd4efb",
+          "sha256": "81127aec69407a1254dfbddcaf6d25b902d0c14791cca5e2b6bb903716d7bfe8",
+          "sha1": "ba2d5b9389bd759ff8bd8275aec2748ff4fa42b1",
+          "md5": "6d7fa097e5e641afd8862f009df108cc"
+        }
+      ]
+    }
+  ]
+}

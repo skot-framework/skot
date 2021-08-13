@@ -1,0 +1,77 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../core/1.0.0-alpha19/core-1.0.0-alpha19.module",
+    "group": "tech.skot",
+    "module": "core",
+    "version": "1.0.0-alpha19",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "iosArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.5.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-datetime",
+          "version": {
+            "requires": "0.2.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "strictly": "1.5.1",
+            "requires": "1.5.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core.klib",
+          "url": "core-iosarm64-1.0.0-alpha19.klib",
+          "size": 21998,
+          "sha512": "bd04d415a0d6937cbe1b9bc2dd5fb973e9c344910cf0cc1b163f1b0f59e3db11796d541fc10682a6350b90c42e96cd21935adb2effea08edde4e84cc0f0f6dd2",
+          "sha256": "1a913818db556054596a7066fa05bf3799f34f72b03593074afa4fe975b0c501",
+          "sha1": "73779c0fb1faee066a4c470158c367602d8fcc6b",
+          "md5": "59f156d976f51bfd654fc900b375f985"
+        }
+      ]
+    }
+  ]
+}

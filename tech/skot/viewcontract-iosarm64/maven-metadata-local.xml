@@ -3,8 +3,8 @@
   <groupId>tech.skot</groupId>
   <artifactId>viewcontract-iosarm64</artifactId>
   <versioning>
-    <latest>1.0.0-alpha19</latest>
-    <release>1.0.0-alpha19</release>
+    <latest>1.0.0-alpha20</latest>
+    <release>1.0.0-alpha20</release>
     <versions>
       <version>1.0.0-alpha11</version>
       <version>1.0.0-alpha12</version>
@@ -15,7 +15,8 @@
       <version>1.0.0-alpha17</version>
       <version>1.0.0-alpha18</version>
       <version>1.0.0-alpha19</version>
+      <version>1.0.0-alpha20</version>
     </versions>
-    <lastUpdated>20210813175713</lastUpdated>
+    <lastUpdated>20210817091834</lastUpdated>
   </versioning>
 </metadata>

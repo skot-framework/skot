@@ -1,0 +1,191 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../viewlegacy/0.0.1/viewlegacy-0.0.1.module",
+    "group": "tech.skot.libraries.tabbar",
+    "module": "viewlegacy",
+    "version": "0.0.1",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "debugApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.gradle.internal.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "androidx.databinding",
+          "module": "viewbinding",
+          "version": {
+            "requires": "7.0.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewlegacy-debug.aar",
+          "url": "viewlegacy-android-0.0.1-debug.aar",
+          "size": 66914,
+          "sha512": "0274ac4ca0dd69c2ed1066564ff3bf166bfb0e7603e2eada33a4e884e68ffb59040ce897e96829c6752111cd6a7dadf49b7484cb107d6967eaf1d8b775bff257",
+          "sha256": "6d4a3c78ab9c733395b45447d0e81ddb3ea0533054946c6719b5eb04122739ad",
+          "sha1": "a9afda99ee13ac6b2e46aa078a1b4ad19ae24d38",
+          "md5": "25a1073cd341e3bfa408c944503835eb"
+        }
+      ]
+    },
+    {
+      "name": "debugRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.gradle.internal.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "viewlegacy",
+          "version": {
+            "requires": "1.0.0-alpha20"
+          }
+        },
+        {
+          "group": "tech.skot.libraries.tabbar",
+          "module": "viewmodel",
+          "version": {
+            "requires": "0.0.1"
+          }
+        },
+        {
+          "group": "androidx.databinding",
+          "module": "viewbinding",
+          "version": {
+            "requires": "7.0.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewlegacy-debug.aar",
+          "url": "viewlegacy-android-0.0.1-debug.aar",
+          "size": 66914,
+          "sha512": "0274ac4ca0dd69c2ed1066564ff3bf166bfb0e7603e2eada33a4e884e68ffb59040ce897e96829c6752111cd6a7dadf49b7484cb107d6967eaf1d8b775bff257",
+          "sha256": "6d4a3c78ab9c733395b45447d0e81ddb3ea0533054946c6719b5eb04122739ad",
+          "sha1": "a9afda99ee13ac6b2e46aa078a1b4ad19ae24d38",
+          "md5": "25a1073cd341e3bfa408c944503835eb"
+        }
+      ]
+    },
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.gradle.internal.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "androidx.databinding",
+          "module": "viewbinding",
+          "version": {
+            "requires": "7.0.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewlegacy-release.aar",
+          "url": "viewlegacy-android-0.0.1.aar",
+          "size": 64974,
+          "sha512": "d23154a5e2cac286d20b44ed7e706977063b8c1fed2814d7bcce0f52f37d231c77129e7ddc23b2e3ff3a39e37b3902858f4be0d2ab634b61ae26a42fcb034482",
+          "sha256": "2b1f2d3dc0ca6daf1c9c6e831511b9cbae9f01525646363069fa3cc8695915bc",
+          "sha1": "2ab6d0bd237abbd96ffe2db83c74745a1deb28f7",
+          "md5": "9e2f40c59b1a6a2938d56b680b8fc282"
+        }
+      ]
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.gradle.internal.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "viewlegacy",
+          "version": {
+            "requires": "1.0.0-alpha20"
+          }
+        },
+        {
+          "group": "tech.skot.libraries.tabbar",
+          "module": "viewmodel",
+          "version": {
+            "requires": "0.0.1"
+          }
+        },
+        {
+          "group": "androidx.databinding",
+          "module": "viewbinding",
+          "version": {
+            "requires": "7.0.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewlegacy-release.aar",
+          "url": "viewlegacy-android-0.0.1.aar",
+          "size": 64974,
+          "sha512": "d23154a5e2cac286d20b44ed7e706977063b8c1fed2814d7bcce0f52f37d231c77129e7ddc23b2e3ff3a39e37b3902858f4be0d2ab634b61ae26a42fcb034482",
+          "sha256": "2b1f2d3dc0ca6daf1c9c6e831511b9cbae9f01525646363069fa3cc8695915bc",
+          "sha1": "2ab6d0bd237abbd96ffe2db83c74745a1deb28f7",
+          "md5": "9e2f40c59b1a6a2938d56b680b8fc282"
+        }
+      ]
+    }
+  ]
+}

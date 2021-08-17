@@ -1,0 +1,80 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "tech.skot.libraries.tabbar",
+    "module": "viewcontract",
+    "version": "0.0.1",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "tech.skot",
+          "module": "viewcontract",
+          "version": {
+            "requires": "1.0.0-alpha20"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.21"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewcontract-metadata-0.0.1.jar",
+          "url": "viewcontract-0.0.1.jar",
+          "size": 2442,
+          "sha512": "74895c669714be90d5fc61444bc60a5cb7e906fd43cace46131f6bcc1862258f03fa1cd9f8233e22a17c9fbeec97a5fc16fe32f4ea7a7f8e2441a99ed385a7b0",
+          "sha256": "0459e23dc5e6d9cd0c070cb34f70391049fdeca0d8e48b292b61760f4fc857ea",
+          "sha1": "5c219a6a25b84593d9fced7bc31f778533b96509",
+          "md5": "b9e2ee808ed6661d4df603177bb07c0d"
+        }
+      ]
+    },
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../viewcontract-jvm/0.0.1/viewcontract-jvm-0.0.1.module",
+        "group": "tech.skot.libraries.tabbar",
+        "module": "viewcontract-jvm",
+        "version": "0.0.1"
+      }
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../viewcontract-jvm/0.0.1/viewcontract-jvm-0.0.1.module",
+        "group": "tech.skot.libraries.tabbar",
+        "module": "viewcontract-jvm",
+        "version": "0.0.1"
+      }
+    }
+  ]
+}

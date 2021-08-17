@@ -1,0 +1,89 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../viewcontract/0.0.1/viewcontract-0.0.1.module",
+    "group": "tech.skot.libraries.tabbar",
+    "module": "viewcontract",
+    "version": "0.0.1",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "viewcontract",
+          "version": {
+            "requires": "1.0.0-alpha20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewcontract-jvm-0.0.1.jar",
+          "url": "viewcontract-jvm-0.0.1.jar",
+          "size": 3592,
+          "sha512": "a362a82cda81c238378cac1e76cac84ee78ff953fffa418f72805e55d30851a2f134b19b25d619ab500c530ad08388277dedd5ed68aa1d0ff71ce8410d95b0dc",
+          "sha256": "8ecf5d5a5ca7de19cbdabd942b86a2612d012a9359eb500dbac72cfc32f1c357",
+          "sha1": "0194ef9970a1dff2701ad01a7a798f658082b8c7",
+          "md5": "5bdbdcc164eeab37e49224a713849c09"
+        }
+      ]
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "viewcontract",
+          "version": {
+            "requires": "1.0.0-alpha20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewcontract-jvm-0.0.1.jar",
+          "url": "viewcontract-jvm-0.0.1.jar",
+          "size": 3592,
+          "sha512": "a362a82cda81c238378cac1e76cac84ee78ff953fffa418f72805e55d30851a2f134b19b25d619ab500c530ad08388277dedd5ed68aa1d0ff71ce8410d95b0dc",
+          "sha256": "8ecf5d5a5ca7de19cbdabd942b86a2612d012a9359eb500dbac72cfc32f1c357",
+          "sha1": "0194ef9970a1dff2701ad01a7a798f658082b8c7",
+          "md5": "5bdbdcc164eeab37e49224a713849c09"
+        }
+      ]
+    }
+  ]
+}

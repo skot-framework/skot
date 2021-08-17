@@ -77,7 +77,7 @@ fun Project.skBuildSrcVariants(sourceSets: SourceSetContainer) {
     }
 }
 
-fun Project.switchTask(name:String, environment:String, vararg variant:String) {
+fun Project.skSwitchTask(name:String, environment:String, vararg variant:String) {
     task(name) {
         doFirst {
             println("Switch to Variant environment=$environment  variants=${variant.joinToString(" ")} ")

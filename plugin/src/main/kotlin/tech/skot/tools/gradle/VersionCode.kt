@@ -2,6 +2,7 @@ package tech.skot.tools.gradle
 
 import org.gradle.api.Project
 import java.nio.file.Files
+import java.nio.file.OpenOption
+import java.nio.file.StandardOpenOption
 
-fun Project.skVersionCode():Int =
-    Files.readAllLines(rootProject.rootDir.toPath().resolve("skot_version_code.properties")).first().toInt()
+

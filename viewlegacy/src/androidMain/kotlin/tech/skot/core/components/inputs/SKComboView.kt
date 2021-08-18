@@ -15,6 +15,7 @@ import tech.skot.view.extensions.setVisible
 import tech.skot.view.extensions.strike
 import tech.skot.viewlegacy.R
 import tech.skot.viewlegacy.databinding.SkComboBinding
+import tech.skot.view.extensions.getColotFromAttr
 
 class SKComboView(
     override val proxy: SKComboViewProxy,
@@ -38,7 +39,7 @@ class SKComboView(
 }
 
 abstract class SKCommonComboView<Binding : Any>(
-    override val proxy:SKCommonComboViewProxy<Binding>,
+    override val proxy: SKCommonComboViewProxy<Binding>,
     activity: SKActivity,
     fragment: Fragment?,
     binding: Binding,
@@ -62,9 +63,8 @@ abstract class SKCommonComboView<Binding : Any>(
                         textView.text = choice.text
                         textView.strike(choice.strikethrough)
                         textView.setTextColor(
-                            ContextCompat.getColor(
-                                context,
-                                if (choice.colored) R.color.sk_combo_choice_text_colored_color else R.color.sk_combo_choice_text_color
+                            activity.getColotFromAttr(
+                                if (choice.colored) R.attr.sk_combo_choice_text_colored_color else R.attr.sk_combo_choice_text_color
                             )
                         )
                     }
@@ -130,15 +130,15 @@ abstract class SKCommonComboView<Binding : Any>(
         _adapter?.notifyDataSetChanged()
     }
 
+
     open fun onSelect(selected: SKComboVC.Choice?) {
         lockSelectedReaction = true
         autoComplete.setText(selected?.inputText, false)
         autoComplete.strike(selected?.strikethrough == true)
         autoComplete.setTextColor(
-            ContextCompat.getColor(
-                activity,
-                if (selected?.colored == true) R.color.sk_combo_choice_text_colored_color else R.color.sk_combo_choice_text_color
-            )
+            activity.getColotFromAttr(
+                    if (selected?.colored == true) R.attr.sk_combo_choice_text_colored_color else R.attr.sk_combo_choice_text_color
+                )
         )
         lockSelectedReaction = false
     }

@@ -34,10 +34,20 @@ class PluginTools : Plugin<Project> {
         val javaPluginConvention = project.convention.getPlugin(JavaPluginConvention::class.java)
         val sourceSet = javaPluginConvention.sourceSets["main"]
 
+        val cleanGeneratedContracts = project.task("skCleanGeneratedContracts") {
+            doFirst {
+                println("------- clean generated code in contracts modules")
+                val rootPath = project.rootDir.toPath()
+                rootPath.resolve("viewcontract/generated").toFile().deleteRecursively()
+                rootPath.resolve("modelcontract/generated").toFile().deleteRecursively()
+            }
+            group = "Skot"
+        }
 
         project.task("skGenerate") {
             doLast {
                 println("Skot version ${Versions.skot}")
+
                 val app = extension.app
                 if (app == null) {
                     println("rien à générer .........")
@@ -64,6 +74,8 @@ class PluginTools : Plugin<Project> {
             group = "Skot"
 
         }
+
+
 
 
 

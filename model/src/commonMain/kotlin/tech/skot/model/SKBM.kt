@@ -2,16 +2,16 @@ package tech.skot.model
 
 import kotlinx.serialization.KSerializer
 
-abstract class SKBM(val key:String?) {
+abstract class SKBM(val key: String?) {
 
 
-    open inner class DistantData<D:Any>(
-        name:String,
+    open inner class DistantData<D : Any>(
+        name: String,
         serializer: KSerializer<D>,
         cache: SKPersistor = globalCache,
-        validity:Long? = null,
+        validity: Long? = null,
         fetchData: suspend () -> D
-    ):SKDistantDataWithCache<D>(
+    ) : SKDistantDataWithCache<D>(
         name = name,
         serializer = serializer,
         key = key,
@@ -20,14 +20,28 @@ abstract class SKBM(val key:String?) {
         fetchData = fetchData
     )
 
-    open inner class ManualData<D:Any>(
+
+    open inner class ManualData<D : Any>(
         name: String,
         serializer: KSerializer<D>,
         cache: SKPersistor = globalCache,
         initialDefaultValue: D
-    ):SKManualDataWithCache<D>(
+    ) : SKManualDataWithCache<D>(
         name = name,
         serializer = serializer,
+        key = key,
+        cache = cache,
+        initialDefaultValue = initialDefaultValue
+    )
+
+    open inner class NullableManualData<D : Any>(
+        name: String,
+        serializer: KSerializer<D>,
+        cache: SKPersistor = globalCache,
+        initialDefaultValue: D?
+    ) : SKNullableManualDataWithCache<D>(
+        name = name,
+        dataSerializer = serializer,
         key = key,
         cache = cache,
         initialDefaultValue = initialDefaultValue

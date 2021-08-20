@@ -1,6 +1,8 @@
 package tech.skot.model
 
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import kotlin.reflect.KProperty
 
 open class SKManualData<D : Any?>(initialValue: D, private val onChange: (() -> Unit)? = null) :

@@ -10,7 +10,6 @@ class SKStackView(proxy:SKStackViewProxy, activity: SKActivity, fragment: Fragme
 
     fun onState(state:StateProxy) {
         val lastScreen = state.screens.lastOrNull()
-        SKLog.d("@@@@@-- SKStackView -- >  onState ${state.screens}  lastScreen $lastScreen ")
         if (lastScreen != null) {
             fragmentManager.apply {
                 val oldFrag = findFragmentById(frameLayout.id)

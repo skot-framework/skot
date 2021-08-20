@@ -13,19 +13,24 @@ import kotlinx.serialization.Serializer
 import tech.skot.core.SKLog
 import kotlin.reflect.KProperty
 
+@Serializable
+@SerialName("Nullable")
+data class Nullable<D:Any>(val value:D?)
 
 
-abstract class SKManualDataWithCache<D : Any>(
+abstract class SKNullableManualDataWithCache<D : Any>(
     private val name: String,
-    private val serializer: KSerializer<D>,
+    dataSerializer: KSerializer<D>,
     private val key: String? = null,
     private val cache: SKPersistor = globalCache,
-    private val initialDefaultValue: D
-) : SKData<D> {
+    private val initialDefaultValue: D?
+) : SKData<D?> {
 
-    override val flow: MutableStateFlow<DatedData<D>?> = MutableStateFlow(null)
+    private val serializer: KSerializer<Nullable<D>> = Nullable.serializer(dataSerializer)
+
+    override val flow: MutableStateFlow<DatedData<D?>?> = MutableStateFlow(null)
     override val defaultValidity = Long.MAX_VALUE
-    override val _current: DatedData<D>?
+    override val _current: DatedData<D?>?
         get() = flow.value
 
 
@@ -37,7 +42,7 @@ abstract class SKManualDataWithCache<D : Any>(
                 val cacheDate = cache.getDate(name, key)
                 if (cacheDate != null) {
                     try {
-                        flow.value = cache.getData(serializer, name, key)?.let { DatedData(it, cacheDate) }
+                        flow.value = cache.getData(serializer, name, key)?.let { DatedData(it.value, cacheDate) }
                     }
                     catch (ex:Exception) {
                         SKLog.e(ex, "SKManualDataWithCache Problème à la récupération du cache de la donnée $name $key")
@@ -55,7 +60,7 @@ abstract class SKManualDataWithCache<D : Any>(
         return _current?.data
     }
 
-    override suspend fun get(validity: Long?): D {
+    override suspend fun get(validity: Long?): D? {
         if (flow.value == null) {
             initWithCache()
         }
@@ -63,14 +68,14 @@ abstract class SKManualDataWithCache<D : Any>(
     }
 
 
-    fun setValue(newValue: D) {
+    fun setValue(newValue: D?) {
         flow.value = DatedData(newValue)
         CoroutineScope(Dispatchers.Default).launch {
             try {
                 cache.putData(
                     serializer = serializer,
                     name = name,
-                    data = newValue,
+                    data = Nullable(newValue),
                     key = key
                 )
             }
@@ -82,7 +87,7 @@ abstract class SKManualDataWithCache<D : Any>(
 
     }
 
-    override suspend fun update(): D {
+    override suspend fun update(): D? {
         if (flow.value == null) {
             initWithCache()
         }

@@ -116,6 +116,29 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
         SKLog.e(throwable, "${this::class.simpleName} -- $message")
     }
 
+    fun <D : Any?>  SKData<D>.onChange(lambda:(d:D)->Unit) {
+
+        class Treatment(val data:D)
+        var lastTreatedData:Treatment? = null
+
+        launchNoCrash {
+            flow.collect {
+                it?.let {
+                    it.data.let {
+                        if (lastTreatedData == null) {
+                            lastTreatedData = Treatment(it)
+                        }
+                        else {
+                            if (lastTreatedData?.data != it) {
+                                lambda(it)
+                                lastTreatedData = Treatment(it)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     fun <D : Any?> SKData<D>.onData(
         validity: Long? = null,

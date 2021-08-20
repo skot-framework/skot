@@ -4,11 +4,11 @@ import tech.skot.core.components.SKComponent
 import tech.skot.core.di.coreViewInjector
 
 open class SKButton(
-    label:String? = null,
-    enabled:Boolean? = null,
-    hidden:Boolean? = null,
-    onTap:(()->Unit)? = null,
-    ): SKComponent<SKButtonVC>() {
+    label: String? = null,
+    enabled: Boolean? = null,
+    hidden: Boolean? = null,
+    onTap: (() -> Unit)? = null,
+) : SKComponent<SKButtonVC>() {
 
     override val view = coreViewInjector.button(
         onTapInitial = onTap,
@@ -17,5 +17,22 @@ open class SKButton(
         hiddenInitial = hidden,
     )
 
+    var enabled: Boolean?
+        get() = view.enabled
+        set(value) {
+            view.enabled = value
+        }
+
+    var hidden: Boolean?
+        get() = view.hidden
+        set(value) {
+            view.hidden = value
+        }
+
+    var label: String?
+        get() = view.label
+        set(value) {
+            view.label = value
+        }
 
 }

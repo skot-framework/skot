@@ -47,6 +47,19 @@ kotlin {
         }
 
 
+        val commonTest by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlin:kotlin-test-common:${Versions.kotlin}")
+                implementation("org.jetbrains.kotlin:kotlin-test-annotations-common:${Versions.kotlin}")
+            }
+        }
+//        sourceSets["commonTest"].kotlin.srcDir("src/commonTest/kotlin")
+//
+//        sourceSets["commonTest"].dependencies {
+//            implementation("org.jetbrains.kotlin:kotlin-test-common:${Versions.kotlin}")
+//            implementation("org.jetbrains.kotlin:kotlin-test-annotations-common:${Versions.kotlin}")
+//        }
+
         val androidMain by getting {
             dependencies {
                 api("com.squareup.sqldelight:android-driver:${Versions.sqldelight}")

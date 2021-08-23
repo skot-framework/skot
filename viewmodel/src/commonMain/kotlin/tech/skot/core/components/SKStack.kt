@@ -31,6 +31,12 @@ open class SKStack : SKComponent<SKStackVC>() {
         state = State(state.screens + screen, transition)
     }
 
+    fun replace(oldScreen: SKScreen<*>, newScreen: SKScreen<*>, transition: SKTransition? = null) {
+        state = State(state.screens.map {
+            if (it == oldScreen) newScreen else it
+        }, transition)
+    }
+
     fun pop(transition: SKTransition? = null, ifRoot: (() -> Unit)? = null) {
         if (state.screens.size > 1) {
             state = State(state.screens - state.screens.last(), transition)
@@ -40,7 +46,7 @@ open class SKStack : SKComponent<SKStackVC>() {
 
     }
 
-    fun remove(screen: SKScreen<*>, transition:SKTransition? = null) {
+    fun remove(screen: SKScreen<*>, transition: SKTransition? = null) {
         if (state.screens.contains(screen)) {
             state = State(screens = state.screens - screen, transition = transition)
         }

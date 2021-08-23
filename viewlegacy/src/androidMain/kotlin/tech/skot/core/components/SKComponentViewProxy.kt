@@ -23,7 +23,7 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
         displayErrorMessage.post(message)
     }
 
-    private val closeKeyboardMessage = SKMessage<Unit>()
+    protected val closeKeyboardMessage = SKMessage<Unit>()
 
     override fun closeKeyboard() {
         closeKeyboardMessage.post(Unit)

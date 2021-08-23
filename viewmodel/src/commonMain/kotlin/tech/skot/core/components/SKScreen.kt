@@ -12,6 +12,20 @@ abstract class SKScreen<V : SKScreenVC>: SKComponent<SKScreenVC>() {
         parent?.push(screen) ?: throw IllegalStateException("This ${this::class.simpleName} has currently no stack parent")
     }
 
+    fun removeAllScreensOnTop() {
+        parent?.let { stack ->
+            val currentStackScreens = stack.state.screens
+            val indexOfThisScreen = currentStackScreens.indexOf(this)
+            if (indexOfThisScreen != -1 && currentStackScreens.size > indexOfThisScreen + 1) {
+                stack.state = SKStack.State(screens = currentStackScreens.subList(0, indexOfThisScreen +1))
+            }
+        } ?: throw IllegalStateException("This ${this::class.simpleName} has currently no stack parent")
+    }
+
+    fun replaceWith(screen: SKScreen<*>) {
+        parent?.replace(this, screen) ?: throw IllegalStateException("This ${this::class.simpleName} has currently no stack parent")
+    }
+
     fun finish(transition:SKTransition? = null) {
         parent?.remove(this, transition) ?: throw IllegalStateException("This ${this::class.simpleName} has currently no stack parent")
     }

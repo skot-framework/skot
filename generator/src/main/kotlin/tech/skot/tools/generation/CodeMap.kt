@@ -56,7 +56,7 @@ fun Generator.generateCodeMap() {
                             .build()
             )
             .build()
-            .writeTo(generatedCommonSources(feature ?: modules.app))
+            .writeTo(commonSources(feature ?: modules.app))
 
 }
 

@@ -27,6 +27,9 @@ abstract class SKScreenViewProxy<B : ViewBinding> : SKComponentViewProxy<B>(), S
             displayErrorMessage.observe {
                 displayError(it)
             }
+            closeKeyboardMessage.observe {
+                closeKeyboard()
+            }
         }
 //        return binding.root
     }

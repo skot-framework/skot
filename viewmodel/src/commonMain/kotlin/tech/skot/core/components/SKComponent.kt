@@ -42,7 +42,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
 
     open val loader: SKLoader? = null
 
-    open val onSwipe:(()->Unit)? = null
+    open val onSwipe: (() -> Unit)? = null
 
     open fun treatError(exception: Exception, errorMessage: String?) {
         errorTreatment?.invoke(this, exception, errorMessage)
@@ -84,7 +84,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
         start: CoroutineStart = CoroutineStart.DEFAULT,
         errorMessage: String? = null,
         block: suspend CoroutineScope.() -> Unit
-    ) {
+    ): Job =
         launchWithOptions(
             context = context,
             start = start,
@@ -92,7 +92,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
             withLoader = true,
             block = block
         )
-    }
+
 
     private var removeObservers: MutableSet<() -> Unit> = mutableSetOf()
     private fun addRemoveObserver(observer: () -> Unit) {
@@ -116,10 +116,11 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
         SKLog.e(throwable, "${this::class.simpleName} -- $message")
     }
 
-    fun <D : Any?>  SKData<D>.onChange(lambda:(d:D)->Unit) {
+    fun <D : Any?> SKData<D>.onChange(lambda: (d: D) -> Unit) {
 
-        class Treatment(val data:D)
-        var lastTreatedData:Treatment? = null
+        class Treatment(val data: D)
+
+        var lastTreatedData: Treatment? = null
 
         launchNoCrash {
             flow.collect {
@@ -127,8 +128,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
                     it.data.let {
                         if (lastTreatedData == null) {
                             lastTreatedData = Treatment(it)
-                        }
-                        else {
+                        } else {
                             if (lastTreatedData?.data != it) {
                                 lambda(it)
                                 lastTreatedData = Treatment(it)
@@ -150,10 +150,11 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
         block: (d: D) -> Unit
     ) {
 
-        class Treatment(val data:D)
-        var lastTreatedData:Treatment? = null
+        class Treatment(val data: D)
 
-        fun treatData(data:D) {
+        var lastTreatedData: Treatment? = null
+
+        fun treatData(data: D) {
             lastTreatedData.let { currentLast ->
                 if (currentLast == null || data != currentLast.data) {
                     block(data)
@@ -211,7 +212,44 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
         return this
     }
 
-    operator fun plus(otherComponent:SKComponent<*>?):List<SKComponent<*>> = listOfNotNull(this, otherComponent)
-    operator fun plus(otherComponents:List<SKComponent<*>>):List<SKComponent<*>> = listOf(this) + otherComponents
+    operator fun plus(otherComponent: SKComponent<*>?): List<SKComponent<*>> =
+        listOfNotNull(this, otherComponent)
 
+    operator fun plus(otherComponents: List<SKComponent<*>>?): List<SKComponent<*>> =
+        if (otherComponents != null) {
+            listOf(this) + otherComponents
+        } else listOf(this)
+
+
+}
+
+fun List<SKComponent<*>>.plusIfNotNull(otherComponent: SKComponent<*>?): List<SKComponent<*>> =
+    if (otherComponent == null) {
+        this
+    } else {
+        this + otherComponent
+    }
+
+fun List<SKComponent<*>>.join(separator: () -> SKComponent<*>): List<SKComponent<*>> {
+    val list = mutableListOf<SKComponent<*>>()
+    val last = last()
+    this.forEach {
+        list.add(it)
+        if (it != last) {
+            list.add(separator())
+        }
+    }
+    return list
+}
+
+fun List<List<SKComponent<*>>>.joinGroups(separator: () -> SKComponent<*>): List<SKComponent<*>> {
+    val list = mutableListOf<SKComponent<*>>()
+    val last = last()
+    this.forEach {
+        list.addAll(it)
+        if (it != last) {
+            list.add(separator())
+        }
+    }
+    return list
 }

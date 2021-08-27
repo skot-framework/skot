@@ -4,9 +4,11 @@ import kotlin.Int
 import kotlin.String
 
 object Versions {
-  const val skot: String = "1.0.0-alpha22"
+  const val skot: String = "1.0.0-alpha23"
 
   const val serialization: String = "1.2.2"
+
+  const val kotlinxDateTime: String = "0.2.1"
 
   const val ktor: String = "1.6.2"
 

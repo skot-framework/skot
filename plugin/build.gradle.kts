@@ -122,6 +122,7 @@ fun buildVersionsFile() {
     val classBuilderCommon = com.squareup.kotlinpoet.TypeSpec.objectBuilder("Versions")
             .addStringConst("skot", Versions.version)
             .addStringConst("serialization", Versions.serialization)
+            .addStringConst("kotlinxDateTime", Versions.kotlinxDateTime)
             .addStringConst("ktor", Versions.ktor)
             .addStringConst("kotlin", Versions.kotlin)
             .addStringConst("kotlinCoroutines", Versions.kotlinCoroutines)
@@ -130,6 +131,7 @@ fun buildVersionsFile() {
             .addIntConst("android_minSdk", Versions.Android.minSdk)
             .addIntConst("android_compileSdk", Versions.Android.compileSdk)
             .addIntConst("android_targetSdk", Versions.Android.targetSdk)
+
 
 
 

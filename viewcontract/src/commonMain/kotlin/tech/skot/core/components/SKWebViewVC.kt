@@ -9,7 +9,7 @@ interface SKWebViewVC: SKComponentVC {
     data class Config(val userAgent:String?, val redirect:List<RedirectParam> = emptyList())
     data class OpenUrl(val url:String, val onFinished:(()->Unit)? = null, val javascriptOnFinished:String? = null, val onError:(()->Unit)? = null, val post:Map<String,String>? = null)
 
-    sealed class RedirectParam {
+    abstract class RedirectParam {
         abstract fun matches(url:String):Boolean
         abstract val onRedirect:(path:String, params:Map<String,String>)->Boolean
 

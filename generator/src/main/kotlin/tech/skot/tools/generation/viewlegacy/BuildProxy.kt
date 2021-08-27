@@ -206,7 +206,7 @@ fun ComponentDef.buildProxy(
                     FunSpec.builder("getActivityClass")
                         .addModifiers(KModifier.OVERRIDE)
                         .addCode(
-                            generator.baseActivityVar?.let { "return $it" } ?: "return ${baseActivity.packageName}.${baseActivity.simpleName}::class.java")
+                            activityClass?.let { "return $it::class.java" } ?: generator.baseActivityVar?.let { "return $it" } ?: "return ${baseActivity.packageName}.${baseActivity.simpleName}::class.java")
                         .build()
                 )
             }

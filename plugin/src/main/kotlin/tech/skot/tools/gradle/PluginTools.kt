@@ -15,7 +15,15 @@ open class SKPluginToolsExtension {
     var app:App? = null
 }
 
-data class App(val packageName: String, val startScreen: String, val rootState: String? = null, val baseActivity:String = ".android.BaseActivity", val feature:String? = null, val baseActivityVar:String? = null)
+data class App(
+    val packageName: String,
+    val startScreen: String,
+    val rootState: String? = null,
+    val baseActivity: String = ".android.BaseActivity",
+    val feature: String? = null,
+    //le fullname d'une variable globale donnant la classe de base
+    val baseActivityVar: String? = null
+)
 
 data class FeatureModule(val packageName:String, val startScreen:String)
 

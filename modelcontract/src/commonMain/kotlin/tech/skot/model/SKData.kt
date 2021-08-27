@@ -135,3 +135,86 @@ fun <D1 : Any?, D2 : Any?> combineSKData(
     }
 
 }
+
+fun <D1 : Any?, D2 : Any?, D3: Any?> combineSKData(
+    data1: SKData<D1>,
+    data2: SKData<D2>,
+    data3: SKData<D3>
+): SKData<Triple<D1, D2, D3>> {
+    return object : SKData<Triple<D1, D2, D3>> {
+
+        override val defaultValidity = min(min(data1.defaultValidity, data2.defaultValidity), data3.defaultValidity)
+        override val _current: DatedData<Triple<D1, D2, D3>>?
+            get() = buildTriple(data1._current, data2._current, data3._current)
+
+
+        private fun buildTriple(
+            datedData1: DatedData<D1>?,
+            datedData2: DatedData<D2>?,
+            datedData3: DatedData<D3>?
+        ): DatedData<Triple<D1, D2, D3>>? =
+            if (datedData1 != null && datedData2 != null && datedData3 != null) {
+                DatedData(
+                    data = Triple(datedData1.data, datedData2.data, datedData3.data),
+                    timestamp = min(min(datedData1.timestamp, datedData2.timestamp), datedData3.timestamp)
+                )
+            } else {
+                null
+            }
+
+        override val flow: Flow<DatedData<Triple<D1, D2, D3>>?> = combineTransform(
+            data1.flow,
+            data2.flow,
+            data3.flow
+        ) { datedDataFlow1, datedDataFlow2, datedDataFlow3 ->
+            buildTriple(datedDataFlow1, datedDataFlow2, datedDataFlow3)?.let { emit(it) }
+
+        }
+
+        override suspend fun update(): Triple<D1, D2, D3> {
+            return coroutineScope {
+                val updatedData1 =
+                    async {
+                        data1.update()
+                    }
+                val updatedData2 =
+                    async {
+                        data2.update()
+                    }
+                val updatedData3 =
+                    async {
+                        data3.update()
+                    }
+                Triple(updatedData1.await(), updatedData2.await(), updatedData3.await())
+            }
+        }
+
+        override suspend fun get(validity: Long?): Triple<D1, D2, D3> {
+            return coroutineScope {
+                val gettedData1 = async {
+                    data1.get(validity)
+                }
+
+                val gettedData2 = async {
+                    data2.get(validity)
+                }
+                val gettedData3 = async {
+                    data3.get(validity)
+                }
+                Triple(gettedData1.await(), gettedData2.await(), gettedData3.await())
+            }
+        }
+
+        override suspend fun fallBackValue(): Triple<D1, D2, D3>? {
+            val data1FallBackValue = data1.fallBackValue()
+            val data2FallBackValue = data2.fallBackValue()
+            val data3FallBackValue = data3.fallBackValue()
+            return if (data1FallBackValue != null && data2FallBackValue != null && data3FallBackValue != null) {
+                Triple(data1FallBackValue, data2FallBackValue, data3FallBackValue)
+            } else {
+                null
+            }
+        }
+    }
+
+}

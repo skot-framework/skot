@@ -47,7 +47,9 @@ abstract class SKNullableManualDataWithCache<D : Any>(
                     catch (ex:Exception) {
                         SKLog.e(ex, "SKManualDataWithCache Problème à la récupération du cache de la donnée $name $key")
                     }
-
+                }
+                else {
+                    flow.value = DatedData(initialDefaultValue,0)
                 }
             }
         }

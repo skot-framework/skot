@@ -1,5 +1,6 @@
 package tech.skot.core.components
 
+import tech.skot.core.SKLog
 import tech.skot.core.di.coreViewInjector
 
 open class SKList(
@@ -20,6 +21,10 @@ open class SKList(
 
     fun scrollToPosition(position: Int) {
         view.scrollToPosition(position)
+    }
+
+    fun showAll(item:SKComponent<*>) {
+        view.scrollToPosition(items.indexOf(item))
     }
 
     override fun onRemove() {

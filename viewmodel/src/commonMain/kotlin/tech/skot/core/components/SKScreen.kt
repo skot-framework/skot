@@ -9,7 +9,9 @@ abstract class SKScreen<V : SKScreenVC>: SKComponent<SKScreenVC>() {
     var presenter: SKBottomSheet? = null
 
     fun push(screen: SKScreen<*>) {
-        parent?.push(screen) ?: throw IllegalStateException("This ${this::class.simpleName} has currently no stack parent")
+        parent?.push(screen) ?:
+            SKRootStack.push(screen)
+//        throw IllegalStateException("This ${this::class.simpleName} has currently no stack parent")
     }
 
     fun removeAllScreensOnTop() {

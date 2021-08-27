@@ -1,10 +1,9 @@
 package tech.skot.model
 
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.serialization.KSerializer
+import tech.skot.core.SKLog
 
 abstract class SimpleSKData<D : Any> : SKData<D> {
 
@@ -31,7 +30,7 @@ abstract class SimpleSKData<D : Any> : SKData<D> {
         }
     }
 
-    fun setData(newManualData:D) {
+    fun setData(newManualData: D) {
         setDatedData(DatedData(newManualData, currentTimeMillis()))
     }
 
@@ -41,4 +40,13 @@ abstract class SimpleSKData<D : Any> : SKData<D> {
 
     override suspend fun fallBackValue(): D? = flow.value?.data
 
+}
+
+suspend fun <D : Any?> SKData<D>.getWithFallBackIfError(validity: Long? = null): D {
+    return try {
+        get(validity)
+    } catch (ex: Exception) {
+        SKLog.e(ex, "get fail will get fallbackvalue")
+        fallBackValue() ?: throw ex
+    }
 }

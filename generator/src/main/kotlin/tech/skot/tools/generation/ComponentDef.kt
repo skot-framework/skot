@@ -9,6 +9,7 @@ import tech.skot.core.components.SKPassToParentView
 import tech.skot.core.components.SKScreenVC
 import tech.skot.core.components.SKUIState
 import tech.skot.core.components.SKUses
+import tech.skot.core.components.SKActivityClass
 import tech.skot.model.SKStateDef
 import tech.skot.tools.generation.viewmodel.toVM
 import kotlin.reflect.*
@@ -51,6 +52,8 @@ data class ComponentDef(
     val isScreen = vc.isSubclassOf(SKScreenVC::class)
     val hasLayout = !vc.hasAnnotation<SKLayoutNo>()
     val layoutIsRoot = vc.hasAnnotation<SKLayoutIsRoot>()
+
+    val activityClass = vc.findAnnotation<SKActivityClass>()?.activityClass
 
     val modelClass = try {
         Class.forName(modelContract().canonicalName).kotlin

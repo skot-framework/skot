@@ -55,10 +55,10 @@ open class SKInput(
             _value = formated
             validate(formated).let { newValidity ->
                 validity = newValidity
+//                if (validity.isValid) {
+                view.error = null
+//                }
                 afterValidation?.invoke()
-                if (validity.isValid) {
-                    view.error = null
-                }
             }
         }
     }
@@ -131,7 +131,7 @@ class SKSimpleInput(
     afterValidation: (() -> Unit)? = null
 ) : SKInput(hint, nullable, onDone, viewType, defaultErrorMessage, maxSize, afterValidation) {
 
-    override val view:SKSimpleInputVC = coreViewInjector.inputSimple(
+    override val view: SKSimpleInputVC = coreViewInjector.inputSimple(
         onInputText = {
             onNewValue(it)
         },

@@ -247,7 +247,7 @@ fun List<List<SKComponent<*>>>.joinGroups(separator: () -> SKComponent<*>): List
     val last = last()
     this.forEach {
         list.addAll(it)
-        if (it != last) {
+        if (it != last && it.isNotEmpty()) {
             list.add(separator())
         }
     }

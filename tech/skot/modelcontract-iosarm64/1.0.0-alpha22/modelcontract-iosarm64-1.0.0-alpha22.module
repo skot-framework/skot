@@ -1,0 +1,70 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../modelcontract/1.0.0-alpha22/modelcontract-1.0.0-alpha22.module",
+    "group": "tech.skot",
+    "module": "modelcontract",
+    "version": "1.0.0-alpha22",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "iosArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "strictly": "1.5.1",
+            "requires": "1.5.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.2.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-datetime",
+          "version": {
+            "requires": "0.2.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "modelcontract.klib",
+          "url": "modelcontract-iosarm64-1.0.0-alpha22.klib",
+          "size": 29717,
+          "sha512": "9f34ed3615655f76ff3c00f5c54344875d021d010e1d50d82b17ed150e4634d4154f31f9f06d750f1f9492b21a905d19a887121e62af48e4b512033ed1665391",
+          "sha256": "1113b73ef78cf299c3f592fe799df8ad34792902004406aafbf2dc7a20780d28",
+          "sha1": "112c97f10400680c09a6a0b361e700c706d8e5ca",
+          "md5": "8df32aace8b21181a7346480165d06fa"
+        }
+      ]
+    }
+  ]
+}

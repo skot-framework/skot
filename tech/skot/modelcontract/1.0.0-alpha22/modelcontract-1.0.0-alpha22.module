@@ -1,0 +1,125 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "tech.skot",
+    "module": "modelcontract",
+    "version": "1.0.0-alpha22",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "strictly": "1.5.1",
+            "requires": "1.5.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.2.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-datetime",
+          "version": {
+            "requires": "0.2.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "modelcontract-metadata-1.0.0-alpha22.jar",
+          "url": "modelcontract-1.0.0-alpha22.jar",
+          "size": 6228,
+          "sha512": "2d7bbd743ef6f06391c21d85fa6432ac9e342feaebbd7788a305eb4b78f822ade7c9230106facae2a44464140689d3f9e15379a06381770ec1af826da78382f1",
+          "sha256": "3365770fe2b5604ae7449fdf0dff15c3574adf767e4ec020f048f324417df7a5",
+          "sha1": "d4e801063c0173f03b0012004c683252d6b6e9aa",
+          "md5": "de51c42c1ac650d2bad1e9dd117b0650"
+        }
+      ]
+    },
+    {
+      "name": "iosArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../modelcontract-iosarm64/1.0.0-alpha22/modelcontract-iosarm64-1.0.0-alpha22.module",
+        "group": "tech.skot",
+        "module": "modelcontract-iosarm64",
+        "version": "1.0.0-alpha22"
+      }
+    },
+    {
+      "name": "iosX64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../modelcontract-iosx64/1.0.0-alpha22/modelcontract-iosx64-1.0.0-alpha22.module",
+        "group": "tech.skot",
+        "module": "modelcontract-iosx64",
+        "version": "1.0.0-alpha22"
+      }
+    },
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../modelcontract-jvm/1.0.0-alpha22/modelcontract-jvm-1.0.0-alpha22.module",
+        "group": "tech.skot",
+        "module": "modelcontract-jvm",
+        "version": "1.0.0-alpha22"
+      }
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../modelcontract-jvm/1.0.0-alpha22/modelcontract-jvm-1.0.0-alpha22.module",
+        "group": "tech.skot",
+        "module": "modelcontract-jvm",
+        "version": "1.0.0-alpha22"
+      }
+    }
+  ]
+}

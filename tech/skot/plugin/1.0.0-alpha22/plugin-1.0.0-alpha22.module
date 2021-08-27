@@ -1,0 +1,124 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "tech.skot",
+    "module": "plugin",
+    "version": "1.0.0-alpha22",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.localToProject": "public",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "com.android.tools.build",
+          "module": "gradle",
+          "version": {
+            "requires": "7.0.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-serialization",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "com.squareup",
+          "module": "kotlinpoet",
+          "version": {
+            "requires": "1.4.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "plugin-1.0.0-alpha22.jar",
+          "url": "plugin-1.0.0-alpha22.jar",
+          "size": 221258,
+          "sha512": "306826938f658ca6c6836c3969f592f250dacc3440eff0042f98bc58349df86d4ba884a4e1350706cd95b72c58169a6eeb405516e93f0dee4e45c8b7008cdbad",
+          "sha256": "b938a5806e1b8a86753b0611a00b5d5b95b0f2fb8c7ce86748b022f0e8f5b5ef",
+          "sha1": "6f93c8ccf4a92b97c1ab4e69671ddad24cfae1ed",
+          "md5": "da09c8dbe0edec1730e81f7d2706f294"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.localToProject": "public",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "com.android.tools.build",
+          "module": "gradle",
+          "version": {
+            "requires": "7.0.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-gradle-plugin",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-serialization",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "com.squareup",
+          "module": "kotlinpoet",
+          "version": {
+            "requires": "1.4.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "plugin-1.0.0-alpha22.jar",
+          "url": "plugin-1.0.0-alpha22.jar",
+          "size": 221258,
+          "sha512": "306826938f658ca6c6836c3969f592f250dacc3440eff0042f98bc58349df86d4ba884a4e1350706cd95b72c58169a6eeb405516e93f0dee4e45c8b7008cdbad",
+          "sha256": "b938a5806e1b8a86753b0611a00b5d5b95b0f2fb8c7ce86748b022f0e8f5b5ef",
+          "sha1": "6f93c8ccf4a92b97c1ab4e69671ddad24cfae1ed",
+          "md5": "da09c8dbe0edec1730e81f7d2706f294"
+        }
+      ]
+    }
+  ]
+}

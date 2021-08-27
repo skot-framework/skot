@@ -1,0 +1,70 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../modelcontract/1.0.0-alpha22/modelcontract-1.0.0-alpha22.module",
+    "group": "tech.skot",
+    "module": "modelcontract",
+    "version": "1.0.0-alpha22",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "iosX64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "strictly": "1.5.1",
+            "requires": "1.5.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.2.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-datetime",
+          "version": {
+            "requires": "0.2.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "modelcontract.klib",
+          "url": "modelcontract-iosx64-1.0.0-alpha22.klib",
+          "size": 29700,
+          "sha512": "c7e703004625bb720feab26f7695fc1c35e9a164879220723f93540e6e6e10603214dec556edb31c812c0e87f886b179541630bb5caf637f12df42659bb2c6b7",
+          "sha256": "979c3158666f3f2b17eaab3cbdf6eb3efffcef3d86655cd6772b39136321cd30",
+          "sha1": "5320a14ab901757b794e91c35a8d92d0db66de5c",
+          "md5": "f90cec49bb7ff70f464601d7c2e6ba15"
+        }
+      ]
+    }
+  ]
+}

@@ -34,7 +34,7 @@
           "group": "tech.skot",
           "module": "viewcontract",
           "version": {
-            "requires": "1.0.0-alpha20"
+            "requires": "1.0.0-alpha22"
           }
         }
       ],
@@ -69,7 +69,7 @@
           "group": "tech.skot",
           "module": "viewcontract",
           "version": {
-            "requires": "1.0.0-alpha20"
+            "requires": "1.0.0-alpha22"
           }
         }
       ],

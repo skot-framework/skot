@@ -3,11 +3,17 @@ package tech.skot.core.components
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.view.WindowInsets
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import tech.skot.core.SKFeatureInitializer
 import tech.skot.core.SKLog
+import tech.skot.view.extensions.updatePadding
 
 abstract class SKActivity : AppCompatActivity() {
 
@@ -17,7 +23,7 @@ abstract class SKActivity : AppCompatActivity() {
         var oneActivityAlreadyLaunched = false
     }
 
-    private var screen: SKScreenView<*>? = null
+    var screen: SKScreenView<*>? = null
 
     abstract val featureInitializer: SKFeatureInitializer
 
@@ -51,8 +57,35 @@ abstract class SKActivity : AppCompatActivity() {
                         linkToRootStack()
                     }
             }
+
+
         }
     }
+
+    fun setFullScreen(fullScreen:Boolean, lightStatusBar:Boolean, onWindowInsets: ((windowInsets: WindowInsetsCompat) -> Unit)? = null) {
+        screen?.view?.let {
+            WindowInsetsControllerCompat(window, it).isAppearanceLightStatusBars = lightStatusBar
+            WindowCompat.setDecorFitsSystemWindows(window, !fullScreen)
+//            SKLog.d("#################### SKActivity ${hashCode()} ${screen?.let { it::class.simpleName }}: setFullScreen $fullScreen view: ${it.hashCode()}")
+            val loadedInsets = ViewCompat.getRootWindowInsets(it)
+            if (loadedInsets != null) {
+//                SKLog.d("#################### SKActivity ${hashCode()} ${screen?.let { it::class.simpleName }}: loadedInsets: $loadedInsets")
+                it.updatePadding(bottom = if (fullScreen) loadedInsets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom else 0)
+                onWindowInsets?.invoke(loadedInsets)
+            } else {
+//                SKLog.d("#################### SKActivity ${hashCode()} ${screen?.let { it::class.simpleName }}: will setOnApplyWindowInsetsListener")
+                ViewCompat.setOnApplyWindowInsetsListener(it) { view, windowInsets ->
+//                    val updatedInsets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+//                    SKLog.d("#################### SKActivity ${hashCode()} ${screen?.let { it::class.simpleName }}: updatedInsets: $updatedInsets")
+                    it.updatePadding(bottom = if (fullScreen) windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom else 0)
+                    onWindowInsets?.invoke(windowInsets)
+                    windowInsets
+                }
+            }
+        }
+
+    }
+
 
     private fun getKeyForThisActivity(savedInstanceState: Bundle?) =
         when {

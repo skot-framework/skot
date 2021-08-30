@@ -2,9 +2,16 @@ package tech.skot.core.components
 
 import android.view.View
 import android.view.WindowInsets
+import android.view.WindowInsetsController
 import androidx.annotation.CallSuper
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import tech.skot.core.SKLog
+import tech.skot.view.extensions.systemBars
 import tech.skot.view.extensions.updatePadding
 
 
@@ -22,62 +29,33 @@ abstract class SKScreenView<B : ViewBinding>(
         this.onBackPressed = onBackPressed
     }
 
-    var thisScreenSystemUiVisibility: Int? = null
+
+    protected val originalPaddingTop = view.paddingTop
+
 
     @CallSuper
     open fun onResume() {
-//        SKLog.d("######->${this::class.simpleName} ${this.hashCode()} onResume ")
-        activity.window.decorView.systemUiVisibility = thisScreenSystemUiVisibility ?: (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+       activity.setFullScreen(fullScreen, lightStatusBar, onWindowInset ?: (if (withWindowsInsetsPaddingTop) {{
+           view.updatePadding(top = originalPaddingTop + it.systemBars().top)
+       }} else null))
         proxy.onResume?.invoke()
+
     }
 
     @CallSuper
     open fun onPause() {
         proxy.onPause?.invoke()
-//        SKLog.d("######<-${this::class.simpleName} ${this.hashCode()} onPause")
     }
 
 
-    protected fun fullScreen(
-        withPaddingTop: Boolean = false,
-        onWindowInset: ((windowInsets: WindowInsets) -> Unit)? = null
-    ) {
-        (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR).let {
-            thisScreenSystemUiVisibility = it
-            activity.window.decorView.systemUiVisibility = it
-        }
-        if (withPaddingTop || onWindowInset != null) {
-            setOnWindowInsetManagingPaddingTop(withPaddingTop, onWindowInset)
-        }
-    }
 
+    open val fullScreen: Boolean = false
+    open val lightStatusBar: Boolean = true
 
-    protected fun setOnWindowInsetManagingPaddingTop(
-        withPaddingTop: Boolean = false,
-        onWindowInset: ((windowInsets: WindowInsets) -> Unit)?
-    ) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            val loadedInsets = activity.window?.decorView?.rootWindowInsets
-            val initialPaddingTop = view.paddingTop
-            if (loadedInsets != null) {
-                if (withPaddingTop) {
-                    view.updatePadding(top = view.paddingTop + loadedInsets.systemWindowInsetTop)
-                }
-                onWindowInset?.invoke(loadedInsets)
-            } else {
-                view.setOnApplyWindowInsetsListener { view, windowInsets ->
-                    if (withPaddingTop) {
-                        view.updatePadding(top = initialPaddingTop + windowInsets.systemWindowInsetTop)
-                    }
-                    onWindowInset?.invoke(windowInsets)
-                    windowInsets
-                }
-            }
-        } else {
-//            TODO("VERSION.SDK_INT < M")
-        }
+    protected open val withWindowsInsetsPaddingTop : Boolean = false
 
-    }
+    open val onWindowInset: ((windowInsets: WindowInsetsCompat) -> Unit)? = null
+
 
     init {
         ScreensManager.backPressed.observe(this) {

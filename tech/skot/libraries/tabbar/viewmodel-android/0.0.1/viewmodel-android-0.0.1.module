@@ -25,17 +25,17 @@
       },
       "dependencies": [
         {
-          "group": "tech.skot.libraries.tabbar",
-          "module": "viewcontract",
-          "version": {
-            "requires": "0.0.1"
-          }
-        },
-        {
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-stdlib-jdk8",
           "version": {
             "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "tech.skot.libraries.tabbar",
+          "module": "viewcontract",
+          "version": {
+            "requires": "0.0.1"
           }
         }
       ],
@@ -43,11 +43,11 @@
         {
           "name": "viewmodel-debug.aar",
           "url": "viewmodel-android-0.0.1-debug.aar",
-          "size": 17147,
-          "sha512": "c58a04462c4f8b1db45f72da29ea7ad2bd4788ac1c7eab4592602973f72ddf1c0955f810dd82af8b98a24a479e6d4759a9af6a196c8502192b622ee717109bbe",
-          "sha256": "97baaebd05d46f27bb29808656ca4bf08c6c929579da9738115825e8e0c460d6",
-          "sha1": "9c192f26db86f1bdd93ded1c21f5a5138167a051",
-          "md5": "c1bfc00e7e17672a4c26d5c11337b907"
+          "size": 16968,
+          "sha512": "1e96ef79a893ad70714926da6d15450586b862c5e45d28431c61a1f831fcd12e4a99f77046ed15d4d5e58d54e866d704b351a386305048ef1cc6de9e8ab4273d",
+          "sha256": "4fa7621b13a799bc2d3462d7fcceaac26c7ec6a2c5f1287851fe72b4af0a9762",
+          "sha1": "76886f9b01d24ba9859964a457e5d3dafe6c6a2e",
+          "md5": "2e4ed58b3637c6c1b34799097cf1e885"
         }
       ]
     },
@@ -61,13 +61,6 @@
       },
       "dependencies": [
         {
-          "group": "tech.skot.libraries.tabbar",
-          "module": "viewcontract",
-          "version": {
-            "requires": "0.0.1"
-          }
-        },
-        {
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-stdlib-jdk8",
           "version": {
@@ -75,10 +68,17 @@
           }
         },
         {
+          "group": "tech.skot.libraries.tabbar",
+          "module": "viewcontract",
+          "version": {
+            "requires": "0.0.1"
+          }
+        },
+        {
           "group": "tech.skot",
           "module": "viewmodel",
           "version": {
-            "requires": "1.0.0-alpha22"
+            "requires": "1.0.0-alpha25"
           }
         }
       ],
@@ -86,11 +86,11 @@
         {
           "name": "viewmodel-debug.aar",
           "url": "viewmodel-android-0.0.1-debug.aar",
-          "size": 17147,
-          "sha512": "c58a04462c4f8b1db45f72da29ea7ad2bd4788ac1c7eab4592602973f72ddf1c0955f810dd82af8b98a24a479e6d4759a9af6a196c8502192b622ee717109bbe",
-          "sha256": "97baaebd05d46f27bb29808656ca4bf08c6c929579da9738115825e8e0c460d6",
-          "sha1": "9c192f26db86f1bdd93ded1c21f5a5138167a051",
-          "md5": "c1bfc00e7e17672a4c26d5c11337b907"
+          "size": 16968,
+          "sha512": "1e96ef79a893ad70714926da6d15450586b862c5e45d28431c61a1f831fcd12e4a99f77046ed15d4d5e58d54e866d704b351a386305048ef1cc6de9e8ab4273d",
+          "sha256": "4fa7621b13a799bc2d3462d7fcceaac26c7ec6a2c5f1287851fe72b4af0a9762",
+          "sha1": "76886f9b01d24ba9859964a457e5d3dafe6c6a2e",
+          "md5": "2e4ed58b3637c6c1b34799097cf1e885"
         }
       ]
     },
@@ -104,17 +104,17 @@
       },
       "dependencies": [
         {
-          "group": "tech.skot.libraries.tabbar",
-          "module": "viewcontract",
-          "version": {
-            "requires": "0.0.1"
-          }
-        },
-        {
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-stdlib-jdk8",
           "version": {
             "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "tech.skot.libraries.tabbar",
+          "module": "viewcontract",
+          "version": {
+            "requires": "0.0.1"
           }
         }
       ],
@@ -122,11 +122,11 @@
         {
           "name": "viewmodel-release.aar",
           "url": "viewmodel-android-0.0.1.aar",
-          "size": 16387,
-          "sha512": "ee12eeae527ceed63c6bab94d30dce92257c154357f3fc5887d477bb9bc2523baf2403ee5639f3969fed1ac46d8174ac7d365c567fd8ba321319e2a349a7889f",
-          "sha256": "b31d30e5390e65d8dd2cbad04988841ccad061270b8183b3457db040f1ce02ca",
-          "sha1": "92f32224d6000e70871f428e2d9c30196c99f79d",
-          "md5": "1318683de76d553599534a72de1c7a52"
+          "size": 16209,
+          "sha512": "75b8af7b842ac793d6a8fddc38216d921efa099cf241c13401f728db1faa6fcb37a6536e3f843a1f273b2b4b1928970b2279391f0d426ca48457c1a953ca4c93",
+          "sha256": "db176bd73440823aa50c49a8b55487275a0dcf3c1373745e1b0c90e5c9b4f5de",
+          "sha1": "1fabb9ee20a0e67cbe52af11459fbf4b45393496",
+          "md5": "88d643429586b4fe1c708a1a0dcd8ccf"
         }
       ]
     },
@@ -140,13 +140,6 @@
       },
       "dependencies": [
         {
-          "group": "tech.skot.libraries.tabbar",
-          "module": "viewcontract",
-          "version": {
-            "requires": "0.0.1"
-          }
-        },
-        {
           "group": "org.jetbrains.kotlin",
           "module": "kotlin-stdlib-jdk8",
           "version": {
@@ -154,10 +147,17 @@
           }
         },
         {
+          "group": "tech.skot.libraries.tabbar",
+          "module": "viewcontract",
+          "version": {
+            "requires": "0.0.1"
+          }
+        },
+        {
           "group": "tech.skot",
           "module": "viewmodel",
           "version": {
-            "requires": "1.0.0-alpha22"
+            "requires": "1.0.0-alpha25"
           }
         }
       ],
@@ -165,11 +165,11 @@
         {
           "name": "viewmodel-release.aar",
           "url": "viewmodel-android-0.0.1.aar",
-          "size": 16387,
-          "sha512": "ee12eeae527ceed63c6bab94d30dce92257c154357f3fc5887d477bb9bc2523baf2403ee5639f3969fed1ac46d8174ac7d365c567fd8ba321319e2a349a7889f",
-          "sha256": "b31d30e5390e65d8dd2cbad04988841ccad061270b8183b3457db040f1ce02ca",
-          "sha1": "92f32224d6000e70871f428e2d9c30196c99f79d",
-          "md5": "1318683de76d553599534a72de1c7a52"
+          "size": 16209,
+          "sha512": "75b8af7b842ac793d6a8fddc38216d921efa099cf241c13401f728db1faa6fcb37a6536e3f843a1f273b2b4b1928970b2279391f0d426ca48457c1a953ca4c93",
+          "sha256": "db176bd73440823aa50c49a8b55487275a0dcf3c1373745e1b0c90e5c9b4f5de",
+          "sha1": "1fabb9ee20a0e67cbe52af11459fbf4b45393496",
+          "md5": "88d643429586b4fe1c708a1a0dcd8ccf"
         }
       ]
     }

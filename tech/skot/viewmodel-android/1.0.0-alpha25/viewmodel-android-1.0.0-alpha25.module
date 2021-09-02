@@ -1,0 +1,219 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../viewmodel/1.0.0-alpha25/viewmodel-1.0.0-alpha25.module",
+    "group": "tech.skot",
+    "module": "viewmodel",
+    "version": "1.0.0-alpha25",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "debugApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.gradle.internal.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "1.0.0-alpha25"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "viewcontract",
+          "version": {
+            "requires": "1.0.0-alpha25"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "modelcontract",
+          "version": {
+            "requires": "1.0.0-alpha25"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewmodel-debug.aar",
+          "url": "viewmodel-android-1.0.0-alpha25-debug.aar",
+          "size": 93103,
+          "sha512": "0785f1ed46aab23cae0fec924b7d2adb145e7400934a9c37df07af82b7009be09076aa91ca0f4e4d7cf12b4cddaba52179c47a52024f6aca45633bbd2ef0f6d5",
+          "sha256": "f6aed7e05ff23187a6b02b22fe646378c2f6acf151ce3b24bc473679a78a4657",
+          "sha1": "4a54943f50341801c719e9b8fb841e97ee842521",
+          "md5": "cf69b1377b05c9fc625214a69db59250"
+        }
+      ]
+    },
+    {
+      "name": "debugRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.gradle.internal.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "1.0.0-alpha25"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "viewcontract",
+          "version": {
+            "requires": "1.0.0-alpha25"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "modelcontract",
+          "version": {
+            "requires": "1.0.0-alpha25"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewmodel-debug.aar",
+          "url": "viewmodel-android-1.0.0-alpha25-debug.aar",
+          "size": 93103,
+          "sha512": "0785f1ed46aab23cae0fec924b7d2adb145e7400934a9c37df07af82b7009be09076aa91ca0f4e4d7cf12b4cddaba52179c47a52024f6aca45633bbd2ef0f6d5",
+          "sha256": "f6aed7e05ff23187a6b02b22fe646378c2f6acf151ce3b24bc473679a78a4657",
+          "sha1": "4a54943f50341801c719e9b8fb841e97ee842521",
+          "md5": "cf69b1377b05c9fc625214a69db59250"
+        }
+      ]
+    },
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.gradle.internal.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "1.0.0-alpha25"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "viewcontract",
+          "version": {
+            "requires": "1.0.0-alpha25"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "modelcontract",
+          "version": {
+            "requires": "1.0.0-alpha25"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewmodel-release.aar",
+          "url": "viewmodel-android-1.0.0-alpha25.aar",
+          "size": 88676,
+          "sha512": "768b2cd1eb53599e82154115067ef5939157119be2a8425ac290eba0b45b4a8ba1d918beabbe211f7aaba260bbcf873f02343e4c68704e3a3d6abf16f6a07cf7",
+          "sha256": "8019c186bda3ebba02f681ca5433680a9aef3266375d3ed4eaf0a8376554eefe",
+          "sha1": "5777e177b3cf52a694db0751b43fc56ab70faa47",
+          "md5": "acca1a032e76c7ab397fff7ac9a492e4"
+        }
+      ]
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.gradle.internal.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "1.0.0-alpha25"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "viewcontract",
+          "version": {
+            "requires": "1.0.0-alpha25"
+          }
+        },
+        {
+          "group": "tech.skot",
+          "module": "modelcontract",
+          "version": {
+            "requires": "1.0.0-alpha25"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewmodel-release.aar",
+          "url": "viewmodel-android-1.0.0-alpha25.aar",
+          "size": 88676,
+          "sha512": "768b2cd1eb53599e82154115067ef5939157119be2a8425ac290eba0b45b4a8ba1d918beabbe211f7aaba260bbcf873f02343e4c68704e3a3d6abf16f6a07cf7",
+          "sha256": "8019c186bda3ebba02f681ca5433680a9aef3266375d3ed4eaf0a8376554eefe",
+          "sha1": "5777e177b3cf52a694db0751b43fc56ab70faa47",
+          "md5": "acca1a032e76c7ab397fff7ac9a492e4"
+        }
+      ]
+    }
+  ]
+}

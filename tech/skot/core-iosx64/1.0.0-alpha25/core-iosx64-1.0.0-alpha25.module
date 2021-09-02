@@ -1,0 +1,77 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../core/1.0.0-alpha25/core-1.0.0-alpha25.module",
+    "group": "tech.skot",
+    "module": "core",
+    "version": "1.0.0-alpha25",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "iosX64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "strictly": "1.5.1",
+            "requires": "1.5.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.5.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.5.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-datetime",
+          "version": {
+            "requires": "0.2.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.5.21"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core.klib",
+          "url": "core-iosx64-1.0.0-alpha25.klib",
+          "size": 22751,
+          "sha512": "f0e430b1d4577ed600e30ac66db2fe3e2b5e29cfafc0054cd5f8fe8e66cb8259cab5da160e9e0cf1c35d28ef2b1f4d28b5a851ff6c3debcf6073fe5dc7ea6729",
+          "sha256": "61e43de30b55cac37a717340345c3dc0ccadf161242fe2505e903646deebbb53",
+          "sha1": "e7a6865fbde40eee9e4eac78f45a2bd813a731e2",
+          "md5": "47546175a3b67c7c1d8d0b0e05018821"
+        }
+      ]
+    }
+  ]
+}

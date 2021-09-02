@@ -3,7 +3,6 @@ package tech.skot.core.components
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.view.WindowInsets
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -12,7 +11,6 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import tech.skot.core.SKFeatureInitializer
-import tech.skot.core.SKLog
 import tech.skot.view.extensions.updatePadding
 
 abstract class SKActivity : AppCompatActivity() {
@@ -20,20 +18,28 @@ abstract class SKActivity : AppCompatActivity() {
     var screenKey: Long? = null
 
     companion object {
-        var oneActivityAlreadyLaunched = false
+        private var oneActivityAlreadyLaunched = false
+        var launchActivityClass: Class<out SKActivity>? = null
     }
 
     var screen: SKScreenView<*>? = null
 
     abstract val featureInitializer: SKFeatureInitializer
 
+
+//    override fun onNewIntent(intent: Intent?) {
+//        super.onNewIntent(intent)
+//        intent?.data?.pathSegments?.let { featureInitializer.onDeepLink.invoke(it) }
+//    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
 
-            featureInitializer.initializeIfNeeded()
+            featureInitializer.initializeIfNeeded(intent?.data?.pathSegments)
 
             val viewKey = getKeyForThisActivity(savedInstanceState)
+//            SKLog.d("@&@&@&@& ---- onCreate   viewKey : $viewKey")
 
             if (!oneActivityAlreadyLaunched && viewKey != -1L) {
                 oneActivityAlreadyLaunched = true
@@ -42,12 +48,17 @@ abstract class SKActivity : AppCompatActivity() {
                 }
                 finish()
             } else {
+                val screenProxy =
+                    if (viewKey != -1L) {
+                        ScreensManager.getInstance(viewKey)
+                    } else {
+                        SKRootStackViewProxy.stateLD.value.screens.getOrNull(0)
+                    } as? SKScreenViewProxy<*>
+
                 oneActivityAlreadyLaunched = true
-                (if (viewKey != -1L) {
-                    ScreensManager.getInstance(viewKey)
-                } else {
-                    SKRootStackViewProxy.stateLD.value.screens.getOrNull(0)
-                } as? SKScreenViewProxy<*>)?.run {
+
+
+                screenProxy?.run {
                     screenKey = key
                     bindTo(this@SKActivity, null, layoutInflater)
                 }
@@ -56,28 +67,33 @@ abstract class SKActivity : AppCompatActivity() {
                         screen = this
                         linkToRootStack()
                     }
+
+
             }
 
 
         }
     }
 
-    fun setFullScreen(fullScreen:Boolean, lightStatusBar:Boolean, onWindowInsets: ((windowInsets: WindowInsetsCompat) -> Unit)? = null) {
+    fun setFullScreen(
+        fullScreen: Boolean,
+        lightStatusBar: Boolean,
+        onWindowInsets: ((windowInsets: WindowInsetsCompat) -> Unit)? = null
+    ) {
         screen?.view?.let {
             WindowInsetsControllerCompat(window, it).isAppearanceLightStatusBars = lightStatusBar
             WindowCompat.setDecorFitsSystemWindows(window, !fullScreen)
-//            SKLog.d("#################### SKActivity ${hashCode()} ${screen?.let { it::class.simpleName }}: setFullScreen $fullScreen view: ${it.hashCode()}")
             val loadedInsets = ViewCompat.getRootWindowInsets(it)
             if (loadedInsets != null) {
-//                SKLog.d("#################### SKActivity ${hashCode()} ${screen?.let { it::class.simpleName }}: loadedInsets: $loadedInsets")
                 it.updatePadding(bottom = if (fullScreen) loadedInsets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom else 0)
                 onWindowInsets?.invoke(loadedInsets)
             } else {
-//                SKLog.d("#################### SKActivity ${hashCode()} ${screen?.let { it::class.simpleName }}: will setOnApplyWindowInsetsListener")
                 ViewCompat.setOnApplyWindowInsetsListener(it) { view, windowInsets ->
-//                    val updatedInsets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-//                    SKLog.d("#################### SKActivity ${hashCode()} ${screen?.let { it::class.simpleName }}: updatedInsets: $updatedInsets")
-                    it.updatePadding(bottom = if (fullScreen) windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom else 0)
+                    it.updatePadding(
+                        bottom = if (fullScreen) windowInsets.getInsets(
+                            WindowInsetsCompat.Type.systemBars()
+                        ).bottom else 0
+                    )
                     onWindowInsets?.invoke(windowInsets)
                     windowInsets
                 }
@@ -89,14 +105,18 @@ abstract class SKActivity : AppCompatActivity() {
 
     private fun getKeyForThisActivity(savedInstanceState: Bundle?) =
         when {
-            intent.hasExtra(ScreensManager.SK_EXTRA_VIEW_KEY) -> intent.getLongExtra(
-                ScreensManager.SK_EXTRA_VIEW_KEY,
-                -1
-            )
-            savedInstanceState?.containsKey(ScreensManager.SK_EXTRA_VIEW_KEY) == true -> savedInstanceState.getLong(
-                ScreensManager.SK_EXTRA_VIEW_KEY,
-                -1
-            )
+            intent.hasExtra(ScreensManager.SK_EXTRA_VIEW_KEY) -> {
+                intent.getLongExtra(
+                    ScreensManager.SK_EXTRA_VIEW_KEY,
+                    -1
+                )
+            }
+            savedInstanceState?.containsKey(ScreensManager.SK_EXTRA_VIEW_KEY) == true -> {
+                savedInstanceState.getLong(
+                    ScreensManager.SK_EXTRA_VIEW_KEY,
+                    -1
+                )
+            }
             else -> -1
         }
 
@@ -125,7 +145,10 @@ abstract class SKActivity : AppCompatActivity() {
     private fun linkToRootStack() {
 
         SKRootStackViewProxy.setRootScreenMessage.observe(this) {
-            startActivity(Intent(this, it.getActivityClass()).apply {
+            finish()
+            val launchClass = launchActivityClass
+                ?: throw IllegalStateException("You have to set SKActivity.launchActivityClass to be allowed to change root Screen. New root screen will be loaded in this activity even if you have redefined getActivityClas method")
+            startActivity(Intent(this, launchClass).apply {
                 putExtra(ScreensManager.SK_EXTRA_VIEW_KEY, it.key)
             })
         }
@@ -135,14 +158,17 @@ abstract class SKActivity : AppCompatActivity() {
                 it.key == screenKey
             }
 
+//            SKLog.d("@&@&@&@&  ${this.hashCode()}  linkToRootStack  stateLD ${state.screens.map { "$it ${it.key}" }} key: ${screenKey} thisScreenPosition: $thisScreenPosition  ${screen?.let { it::class.simpleName }}")
+
             if (thisScreenPosition == -1) {
+//                SKLog.d("@&@&@&@&  ${this.hashCode()}  linkToRootStack  stateLD ${state.screens.map { "$it ${it.key}" }} key: ${screenKey} thisScreenPosition: $thisScreenPosition will finish ${screen?.let { it::class.simpleName }}")
                 finish()
                 state.transition?.let { overridePendingTransition(it.enterAnim, it.exitAnim) }
             } else {
                 if (state.screens.size > thisScreenPosition + 1) {
+//                    SKLog.d("@&@&@&@&  ${this.hashCode()}  linkToRootStack  stateLD ${state.screens.map { "$it ${it.key}" }} key: ${screenKey} thisScreenPosition: $thisScreenPosition will start an activity ${state.screens.get(thisScreenPosition + 1)::class.simpleName}")
                     startActivityForProxy(state.screens.get(thisScreenPosition + 1))
                     state.transition?.let { overridePendingTransition(it.enterAnim, it.exitAnim) }
-
                 }
             }
         }

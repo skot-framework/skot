@@ -197,8 +197,15 @@ fun Generator.generateViewModel() {
             .addFunction(
                 FunSpec
                     .builder("start")
-                    .addParameter("unit", UNIT)
+                    .addParameter("any", Any::class)
                     .addCode("SKRootStack.content = ${startViewModel.simpleName}()")
+                    .build()
+            )
+            .addFunction(
+                FunSpec
+                    .builder("onDeeplink")
+                        .addParameter("pathSegments", List::class.asTypeName().parameterizedBy(
+                            String::class.asTypeName()))
                     .build()
             )
             .addImport("tech.skot.core.components", "SKRootStack")

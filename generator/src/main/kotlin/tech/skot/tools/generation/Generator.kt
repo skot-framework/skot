@@ -27,36 +27,37 @@ import kotlin.reflect.jvm.jvmErasure
 //}
 
 
-
-
 class Generator(
     val appPackage: String,
     val startClass: KClass<SKScreenVC>,
     val rootStateClass: KClass<*>?,
     val baseActivity: ClassName,
     val rootPath: Path,
-    val feature:String?,
-    val baseActivityVar:String?
+    val feature: String?,
+    val baseActivityVar: String?
 ) {
 
 
     class ModulesNames(
-        val app:String = "androidApp",
-        val viewcontract:String = "viewcontract",
-        val modelcontract:String = "modelcontract",
-        val view:String = "view",
-        val viewmodel:String = "viewmodel",
-        val model:String = "model")
+        val app: String = "androidApp",
+        val viewcontract: String = "viewcontract",
+        val modelcontract: String = "modelcontract",
+        val view: String = "view",
+        val viewmodel: String = "viewmodel",
+        val model: String = "model"
+    )
 
-    val modules = ModulesNames(view = feature?: "view", app = feature ?: "androidApp")
+    val modules = ModulesNames(view = feature ?: "view", app = feature ?: "androidApp")
 
     val variantsCombinaison = skVariantsCombinaison(rootPath)
 
     @ExperimentalStdlibApi
     val rootState = rootStateClass?.let { StateDef("rootState", appPackage, it) }
+
     @ExperimentalStdlibApi
     val rootStatePropertyName = rootState?.let { rootState ->
-        feature?.let { "$feature${rootState.nameAsProperty.capitalizeAsciiOnly()}" } ?: rootState.nameAsProperty
+        feature?.let { "$feature${rootState.nameAsProperty.capitalizeAsciiOnly()}" }
+            ?: rootState.nameAsProperty
     }
 
     @ExperimentalStdlibApi
@@ -243,6 +244,24 @@ class Generator(
                     FunSpec.constructorBuilder()
                         .addParameter(
                             ParameterSpec.builder(
+                                "onDeepLink",
+                                LambdaTypeName.get(
+                                    null,
+                                    parameters = listOf(
+                                        ParameterSpec.builder(
+                                            name = "pathSegments",
+                                            type = List::class.asTypeName().parameterizedBy(
+                                                String::class.asTypeName()
+                                            )
+                                        ).build()
+                                    ),
+                                    returnType = Unit::class.asTypeName()
+                                )
+                            )
+                                .build()
+                        )
+                        .addParameter(
+                            ParameterSpec.builder(
                                 "initialize",
                                 LambdaTypeName.get(returnType = Unit::class.asTypeName())
                                     .copy(suspending = true)
@@ -252,7 +271,7 @@ class Generator(
                         .build()
                 )
                 superclass(ClassName("tech.skot.core", "SKFeatureInitializer"))
-                superclassConstructorParameters.add(CodeBlock.of("initialize"))
+                superclassConstructorParameters.add(CodeBlock.of("onDeepLink, initialize"))
             }.writeTo(generatedCommonSources(modules.viewcontract))
         }
 
@@ -370,7 +389,7 @@ class Generator(
                         .addStatement("single<${modelInjectorInterface.simpleName}> { ${modelInjectorImpl.simpleName}()}")
                         .addStatement("single<${transisitonsInterface.simpleName}> { ${transisitonsImpl.simpleName}()}")
                         .beginControlFlow("single")
-                        .beginControlFlow("${appFeatureInitializer.simpleName}")
+                        .beginControlFlow("${appFeatureInitializer.simpleName}(onDeepLink = { onDeeplink(it) })")
                         .apply {
                             rootState?.let {
                                 beginControlFlow("restoreState().let")
@@ -420,6 +439,7 @@ class Generator(
             .addImport("tech.skot.di", "modelFrameworkModule")
             .addImport("tech.skot.core.di", "coreViewModule")
             .addImport(appPackage, "start")
+            .addImport(appPackage, "onDeeplink")
             .apply {
                 rootState?.let {
                     addImport("$appPackage.states", "restoreState")

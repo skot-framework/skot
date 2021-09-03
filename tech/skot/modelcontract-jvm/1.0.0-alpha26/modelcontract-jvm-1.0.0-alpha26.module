@@ -64,11 +64,11 @@
         {
           "name": "modelcontract-jvm-1.0.0-alpha26.jar",
           "url": "modelcontract-jvm-1.0.0-alpha26.jar",
-          "size": 79211,
-          "sha512": "e6ac2458072e992ceaf244813f2c3fc18130bc5095f2eb415b5cef2a73c181e400b4174ac75bdab5e6fcd8a98044e5ef32973b26abc5118cf948fa7cf3b53339",
-          "sha256": "d3de6dd016ed6b4d6f7c3673ea9c643f7a72d09d116d82c711ecc38467abdf2c",
-          "sha1": "e76fd0a361125e698b2069049b5fa5c8baa132e0",
-          "md5": "e3d281c9466944949020bac8316241af"
+          "size": 79809,
+          "sha512": "3e0148e52437fa08799e2336045fd92d1d6889100be692d50aac4dbf273418fa1b9a215b12ffd60c0fdaaada9b45c58961b3bd64efcebef925c1a7d7b2d57549",
+          "sha256": "ae8549769fc2b6ffe10196e4304d15d59178f700bdd26bc2f6ad0d8e639e5fbc",
+          "sha1": "44e0a7e46a458d874e1ace3c8ff28363e240fa51",
+          "md5": "26bbd61ff91831818ea998197b661a96"
         }
       ]
     },
@@ -121,11 +121,11 @@
         {
           "name": "modelcontract-jvm-1.0.0-alpha26.jar",
           "url": "modelcontract-jvm-1.0.0-alpha26.jar",
-          "size": 79211,
-          "sha512": "e6ac2458072e992ceaf244813f2c3fc18130bc5095f2eb415b5cef2a73c181e400b4174ac75bdab5e6fcd8a98044e5ef32973b26abc5118cf948fa7cf3b53339",
-          "sha256": "d3de6dd016ed6b4d6f7c3673ea9c643f7a72d09d116d82c711ecc38467abdf2c",
-          "sha1": "e76fd0a361125e698b2069049b5fa5c8baa132e0",
-          "md5": "e3d281c9466944949020bac8316241af"
+          "size": 79809,
+          "sha512": "3e0148e52437fa08799e2336045fd92d1d6889100be692d50aac4dbf273418fa1b9a215b12ffd60c0fdaaada9b45c58961b3bd64efcebef925c1a7d7b2d57549",
+          "sha256": "ae8549769fc2b6ffe10196e4304d15d59178f700bdd26bc2f6ad0d8e639e5fbc",
+          "sha1": "44e0a7e46a458d874e1ace3c8ff28363e240fa51",
+          "md5": "26bbd61ff91831818ea998197b661a96"
         }
       ]
     }

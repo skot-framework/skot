@@ -55,11 +55,11 @@
         {
           "name": "modelcontract-metadata-1.0.0-alpha26.jar",
           "url": "modelcontract-1.0.0-alpha26.jar",
-          "size": 6228,
-          "sha512": "49205fce3849b9273b2efff605c6cb982cf2775453fe90d879339c04192a1760a0f75b2b2ac91a08a5d3c5530410bb1573a6ccc7ce87e3d1def3f1de2f679a2f",
-          "sha256": "0d2309d24b375990bf1b1df2a6712152e593b8720b538ecfe2b1058d249e3edc",
-          "sha1": "ce85e6943d962cc40665bd9a1241ebe6be6f26b9",
-          "md5": "05379744bec2ebddb1d9264e7e848f61"
+          "size": 6619,
+          "sha512": "b6238bbddec4752822705ca7685dca5e3d1645a626b7de51953cc0ceae78385fc59d3e0e1d1b62e1ab8ef608a5c4d4f676b207a1a7909d0159ea8d42b830a6bc",
+          "sha256": "df738604dc0a4b231e2e5b7bbbc9e7511b5666fe68198ff50fb7aa6583211833",
+          "sha1": "364a74f62703c503a777da265bee6c2e3f1b99af",
+          "md5": "e973fc859c871ebcaa2ff7f375248b59"
         }
       ]
     },

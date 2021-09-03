@@ -58,11 +58,11 @@
         {
           "name": "modelcontract.klib",
           "url": "modelcontract-iosx64-1.0.0-alpha26.klib",
-          "size": 29700,
-          "sha512": "c7e703004625bb720feab26f7695fc1c35e9a164879220723f93540e6e6e10603214dec556edb31c812c0e87f886b179541630bb5caf637f12df42659bb2c6b7",
-          "sha256": "979c3158666f3f2b17eaab3cbdf6eb3efffcef3d86655cd6772b39136321cd30",
-          "sha1": "5320a14ab901757b794e91c35a8d92d0db66de5c",
-          "md5": "f90cec49bb7ff70f464601d7c2e6ba15"
+          "size": 29958,
+          "sha512": "5c020b750a054a5cce7bb6644b39123ab3fa967ae75a8005bad4edea0c9d601051f4c6c103119f32795d027ba881fd195985cae0fa0533317af6270a3849cacb",
+          "sha256": "18f8d6575840ad0cd7fb732c8cca3042fc94fb5b1b5d5f282d85741ff07695d2",
+          "sha1": "4d12bdaa5dfcf2fde243168ac74a57c5d57d6dd1",
+          "md5": "d86700b6d7d9b37e9175c65061681444"
         }
       ]
     }

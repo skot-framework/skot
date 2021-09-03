@@ -58,11 +58,11 @@
         {
           "name": "modelcontract.klib",
           "url": "modelcontract-iosarm64-1.0.0-alpha26.klib",
-          "size": 29717,
-          "sha512": "9f34ed3615655f76ff3c00f5c54344875d021d010e1d50d82b17ed150e4634d4154f31f9f06d750f1f9492b21a905d19a887121e62af48e4b512033ed1665391",
-          "sha256": "1113b73ef78cf299c3f592fe799df8ad34792902004406aafbf2dc7a20780d28",
-          "sha1": "112c97f10400680c09a6a0b361e700c706d8e5ca",
-          "md5": "8df32aace8b21181a7346480165d06fa"
+          "size": 29975,
+          "sha512": "e4946773ccc831395fb6850ba5756bc054a76d97b1332b2919eaaf493fceefbff791125269ce705d48ca0bb26e9cdae69ab454b793ccf1a9f26c5c9dc5518c62",
+          "sha256": "2051c2082c456ecf75520f6c5af1ca9793509141edf1be4351e2a86a23ed13e8",
+          "sha1": "05323bda471993556645231399da531ac78227f1",
+          "md5": "10f530325603d4e84f5b457609f2ac7c"
         }
       ]
     }

@@ -45,11 +45,11 @@
         {
           "name": "generator-1.0.0-alpha26.jar",
           "url": "generator-1.0.0-alpha26.jar",
-          "size": 194056,
-          "sha512": "3d4936ebba5c401553bfb93b0627043645584c00da462c27d9bcbbdb5d5dd0ed777b5df9820b9d26ca050bd832b79184894a36bbf90b744dfbef1c243320b1b2",
-          "sha256": "a803af5d2808b3353c122f6230353e2d1e3aa2478f142e52ee8d6843716f951b",
-          "sha1": "60dc9b69997c80259cac8a112d2b2e0b38c4b8eb",
-          "md5": "07b2849a7fbbc59f8c25cc9f79ce45a7"
+          "size": 202615,
+          "sha512": "c9e7f9475455b8d313a81066173d8766a97c7ee9bfd39c8f06bc937fa61b3e689e2a6a3ca6dae903864880dce235986c43f569fc1cbb6cabfb783b8bafc8eeb0",
+          "sha256": "bb36cbf2bf5ad03b0e3778723397780525e743b793e85ad9a00418f8eac977ea",
+          "sha1": "1a7ddeac1f33e86785c31e965aee336e0a4febd0",
+          "md5": "08f5ed3c9d2e7c980d81abab19aa5484"
         }
       ]
     },
@@ -112,11 +112,11 @@
         {
           "name": "generator-1.0.0-alpha26.jar",
           "url": "generator-1.0.0-alpha26.jar",
-          "size": 194056,
-          "sha512": "3d4936ebba5c401553bfb93b0627043645584c00da462c27d9bcbbdb5d5dd0ed777b5df9820b9d26ca050bd832b79184894a36bbf90b744dfbef1c243320b1b2",
-          "sha256": "a803af5d2808b3353c122f6230353e2d1e3aa2478f142e52ee8d6843716f951b",
-          "sha1": "60dc9b69997c80259cac8a112d2b2e0b38c4b8eb",
-          "md5": "07b2849a7fbbc59f8c25cc9f79ce45a7"
+          "size": 202615,
+          "sha512": "c9e7f9475455b8d313a81066173d8766a97c7ee9bfd39c8f06bc937fa61b3e689e2a6a3ca6dae903864880dce235986c43f569fc1cbb6cabfb783b8bafc8eeb0",
+          "sha256": "bb36cbf2bf5ad03b0e3778723397780525e743b793e85ad9a00418f8eac977ea",
+          "sha1": "1a7ddeac1f33e86785c31e965aee336e0a4febd0",
+          "md5": "08f5ed3c9d2e7c980d81abab19aa5484"
         }
       ]
     }

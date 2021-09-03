@@ -25,6 +25,20 @@
       },
       "dependencies": [
         {
+          "group": "com.squareup.sqldelight",
+          "module": "native-driver",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-ios",
+          "version": {
+            "requires": "1.6.2"
+          }
+        },
+        {
           "group": "tech.skot",
           "module": "core",
           "version": {
@@ -85,20 +99,6 @@
           "module": "kotlin-stdlib-common",
           "version": {
             "requires": "1.5.21"
-          }
-        },
-        {
-          "group": "com.squareup.sqldelight",
-          "module": "native-driver",
-          "version": {
-            "requires": "1.5.0"
-          }
-        },
-        {
-          "group": "io.ktor",
-          "module": "ktor-client-ios",
-          "version": {
-            "requires": "1.6.2"
           }
         }
       ],

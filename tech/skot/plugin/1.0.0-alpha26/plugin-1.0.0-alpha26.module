@@ -59,11 +59,11 @@
         {
           "name": "plugin-1.0.0-alpha26.jar",
           "url": "plugin-1.0.0-alpha26.jar",
-          "size": 221287,
-          "sha512": "b5200d56b4359bdb76ecbafd4a637307207e0eceef4e1b3b17ff39338d6c71818e9f639ac52aa9a2c3fe341eb7b4423176f00f63a256f2a70d773d2d1e63b496",
-          "sha256": "d8fdeaec399d2141fab3f6702db89e159fb0fe24c2f9cbc777dccf32d3497aa9",
-          "sha1": "4352b310face22406a84a52db14c2e1aa308a916",
-          "md5": "03a8afb3ca315300d18f56527c27b857"
+          "size": 221811,
+          "sha512": "375e2ab56ab2d57e2342f82885825d998d35b683bfdb02a494edd083224d86bd53139d464143cf4149e2a9cb522b0d1a4c0d17814d5036021937b7d205e190ae",
+          "sha256": "915fd9c3983655b2deee8ec7ffe93b153fb9498226773ed5602f80873344805d",
+          "sha1": "cabb64c961e8fc0d8854565db40b41f74d957dec",
+          "md5": "0cc5322f2c44790c6fef9c19c54ad353"
         }
       ]
     },
@@ -112,11 +112,11 @@
         {
           "name": "plugin-1.0.0-alpha26.jar",
           "url": "plugin-1.0.0-alpha26.jar",
-          "size": 221287,
-          "sha512": "b5200d56b4359bdb76ecbafd4a637307207e0eceef4e1b3b17ff39338d6c71818e9f639ac52aa9a2c3fe341eb7b4423176f00f63a256f2a70d773d2d1e63b496",
-          "sha256": "d8fdeaec399d2141fab3f6702db89e159fb0fe24c2f9cbc777dccf32d3497aa9",
-          "sha1": "4352b310face22406a84a52db14c2e1aa308a916",
-          "md5": "03a8afb3ca315300d18f56527c27b857"
+          "size": 221811,
+          "sha512": "375e2ab56ab2d57e2342f82885825d998d35b683bfdb02a494edd083224d86bd53139d464143cf4149e2a9cb522b0d1a4c0d17814d5036021937b7d205e190ae",
+          "sha256": "915fd9c3983655b2deee8ec7ffe93b153fb9498226773ed5602f80873344805d",
+          "sha1": "cabb64c961e8fc0d8854565db40b41f74d957dec",
+          "md5": "0cc5322f2c44790c6fef9c19c54ad353"
         }
       ]
     }

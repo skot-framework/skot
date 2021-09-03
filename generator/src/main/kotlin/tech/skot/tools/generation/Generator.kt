@@ -10,6 +10,7 @@ import tech.skot.core.components.SKScreenVC
 import tech.skot.tools.generation.model.generateModel
 import tech.skot.tools.generation.resources.generateTransitions
 import tech.skot.tools.generation.viewlegacy.*
+import tech.skot.tools.generation.viewmodel.InitializationPlan
 import tech.skot.tools.generation.viewmodel.generateViewModel
 import java.nio.file.Files
 import java.nio.file.Path
@@ -34,7 +35,8 @@ class Generator(
     val baseActivity: ClassName,
     val rootPath: Path,
     val feature: String?,
-    val baseActivityVar: String?
+    val baseActivityVar: String?,
+    val initializationPlans:List<InitializationPlan>
 ) {
 
 
@@ -156,6 +158,8 @@ class Generator(
 
         rootState?.let { generateStates(it) }
 
+
+        println("can see: ")
 
         generateViewContract()
         generateViewLegacy()

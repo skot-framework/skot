@@ -13,10 +13,10 @@ fun Generator.generateModel() {
             //un model a été défini (par convention de nommage)
             //on va générer l'implémenation si elle n'existe pas encore et l'intégrer au modelInjector
 
-            println("Un Model contract trouvé pour ${it.name}")
+//            println("Un Model contract trouvé pour ${it.name}")
 
             if (!it.model().existsCommonInModule(modules.model)) {
-                println("pas d'implémentation trouvée on génère un squelette")
+//                println("pas d'implémentation trouvée on génère un squelette")
 
                 it.model().fileClassBuilder {
                     addSuperinterface(it.modelContract())

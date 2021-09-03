@@ -2,7 +2,9 @@ package tech.skot.tools.generation
 
 import java.nio.file.Paths
 import tech.skot.core.components.SKScreenVC
+import tech.skot.tools.generation.viewmodel.InitializationPlan
 import kotlin.reflect.KClass
+import kotlin.reflect.full.createInstance
 
 @ExperimentalStdlibApi
 fun main(args: Array<String>) {
@@ -17,6 +19,11 @@ fun main(args: Array<String>) {
         }
     }
     val startClass = Class.forName(startClassFullName).kotlin
+//    startClass.createInstance().
+
+
+//    val compTester = Class.forName("com.sezane.tracking.TrackerFB").kotlin.createInstance() as ComponentInitializer
+//    println(compTester.test())
 
     val rootStateClassFullName = args[2].let {
         if (it != "null") {
@@ -80,6 +87,11 @@ fun main(args: Array<String>) {
             null
         }
 
-    Generator(appPackage, startClass as KClass<SKScreenVC>, rootStateClass, baseActivity, rootPath, feature, baseActivityVar)
+//    val initPlan =  Class.forName("com.sezane.tracking.FirebasePdt").kotlin.createInstance() as InitializationPlan
+
+//    val initPlansStr =
+    val initPlans = args[7].split("_").filterNot { it.isBlank() }.map { Class.forName(it).kotlin.createInstance() as InitializationPlan }
+
+    Generator(appPackage, startClass as KClass<SKScreenVC>, rootStateClass, baseActivity, rootPath, feature, baseActivityVar, initializationPlans = initPlans)
             .generate()
 }

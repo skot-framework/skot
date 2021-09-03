@@ -35,6 +35,7 @@ class PluginApp: Plugin<Project> {
                 java.srcDir("generated/androidMain/kotlin")
 //                java.srcDir("src/main/kotlin${extra["env"]}")
                 res.srcDir("src/androidMain/res")
+                assets.srcDir("src/androidMain/assets")
                 manifest.srcFile("src/androidMain/AndroidManifest.xml")
             }
             getByName("androidTest") {

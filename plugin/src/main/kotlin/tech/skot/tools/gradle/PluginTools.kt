@@ -1,18 +1,18 @@
 package tech.skot.tools.gradle
 
+import com.android.build.gradle.LibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.kotlin.dsl.*
 import tech.skot.Versions
-import java.io.File
 
 open class SKPluginToolsExtension {
-//    var startScreen: String? = null
+    //    var startScreen: String? = null
 //    var appPackage: String? = null
 //    var baseActivity:String? = null
 //    var featureModules:List<FeatureModule> = emptyList()
-    var app:App? = null
+    var app: App? = null
 }
 
 data class App(
@@ -22,10 +22,11 @@ data class App(
     val baseActivity: String = ".android.BaseActivity",
     val feature: String? = null,
     //le fullname d'une variable globale donnant la classe de base
-    val baseActivityVar: String? = null
+    val baseActivityVar: String? = null,
+    val initializationPlans:List<String> = emptyList()
 )
 
-data class FeatureModule(val packageName:String, val startScreen:String)
+data class FeatureModule(val packageName: String, val startScreen: String)
 
 class PluginTools : Plugin<Project> {
 
@@ -37,7 +38,6 @@ class PluginTools : Plugin<Project> {
         project.dependencies {
             dependencies(project)
         }
-
 
         val javaPluginConvention = project.convention.getPlugin(JavaPluginConvention::class.java)
         val sourceSet = javaPluginConvention.sourceSets["main"]
@@ -59,13 +59,21 @@ class PluginTools : Plugin<Project> {
                 val app = extension.app
                 if (app == null) {
                     println("rien à générer .........")
-                }
-                else {
+                } else {
                     println("génération .........")
                     project.javaexec {
                         main = "tech.skot.tools.generation.GenerateKt"
                         classpath = sourceSet.runtimeClasspath
-                        args = listOf(app.packageName, app.startScreen, app.rootState.toString(), app.baseActivity ?: "null", (project.parent?.projectDir ?: project.rootDir).toPath().toString(), app.feature ?: "null", app.baseActivityVar ?: "null")
+                        args = listOf(
+                            app.packageName,
+                            app.startScreen,
+                            app.rootState.toString(),
+                            app.baseActivity ?: "null",
+                            (project.parent?.projectDir ?: project.rootDir).toPath().toString(),
+                            app.feature ?: "null",
+                            app.baseActivityVar ?: "null",
+                            app.initializationPlans.joinToString("_")
+                        )
                     }
                 }
 
@@ -75,18 +83,13 @@ class PluginTools : Plugin<Project> {
                     workingDir = project.rootDir
                     main = "com.pinterest.ktlint.Main"
                     classpath = sourceSet.runtimeClasspath
-                    args = listOf("-F",srcs)
+                    args = listOf("-F", srcs)
                 }
             }
             dependsOn(project.tasks.getByName("compileKotlin"))
             group = "Skot"
 
         }
-
-
-
-
-
 
 
     }

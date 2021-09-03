@@ -8,8 +8,9 @@ import tech.skot.tools.generation.*
 @ExperimentalStdlibApi
 fun Generator.generateViewModel() {
     components.forEach {
+        val initializers = initializationPlans.mapNotNull { initializationPlan ->  initializationPlan.map[it.vc] }
         it.viewModelGen().fileClassBuilder(
-            listOf(modelInjectorIntance)
+            listOf(modelInjectorIntance) + initializers.flatMap { it.getImportsList() }
         ) {
             addModifiers(KModifier.ABSTRACT)
             superclass(it.superVM.parameterizedBy(it.vc.asTypeName()))
@@ -26,6 +27,8 @@ fun Generator.generateViewModel() {
                         }
                     )
                 }
+
+                initializers.forEach { it.initialize(this) }
 
                 addProperty(
                     PropertySpec.builder("model", it.modelContract())

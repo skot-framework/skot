@@ -46,7 +46,7 @@ fun Generator.generateStates(rootState: StateDef) {
                 addAnnotation(Serializable::class)
                 addPrimaryConstructorWithParams(
                     properties.map {
-                        ParamInfos(it.name, it.typeName)
+                        ParamInfos(it.name, it.typeName, default = it.default )
                     } +
                             subStates.map {
                                 ParamInfos(

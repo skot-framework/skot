@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
 import tech.skot.model.SKBms
 import tech.skot.model.SKBySKData
+import tech.skot.model.SKWithDefault
 import tech.skot.model.SKCompositeStateDef
 import tech.skot.model.SKCompositeStateParts
 import tech.skot.model.SKStateDef
@@ -25,7 +26,7 @@ class StateDef(
     val propertiesComposingComposite: List<StateDef>? = null
 ) {
 
-    class Property(val name: String, val typeName: TypeName, val mutable: Boolean, val bySkData:Boolean)
+    class Property(val name: String, val typeName: TypeName, val mutable: Boolean, val bySkData:Boolean, val default:String?)
     class CompositePartDef(
         val name: String,
         val contract: ClassName,
@@ -74,7 +75,7 @@ class StateDef(
         kclass.ownProperties()
             .filter { !it.returnType.isSKStateC() }
             .map {
-                Property(it.name, it.returnType.asTypeName(), it is KMutableProperty, it.hasAnnotation<SKBySKData>())
+                Property(it.name, it.returnType.asTypeName(), it is KMutableProperty, it.hasAnnotation<SKBySKData>(), it.findAnnotation<SKWithDefault>()?.initilization)
             }
 
     init {

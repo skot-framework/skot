@@ -92,16 +92,21 @@ class SKWebViewView(
     private var openingUrl: SKWebViewVC.OpenUrl? = null
 
     private fun SKWebViewVC.OpenUrl.finished(finishedUrl: String?) {
-        onFinished?.invoke()
-        javascriptOnFinished?.let {
-            webView.evaluateJavascript(it, null)
+        if (finishedUrl == url) {
+            onFinished?.invoke()
+            openingUrl = null
+            javascriptOnFinished?.let {
+                webView.evaluateJavascript(it, null)
+            }
         }
+
     }
 
     private fun SKWebViewVC.OpenUrl.error(requestedUri: Uri?) {
         requestedUri?.toString()?.let { requestUrl ->
             if (url == requestUrl) {
                 onError?.invoke()
+                openingUrl = null
             }
         }
     }

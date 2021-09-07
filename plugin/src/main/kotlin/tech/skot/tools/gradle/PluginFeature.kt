@@ -38,7 +38,10 @@ class PluginFeature : Plugin<Project> {
             getByName("main") {
                 java.srcDir("src/androidMain/kotlin")
                 java.srcDir("generated/androidMain/kotlin")
-//                java.srcDir("src/main/kotlin${extra["env"]}")
+                skVariantsCombinaison(project.rootProject.rootDir.toPath()).forEach<String> {
+                    java.srcDir("src/androidMain/kotlin$it")
+                    java.srcDir("generated$it/androidMain/kotlin")
+                }
                 res.srcDir("src/androidMain/res")
                 res.srcDir("src/androidMain/res_referenced")
 

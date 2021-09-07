@@ -52,6 +52,7 @@ class Generator(
     val modules = ModulesNames(view = feature ?: "view", app = feature ?: "androidApp")
 
     val variantsCombinaison = skVariantsCombinaison(rootPath)
+    val mainVariant = skReadVariants(rootPath).variants.firstOrNull()?.capitalizeAsciiOnly()
 
     @ExperimentalStdlibApi
     val rootState = rootStateClass?.let { StateDef("rootState", appPackage, it) }
@@ -224,14 +225,14 @@ class Generator(
 
     }
 
-    fun generatedCommonSources(module: String) =
-        rootPath.resolve("$module/generated/commonMain/kotlin")
+    fun generatedCommonSources(module: String, combinaison:String? = null) =
+        rootPath.resolve("$module/generated${combinaison ?: ""}/commonMain/kotlin")
 
     fun commonSources(module: String) =
         rootPath.resolve("$module/src/commonMain/kotlin")
 
-    fun generatedAndroidSources(module: String) =
-        rootPath.resolve("$module/generated/androidMain/kotlin")
+    fun generatedAndroidSources(module: String, combinaison:String? = null) =
+        rootPath.resolve("$module/generated${combinaison ?: ""}/androidMain/kotlin")
 
     fun androidSources(module: String) =
         rootPath.resolve("$module/src/androidMain/kotlin")

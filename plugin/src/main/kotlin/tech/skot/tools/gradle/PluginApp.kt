@@ -19,7 +19,7 @@ class PluginApp: Plugin<Project> {
 //        val extension = project.extensions.create<SKPluginAppExtension>("skot")
         project.plugins.apply("com.android.application")
 
-        project.extensions.findByType(BaseAppModuleExtension::class)?.conf()
+        project.extensions.findByType(BaseAppModuleExtension::class)?.conf(project)
 
         project.dependencies {
             dependencies()
@@ -27,13 +27,16 @@ class PluginApp: Plugin<Project> {
     }
 
 
-    private fun BaseAppModuleExtension.conf() {
+    private fun BaseAppModuleExtension.conf(project: Project) {
 
         sourceSets {
             getByName("main") {
                 java.srcDir("src/androidMain/kotlin")
                 java.srcDir("generated/androidMain/kotlin")
-//                java.srcDir("src/main/kotlin${extra["env"]}")
+                skVariantsCombinaison(project.rootProject.rootDir.toPath()).forEach<String> {
+                    java.srcDir("src/androidMain/kotlin$it")
+                    java.srcDir("generated$it/androidMain/kotlin")
+                }
                 res.srcDir("src/androidMain/res")
                 assets.srcDir("src/androidMain/assets")
                 manifest.srcFile("src/androidMain/AndroidManifest.xml")

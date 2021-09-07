@@ -107,7 +107,7 @@ data class PropertyDef(
             type.isNullable -> "null"
             (type as? ClassName)?.simpleName == "String" -> "\"???\""
             isLambda -> "{ ${name}() }"
-            else -> (type as ClassName).simpleName + "??"
+            else -> ((type as? ClassName)?.simpleName ?: "") + "??"
         }
 
     fun inPackage(packageName: String) = (type as? ClassName)?.packageName?.startsWith(packageName)

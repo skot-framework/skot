@@ -76,6 +76,12 @@ class PluginViewContract : Plugin<Project> {
         println("Adding dependencies to libraries ")
         addDependenciesToLibraries(this, (project.parent?.projectDir ?: project.rootDir).toPath(), "viewcontract")
 
+        skVariantsCombinaison(project.rootProject.rootDir.toPath()).forEach {
+            sourceSets["commonMain"].kotlin.srcDir("src/commonMain/kotlin$it")
+            sourceSets["androidMain"].kotlin.srcDir("src/androidMain/kotlin$it")
+            sourceSets["commonMain"].kotlin.srcDir("generated$it/commonMain/kotlin")
+            sourceSets["androidMain"].kotlin.srcDir("generated$it/androidMain/kotlin")
+        }
 
     }
 

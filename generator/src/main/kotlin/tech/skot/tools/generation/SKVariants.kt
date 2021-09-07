@@ -28,7 +28,6 @@ fun skReadVariants(path: Path): SKVariants {
             env = null
         )
     }
-
 }
 
 fun List<String>.combinaisons(): List<String> {

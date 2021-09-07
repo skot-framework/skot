@@ -42,7 +42,7 @@ fun Generator.generateIcons() {
             )
             .build())
             .build()
-            .writeTo(generatedCommonSources(modules.viewcontract))
+            .writeTo(generatedCommonSources(modules.viewcontract, mainVariant))
 
 
     println("generate Icons android implementation .........")
@@ -56,7 +56,7 @@ fun Generator.generateIcons() {
                 }
         )
     }
-            .writeTo(generatedAndroidSources(feature ?: modules.app))
+            .writeTo(generatedAndroidSources(feature ?: modules.app, mainVariant))
 
 
 }

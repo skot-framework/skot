@@ -4,7 +4,6 @@ version = Versions.version
 plugins {
     id("java-library")
     id("kotlin")
-    id("maven-publish")
 }
 
 publishing {
@@ -26,7 +25,6 @@ configurations {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
-//    implementation(project(":metacommon"))
     implementation(project(":viewcontract"))
     implementation(project(":modelcontract"))
     api("com.squareup:kotlinpoet:${Versions.kotlinpoet}")

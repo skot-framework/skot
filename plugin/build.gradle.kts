@@ -5,7 +5,7 @@ plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
     id("kotlinx-serialization")
-    id("maven-publish")
+//    id("maven-publish")
 }
 
 

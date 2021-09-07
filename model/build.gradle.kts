@@ -2,7 +2,6 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("kotlinx-serialization")
-    id("maven-publish")
     id("com.squareup.sqldelight")
 }
 

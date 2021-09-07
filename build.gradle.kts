@@ -20,6 +20,24 @@ allprojects {
         google()
         mavenCentral()
     }
+
+    apply(plugin = "maven-publish")
+
+    configure<PublishingExtension> {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/MathieuScotet/skot")
+                val gihubpackages_username: String by project
+                val gihubpackages_publishtoken: String by project
+                credentials {
+                    username = gihubpackages_username
+                    password = gihubpackages_publishtoken
+                }
+            }
+        }
+    }
+
 }
 
 tasks.register("clean",Delete::class){

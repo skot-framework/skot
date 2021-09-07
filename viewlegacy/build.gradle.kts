@@ -4,7 +4,6 @@ version = Versions.version
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("maven-publish")
     id("com.github.ben-manes.versions")
 }
 

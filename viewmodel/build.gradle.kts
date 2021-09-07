@@ -1,7 +1,6 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("maven-publish")
 }
 
 group = Versions.group

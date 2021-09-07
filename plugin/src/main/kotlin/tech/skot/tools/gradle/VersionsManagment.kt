@@ -1,5 +1,7 @@
 package tech.skot.tools.gradle
 
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import org.gradle.api.Project
 import tech.skot.tools.generation.writeStringTo
 import java.nio.file.Files
@@ -13,8 +15,14 @@ fun Project.skSetVersionCode(newVersionCode:Int) {
     Files.writeString(skVersionCodePropertiesPath(), newVersionCode.toString())
 }
 
-data class UploadedInfos(val commitHash:String, val versionCode:Int)
-
+@Serializable
+data class UploadedInfos(val commit:String?, val buildNumber:Int)
+val json by lazy {
+    Json {
+        ignoreUnknownKeys = true
+        encodeDefaults = true
+    }
+}
 
 private fun Project.skComputeVersionCodeAndReleaseNote(branch:String, nbMaxCommitsInReleaseNote:Int) {
     task("compute_version_code_and_release_note") {
@@ -24,8 +32,9 @@ private fun Project.skComputeVersionCodeAndReleaseNote(branch:String, nbMaxCommi
             val lastUploadedInfos:UploadedInfos? =
                 try {
                     val strInfos = commandLine("scripts/versions/getLastUploadedInfos.sh")
-                    val tab = strInfos.split("_")
-                    UploadedInfos(tab[0], tab[1].toInt())
+//                    val tab = strInfos.split("_")
+//                    UploadedInfos(tab[0], tab[1].toInt())
+                    json.decodeFromString(UploadedInfos.serializer(), strInfos)
                 }
                 catch (exception:kotlin.Exception) {
                     null
@@ -33,9 +42,9 @@ private fun Project.skComputeVersionCodeAndReleaseNote(branch:String, nbMaxCommi
             println("--fetched last uploaded infos = $lastUploadedInfos")
             val currentVersionCode = skVersionCode()
             if (lastUploadedInfos != null) {
-                skSetVersionCode(Math.max(lastUploadedInfos.versionCode, currentVersionCode) + 1)
+                skSetVersionCode(Math.max(lastUploadedInfos.buildNumber, currentVersionCode + 1))
                 val lastCommitHashes = commandLine("git", "show", "-s", "--format=%h", branch, "-$nbMaxCommitsInReleaseNote").split("\n").filter { it.isNotBlank() }
-                val lastUploadCommitIndex = lastCommitHashes.indexOf(lastUploadedInfos.commitHash)
+                val lastUploadCommitIndex = lastCommitHashes.indexOf(lastUploadedInfos.commit)
                 val nbCommitsInNote = if (lastUploadCommitIndex != -1) {
                     lastUploadCommitIndex
                 } else {
@@ -55,7 +64,7 @@ private fun Project.skSaveUploadedInfos(branch:String) {
         doFirst {
             val versionCode = skVersionCode()
             val lastCommitHash = commandLine("git", "show", "-s", "--format=%h", branch).substringBefore("\n")
-            commandLine("scripts/versions/saveLastUploadedInfos.sh", "${lastCommitHash}_$versionCode")
+            commandLine("scripts/versions/saveLastUploadedInfos.sh", lastCommitHash)
         }
         group = "skot_versions"
     }

@@ -4,6 +4,7 @@ version = Versions.version
 plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
+    id("kotlinx-serialization")
     id("maven-publish")
 }
 
@@ -13,6 +14,7 @@ dependencies {
     api("com.android.tools.build:gradle:${Versions.Android.gradle}")
     api("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
     api("org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
 
 //    api("com.google.gms:google-services:4.3.4")
 //    api("com.google.firebase:firebase-appdistribution-gradle:2.0.1")

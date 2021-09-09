@@ -52,7 +52,7 @@ class PluginTools : Plugin<Project> {
             group = "Skot"
         }
 
-        project.task("skMigrateToAlpha29") {
+        project.task("skMigrateToAlpha30") {
             doLast {
                 println("Skot version ${Versions.skot}")
                 val app = extension.app

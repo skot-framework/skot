@@ -30,6 +30,9 @@ fun ComponentDef.asViewLegacyInjection(generator: Generator) =
         FunSpec.builder(name.decapitalize())
                 .addModifiers(KModifier.OVERRIDE)
                 .apply {
+                    if (isScreen) {
+                        addParameter(name = Generator.VISIBILITY_LISTENER_VAR_NAME, type = FrameworkClassNames.skVisiblityListener)
+                    }
                     subComponents.forEach {
                         addParameter(it.asParam())
                     }
@@ -42,5 +45,5 @@ fun ComponentDef.asViewLegacyInjection(generator: Generator) =
                 }
                 .returns(vc)
                 .addCode(
-                        "return ${proxy().simpleName}(${(subComponents.map { "${it.name} as ${it.type.toProxy().simpleName()}" } + (fixProperties.map { it.name } + mutableProperties.map { it.initial().name })).joinToString(separator = ",")})")
+                        "return ${proxy().simpleName}(${if (isScreen) "${Generator.VISIBILITY_LISTENER_VAR_NAME}," else ""} ${(subComponents.map { "${it.name} as ${it.type.toProxy().simpleName()}" } + (fixProperties.map { it.name } + mutableProperties.map { it.initial().name })).joinToString(separator = ",")})")
                 .build()

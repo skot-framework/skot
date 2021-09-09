@@ -52,6 +52,35 @@ class PluginTools : Plugin<Project> {
             group = "Skot"
         }
 
+        project.task("skMigrateToAlpha29") {
+            doLast {
+                println("Skot version ${Versions.skot}")
+                val app = extension.app
+                if (app == null) {
+                    println("renseignez la configuration skot dans le build.gradle.kts du module skot .........")
+                } else {
+                    println("migrate .........")
+                    project.javaexec {
+                        main = "tech.skot.tools.generation.MigrateKt"
+                        classpath = sourceSet.runtimeClasspath
+                        args = listOf(
+                            app.packageName,
+                            app.startScreen,
+                            app.rootState.toString(),
+                            app.baseActivity ?: "null",
+                            (project.parent?.projectDir ?: project.rootDir).toPath().toString(),
+                            app.feature ?: "null",
+                            app.baseActivityVar ?: "null",
+                            app.initializationPlans.joinToString("_")
+                        )
+                    }
+                }
+            }
+            dependsOn(project.tasks.getByName("compileKotlin"))
+            group = "Skot"
+
+        }
+
         project.task("skGenerate") {
             doLast {
                 println("Skot version ${Versions.skot}")

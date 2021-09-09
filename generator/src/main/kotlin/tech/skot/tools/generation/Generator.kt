@@ -3,6 +3,7 @@ package tech.skot.tools.generation
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import org.jetbrains.kotlin.util.capitalizeDecapitalize.capitalizeAsciiOnly
+import org.jetbrains.kotlin.util.capitalizeDecapitalize.decapitalizeAsciiOnly
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import tech.skot.core.components.SKComponentVC
@@ -148,6 +149,12 @@ class Generator(
     val getFun = ClassName("tech.skot.core.di", "get")
     val baseInjector = ClassName("tech.skot.core.di", "BaseInjector")
 
+    companion object {
+        const val VISIBILITY_LISTENER_VAR_NAME = "visibilityListener"
+    }
+
+
+
     @ExperimentalStdlibApi
     fun generate() {
         deleteModuleGenerated(modules.viewcontract)
@@ -290,8 +297,13 @@ class Generator(
         ).addType(TypeSpec.interfaceBuilder(viewInjectorInterface.simpleName)
             .addFunctions(
                 components.map {
-                    FunSpec.builder(it.name.decapitalize())
+                    FunSpec.builder(it.name.decapitalizeAsciiOnly())
                         .addModifiers(KModifier.ABSTRACT)
+                        .apply {
+                            if (it.isScreen) {
+                                addParameter(name = VISIBILITY_LISTENER_VAR_NAME, type = FrameworkClassNames.skVisiblityListener)
+                            }
+                        }
                         .addParameters(
                             it.subComponents.map { it.asParam() }
                         )
@@ -528,6 +540,13 @@ class Generator(
                 variantsCombinaison.any {
                     Files.exists(path.replaceSegment(patternConbinable, "$patternConbinable$it"))
                 }
+    }
+
+
+
+
+    fun migrate() {
+        migrateTo29()
     }
 }
 

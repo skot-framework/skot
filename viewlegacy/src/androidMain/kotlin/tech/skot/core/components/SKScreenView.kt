@@ -38,13 +38,13 @@ abstract class SKScreenView<B : ViewBinding>(
        activity.setFullScreen(fullScreen, lightStatusBar, onWindowInset ?: (if (withWindowsInsetsPaddingTop) {{
            view.updatePadding(top = originalPaddingTop + it.systemBars().top)
        }} else null))
-        proxy.onResume?.invoke()
+        proxy.onResume()
 
     }
 
     @CallSuper
     open fun onPause() {
-        proxy.onPause?.invoke()
+        proxy.onPause()
     }
 
 

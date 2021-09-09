@@ -7,7 +7,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
 
 @ExperimentalStdlibApi
-fun main(args: Array<String>) {
+fun buildGenerator(args: Array<String>):Generator {
     val appPackage = args[0]
 
     val startClassFullName = args[1]?.let {
@@ -48,14 +48,14 @@ fun main(args: Array<String>) {
 
     println("########   $appPackage$strBaseActivity")
     val baseActivity =
-            when {
-                strBaseActivity.startsWith(".") -> {
-                    "$appPackage$strBaseActivity".fullNameAsClassName()
-                }
-                else -> {
-                    strBaseActivity.fullNameAsClassName()
-                }
+        when {
+            strBaseActivity.startsWith(".") -> {
+                "$appPackage$strBaseActivity".fullNameAsClassName()
             }
+            else -> {
+                strBaseActivity.fullNameAsClassName()
+            }
+        }
 
     println("########   ${baseActivity.simpleName} ${baseActivity.packageName}")
 
@@ -64,13 +64,13 @@ fun main(args: Array<String>) {
     }
 
     val feature =
-    if (args[5] != "null") {
-        println("########   feature = ${args[5]}")
-        args[5]
-    }
-    else {
-        null
-    }
+        if (args[5] != "null") {
+            println("########   feature = ${args[5]}")
+            args[5]
+        }
+        else {
+            null
+        }
 
     val argBaseActVar = args[6]
     val baseActivityVar =
@@ -92,6 +92,11 @@ fun main(args: Array<String>) {
 //    val initPlansStr =
     val initPlans = args[7].split("_").filterNot { it.isBlank() }.map { Class.forName(it).kotlin.createInstance() as InitializationPlan }
 
-    Generator(appPackage, startClass as KClass<SKScreenVC>, rootStateClass, baseActivity, rootPath, feature, baseActivityVar, initializationPlans = initPlans)
-            .generate()
+    return Generator(appPackage, startClass as KClass<SKScreenVC>, rootStateClass, baseActivity, rootPath, feature, baseActivityVar, initializationPlans = initPlans)
+
+}
+
+@ExperimentalStdlibApi
+fun main(args: Array<String>) {
+    buildGenerator(args).generate()
 }

@@ -31,6 +31,8 @@ fun Generator.generateViewLegacy() {
 
 
         if (!it.proxy().existsAndroidInModule(modules.view)){
+
+
             FileSpec.builder(
                 it.proxy().packageName,
                 it.proxy().simpleName

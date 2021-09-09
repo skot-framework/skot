@@ -8,9 +8,9 @@ import tech.skot.tools.generation.*
 @ExperimentalStdlibApi
 fun Generator.generateViewModel() {
     components.forEach {
-        val initializers = initializationPlans.mapNotNull { initializationPlan ->  initializationPlan.map[it.vc] }
+        val initilizations = initializationPlans.mapNotNull { initializationPlan ->  initializationPlan.map[it.vc] }
         it.viewModelGen().fileClassBuilder(
-            listOf(modelInjectorIntance) + initializers.flatMap { it.getImportsList() }
+            listOf(modelInjectorIntance) + initilizations.flatMap { it.getImportsList() }
         ) {
             addModifiers(KModifier.ABSTRACT)
             superclass(it.superVM.parameterizedBy(it.vc.asTypeName()))
@@ -28,7 +28,33 @@ fun Generator.generateViewModel() {
                     )
                 }
 
-                initializers.forEach { it.initialize(this) }
+                val initBlockLines = initilizations.flatMap { it.initBlockLines }
+                if (initBlockLines.isNotEmpty()) {
+                    addInitializerBlock(
+                        CodeBlock.builder()
+                            .apply {
+                                initBlockLines.forEach {
+                                    addStatement(it)
+                                }
+                            }.build()
+                    )
+                }
+
+                val onResumeLines = initilizations.flatMap { it.onResumeLines }
+                if (onResumeLines.isNotEmpty()) {
+                    addFunction(
+                        FunSpec.builder("onResume")
+                            .addModifiers(KModifier.OVERRIDE)
+                            .addStatement("super.onResume()")
+                            .apply {
+                                onResumeLines.forEach {
+                                    addStatement(it)
+                                }
+                            }
+                            .build()
+                    )
+                }
+
 
                 addProperty(
                     PropertySpec.builder("model", it.modelContract())
@@ -109,7 +135,7 @@ fun Generator.generateViewModel() {
                         PropertySpec.builder(
                             "view", it.vc.asTypeName(), KModifier.OVERRIDE
                         )
-                            .initializer("viewInjector.${it.name.decapitalize()}(${it.toFillVCparams()})")
+                            .initializer("viewInjector.${it.name.decapitalize()}(this, ${it.toFillVCparams()})")
                             .build()
                     )
                     (it.fixProperties + it.mutableProperties).filter {

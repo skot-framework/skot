@@ -3,12 +3,15 @@ package tech.skot.core.components
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import tech.skot.core.SKLog
 import tech.skot.view.live.MutableSKLiveData
 
 abstract class SKScreenViewProxy<B : ViewBinding> : SKComponentViewProxy<B>(), SKScreenVC {
+
+    protected abstract val visibilityListener:SKVisiblityListener
 
     val key = ScreensManager.addScreen(this)
 
@@ -54,6 +57,17 @@ abstract class SKScreenViewProxy<B : ViewBinding> : SKComponentViewProxy<B>(), S
             }
 
 
-    override var onResume: (() -> Unit)? = null
-    override var onPause: (() -> Unit)? = null
+
+    @CallSuper
+    open fun onResume() {
+        visibilityListener.onResume()
+    }
+
+    @CallSuper
+    open fun onPause() {
+        visibilityListener.onPause()
+    }
+
+
+
 }

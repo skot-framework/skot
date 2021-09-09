@@ -9,6 +9,7 @@ import tech.skot.core.components.SKLegacyViewIncluded
 import tech.skot.tools.generation.*
 import tech.skot.tools.generation.AndroidClassNames.layoutInflater
 import tech.skot.tools.generation.AndroidClassNames.viewGroup
+import tech.skot.tools.generation.viewmodel.InitializationPlan
 import kotlin.io.path.exists
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
@@ -47,14 +48,22 @@ fun ComponentDef.buildProxy(
 
     return TypeSpec.classBuilder(proxy())
         .addPrimaryConstructorWithParams(
-            subComponents.map {
-                ParamInfos(
-                    name = it.name,
-                    typeName = it.type.toProxy(),
+            listOfNotNull(
+                if (isScreen) ParamInfos(
+                    name = Generator.VISIBILITY_LISTENER_VAR_NAME,
+                    typeName = FrameworkClassNames.skVisiblityListener,
                     modifiers = listOf(KModifier.OVERRIDE),
                     isVal = true
-                )
-            } +
+                ) else null
+            ) +
+                    subComponents.map {
+                        ParamInfos(
+                            name = it.name,
+                            typeName = it.type.toProxy(),
+                            modifiers = listOf(KModifier.OVERRIDE),
+                            isVal = true
+                        )
+                    } +
                     fixProperties.map {
                         ParamInfos(
                             name = it.name,
@@ -206,7 +215,9 @@ fun ComponentDef.buildProxy(
                     FunSpec.builder("getActivityClass")
                         .addModifiers(KModifier.OVERRIDE)
                         .addCode(
-                            activityClass?.let { "return $it::class.java" } ?: generator.baseActivityVar?.let { "return $it" } ?: "return ${baseActivity.packageName}.${baseActivity.simpleName}::class.java")
+                            activityClass?.let { "return $it::class.java" }
+                                ?: generator.baseActivityVar?.let { "return $it" }
+                                ?: "return ${baseActivity.packageName}.${baseActivity.simpleName}::class.java")
                         .build()
                 )
             }
@@ -305,6 +316,7 @@ fun ComponentDef.buildProxy(
                     .endControlFlow()
                     .build()
             )
+
         }
         .build()
 }

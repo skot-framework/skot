@@ -4,9 +4,17 @@ import tech.skot.core.components.presented.SKBottomSheet
 import tech.skot.core.view.SKTransition
 
 
-abstract class SKScreen<V : SKScreenVC>: SKComponent<SKScreenVC>() {
+abstract class SKScreen<V : SKScreenVC>: SKComponent<SKScreenVC>(), SKVisiblityListener {
     var parent: SKStack? = null
     var presenter: SKBottomSheet? = null
+
+    //CallSuper!!
+    override fun onResume(){
+    }
+    //CallSuper!!
+    override fun onPause(){
+    }
+
 
     fun push(screen: SKScreen<*>) {
         parent?.push(screen) ?:

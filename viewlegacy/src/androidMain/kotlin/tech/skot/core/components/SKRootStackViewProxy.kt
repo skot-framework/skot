@@ -8,31 +8,38 @@ import tech.skot.view.live.SKMessage
 
 object SKRootStackViewProxy : SKComponentViewProxy<Unit>(), SKStackVC {
 
-    val stateLD: MutableSKLiveData<StateProxy> =
-        MutableSKLiveData(StateProxy(emptyList(), null))
+    data class StateRootProxy(val state: StateProxy, val screenKeyNeedToOpenRoot: Long?)
+
+    val stateLD: MutableSKLiveData<StateRootProxy> =
+        MutableSKLiveData(StateRootProxy(StateProxy(emptyList(), null), null))
 
     override var state: SKStackVC.State = StateProxy(screens = emptyList(), transition = null)
         set(newVal) {
             val newProxyList = newVal.screens as List<SKScreenViewProxy<*>>
 
 
-            if (!field.screens.isEmpty() && !newProxyList.isEmpty() && !field.screens.contains(
-                    newProxyList.first()
-                )
-            ) {
-                setRootScreenMessage.post(newProxyList.first())
-            }
+            val oldRootNeedingToOpenNewOne =
+                if (!field.screens.isEmpty() && !newProxyList.isEmpty() && !field.screens.contains(
+                        newProxyList.first()
+                    )
+                ) {
+                    (field.screens.firstOrNull() as? SKScreenViewProxy<*>)?.key
+                } else {
+                    null
+                }
+
             field = newVal
             stateLD.postValue(
-                StateProxy(
-                    screens = newProxyList,
-                    transition = newVal.transition as SKTransitionAndroidLegacy?
+                StateRootProxy(
+                    StateProxy(
+                        screens = newProxyList,
+                        transition = newVal.transition as SKTransitionAndroidLegacy?
+                    ), oldRootNeedingToOpenNewOne
                 )
             )
         }
 
 
-    val setRootScreenMessage: SKMessage<SKScreenViewProxy<*>> = SKMessage(multiReceiver = false)
 
     override fun bindTo(
         activity: SKActivity,

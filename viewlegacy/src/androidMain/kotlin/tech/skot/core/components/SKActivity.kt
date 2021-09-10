@@ -43,7 +43,7 @@ abstract class SKActivity : AppCompatActivity() {
 
             if (!oneActivityAlreadyLaunched && viewKey != -1L) {
                 oneActivityAlreadyLaunched = true
-                SKRootStackViewProxy.stateLD.value.screens.getOrNull(0)?.let {
+                SKRootStackViewProxy.stateLD.value.state.screens.getOrNull(0)?.let {
                     startActivityForProxy(it)
                 }
                 finish()
@@ -52,7 +52,7 @@ abstract class SKActivity : AppCompatActivity() {
                     if (viewKey != -1L) {
                         ScreensManager.getInstance(viewKey)
                     } else {
-                        SKRootStackViewProxy.stateLD.value.screens.getOrNull(0)
+                        SKRootStackViewProxy.stateLD.value.state.screens.getOrNull(0)
                     } as? SKScreenViewProxy<*>
 
                 oneActivityAlreadyLaunched = true
@@ -144,33 +144,31 @@ abstract class SKActivity : AppCompatActivity() {
 
     private fun linkToRootStack() {
 
-        SKRootStackViewProxy.setRootScreenMessage.observe(this) {
-            finish()
-            val launchClass = launchActivityClass
-                ?: throw IllegalStateException("You have to set SKActivity.launchActivityClass to be allowed to change root Screen. New root screen will be loaded in this activity even if you have redefined getActivityClas method")
-            startActivity(Intent(this, launchClass).apply {
-                putExtra(ScreensManager.SK_EXTRA_VIEW_KEY, it.key)
-            })
-        }
-
-        SKRootStackViewProxy.stateLD.observe(this) { state ->
+        SKRootStackViewProxy.stateLD.observe(this) { (state, screenKeyNeedToOpenRoot) ->
             val thisScreenPosition = state.screens.indexOfFirst {
                 it.key == screenKey
             }
 
-//            SKLog.d("@&@&@&@&  ${this.hashCode()}  linkToRootStack  stateLD ${state.screens.map { "$it ${it.key}" }} key: ${screenKey} thisScreenPosition: $thisScreenPosition  ${screen?.let { it::class.simpleName }}")
 
             if (thisScreenPosition == -1) {
-//                SKLog.d("@&@&@&@&  ${this.hashCode()}  linkToRootStack  stateLD ${state.screens.map { "$it ${it.key}" }} key: ${screenKey} thisScreenPosition: $thisScreenPosition will finish ${screen?.let { it::class.simpleName }}")
                 finish()
                 state.transition?.let { overridePendingTransition(it.enterAnim, it.exitAnim) }
             } else {
                 if (state.screens.size > thisScreenPosition + 1) {
-//                    SKLog.d("@&@&@&@&  ${this.hashCode()}  linkToRootStack  stateLD ${state.screens.map { "$it ${it.key}" }} key: ${screenKey} thisScreenPosition: $thisScreenPosition will start an activity ${state.screens.get(thisScreenPosition + 1)::class.simpleName}")
                     startActivityForProxy(state.screens.get(thisScreenPosition + 1))
                     state.transition?.let { overridePendingTransition(it.enterAnim, it.exitAnim) }
                 }
             }
+            if (screenKeyNeedToOpenRoot != null && screenKeyNeedToOpenRoot == screenKey) {
+                state.screens.firstOrNull()?.let { newScreen ->
+                    val launchClass = launchActivityClass
+                        ?: throw IllegalStateException("You have to set SKActivity.launchActivityClass to be allowed to change root Screen. New root screen will be loaded in this activity even if you have redefined getActivityClas method")
+                    startActivity(Intent(this, launchClass).apply {
+                        putExtra(ScreensManager.SK_EXTRA_VIEW_KEY, newScreen.key)
+                    })
+                }
+            }
+
         }
 
     }

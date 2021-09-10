@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import tech.skot.view.SKTransitionAndroidLegacy
 import tech.skot.view.live.MutableSKLiveData
 
-class StateProxy(override val screens:List<SKScreenViewProxy<*>>, override val transition:SKTransitionAndroidLegacy?):SKStackVC.State(screens, transition)
+data class StateProxy(override val screens:List<SKScreenViewProxy<*>>, override val transition:SKTransitionAndroidLegacy?):SKStackVC.State(screens, transition)
 
 class SKStackViewProxy() : SKComponentViewProxy<FrameLayout>(), SKStackVC {
 

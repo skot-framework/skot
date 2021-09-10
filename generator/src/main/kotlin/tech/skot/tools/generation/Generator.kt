@@ -37,7 +37,7 @@ class Generator(
     val rootPath: Path,
     val feature: String?,
     val baseActivityVar: String?,
-    val initializationPlans:List<InitializationPlan>
+    val initializationPlans: List<InitializationPlan>
 ) {
 
 
@@ -154,7 +154,6 @@ class Generator(
     }
 
 
-
     @ExperimentalStdlibApi
     fun generate() {
         deleteModuleGenerated(modules.viewcontract)
@@ -232,13 +231,13 @@ class Generator(
 
     }
 
-    fun generatedCommonSources(module: String, combinaison:String? = null) =
+    fun generatedCommonSources(module: String, combinaison: String? = null) =
         rootPath.resolve("$module/generated${combinaison ?: ""}/commonMain/kotlin")
 
     fun commonSources(module: String) =
         rootPath.resolve("$module/src/commonMain/kotlin")
 
-    fun generatedAndroidSources(module: String, combinaison:String? = null) =
+    fun generatedAndroidSources(module: String, combinaison: String? = null) =
         rootPath.resolve("$module/generated${combinaison ?: ""}/androidMain/kotlin")
 
     fun androidSources(module: String) =
@@ -301,7 +300,10 @@ class Generator(
                         .addModifiers(KModifier.ABSTRACT)
                         .apply {
                             if (it.isScreen) {
-                                addParameter(name = VISIBILITY_LISTENER_VAR_NAME, type = FrameworkClassNames.skVisiblityListener)
+                                addParameter(
+                                    name = VISIBILITY_LISTENER_VAR_NAME,
+                                    type = FrameworkClassNames.skVisiblityListener
+                                )
                             }
                         }
                         .addParameters(
@@ -386,8 +388,6 @@ class Generator(
 
     @ExperimentalStdlibApi
     fun generateAppModule() {
-        val librariesGroups = getUsedSKLibrariesGroups()
-
         FileSpec.builder(generatedAppModules.packageName, generatedAppModules.simpleName)
             .addProperty(
                 PropertySpec.builder(
@@ -426,10 +426,8 @@ class Generator(
                         .addStatement("modelFrameworkModule,")
                         .addStatement("coreViewModule,")
                         .apply {
-                            librariesGroups
-                                .map {
-                                    "${it.substringAfterLast(".")}Module"
-                                }.forEach {
+                            getUsedSKLibrariesModules()
+                                .forEach {
                                     addStatement(it)
                                 }
 
@@ -463,11 +461,11 @@ class Generator(
                 }
             }
 
-            .apply {
-                getUsedSKLibrariesGroups().map {
-                    addImport("$it.di", "${it.substringAfterLast(".")}Module")
-                }
-            }
+//            .apply {
+//                getUsedSKLibrariesGroups().map {
+//                    addImport("$it.di", it.libraryModuleName())
+//                }
+//            }
             .build()
             .writeTo(generatedAndroidSources(modules.app))
     }
@@ -524,10 +522,17 @@ class Generator(
         }
     }
 
-    fun getUsedSKLibrariesGroups(): List<String> {
+    fun getUsedSKLibrariesModules(): List<String> {
         return Files.readAllLines(rootPath.resolve("skot_librairies.properties"))
             .filterNot { it.startsWith("//") }
-            .map { it.substringBeforeLast(":") }
+            .map {
+                val split = it.split(",")
+                if (split.size > 1) {
+                    split[1]
+                } else {
+                    "${it}.di.${it.substringAfterLast(".")}Module"
+                }
+            }
     }
 
     fun ComponentDef.hasModel() = componentsWithModel.contains(this)
@@ -541,8 +546,6 @@ class Generator(
                     Files.exists(path.replaceSegment(patternConbinable, "$patternConbinable$it"))
                 }
     }
-
-
 
 
     fun migrate() {

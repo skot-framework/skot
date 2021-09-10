@@ -20,7 +20,7 @@ data class SKLibrary(val group: String, val version: String) {
                     }
                     .map { line ->
                         println("line: $line")
-                        line.split(":")
+                        line.substringBefore(",").split(":")
                                 .let {
                                     try {
                                         SKLibrary(it[0], it[1])

@@ -73,7 +73,7 @@ class PluginViewLegacy: Plugin<Project> {
 
         val parentProjectPath = project.parent?.path ?: ""
 
-        add("api", "tech.skot:viewlegacy:${Versions.skot}")
+        add("api", "${Versions.group}:viewlegacy:${Versions.skot}")
         add("api", project("$parentProjectPath:viewcontract"))
     }
 

@@ -61,7 +61,7 @@ class PluginLibrary: Plugin<Project> {
 //        sourceSets["commonMain"].kotlin.srcDir("src/commin/kotlin")
 
         sourceSets["commonMain"].dependencies {
-            implementation("tech.skot:viewmodel:${Versions.skot}")
+            implementation("${Versions.group}:viewmodel:${Versions.skot}")
         }
 
 

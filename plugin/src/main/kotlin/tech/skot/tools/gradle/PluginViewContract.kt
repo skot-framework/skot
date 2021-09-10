@@ -70,7 +70,7 @@ class PluginViewContract : Plugin<Project> {
 
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
         sourceSets["commonMain"].dependencies {
-            api("tech.skot:viewcontract:${Versions.skot}")
+            api("${Versions.group}:viewcontract:${Versions.skot}")
         }
 
         println("Adding dependencies to libraries ")

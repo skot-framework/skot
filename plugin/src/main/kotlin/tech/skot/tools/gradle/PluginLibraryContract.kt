@@ -24,7 +24,7 @@ class PluginLibraryContract : Plugin<Project> {
         jvm("jvm")
 
         sourceSets["commonMain"].dependencies {
-            api("tech.skot:viewcontract:${Versions.skot}")
+            api("${Versions.group}:viewcontract:${Versions.skot}")
         }
 
     }

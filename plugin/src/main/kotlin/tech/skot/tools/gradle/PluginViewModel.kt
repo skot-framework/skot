@@ -55,7 +55,7 @@ class PluginViewModel: Plugin<Project> {
         sourceSets["commonMain"].dependencies {
             implementation(project("$parentProjectPath:viewcontract"))
             api(project("$parentProjectPath:modelcontract"))
-            api("tech.skot:viewmodel:${Versions.skot}")
+            api("${Versions.group}:viewmodel:${Versions.skot}")
         }
 
         sourceSets["androidMain"].dependencies {

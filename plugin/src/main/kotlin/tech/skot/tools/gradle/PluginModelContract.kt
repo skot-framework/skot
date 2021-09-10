@@ -83,7 +83,7 @@ class PluginModelContract : Plugin<Project> {
 
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
         sourceSets["commonMain"].dependencies {
-            api("tech.skot:modelcontract:${Versions.skot}")
+            api("${Versions.group}:modelcontract:${Versions.skot}")
         }
 
 

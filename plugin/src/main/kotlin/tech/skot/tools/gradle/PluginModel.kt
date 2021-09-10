@@ -80,7 +80,7 @@ class PluginModel: Plugin<Project> {
 
         sourceSets["commonMain"].dependencies {
             implementation(project("$parentProjectPath:modelcontract"))
-            api("tech.skot:model:${Versions.skot}")
+            api("${Versions.group}:model:${Versions.skot}")
             api("org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}")
 
 

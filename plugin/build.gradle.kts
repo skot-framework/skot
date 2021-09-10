@@ -123,6 +123,7 @@ fun buildVersionsFile() {
     val file = com.squareup.kotlinpoet.FileSpec.builder("tech.skot", "Versions")
     val classBuilderCommon = com.squareup.kotlinpoet.TypeSpec.objectBuilder("Versions")
             .addStringConst("skot", Versions.version)
+            .addStringConst("group", Versions.group)
             .addStringConst("serialization", Versions.serialization)
             .addStringConst("kotlinxDateTime", Versions.kotlinxDateTime)
             .addStringConst("ktor", Versions.ktor)

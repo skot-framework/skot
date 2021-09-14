@@ -25,7 +25,7 @@ kotlin {
 //        }
 //    }
 
-    ios()
+//    ios()
 
 
 
@@ -71,15 +71,15 @@ kotlin {
             }
         }
 
-        val iosMain by getting {
-            dependencies {
-                api("com.squareup.sqldelight:native-driver:${Versions.sqldelight}")
-                api("io.ktor:ktor-client-ios:${Versions.ktor}")
-//                api("io.ktor:ktor-client-json-native:${Versions.ktor}")
-//                api("io.ktor:ktor-client-serialization-native:${Versions.ktor}")
-//                api("io.ktor:ktor-client-logging-native:${Versions.ktor}")
-            }
-        }
+//        val iosMain by getting {
+//            dependencies {
+//                api("com.squareup.sqldelight:native-driver:${Versions.sqldelight}")
+//                api("io.ktor:ktor-client-ios:${Versions.ktor}")
+////                api("io.ktor:ktor-client-json-native:${Versions.ktor}")
+////                api("io.ktor:ktor-client-serialization-native:${Versions.ktor}")
+////                api("io.ktor:ktor-client-logging-native:${Versions.ktor}")
+//            }
+//        }
 
 
     }
@@ -127,7 +127,7 @@ android {
 dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlin}")
-    androidTestImplementation(project(":androidTests"))
+//    androidTestImplementation(project(":androidTests"))
 }
 
 sqldelight {

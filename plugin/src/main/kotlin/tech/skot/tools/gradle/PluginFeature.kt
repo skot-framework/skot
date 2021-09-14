@@ -90,7 +90,6 @@ class PluginFeature : Plugin<Project> {
 
         add("implementation", project("$parentProjectPath:viewmodel"))
         add("implementation", project("$parentProjectPath:model"))
-//        add("implementation", project("$parentProjectPath:view"))
         add("api", "${Versions.group}:viewlegacy:${Versions.skot}")
         add("api", project("$parentProjectPath:viewcontract"))
 

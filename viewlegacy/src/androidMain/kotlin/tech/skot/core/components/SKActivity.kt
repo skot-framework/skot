@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import tech.skot.core.SKFeatureInitializer
+import tech.skot.core.toSKUri
 import tech.skot.view.extensions.updatePadding
 
 abstract class SKActivity : AppCompatActivity() {
@@ -29,14 +30,14 @@ abstract class SKActivity : AppCompatActivity() {
 
 //    override fun onNewIntent(intent: Intent?) {
 //        super.onNewIntent(intent)
-//        intent?.data?.pathSegments?.let { featureInitializer.onDeepLink.invoke(it) }
+//        intent?.data?.toSKUri()?.let { featureInitializer.onDeepLink?.invoke(it) }
 //    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
 
-            featureInitializer.initializeIfNeeded(intent?.data?.pathSegments)
+            featureInitializer.initializeIfNeeded(intent?.data?.toSKUri())
 
             val viewKey = getKeyForThisActivity(savedInstanceState)
 //            SKLog.d("@&@&@&@& ---- onCreate   viewKey : $viewKey")

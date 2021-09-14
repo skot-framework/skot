@@ -11,6 +11,7 @@ object FrameworkClassNames {
 //    val icon = ClassName("")
 
     val skComponentVC = ClassName("tech.skot.core.components", "SKComponentVC")
+    val skUri = ClassName("tech.skot.core", "SKUri")
     val skVisiblityListener = ClassName("tech.skot.core.components", "SKVisiblityListener")
     val skComponentView = ClassName("tech.skot.core.components", "SKComponentView")
     val skComponent = ClassName("tech.skot.core.components", "SKComponent").parameterizedBy(WildcardTypeName.producerOf(skComponentVC))

@@ -260,10 +260,8 @@ class Generator(
                                     null,
                                     parameters = listOf(
                                         ParameterSpec.builder(
-                                            name = "pathSegments",
-                                            type = List::class.asTypeName().parameterizedBy(
-                                                String::class.asTypeName()
-                                            )
+                                            name = "uri",
+                                            type = FrameworkClassNames.skUri
                                         ).build()
                                     ),
                                     returnType = Unit::class.asTypeName()

@@ -3,6 +3,7 @@ package tech.skot.tools.generation.viewmodel
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import org.jetbrains.kotlin.util.capitalizeDecapitalize.capitalizeAsciiOnly
+import org.jetbrains.kotlin.util.capitalizeDecapitalize.decapitalizeAsciiOnly
 import tech.skot.tools.generation.*
 
 @ExperimentalStdlibApi
@@ -135,7 +136,7 @@ fun Generator.generateViewModel() {
                         PropertySpec.builder(
                             "view", it.vc.asTypeName(), KModifier.OVERRIDE
                         )
-                            .initializer("viewInjector.${it.name.decapitalize()}(this, ${it.toFillVCparams()})")
+                            .initializer("viewInjector.${it.name.decapitalizeAsciiOnly()}(${if (it.isScreen)  "this, " else ""}${it.toFillVCparams()})")
                             .build()
                     )
                     (it.fixProperties + it.mutableProperties).filter {

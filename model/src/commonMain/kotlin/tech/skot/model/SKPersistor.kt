@@ -11,6 +11,12 @@ import tech.skot.model.persist.PersistDb
 
 data class DatedDataWithKey<D : Any>(val data: D, val id: String?, val timestamp: Long)
 
+val json: Json by lazy {
+    Json {
+        ignoreUnknownKeys = true
+    }
+}
+
 interface SKPersistor {
 
     suspend fun putString(
@@ -121,7 +127,7 @@ abstract class CommonSKPersistor : SKPersistor {
         timestamp: Long
     ) {
         withContext(Dispatchers.Default) {
-            _putString(name, Json.encodeToString(serializer, data), key, timestamp)
+            _putString(name, json.encodeToString(serializer, data), key, timestamp)
         }
     }
 
@@ -207,7 +213,7 @@ abstract class CommonSKPersistor : SKPersistor {
         return withContext(Dispatchers.Default) {
             try {
                 _getString(name, key)?.let {
-                    Json.decodeFromString(serializer, it)
+                    json.decodeFromString(serializer, it)
                 }
             } catch (ex: Exception) {
                 SKLog.e(

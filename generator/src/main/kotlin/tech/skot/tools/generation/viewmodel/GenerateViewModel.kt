@@ -42,7 +42,7 @@ fun Generator.generateViewModel() {
                 }
 
                 val onResumeLines = initilizations.flatMap { it.onResumeLines }
-                if (onResumeLines.isNotEmpty()) {
+                if (onResumeLines.isNotEmpty() || initilizations.any { it.onResumeBlock != null }) {
                     addFunction(
                         FunSpec.builder("onResume")
                             .addModifiers(KModifier.OVERRIDE)
@@ -51,9 +51,30 @@ fun Generator.generateViewModel() {
                                 onResumeLines.forEach {
                                     addStatement(it)
                                 }
+                                initilizations.forEach {
+                                    it.onResumeBlock?.invoke(this)
+                                }
                             }
                             .build()
                     )
+                }
+
+                if (initilizations.any { it.onPauseBlock != null }) {
+                    addFunction(
+                        FunSpec.builder("onPause")
+                            .addModifiers(KModifier.OVERRIDE)
+                            .addStatement("super.onPause()")
+                            .apply {
+                                initilizations.forEach {
+                                    it.onPauseBlock?.invoke(this)
+                                }
+                            }
+                            .build()
+                    )
+                }
+
+                initilizations.forEach {
+                    it.block?.invoke(this)
                 }
 
 

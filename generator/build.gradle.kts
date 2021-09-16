@@ -20,12 +20,16 @@ configurations {
             attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 8)
         }
     }
+
+    sourceSets {
+        getByName("main").java.srcDirs("src/main/kotlin")
+    }
 }
 
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
-    implementation(project(":viewcontract"))
+    api(project(":viewcontract"))
     implementation(project(":modelcontract"))
     api("com.squareup:kotlinpoet:${Versions.kotlinpoet}")
     api(kotlin("reflect"))

@@ -1,16 +1,11 @@
 package tech.skot.core.components
 
 import android.view.View
-import android.view.WindowInsets
-import android.view.WindowInsetsController
 import androidx.annotation.CallSuper
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import tech.skot.core.SKLog
 import tech.skot.view.extensions.systemBars
 import tech.skot.view.extensions.updatePadding
 
@@ -35,9 +30,17 @@ abstract class SKScreenView<B : ViewBinding>(
 
     @CallSuper
     open fun onResume() {
-       activity.setFullScreen(fullScreen, lightStatusBar, onWindowInset ?: (if (withWindowsInsetsPaddingTop) {{
-           view.updatePadding(top = originalPaddingTop + it.systemBars().top)
-       }} else null))
+        if (fragment !is DialogFragment) {
+            activity.setFullScreen(
+                fullScreen,
+                lightStatusBar,
+                onWindowInset ?: (if (withWindowsInsetsPaddingTop) {
+                    {
+                        view.updatePadding(top = originalPaddingTop + it.systemBars().top)
+                    }
+                } else null)
+            )
+        }
         proxy.onResume()
 
     }
@@ -48,11 +51,10 @@ abstract class SKScreenView<B : ViewBinding>(
     }
 
 
-
     open val fullScreen: Boolean = false
     open val lightStatusBar: Boolean = true
 
-    protected open val withWindowsInsetsPaddingTop : Boolean = false
+    protected open val withWindowsInsetsPaddingTop: Boolean = false
 
     open val onWindowInset: ((windowInsets: WindowInsetsCompat) -> Unit)? = null
 

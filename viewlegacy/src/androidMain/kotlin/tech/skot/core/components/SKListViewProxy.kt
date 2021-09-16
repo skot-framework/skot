@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import tech.skot.core.SKLog
 import tech.skot.view.live.MutableSKLiveData
 import tech.skot.view.live.SKMessage
+import tech.skot.viewlegacy.R
 
 class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean, private val nbColumns:Int?, private val animate:Boolean, private val animateItem:Boolean) : SKComponentViewProxy<RecyclerView>(), SKListVC {
 
@@ -35,6 +36,8 @@ class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean,
 //        SKLog.d("SKListViewProxy saveState")
         saveSignal.post(Unit)
     }
+
+    override val layoutId = R.layout.sk_list
 
     override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: RecyclerView, collectingObservers:Boolean) =
             SKListView(vertical, reverse, nbColumns, animate, animateItem, this, activity, fragment, binding).apply {

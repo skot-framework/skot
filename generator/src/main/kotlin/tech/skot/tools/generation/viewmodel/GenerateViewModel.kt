@@ -2,14 +2,14 @@ package tech.skot.tools.generation.viewmodel
 
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import org.jetbrains.kotlin.util.capitalizeDecapitalize.capitalizeAsciiOnly
 import org.jetbrains.kotlin.util.capitalizeDecapitalize.decapitalizeAsciiOnly
 import tech.skot.tools.generation.*
 
 @ExperimentalStdlibApi
 fun Generator.generateViewModel() {
     components.forEach {
-        val initilizations = initializationPlans.mapNotNull { initializationPlan ->  initializationPlan.map[it.vc] }
+        val initilizations =
+            initializationPlans.mapNotNull { initializationPlan -> initializationPlan.map[it.vc] }
         it.viewModelGen().fileClassBuilder(
             listOf(modelInjectorIntance) + initilizations.flatMap { it.getImportsList() }
         ) {
@@ -28,60 +28,10 @@ fun Generator.generateViewModel() {
                         }
                     )
                 }
-
-                val initBlockLines = initilizations.flatMap { it.initBlockLines }
-                if (initBlockLines.isNotEmpty()) {
-                    addInitializerBlock(
-                        CodeBlock.builder()
-                            .apply {
-                                initBlockLines.forEach {
-                                    addStatement(it)
-                                }
-                            }.build()
-                    )
-                }
-
-                val onResumeLines = initilizations.flatMap { it.onResumeLines }
-                if (onResumeLines.isNotEmpty() || initilizations.any { it.onResumeBlock != null }) {
-                    addFunction(
-                        FunSpec.builder("onResume")
-                            .addModifiers(KModifier.OVERRIDE)
-                            .addStatement("super.onResume()")
-                            .apply {
-                                onResumeLines.forEach {
-                                    addStatement(it)
-                                }
-                                initilizations.forEach {
-                                    it.onResumeBlock?.invoke(this)
-                                }
-                            }
-                            .build()
-                    )
-                }
-
-                if (initilizations.any { it.onPauseBlock != null }) {
-                    addFunction(
-                        FunSpec.builder("onPause")
-                            .addModifiers(KModifier.OVERRIDE)
-                            .addStatement("super.onPause()")
-                            .apply {
-                                initilizations.forEach {
-                                    it.onPauseBlock?.invoke(this)
-                                }
-                            }
-                            .build()
-                    )
-                }
-
-                initilizations.forEach {
-                    it.block?.invoke(this)
-                }
-
-
                 addProperty(
                     PropertySpec.builder("model", it.modelContract())
                         .initializer(
-                            "modelInjector.${it.name.decapitalize()}(${
+                            "modelInjector.${it.name.decapitalizeAsciiOnly()}(${
                                 (listOf("coroutineContext") + it.states.map { it.name }).joinToString(
                                     ", "
                                 )
@@ -92,6 +42,57 @@ fun Generator.generateViewModel() {
 
 
             }
+
+            val initBlockLines = initilizations.flatMap { it.initBlockLines }
+            if (initBlockLines.isNotEmpty()) {
+                addInitializerBlock(
+                    CodeBlock.builder()
+                        .apply {
+                            initBlockLines.forEach {
+                                addStatement(it)
+                            }
+                        }.build()
+                )
+            }
+
+            val onResumeLines = initilizations.flatMap { it.onResumeLines }
+            if (onResumeLines.isNotEmpty() || initilizations.any { it.onResumeBlock != null }) {
+                addFunction(
+                    FunSpec.builder("onResume")
+                        .addModifiers(KModifier.OVERRIDE)
+                        .addStatement("super.onResume()")
+                        .apply {
+                            onResumeLines.forEach {
+                                addStatement(it)
+                            }
+                            initilizations.forEach {
+                                it.onResumeBlock?.invoke(this)
+                            }
+                        }
+                        .build()
+                )
+            }
+
+            if (initilizations.any { it.onPauseBlock != null }) {
+                addFunction(
+                    FunSpec.builder("onPause")
+                        .addModifiers(KModifier.OVERRIDE)
+                        .addStatement("super.onPause()")
+                        .apply {
+                            initilizations.forEach {
+                                it.onPauseBlock?.invoke(this)
+                            }
+                        }
+                        .build()
+                )
+            }
+
+            initilizations.forEach {
+                it.block?.invoke(this)
+            }
+
+
+
 
             it.subComponents.forEach {
                 if (it.name != "loader") {
@@ -157,7 +158,7 @@ fun Generator.generateViewModel() {
                         PropertySpec.builder(
                             "view", it.vc.asTypeName(), KModifier.OVERRIDE
                         )
-                            .initializer("viewInjector.${it.name.decapitalizeAsciiOnly()}(${if (it.isScreen)  "this, " else ""}${it.toFillVCparams()})")
+                            .initializer("viewInjector.${it.name.decapitalizeAsciiOnly()}(${if (it.isScreen) "this, " else ""}${it.toFillVCparams()})")
                             .build()
                     )
                     (it.fixProperties + it.mutableProperties).filter {
@@ -255,8 +256,11 @@ fun Generator.generateViewModel() {
             .addFunction(
                 FunSpec
                     .builder("onDeeplink")
-                        .addParameter("pathSegments", List::class.asTypeName().parameterizedBy(
-                            String::class.asTypeName()))
+                    .addParameter(
+                        "pathSegments", List::class.asTypeName().parameterizedBy(
+                            String::class.asTypeName()
+                        )
+                    )
                     .build()
             )
             .addImport("tech.skot.core.components", "SKRootStack")

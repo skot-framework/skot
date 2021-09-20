@@ -5,6 +5,9 @@ import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import com.google.android.material.snackbar.Snackbar
 import tech.skot.core.SKLog
 import tech.skot.core.components.SKComponentView
@@ -17,6 +20,18 @@ class SKSnackBarView(override val proxy: SKSnackBarViewProxy, activity: SKActivi
     private var current: State? = null
 
     var anchor:View? = null
+
+    init {
+        lifecycle.addObserver(object :LifecycleObserver {
+
+            @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+            fun onPause() {
+                current?.snack?.dismiss()
+                current = null
+                proxy.state = null
+            }
+        })
+    }
 
     fun onState(state: SKSnackBarVC.Shown?) {
 

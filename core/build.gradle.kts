@@ -60,12 +60,24 @@ kotlin {
 
 android {
     defaultConfig {
-        minSdkVersion(Versions.Android.minSdk)
+        minSdk = Versions.Android.minSdk
     }
-    compileSdkVersion(Versions.Android.compileSdk)
+    compileSdk = Versions.Android.compileSdk
+
+    compileOptions {
+        // Flag to enable support for the new language APIs
+        isCoreLibraryDesugaringEnabled = true
+        // Sets Java compatibility to Java 8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 
     sourceSets {
         getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 
+}
+
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 }

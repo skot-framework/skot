@@ -46,11 +46,11 @@ class PluginApp: Plugin<Project> {
             }
         }
 
-        compileSdkVersion(Versions.android_compileSdk)
+        compileSdkVersion(tech.skot.Versions.android_compileSdk)
 
         defaultConfig {
-            minSdkVersion(Versions.android_minSdk)
-            targetSdkVersion(Versions.android_targetSdk)
+            minSdkVersion(tech.skot.Versions.android_minSdk)
+            targetSdkVersion(tech.skot.Versions.android_targetSdk)
         }
 
         packagingOptions {
@@ -63,10 +63,10 @@ class PluginApp: Plugin<Project> {
         }
 
         compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
+            isCoreLibraryDesugaringEnabled = true
+            sourceCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
+            targetCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
         }
-
 
 
     }
@@ -78,6 +78,9 @@ class PluginApp: Plugin<Project> {
         add("implementation", project(":view"))
 
         add("debugImplementation","com.squareup.leakcanary:leakcanary-android:2.6")
+
+        add("coreLibraryDesugaring", "com.android.tools:desugar_jdk_libs:1.1.5")
+
     }
 
 }

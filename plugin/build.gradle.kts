@@ -104,36 +104,51 @@ gradlePlugin {
 
 fun buildVersionsFile() {
 
-    fun com.squareup.kotlinpoet.TypeSpec.Builder.addStringConst(name:String, value:String):com.squareup.kotlinpoet.TypeSpec.Builder {
+    fun com.squareup.kotlinpoet.TypeSpec.Builder.addStringConst(
+        name: String,
+        value: String
+    ): com.squareup.kotlinpoet.TypeSpec.Builder {
         return addProperty(
-                com.squareup.kotlinpoet.PropertySpec.builder(name, String::class, com.squareup.kotlinpoet.KModifier.CONST)
-                        .initializer("\"$value\"")
-                        .build()
+            com.squareup.kotlinpoet.PropertySpec.builder(
+                name,
+                String::class,
+                com.squareup.kotlinpoet.KModifier.CONST
+            )
+                .initializer("\"$value\"")
+                .build()
         )
     }
 
-    fun com.squareup.kotlinpoet.TypeSpec.Builder.addIntConst(name:String, value:Int):com.squareup.kotlinpoet.TypeSpec.Builder {
+    fun com.squareup.kotlinpoet.TypeSpec.Builder.addIntConst(
+        name: String,
+        value: Int
+    ): com.squareup.kotlinpoet.TypeSpec.Builder {
         return addProperty(
-                com.squareup.kotlinpoet.PropertySpec.builder(name, Int::class, com.squareup.kotlinpoet.KModifier.CONST)
-                        .initializer(value.toString())
-                        .build()
+            com.squareup.kotlinpoet.PropertySpec.builder(
+                name,
+                Int::class,
+                com.squareup.kotlinpoet.KModifier.CONST
+            )
+                .initializer(value.toString())
+                .build()
         )
     }
 
     val file = com.squareup.kotlinpoet.FileSpec.builder("tech.skot", "Versions")
     val classBuilderCommon = com.squareup.kotlinpoet.TypeSpec.objectBuilder("Versions")
-            .addStringConst("skot", Versions.version)
-            .addStringConst("group", Versions.group)
-            .addStringConst("serialization", Versions.serialization)
-            .addStringConst("kotlinxDateTime", Versions.kotlinxDateTime)
-            .addStringConst("ktor", Versions.ktor)
-            .addStringConst("kotlin", Versions.kotlin)
-            .addStringConst("kotlinCoroutines", Versions.kotlinCoroutines)
-            .addStringConst("kotlinpoet", Versions.kotlinpoet)
-            .addStringConst("sl4j", Versions.sl4j)
-            .addIntConst("android_minSdk", Versions.Android.minSdk)
-            .addIntConst("android_compileSdk", Versions.Android.compileSdk)
-            .addIntConst("android_targetSdk", Versions.Android.targetSdk)
+        .addStringConst("skot", Versions.version)
+        .addStringConst("group", Versions.group)
+        .addStringConst("serialization", Versions.serialization)
+        .addStringConst("kotlinxDateTime", Versions.kotlinxDateTime)
+        .addStringConst("ktor", Versions.ktor)
+        .addStringConst("kotlin", Versions.kotlin)
+        .addStringConst("kotlinCoroutines", Versions.kotlinCoroutines)
+        .addStringConst("kotlinpoet", Versions.kotlinpoet)
+        .addStringConst("sl4j", Versions.sl4j)
+        .addIntConst("android_minSdk", Versions.Android.minSdk)
+        .addIntConst("android_compileSdk", Versions.Android.compileSdk)
+        .addIntConst("android_targetSdk", Versions.Android.targetSdk)
+        .addStringConst("android_app_compat", Versions.Android.appcompat)
 
 
 

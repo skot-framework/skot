@@ -27,6 +27,7 @@ class PluginFeature : Plugin<Project> {
 
         project.dependencies {
             dependencies(project)
+            SKLibrary.addDependenciesToViewContract(this, (project.parent?.projectDir ?: project.rootDir).toPath())
         }
     }
 

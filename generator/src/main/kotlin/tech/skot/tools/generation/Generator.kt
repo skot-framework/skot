@@ -426,7 +426,7 @@ class Generator(
                         .apply {
                             getUsedSKLibrariesModules()
                                 .forEach {
-                                    addStatement(it)
+                                    addStatement("$it,")
                                 }
 
                         }

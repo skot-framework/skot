@@ -78,7 +78,7 @@ class PluginViewModel: Plugin<Project> {
             implementation("org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}")
         }
 
-        SKLibrary.addDependenciesToLibraries(this, project.rootDir.toPath(), "viewmodel")
+        SKLibrary.addDependenciesToLibraries(this, (project.parent?.projectDir ?: project.rootDir).toPath(), "viewmodel")
     }
 
 

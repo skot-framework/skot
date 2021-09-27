@@ -14,6 +14,7 @@ data class SKLibrary(val group: String, val version: String) {
 
     companion object {
         fun getDeclaredLibraries(path: Path): List<SKLibrary> {
+            println("-------- getDeclaredLibraries   ${path.toString()}")
             return Files.readAllLines(path.resolve("skot_librairies.properties"))
                     .filterNot {
                         it.startsWith("//")

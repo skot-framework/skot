@@ -4,8 +4,9 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 abstract class SKFeatureInitializer(
+    val initialize: suspend () -> Unit,
     val onDeepLink: ((uri: SKUri) -> Unit)?,
-    val initialize: suspend () -> Unit
+    val start: suspend () -> Unit,
 ) {
 
     private var done = false
@@ -14,9 +15,10 @@ abstract class SKFeatureInitializer(
         if (!done && onDeepLink != null) {
             initializeMutex.withLock {
                 if (!done) {
-                    uri?.let { onDeepLink.invoke(uri) }
-                    initialize()
                     done = true
+                    initialize()
+                    uri?.let { onDeepLink.invoke(uri) }
+                    start()
                 }
             }
         }

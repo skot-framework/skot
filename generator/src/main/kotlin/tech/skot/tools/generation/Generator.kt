@@ -255,6 +255,14 @@ class Generator(
                     FunSpec.constructorBuilder()
                         .addParameter(
                             ParameterSpec.builder(
+                                "initialize",
+                                LambdaTypeName.get(returnType = Unit::class.asTypeName())
+                                    .copy(suspending = true)
+                            )
+                                .build()
+                        )
+                        .addParameter(
+                            ParameterSpec.builder(
                                 "onDeepLink",
                                 LambdaTypeName.get(
                                     null,
@@ -271,7 +279,7 @@ class Generator(
                         )
                         .addParameter(
                             ParameterSpec.builder(
-                                "initialize",
+                                "start",
                                 LambdaTypeName.get(returnType = Unit::class.asTypeName())
                                     .copy(suspending = true)
                             )
@@ -280,7 +288,7 @@ class Generator(
                         .build()
                 )
                 superclass(ClassName("tech.skot.core", "SKFeatureInitializer"))
-                superclassConstructorParameters.add(CodeBlock.of("onDeepLink, initialize"))
+                superclassConstructorParameters.add(CodeBlock.of("initialize, onDeepLink, start"))
             }.writeTo(generatedCommonSources(modules.viewcontract))
         }
 
@@ -404,7 +412,9 @@ class Generator(
                         .addStatement("single<${modelInjectorInterface.simpleName}> { ${modelInjectorImpl.simpleName}()}")
                         .addStatement("single<${transisitonsInterface.simpleName}> { ${transisitonsImpl.simpleName}()}")
                         .beginControlFlow("single")
-                        .beginControlFlow("${appFeatureInitializer.simpleName}(onDeepLink = { onDeeplink(it) })")
+                        .addStatement("${appFeatureInitializer.simpleName}(")
+
+                        .beginControlFlow("initialize = ")
                         .apply {
                             rootState?.let {
                                 beginControlFlow("restoreState().let")
@@ -413,13 +423,22 @@ class Generator(
                                 endControlFlow()
                             }
                         }
-                        //.addStatement("${rootState?} restoreState()")
-                        .addStatement("startView()")
+                        .addStatement("initializeView()")
+                        .endControlFlow()
+                        .addStatement(",")
+                        .beginControlFlow("onDeepLink = ")
+                        .addStatement("onDeeplink(it)")
+                        .endControlFlow()
+                        .addStatement(",")
+
+                        .beginControlFlow("start = ")
                         .addStatement("start(startModel())")
+                        .endControlFlow()
+                        .addStatement(")")
+
                         .endControlFlow()
                         .endControlFlow()
 
-                        .endControlFlow()
                         .addStatement(",")
                         .addStatement("modelFrameworkModule,")
                         .addStatement("coreViewModule,")
@@ -469,16 +488,16 @@ class Generator(
     }
 
     fun generateStartsIfNeeded() {
-        val startView = ClassName("$appPackage.di", "startView")
-        if (!startView.existsAndroidInModule(modules.view)) {
-            FileSpec.builder(startView.packageName, startView.simpleName)
+        val initializeView = ClassName("$appPackage.di", "initializeView")
+        if (!initializeView.existsAndroidInModule(modules.view)) {
+            FileSpec.builder(initializeView.packageName, initializeView.simpleName)
                 .addImportClassName(FrameworkClassNames.skComponentView)
                 .addImportClassName(ClassName("android.view", "Gravity"))
                 .addImportClassName(AndroidClassNames.frameLayout)
                 .addImportClassName(AndroidClassNames.snackBar)
                 .addImportClassName(AndroidClassNames.build)
                 .addFunction(
-                    FunSpec.builder(startView.simpleName)
+                    FunSpec.builder(initializeView.simpleName)
                         .addModifiers(KModifier.SUSPEND)
                         .addCode(
                             CodeBlock.of(

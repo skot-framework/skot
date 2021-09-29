@@ -7,7 +7,7 @@ import com.squareup.kotlinpoet.TypeSpec
 import tech.skot.core.components.SKComponentVC
 import kotlin.reflect.KClass
 
-open class InitializationPlan(val map:Map<KClass<out SKComponentVC>, ComponentInitializer>) {
+open class InitializationPlan(val map:Map<KClass<out SKComponentVC>, ComponentInitializer>, val screenDefault:ComponentInitializer? = null) {
     data class Import(val packageName:String, val simpleName:String)
     data class Code(val imports:List<Import> = emptyList(), val lines:List<String>) {
         fun getImportsList():List<ClassName> {

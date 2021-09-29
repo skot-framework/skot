@@ -9,7 +9,7 @@ import tech.skot.tools.generation.*
 fun Generator.generateViewModel() {
     components.forEach {
         val initilizations =
-            initializationPlans.mapNotNull { initializationPlan -> initializationPlan.map[it.vc] }
+            initializationPlans.mapNotNull { initializationPlan -> initializationPlan.map[it.vc] ?: (if (it.isScreen) initializationPlan.screenDefault else null) }
         it.viewModelGen().fileClassBuilder(
             listOf(modelInjectorIntance) + initilizations.flatMap { it.getImportsList() }
         ) {

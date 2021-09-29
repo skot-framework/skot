@@ -1,7 +1,7 @@
 object Versions {
 
     const val group = "com.github.MathieuScotet.skot"
-    const val version = "1.0.0-alpha45"
+    const val version = "1.0.0-alpha46"
 
     const val kotlin = "1.5.30"
     const val kotlinCoroutines = "1.5.2"
@@ -25,7 +25,6 @@ object Versions {
         const val minSdk = 21
         const val compileSdk = 30
         const val targetSdk = 30
-
 
         const val timber = "4.7.1"
         const val appcompat = "1.3.1"

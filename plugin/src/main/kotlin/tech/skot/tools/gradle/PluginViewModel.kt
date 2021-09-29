@@ -53,7 +53,7 @@ class PluginViewModel: Plugin<Project> {
 
 
         sourceSets["commonMain"].dependencies {
-            implementation(project("$parentProjectPath:viewcontract"))
+            api(project("$parentProjectPath:viewcontract"))
             api(project("$parentProjectPath:modelcontract"))
             api("${Versions.group}:viewmodel:${Versions.skot}")
         }

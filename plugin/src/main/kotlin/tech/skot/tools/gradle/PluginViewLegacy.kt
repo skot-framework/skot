@@ -6,7 +6,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.*
 import tech.skot.Versions
-import tech.skot.tools.gradle.SKLibrary.Companion.addDependenciesToViewContract
+import tech.skot.tools.gradle.SKLibrary.Companion.addDependenciesToViewLegacy
 
 //open class SKPluginViewLegacyExtension {
 //}
@@ -22,7 +22,7 @@ class PluginViewLegacy: Plugin<Project> {
 
         project.dependencies {
             dependencies(project)
-            addDependenciesToViewContract(this, project.rootDir.toPath())
+            addDependenciesToViewLegacy(this, project.rootDir.toPath())
         }
 
     }

@@ -5,9 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
-import tech.skot.core.SKLog
 import tech.skot.view.live.SKMessage
-import java.lang.IllegalStateException
 
 
 abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
@@ -24,9 +22,19 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
         closeKeyboardMessage.post(Unit)
     }
 
-    abstract fun bindTo(activity: SKActivity, fragment: Fragment?, binding: B, collectingObservers:Boolean): SKComponentView<B>
+    abstract fun bindTo(
+        activity: SKActivity,
+        fragment: Fragment?,
+        binding: B,
+        collectingObservers: Boolean
+    ): SKComponentView<B>
 
-    fun _bindTo(activity: SKActivity, fragment: Fragment?, binding: B, collectingObservers:Boolean = false) =
+    fun _bindTo(
+        activity: SKActivity,
+        fragment: Fragment?,
+        binding: B,
+        collectingObservers: Boolean = false
+    ) =
         bindTo(activity, fragment, binding, collectingObservers).apply {
             displayErrorMessage.observe {
                 displayError(it)
@@ -45,29 +53,42 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
 
     }
 
-    open val layoutId:Int? = null
+    open val layoutId: Int? = null
 
-    open fun inflate(layoutInflater: LayoutInflater, parent: ViewGroup?, attachToParent:Boolean): B {
+    open fun inflate(
+        layoutInflater: LayoutInflater,
+        parent: ViewGroup?,
+        attachToParent: Boolean
+    ): B {
         TODO("inflate method not implemented")
     }
 
-    fun bindToView(activity: SKActivity, fragment: Fragment?, view: View, collectingObservers:Boolean = false) =
-            _bindTo(activity, fragment, bindingOf(view), collectingObservers)
+    fun bindToView(
+        activity: SKActivity,
+        fragment: Fragment?,
+        view: View,
+        collectingObservers: Boolean = false
+    ) =
+        _bindTo(activity, fragment, bindingOf(view), collectingObservers)
 
     fun inflateInParentAndBind(activity: SKActivity, fragment: Fragment?, parent: ViewGroup) {
-        val inflater = fragment?.layoutInflater ?: activity.layoutInflater
+        val inflater = (fragment?.layoutInflater ?: activity.layoutInflater).let { layoutInflater ->
+            parent.context?.let {
+                layoutInflater.cloneInContext(it)
+            } ?: layoutInflater
+        }
         _bindTo(activity, fragment, inflate(inflater, parent, true), false)
     }
 
-    open fun bindingOf(view:View):B {
-        return (view as? B) ?: throw IllegalStateException("You cant't bind this component to a view")
+    open fun bindingOf(view: View): B {
+        return (view as? B)
+            ?: throw IllegalStateException("You cant't bind this component to a view")
     }
 
-    fun bindToItemView(activity: SKActivity, fragment: Fragment?, view:View):SKComponentView<B> {
+    fun bindToItemView(activity: SKActivity, fragment: Fragment?, view: View): SKComponentView<B> {
         if (layoutId == null) {
             throw IllegalStateException("You cant't bind this component to an Item's view, it has no layout Id")
-        }
-        else {
+        } else {
             return _bindTo(activity, fragment, bindingOf(view), collectingObservers = true)
         }
     }

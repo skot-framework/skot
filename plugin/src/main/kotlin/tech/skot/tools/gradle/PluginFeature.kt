@@ -1,7 +1,6 @@
 package tech.skot.tools.gradle
 
 import com.android.build.api.dsl.DynamicFeatureExtension
-import com.android.build.api.extension.DynamicFeatureAndroidComponentsExtension
 import com.android.build.gradle.AppExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
@@ -10,7 +9,6 @@ import org.gradle.kotlin.dsl.DependencyHandlerScope
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.project
-import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsFeature
 import tech.skot.Versions
 
 
@@ -27,7 +25,7 @@ class PluginFeature : Plugin<Project> {
 
         project.dependencies {
             dependencies(project)
-            SKLibrary.addDependenciesToViewContract(this, (project.parent?.projectDir ?: project.rootDir).toPath())
+            SKLibrary.addDependenciesToViewLegacy(this, (project.parent?.projectDir ?: project.rootDir).toPath())
         }
     }
 

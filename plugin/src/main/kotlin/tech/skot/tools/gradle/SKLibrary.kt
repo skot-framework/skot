@@ -46,7 +46,7 @@ data class SKLibrary(val group: String, val version: String) {
 
         fun KotlinDependencyHandler.skApi(library: SKLibrary, module:String) = api("${library.group}:$module:${library.version}")
 
-        fun addDependenciesToViewContract(dependenciesHandler: DependencyHandlerScope, path: Path) {
+        fun addDependenciesToViewLegacy(dependenciesHandler: DependencyHandlerScope, path: Path) {
             getDeclaredLibraries(path)
                     .forEach {
                         dependenciesHandler.skApiViewLegacy(it)

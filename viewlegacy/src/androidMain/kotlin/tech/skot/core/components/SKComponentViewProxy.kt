@@ -27,10 +27,6 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
 
     override var style: Style? = null
 
-    init {
-        SKLog.d("---- SKComponentViewProxy init")
-    }
-
     abstract fun bindTo(
         activity: SKActivity,
         fragment: Fragment?,
@@ -81,19 +77,23 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
         _bindTo(activity, fragment, bindingOf(view), collectingObservers)
 
     fun inflateInParentAndBind(activity: SKActivity, fragment: Fragment?, parent: ViewGroup) {
-
-        SKLog.d("----- inflateInParentAndBind")
         val inflater = (fragment?.layoutInflater ?: activity.layoutInflater).let { layoutInflater ->
             parent.context?.let { parentContext ->
                 layoutInflater.cloneInContext(
                     style?.let { theme ->
-                        SKLog.d("----- wrapp avec style $theme")
                         ContextThemeWrapper(parentContext, theme.res)
                     } ?: parentContext
                 )
             } ?: layoutInflater
         }
         _bindTo(activity, fragment, inflate(inflater, parent, true), false)
+    }
+
+    fun inflateAndBind(activity: SKActivity, fragment: Fragment?) : B {
+        val inflater = (fragment?.layoutInflater ?: activity.layoutInflater)
+        val inflated = inflate(inflater, null, false)
+        _bindTo(activity, fragment, inflated, false)
+        return inflated
     }
 
     open fun bindingOf(view: View): B {

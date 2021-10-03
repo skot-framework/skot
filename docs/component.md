@@ -27,3 +27,7 @@ Some components are available with the Framework.
 ## SKStack
 
 ## SKWebview
+
+## SKPopupWindow
+Show a SKComponent as a popup  with a view as an anchor
+[SKPopupWindow](skpopupwindow.md)

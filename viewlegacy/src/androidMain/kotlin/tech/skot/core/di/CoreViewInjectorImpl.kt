@@ -3,9 +3,7 @@ package tech.skot.core.di
 import tech.skot.core.view.Icon
 import tech.skot.core.components.*
 import tech.skot.core.components.inputs.*
-import tech.skot.core.components.presented.SKAlertViewProxy
-import tech.skot.core.components.presented.SKBottomSheetViewProxy
-import tech.skot.core.components.presented.SKSnackBarViewProxy
+import tech.skot.core.components.presented.*
 
 
 class CoreViewInjectorImpl : CoreViewInjector {
@@ -18,6 +16,8 @@ class CoreViewInjectorImpl : CoreViewInjector {
     override fun snackBar() = SKSnackBarViewProxy()
 
     override fun bottomSheet() = SKBottomSheetViewProxy()
+
+    override fun windowPopup() = SKWindowPopupViewProxy()
 
     override fun pager(
         screens: List<SKScreenVC>,

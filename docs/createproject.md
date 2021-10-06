@@ -49,6 +49,7 @@ suspend fun startView(){
 }
 ```
 3. In the ***model*** module add a package ***di*** and create a file ***startModel.kt*** with content: 
+
 ```
 suspend fun startModel(){
 

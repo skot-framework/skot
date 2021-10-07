@@ -1,7 +1,7 @@
 object Versions {
 
     const val group = "com.github.MathieuScotet.skot"
-    const val version = "1.0.0-alpha48"
+    const val version = "1.0.0-alpha49"
 
     const val kotlin = "1.5.30"
     const val kotlinCoroutines = "1.5.2"
@@ -28,7 +28,7 @@ object Versions {
 
         const val timber = "4.7.1"
         const val appcompat = "1.3.1"
-        const val constraintLayout = "2.1.0"
+        const val constraintLayout = "2.1.1"
         const val viewpager2 = "1.0.0"
         const val recyclerview = "1.2.1"
         const val material = "1.4.0"

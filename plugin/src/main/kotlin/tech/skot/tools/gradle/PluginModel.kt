@@ -4,6 +4,7 @@ import com.android.build.gradle.LibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -23,7 +24,6 @@ class PluginModel: Plugin<Project> {
         project.extensions.findByType(LibraryExtension::class)?.conf()
 
         project.extensions.findByType(KotlinMultiplatformExtension::class)?.conf(project)
-
 
     }
 
@@ -58,6 +58,7 @@ class PluginModel: Plugin<Project> {
         }
 
 
+
     }
 
     private fun KotlinMultiplatformExtension.conf(project: Project) {
@@ -79,7 +80,7 @@ class PluginModel: Plugin<Project> {
         val parentProjectPath = project.parent?.path ?: ""
 
         sourceSets["commonMain"].dependencies {
-            implementation(project("$parentProjectPath:modelcontract"))
+            api(project("$parentProjectPath:modelcontract"))
             api("${Versions.group}:model:${Versions.skot}")
             api("org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}")
 

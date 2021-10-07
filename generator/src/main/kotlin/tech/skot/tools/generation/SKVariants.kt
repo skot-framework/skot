@@ -1,5 +1,6 @@
 package tech.skot.tools.generation
 
+import org.jetbrains.kotlin.util.capitalizeDecapitalize.capitalizeAsciiOnly
 import java.io.FileInputStream
 import java.nio.file.Files
 import java.nio.file.Path
@@ -19,8 +20,8 @@ fun skReadVariants(path: Path): SKVariants {
         val properties = Properties()
         properties.load(FileInputStream(propertiesPath.toFile()))
         SKVariants(
-            variants = properties.getProperty("variants").split(",") ?: emptyList(),
-            env = properties.getProperty("environment")
+            variants = properties.getProperty("variants").split(",").filter { it.isNotBlank() } ?: emptyList(),
+            env = properties.getProperty("environment").let { if (it.isBlank()) null else it }
         )
     } else {
         SKVariants(
@@ -49,6 +50,6 @@ fun List<String>.combinaisons(): List<String> {
 fun skVariantsCombinaison(path: Path) =
     skReadVariants(path)
         .toList()
-        .map { it.capitalize() }
+        .map { it.capitalizeAsciiOnly() }
         .combinaisons()
         .drop(1)

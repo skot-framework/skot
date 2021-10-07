@@ -67,6 +67,10 @@ abstract class SKActivity : AppCompatActivity() {
                         setContentView(this.view)
                         screen = this
                         linkToRootStack()
+                        if (resumedWithoutScreen) {
+                            resumedWithoutScreen = false
+                            onResume()
+                        }
                     }
 
 
@@ -121,9 +125,18 @@ abstract class SKActivity : AppCompatActivity() {
             else -> -1
         }
 
+
+    private var resumedWithoutScreen = false
+
     override fun onResume() {
         super.onResume()
-        screen?.onResume()
+        screen.let {
+            if (it == null) {
+                resumedWithoutScreen = true
+            } else {
+                it.onResume()
+            }
+        }
     }
 
     override fun onPause() {

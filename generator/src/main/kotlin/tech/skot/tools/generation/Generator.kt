@@ -117,6 +117,7 @@ class Generator(
     val transisitonsInterface = ClassName("$appPackage.view", "Transitions")
     val transisitonsImpl = ClassName("$appPackage.view", "TransitionsImpl")
 
+
     val stringsInstance = ClassName(appPackage, "strings")
     val stringsInterface = ClassName(appPackage, "Strings")
     val stringsImpl = ClassName(appPackage, "StringsImpl")
@@ -132,6 +133,12 @@ class Generator(
     val colorsInstance = ClassName(appPackage, "colors")
     val colorsInterface = ClassName(appPackage, "Colors")
     val colorsImpl = ClassName(appPackage, "ColorsImpl")
+
+
+    val stylesInstance = ClassName(appPackage, "styles")
+    val stylesInterface = ClassName(appPackage, "Styles")
+    val stylesImpl = ClassName(appPackage, "StylesImpl")
+
 
     val skBuild = ClassName(appPackage, "SKBuild")
     val generatedAppModules = ClassName("$appPackage.di", "generatedAppModules")
@@ -179,6 +186,7 @@ class Generator(
         generatePlurals()
         generateIcons()
         generateColors()
+        generateStyles()
         generateApp()
         generateCodeMap()
 
@@ -408,6 +416,7 @@ class Generator(
                         .addStatement("single<${pluralsInterface.simpleName}> { ${pluralsImpl.simpleName}(androidApplication)}")
                         .addStatement("single<${iconsInterface.simpleName}> { ${iconsImpl.simpleName}()}")
                         .addStatement("single<${colorsInterface.simpleName}> { ${colorsImpl.simpleName}()}")
+                        .addStatement("single<${stylesInterface.simpleName}> { ${stylesImpl.simpleName}()}")
                         .addStatement("single<${viewInjectorInterface.simpleName}> { ${viewInjectorImpl.simpleName}()}")
                         .addStatement("single<${modelInjectorInterface.simpleName}> { ${modelInjectorImpl.simpleName}()}")
                         .addStatement("single<${transisitonsInterface.simpleName}> { ${transisitonsImpl.simpleName}()}")
@@ -465,6 +474,8 @@ class Generator(
             .addImportClassName(iconsInterface)
             .addImportClassName(colorsInterface)
             .addImportClassName(colorsImpl)
+            .addImportClassName(stylesInterface)
+            .addImportClassName(stylesImpl)
             .addImportClassName(appFeatureInitializer)
             .addImportClassName(transisitonsInterface)
             .addImportClassName(transisitonsImpl)

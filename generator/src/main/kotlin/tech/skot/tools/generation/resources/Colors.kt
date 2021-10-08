@@ -1,9 +1,10 @@
 package tech.skot.tools.generation
 
 import com.squareup.kotlinpoet.*
+import org.jetbrains.kotlin.util.capitalizeDecapitalize.decapitalizeAsciiOnly
 import java.nio.file.Files
 import java.util.stream.Collectors
-
+fun String.toAndroidResourcePropertyName() = replace('.','_')
 
 fun Generator.generateColors() {
 
@@ -23,7 +24,8 @@ fun Generator.generateColors() {
             }
 
 
-    fun String.toColorsPropertyName() = decapitalize()
+    fun String.toColorsPropertyName() = decapitalizeAsciiOnly().replace('.','_')
+
 
 
     FileSpec.builder(
@@ -47,7 +49,7 @@ fun Generator.generateColors() {
         addProperties(
                 colors.map {
                     PropertySpec.builder(it.toColorsPropertyName(), tech.skot.core.view.Color::class, KModifier.OVERRIDE)
-                            .initializer("Color(R.color.$it)")
+                            .initializer("Color(R.color.${it.toAndroidResourcePropertyName()})")
                             .build()
                 }
         )

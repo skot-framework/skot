@@ -1,10 +1,13 @@
 package tech.skot.core.components
 
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
+import tech.skot.core.SKLog
+import tech.skot.core.view.Style
 import tech.skot.view.live.SKMessage
 
 
@@ -20,6 +23,12 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
 
     override fun closeKeyboard() {
         closeKeyboardMessage.post(Unit)
+    }
+
+    override var style: Style? = null
+
+    init {
+        SKLog.d("---- SKComponentViewProxy init")
     }
 
     abstract fun bindTo(
@@ -72,9 +81,16 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
         _bindTo(activity, fragment, bindingOf(view), collectingObservers)
 
     fun inflateInParentAndBind(activity: SKActivity, fragment: Fragment?, parent: ViewGroup) {
+
+        SKLog.d("----- inflateInParentAndBind")
         val inflater = (fragment?.layoutInflater ?: activity.layoutInflater).let { layoutInflater ->
-            parent.context?.let {
-                layoutInflater.cloneInContext(it)
+            parent.context?.let { parentContext ->
+                layoutInflater.cloneInContext(
+                    style?.let { theme ->
+                        SKLog.d("----- wrapp avec style $theme")
+                        ContextThemeWrapper(parentContext, theme.res)
+                    } ?: parentContext
+                )
             } ?: layoutInflater
         }
         _bindTo(activity, fragment, inflate(inflater, parent, true), false)

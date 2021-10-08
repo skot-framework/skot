@@ -214,6 +214,12 @@ fun Generator.generateViewModel() {
         )
         .addProperty(
             PropertySpec
+                .builder(stylesInstance.simpleName, stylesInterface)
+                .initializer("get()")
+                .build()
+        )
+        .addProperty(
+            PropertySpec
                 .builder("transitions", transisitonsInterface)
                 .initializer("get()")
                 .build()

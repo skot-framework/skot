@@ -36,7 +36,7 @@ abstract class SKBaseCombo<D : Any?, V : SKComboVC>(
         set(newVal) {
             _value = newVal
             view.dropDownDisplayed = false
-            view.selected = newVal?.toChoice()
+            view.selected = newVal?.toChoice() ?: view.choices.find { it.data == null }
         }
 
     fun onSelectedLambda(): (data: Any?) -> Unit =

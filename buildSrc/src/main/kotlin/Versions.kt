@@ -1,7 +1,7 @@
 object Versions {
 
     const val group = "com.github.MathieuScotet.skot"
-    const val version = "1.0.0-alpha51"
+    const val version = "1.0.0-alpha52"
 
     const val kotlin = "1.5.30"
     const val kotlinCoroutines = "1.5.2"
@@ -10,11 +10,7 @@ object Versions {
     const val serialization = "1.2.2"
     const val kotlinxDateTime = "0.2.1"
 
-//    const val klock = "1.12.1"
-
     const val sqldelight = "1.5.0"
-
-
 
     const val kotlinpoet = "1.4.0"
 

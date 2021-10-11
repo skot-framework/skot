@@ -30,7 +30,6 @@ kotlin {
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
                 api(kotlin("reflect"))
                 api("org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinxDateTime}")
-                //api("com.soywiz.korlibs.klock:klock:${Versions.klock}")
             }
         }
 

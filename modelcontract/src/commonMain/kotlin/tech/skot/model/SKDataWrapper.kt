@@ -1,5 +1,6 @@
 package tech.skot.model
 
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -23,14 +24,6 @@ class SKDataWrapper<D : Any?>(
     override val defaultValidity
         get() = _currentWrappedSKData?.defaultValidity ?: Long.MAX_VALUE
 
-//            _currentWrappedSKData?.let {
-//            if (it._current == null) {
-//                0
-//            } else {
-//                it.defaultValidity
-//            }
-//        } ?: Long.MAX_VALUE
-
     override val _current: DatedData<D>
         get() = flow.value
 
@@ -44,15 +37,33 @@ class SKDataWrapper<D : Any?>(
             currentCollectJob?.cancel()
 
             if (newSKToBeWrapped != null) {
-                newSKToBeWrapped.get(validity = Long.MAX_VALUE)
-                flow.value = newSKToBeWrapped._current ?: DatedData(defaultValue)
-                currentCollectJob = scope.launch {
-                    newSKToBeWrapped.flow.collect {
-                        it?.let {
-                            flow.value = DatedData(it.data, it.timestamp)
+                val errorToThrow:Exception? = try {
+                    newSKToBeWrapped.get(validity = Long.MAX_VALUE)
+                    flow.value = newSKToBeWrapped._current ?: DatedData(defaultValue)
+                    null
+                }
+                catch (ex:Exception) {
+                    if (ex !is CancellationException) {
+                        flow.value = DatedData(defaultValue)
+                        ex
+                    }
+                    else {
+                        null
+                    }
+                }
+                finally {
+                    currentCollectJob = scope.launch {
+                        newSKToBeWrapped.flow.collect {
+                            it?.let {
+                                flow.value = DatedData(it.data, it.timestamp)
+                            }
                         }
                     }
                 }
+                if (errorToThrow != null) {
+                    throw errorToThrow
+                }
+
             } else {
                 flow.value = DatedData(defaultValue)
             }

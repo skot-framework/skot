@@ -192,9 +192,21 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
             }
 
         ) {
-            get(validity).let {
-                fallBackJob?.cancel()
-                treatData(it)
+            try {
+                get(validity).let {
+                    fallBackJob?.cancel()
+                    treatData(it)
+                }
+            }
+            catch (ex:Exception) {
+                if (ex !is CancellationException) {
+                    if (fallBackDataIfError) {
+                        fallBack()
+                    }
+                    if (treatErrors) {
+                        treatError(ex, defaultErrorMessage)
+                    }
+                }
             }
             launchNoCrash {
                 flow.drop(1).collect {

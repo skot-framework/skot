@@ -47,6 +47,8 @@ class StarterGenerator(val rootDir: Path, val configuration: StarterConfiguratio
         rootDir.writeStringTo("build.gradle.kts", rootBuildGradle, evenIfExists = true)
 
         rootDir.writeStringTo("skot_librairies.properties", "//Add here dependencies to Skot Libraries\n", evenIfExists = false)
+        rootDir.writeStringTo("skot_variants.properties", "variants=\nenvironment=dev", evenIfExists = false)
+        rootDir.writeStringTo("skot_version_code.properties", "1", evenIfExists = false)
 
         rootDir.writeStringTo("gradle.properties", """android.enableJetifier=true
 org.gradle.jvmargs=-XX\:MaxHeapSize\=4096 -Xmx4096M

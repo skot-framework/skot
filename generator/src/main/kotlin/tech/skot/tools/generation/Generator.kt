@@ -499,55 +499,55 @@ class Generator(
     }
 
     fun generateStartsIfNeeded() {
-        val initializeView = ClassName("$appPackage.di", "initializeView")
-        if (!initializeView.existsAndroidInModule(modules.view)) {
-            FileSpec.builder(initializeView.packageName, initializeView.simpleName)
-                .addImportClassName(FrameworkClassNames.skComponentView)
-                .addImportClassName(ClassName("android.view", "Gravity"))
-                .addImportClassName(AndroidClassNames.frameLayout)
-                .addImportClassName(AndroidClassNames.snackBar)
-                .addImportClassName(AndroidClassNames.build)
-                .addFunction(
-                    FunSpec.builder(initializeView.simpleName)
-                        .addModifiers(KModifier.SUSPEND)
-                        .addCode(
-                            CodeBlock.of(
-                                """SKComponentView.displayError = { message ->
-        Snackbar.make(activity.window.decorView, message, Snackbar.LENGTH_LONG)
-            .apply {
-                view.apply {
-                    (layoutParams as? FrameLayout.LayoutParams)?.let {
-                        it.gravity = Gravity.TOP
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            it.topMargin = activity.window?.decorView?.rootWindowInsets?.systemWindowInsetTop
-                                ?: 0
-                        }
-
-                        layoutParams = it
-                    }
-                }
-                show()
-            }
-    }"""
-                            )
-                        )
-                        .build()
-                )
-                .build()
-                .writeTo(androidSources(modules.view))
-        }
-
-        val startModel = ClassName("$appPackage.di", "startModel")
-        if (!startModel.existsCommonInModule(modules.model)) {
-            FileSpec.builder(startModel.packageName, startModel.simpleName)
-                .addFunction(
-                    FunSpec.builder(startModel.simpleName)
-                        .addModifiers(KModifier.SUSPEND)
-                        .build()
-                )
-                .build()
-                .writeTo(commonSources(modules.model))
-        }
+//        val initializeView = ClassName("$appPackage.di", "initializeView")
+//        if (!initializeView.existsAndroidInModule(modules.view)) {
+//            FileSpec.builder(initializeView.packageName, initializeView.simpleName)
+//                .addImportClassName(FrameworkClassNames.skComponentView)
+//                .addImportClassName(ClassName("android.view", "Gravity"))
+//                .addImportClassName(AndroidClassNames.frameLayout)
+//                .addImportClassName(AndroidClassNames.snackBar)
+//                .addImportClassName(AndroidClassNames.build)
+//                .addFunction(
+//                    FunSpec.builder(initializeView.simpleName)
+//                        .addModifiers(KModifier.SUSPEND)
+//                        .addCode(
+//                            CodeBlock.of(
+//                                """SKComponentView.displayError = { message ->
+//        Snackbar.make(activity.window.decorView, message, Snackbar.LENGTH_LONG)
+//            .apply {
+//                view.apply {
+//                    (layoutParams as? FrameLayout.LayoutParams)?.let {
+//                        it.gravity = Gravity.TOP
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                            it.topMargin = activity.window?.decorView?.rootWindowInsets?.systemWindowInsetTop
+//                                ?: 0
+//                        }
+//
+//                        layoutParams = it
+//                    }
+//                }
+//                show()
+//            }
+//    }"""
+//                            )
+//                        )
+//                        .build()
+//                )
+//                .build()
+//                .writeTo(androidSources(modules.view))
+//        }
+//
+//        val startModel = ClassName("$appPackage.di", "startModel")
+//        if (!startModel.existsCommonInModule(modules.model)) {
+//            FileSpec.builder(startModel.packageName, startModel.simpleName)
+//                .addFunction(
+//                    FunSpec.builder(startModel.simpleName)
+//                        .addModifiers(KModifier.SUSPEND)
+//                        .build()
+//                )
+//                .build()
+//                .writeTo(commonSources(modules.model))
+//        }
     }
 
     fun getUsedSKLibrariesModules(): List<String> {

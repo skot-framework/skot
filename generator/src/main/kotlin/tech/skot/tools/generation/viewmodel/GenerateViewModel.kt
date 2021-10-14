@@ -263,9 +263,7 @@ fun Generator.generateViewModel() {
                 FunSpec
                     .builder("onDeeplink")
                     .addParameter(
-                        "pathSegments", List::class.asTypeName().parameterizedBy(
-                            String::class.asTypeName()
-                        )
+                        "uri", FrameworkClassNames.skUri
                     )
                     .build()
             )

@@ -14,5 +14,5 @@ object AndroidClassNames {
     val snackBar = ClassName("com.google.android.material.snackbar", "Snackbar")
     val build = ClassName("android.os", "Build")
     val viewGroup = ClassName("android.view", "ViewGroup")
-
+    val intent = ClassName("android.content", "Intent")
 }

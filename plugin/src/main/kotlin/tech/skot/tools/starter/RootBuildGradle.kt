@@ -1,17 +1,19 @@
 package tech.skot.tools.starter
 
+import tech.skot.Versions
+
 val rootBuildGradle = """buildscript {
     repositories {
         google()
         mavenCentral()
         mavenLocal()
         maven {
-            url = uri("https://raw.github.com/MathieuScotet/skot/repository")
+            url = uri("https://jitpack.io")
         }
     }
 
     dependencies {
-        classpath("tech.skot:plugin:${'$'}{Versions.skot}")
+        classpath("${Versions.group}:plugin:${'$'}{Versions.skot}")
     }
 }
 
@@ -20,9 +22,6 @@ allprojects {
         google()
         mavenLocal()
         mavenCentral()
-        maven {
-            url = uri("https://raw.github.com/MathieuScotet/skot/repository")
-        }
         maven {
             url = uri("https://jitpack.io")
         }

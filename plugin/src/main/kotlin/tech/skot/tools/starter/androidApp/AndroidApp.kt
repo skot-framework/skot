@@ -57,7 +57,7 @@ fun StarterGenerator.androidApp(){
         mainPackage = configuration.appPackage
         justAndroid = true
 
-        androidAppTheme = "BaseAppTheme"
+        androidAppTheme = "AppTheme"
 
         appName = "\${app_name}"
 

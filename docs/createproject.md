@@ -36,22 +36,9 @@ These files will be overrided after initialization.
 In a terminal : 
 1. Move to the folder of your project
 2. Enter the command `gradle wrapper`
-3. Enter the command `gradle start`
-4. Enter the command `gradle skGenerate`
-5. Launch Android Studio
+3. Change gradle version to 7.0.2 in gradle.properties   
+4. Enter the command `gradle start`
+5. Enter the command `gradle skGenerate`
+6. Launch Android Studio
 
-For now, you need to make fixes so that the project can compile : 
-1. In BaseActivity add `override val featureInitializer: YourappnameInitializer = get()`
-2. In the ***view*** module add a package ***di*** and create a file ***startView.kt*** with content: 
-```
-suspend fun startView(){
-
-}
-```
-3. In the ***model*** module add a package ***di*** and create a file ***startModel.kt*** with content:
-```
-suspend fun startModel(){
-
-}
-```
 You can start coding!

@@ -23,6 +23,8 @@ object FrameworkClassNames {
     val globalCache = ClassName("tech.skot.model","globalCache")
     val skActivity = ClassName("tech.skot.core.components","SKActivity")
     val get = ClassName("tech.skot.core.di","get")
+    val toSKUri = ClassName("tech.skot.core","toSKUri")
+
 
     val globalScope = ClassName("kotlinx.coroutines","GlobalScope")
     val launch = ClassName("kotlinx.coroutines","launch")

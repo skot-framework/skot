@@ -4,15 +4,17 @@
 2. Create a file ***build.gradle.kts*** with content: 
 ```
 buildscript {
- 	repositories {
-		google()
-		jcenter()
-		mavenCentral()
-		mavenLocal()
-	}
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven {
+            url = uri("https://jitpack.io")
+        }
+    }
 }
 plugins {
-	id("skot-starter").version("insert latest version")
+	id("skot-starter").version("latest_version")
 }
 skot {
 	appPackage = "your.package.name"
@@ -22,12 +24,20 @@ skot {
 3. Create a file ***settings.gradle.kts*** with content:
 ```
 pluginManagement {
-	repositories {
-		mavenLocal()
-		maven {
-			url = uri("https://raw.github.com/MathieuScotet/skot/repository")
-		}
-	}	
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.toString() == "skot-starter") {
+                useModule("com.github.MathieuScotet.skot:plugin:latest_version")
+            }
+        }
+    }
+    repositories {
+       //mavenLocal()
+        maven {
+            url = uri("https://jitpack.io")
+        }
+    }
+
 }
 ```
 These files will be overrided after initialization.

@@ -31,7 +31,7 @@ class SKDataWrapper<D : Any?>(
     private var _currentWrappedSKData: SKData<D>? = null
     private var currentCollectJob: Job? = null
 
-    private suspend fun subscribeToWrapped() {
+    private suspend fun subscribeToWrapped(throwError:Boolean) {
         getSKData().let { newSKToBeWrapped ->
             _currentWrappedSKData = newSKToBeWrapped
             currentCollectJob?.cancel()
@@ -60,7 +60,7 @@ class SKDataWrapper<D : Any?>(
                         }
                     }
                 }
-                if (errorToThrow != null) {
+                if (throwError && errorToThrow != null) {
                     throw errorToThrow
                 }
 
@@ -77,10 +77,10 @@ class SKDataWrapper<D : Any?>(
 
         launchMutex.withLock {
             if (wrappedSkChangedJob == null) {
-                subscribeToWrapped()
+                subscribeToWrapped(true)
                 wrappedSkChangedJob = scope.launch {
                     newSKDataFlow.drop(1).collect {
-                        subscribeToWrapped()
+                        subscribeToWrapped(false)
                     }
                 }
             }

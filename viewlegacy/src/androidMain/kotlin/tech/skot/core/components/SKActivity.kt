@@ -67,6 +67,7 @@ abstract class SKActivity : AppCompatActivity() {
                         setContentView(this.view)
                         screen = this
                         linkToRootStack()
+                        linkToCustoms()
                         if (resumedWithoutScreen) {
                             resumedWithoutScreen = false
                             onResume()
@@ -184,6 +185,14 @@ abstract class SKActivity : AppCompatActivity() {
             }
 
         }
+
+    }
+
+    /**
+     * override this method to register to messages or LiveData
+     * main use is globally, for all activities, for platform specific work (sdk)
+     */
+    protected open fun linkToCustoms() {
 
     }
 

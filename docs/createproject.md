@@ -27,7 +27,7 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             if (requested.id.toString() == "skot-starter") {
-                useModule("com.github.MathieuScotet.skot:plugin:latest_version")
+                useModule("com.github.skot-framework.skot:plugin:latest_version")
             }
         }
     }

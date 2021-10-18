@@ -1,7 +1,7 @@
 # skot
 a Super Kotlin framework
 
-[![](https://jitpack.io/v/MathieuScotet/skot.svg)](https://jitpack.io/#MathieuScotet/skot)
+[![](https://jitpack.io/v/skot-framework/skot.svg)](https://jitpack.io/#skot-framework/skot)
 
 To get started : 
 - [create project](docs/createproject.md)

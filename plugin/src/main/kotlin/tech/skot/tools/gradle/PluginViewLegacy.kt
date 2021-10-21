@@ -34,7 +34,6 @@ class PluginViewLegacy: Plugin<Project> {
             java.srcDir("src/androidMain/kotlin")
             java.srcDir("generated/androidMain/kotlin")
             assets.srcDirs("src/androidMain/assets")
-            res.srcDir("src/androidMain/res")
             res.srcDir("src/androidMain/res_referenced")
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
@@ -43,6 +42,8 @@ class PluginViewLegacy: Plugin<Project> {
                 res.srcDir("src/androidMain/res${it}_referenced")
                 java.srcDir("src/androidMain/kotlin$it")
             }
+            res.srcDir("src/androidMain/res")
+
         }
 
         defaultConfig {

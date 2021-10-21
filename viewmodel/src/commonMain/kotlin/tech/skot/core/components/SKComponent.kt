@@ -209,7 +209,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
                 }
             }
             launchNoCrash {
-                flow.drop(1).collect {
+                flow.collect {
                     it?.let {
                         it.data.let { treatData(it) }
                     }

@@ -17,3 +17,7 @@ private fun getFormatter(isoCurrency: String, locale:Locale): NumberFormat {
         mapFromatter[key] = this
     }
 }
+
+fun skResetCurrencyFormatters() {
+    mapFromatter.clear()
+}

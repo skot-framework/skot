@@ -11,7 +11,7 @@ kotlin {
     ios {
         binaries {
             framework {
-                baseName = "modelContract"
+                baseName = "skModelContract"
             }
         }
     }

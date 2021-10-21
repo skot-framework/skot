@@ -17,13 +17,13 @@ kotlin {
         publishLibraryVariantsGroupedByFlavor = true
     }
 
-//    ios {
-//        binaries {
-//            framework {
-//                baseName = "sk-model"
-//            }
-//        }
-//    }
+    ios {
+        binaries {
+            framework {
+                baseName = "skModel"
+            }
+        }
+    }
 
 //    ios()
 
@@ -71,15 +71,15 @@ kotlin {
             }
         }
 
-//        val iosMain by getting {
-//            dependencies {
-//                api("com.squareup.sqldelight:native-driver:${Versions.sqldelight}")
-//                api("io.ktor:ktor-client-ios:${Versions.ktor}")
-////                api("io.ktor:ktor-client-json-native:${Versions.ktor}")
-////                api("io.ktor:ktor-client-serialization-native:${Versions.ktor}")
-////                api("io.ktor:ktor-client-logging-native:${Versions.ktor}")
-//            }
-//        }
+        val iosMain by getting {
+            dependencies {
+                api("com.squareup.sqldelight:native-driver:${Versions.sqldelight}")
+                api("io.ktor:ktor-client-ios:${Versions.ktor}")
+//                api("io.ktor:ktor-client-json-native:${Versions.ktor}")
+//                api("io.ktor:ktor-client-serialization-native:${Versions.ktor}")
+//                api("io.ktor:ktor-client-logging-native:${Versions.ktor}")
+            }
+        }
 
 
     }

@@ -3,14 +3,11 @@ package tech.skot.tools.gradle
 import com.android.build.gradle.LibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import tech.skot.Versions
 import tech.skot.tools.gradle.SKLibrary.Companion.addDependenciesToLibraries
-import java.nio.file.Path
-import java.nio.file.Paths
 
 //open class SKPluginViewContractExtension {
 //}
@@ -28,7 +25,6 @@ class PluginViewContract : Plugin<Project> {
         project.extensions.findByType(LibraryExtension::class)?.conf()
 
         project.extensions.findByType(KotlinMultiplatformExtension::class)?.conf(project)
-
 
 
 //        project.task("TestGen") {
@@ -67,6 +63,13 @@ class PluginViewContract : Plugin<Project> {
     private fun KotlinMultiplatformExtension.conf(project: Project) {
         jvm("jvm")
         android("android")
+        ios {
+            binaries {
+                framework {
+                    baseName = "viewcontract"
+                }
+            }
+        }
 
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
         sourceSets["commonMain"].dependencies {
@@ -74,7 +77,11 @@ class PluginViewContract : Plugin<Project> {
         }
 
         println("Adding dependencies to libraries ")
-        addDependenciesToLibraries(this, (project.parent?.projectDir ?: project.rootDir).toPath(), "viewcontract")
+        addDependenciesToLibraries(
+            this,
+            (project.parent?.projectDir ?: project.rootDir).toPath(),
+            "viewcontract"
+        )
 
         skVariantsCombinaison(project.rootProject.rootDir.toPath()).forEach {
             sourceSets["commonMain"].kotlin.srcDir("src/commonMain/kotlin$it")

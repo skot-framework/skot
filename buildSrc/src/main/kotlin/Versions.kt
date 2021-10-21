@@ -1,10 +1,10 @@
 object Versions {
 
     const val group = "com.github.skot-framework.skot"
-    const val version = "1.0.0-alpha55"
+    const val version = "1.0.0-alpha56"
 
     const val kotlin = "1.5.30"
-    const val kotlinCoroutines = "1.5.2"
+    const val kotlinCoroutines = "1.5.2-native-mt"
     const val ktor = "1.6.3"
     const val sl4j = "1.6.1"
     const val serialization = "1.2.2"
@@ -16,7 +16,7 @@ object Versions {
 
     object Android {
 
-        const val gradle = "7.0.2"
+        const val gradle = "7.0.3"
 
         const val minSdk = 21
         const val compileSdk = 30

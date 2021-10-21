@@ -15,13 +15,13 @@ kotlin {
         publishLibraryVariantsGroupedByFlavor = true
     }
 
-//    ios {
-//        binaries {
-//            framework {
-//                baseName = "sk-viewmodel"
-//            }
-//        }
-//    }
+    ios {
+        binaries {
+            framework {
+                baseName = "skViewModel"
+            }
+        }
+    }
 
 
 

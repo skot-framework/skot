@@ -21,14 +21,14 @@ class PluginModel: Plugin<Project> {
         project.plugins.apply("com.android.library")
         project.plugins.apply("kotlinx-serialization")
 
-        project.extensions.findByType(LibraryExtension::class)?.conf()
+        project.extensions.findByType(LibraryExtension::class)?.conf(project)
 
         project.extensions.findByType(KotlinMultiplatformExtension::class)?.conf(project)
 
     }
 
 
-    private fun LibraryExtension.conf() {
+    private fun LibraryExtension.conf(project:Project) {
 
         defaultConfig {
             minSdkVersion(Versions.android_minSdk)
@@ -44,12 +44,21 @@ class PluginModel: Plugin<Project> {
         compileSdkVersion(Versions.android_compileSdk)
 
         sourceSets {
-            getByName("main").java.srcDirs("src/androidMain/kotlin")
-            getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")
+            getByName("main"){
+                java.srcDirs("src/androidMain/kotlin")
+                manifest.srcFile("src/androidMain/AndroidManifest.xml")
+
+                skVariantsCombinaison(project.rootProject.rootDir.toPath()).forEach {
+                    res.srcDir("src/androidMain/res$it")
+                    java.srcDir("src/androidMain/kotlin$it")
+                }
+            }
 
             getByName("androidTest") {
                 java.srcDir("src/androidTest/kotlin")
             }
+
+
         }
 
         packagingOptions {
@@ -64,14 +73,14 @@ class PluginModel: Plugin<Project> {
     private fun KotlinMultiplatformExtension.conf(project: Project) {
         android("android")
 
-//        ios {
-//            binaries {
-//                framework {
-//                    baseName = "model"
-//                    linkerOpts.add("-lsqlite3")
-//                }
-//            }
-//        }
+        ios {
+            binaries {
+                framework {
+                    baseName = "model"
+                    linkerOpts.add("-lsqlite3")
+                }
+            }
+        }
 
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
 

@@ -79,7 +79,13 @@ class PluginModelContract : Plugin<Project> {
     private fun KotlinMultiplatformExtension.conf(project: Project) {
         jvm("jvm")
         android("android")
-//        ios()
+        ios {
+            binaries {
+                framework {
+                    baseName = "modelcontract"
+                }
+            }
+        }
 
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
         sourceSets["commonMain"].dependencies {

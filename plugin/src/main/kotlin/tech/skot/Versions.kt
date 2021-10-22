@@ -4,7 +4,7 @@ import kotlin.Int
 import kotlin.String
 
 object Versions {
-  const val skot: String = "1.0.0-alpha56"
+  const val skot: String = "1.0.0-alpha57"
 
   const val group: String = "com.github.skot-framework.skot"
 
@@ -24,9 +24,9 @@ object Versions {
 
   const val android_minSdk: Int = 21
 
-  const val android_compileSdk: Int = 30
+  const val android_compileSdk: Int = 31
 
-  const val android_targetSdk: Int = 30
+  const val android_targetSdk: Int = 31
 
   const val android_app_compat: String = "1.3.1"
 }

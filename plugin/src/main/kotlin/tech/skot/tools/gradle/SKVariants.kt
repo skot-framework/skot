@@ -8,6 +8,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.*
+import kotlin.io.path.name
 
 data class SKVariants(val variants: List<String>, val env: String?) {
     fun toList(): List<String> = if (env != null) {
@@ -51,6 +52,10 @@ fun List<String>.combinaisons(): List<String> {
             }
         }
     }
+}
+
+fun Project.hasIosApp(): Boolean = Files.list(rootProject.rootDir.toPath()).anyMatch {
+    it.getName(it.nameCount-1).toString().startsWith("ios")
 }
 
 fun skVariantsCombinaison(path: Path) =

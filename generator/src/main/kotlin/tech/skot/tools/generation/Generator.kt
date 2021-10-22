@@ -9,6 +9,9 @@ import org.w3c.dom.Element
 import tech.skot.core.components.SKComponentVC
 import tech.skot.core.components.SKScreenVC
 import tech.skot.tools.generation.model.generateModel
+import tech.skot.tools.generation.resources.generateIcons
+import tech.skot.tools.generation.resources.generatePlurals
+import tech.skot.tools.generation.resources.generateStrings
 import tech.skot.tools.generation.resources.generateTransitions
 import tech.skot.tools.generation.viewlegacy.*
 import tech.skot.tools.generation.viewmodel.InitializationPlan
@@ -37,7 +40,9 @@ class Generator(
     val rootPath: Path,
     val feature: String?,
     val baseActivityVar: String?,
-    val initializationPlans: List<InitializationPlan>
+    val initializationPlans: List<InitializationPlan>,
+    val iOs:Boolean,
+    val referenceIconsByVariant:Boolean
 ) {
 
 
@@ -163,11 +168,7 @@ class Generator(
 
     @ExperimentalStdlibApi
     fun generate() {
-        deleteModuleGenerated(modules.viewcontract)
-        deleteModuleGenerated(modules.view)
-        deleteModuleGenerated(modules.model)
-        deleteModuleGenerated(modules.modelcontract)
-        deleteModuleGenerated(modules.viewmodel)
+
         deleteModuleGenerated(modules.app)
 
         rootState?.let { generateStates(it) }

@@ -1,7 +1,7 @@
 object Versions {
 
     const val group = "com.github.skot-framework.skot"
-    const val version = "1.0.0-alpha56"
+    const val version = "1.0.0-alpha57"
 
     const val kotlin = "1.5.30"
     const val kotlinCoroutines = "1.5.2-native-mt"
@@ -19,8 +19,8 @@ object Versions {
         const val gradle = "7.0.3"
 
         const val minSdk = 21
-        const val compileSdk = 30
-        const val targetSdk = 30
+        const val compileSdk = 31
+        const val targetSdk = 31
 
         const val timber = "4.7.1"
         const val appcompat = "1.3.1"

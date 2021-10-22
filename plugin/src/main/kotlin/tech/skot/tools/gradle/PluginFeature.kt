@@ -89,11 +89,8 @@ class PluginFeature : Plugin<Project> {
 
         add("implementation", project("$parentProjectPath:viewmodel"))
         add("implementation", project("$parentProjectPath:model"))
-        add("api", "${Versions.group}:viewlegacy:${Versions.skot}")
         add("api", project("$parentProjectPath:viewcontract"))
 
-        add("implementation", project(":androidApp"))
-//        add("debugImplementation","com.squareup.leakcanary:leakcanary-android:2.6")
     }
 
 }

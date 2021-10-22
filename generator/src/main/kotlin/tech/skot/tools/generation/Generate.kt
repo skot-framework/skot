@@ -92,7 +92,18 @@ fun buildGenerator(args: Array<String>):Generator {
 //    val initPlansStr =
     val initPlans = args[7].split("_").filterNot { it.isBlank() }.map { Class.forName(it).kotlin.createInstance() as InitializationPlan }
 
-    return Generator(appPackage, startClass as KClass<SKScreenVC>, rootStateClass, baseActivity, rootPath, feature, baseActivityVar, initializationPlans = initPlans)
+    return Generator(
+        appPackage,
+        startClass as KClass<SKScreenVC>,
+        rootStateClass,
+        baseActivity,
+        rootPath,
+        feature,
+        baseActivityVar,
+        initializationPlans = initPlans,
+        iOs = args[8].toBoolean(),
+        referenceIconsByVariant = args[9].toBoolean()
+    )
 
 }
 

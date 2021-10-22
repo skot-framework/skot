@@ -45,13 +45,16 @@ class PluginViewModel: Plugin<Project> {
 
     private fun KotlinMultiplatformExtension.conf(project: Project) {
         android("android")
-        ios {
-            binaries {
-                framework {
-                    baseName = "viewmodel"
+        if (project.hasIosApp()) {
+            ios {
+                binaries {
+                    framework {
+                        baseName = "viewmodel"
+                    }
                 }
             }
         }
+
 
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
 

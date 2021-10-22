@@ -73,14 +73,17 @@ class PluginModel: Plugin<Project> {
     private fun KotlinMultiplatformExtension.conf(project: Project) {
         android("android")
 
-        ios {
-            binaries {
-                framework {
-                    baseName = "model"
-                    linkerOpts.add("-lsqlite3")
+        if (project.hasIosApp()) {
+            ios {
+                binaries {
+                    framework {
+                        baseName = "model"
+                        linkerOpts.add("-lsqlite3")
+                    }
                 }
             }
         }
+
 
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
 

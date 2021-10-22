@@ -1,10 +1,11 @@
-package tech.skot.tools.generation
+package tech.skot.tools.generation.resources
 
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeSpec
 import org.jetbrains.kotlin.util.capitalizeDecapitalize.decapitalizeAsciiOnly
+import tech.skot.tools.generation.*
 import java.nio.file.Files
 import java.util.stream.Collectors
 

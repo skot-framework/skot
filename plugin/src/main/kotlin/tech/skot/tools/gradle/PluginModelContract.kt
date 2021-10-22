@@ -1,8 +1,6 @@
 package tech.skot.tools.gradle
 
 import com.android.build.gradle.LibraryExtension
-import com.android.build.gradle.internal.crash.afterEvaluate
-import com.squareup.kotlinpoet.asTypeName
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.create
@@ -10,8 +8,6 @@ import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import tech.skot.Versions
-import kotlin.reflect.full.createType
-import kotlin.reflect.full.memberProperties
 
 open class SKPluginModelContractExtension {
     var buildFiles: List<Any>? = null
@@ -79,13 +75,16 @@ class PluginModelContract : Plugin<Project> {
     private fun KotlinMultiplatformExtension.conf(project: Project) {
         jvm("jvm")
         android("android")
-        ios {
-            binaries {
-                framework {
-                    baseName = "modelcontract"
+        if (project.hasIosApp()) {
+            ios {
+                binaries {
+                    framework {
+                        baseName = "modelcontract"
+                    }
                 }
             }
         }
+
 
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
         sourceSets["commonMain"].dependencies {

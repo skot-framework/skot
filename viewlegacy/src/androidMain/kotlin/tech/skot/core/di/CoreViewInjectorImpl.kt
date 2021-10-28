@@ -25,7 +25,7 @@ class CoreViewInjectorImpl : CoreViewInjector {
         initialSelectedPageIndex: Int,
         swipable: Boolean
     ) = SKPagerViewProxy(
-        screens = screens as List<SKScreenViewProxy<*>>,
+        initialScreens = screens as List<SKScreenViewProxy<*>>,
         onSwipeToPage = onSwipeToPage,
         initialSelectedPageIndex = initialSelectedPageIndex,
         swipable = swipable
@@ -34,7 +34,7 @@ class CoreViewInjectorImpl : CoreViewInjector {
     override fun pagerWithTabs(pager: SKPagerVC, labels: List<String>) =
         SKPagerWithTabsViewProxy(
             pager = pager as SKPagerViewProxy,
-            labels = labels
+            initialLabels = labels
         )
 
 

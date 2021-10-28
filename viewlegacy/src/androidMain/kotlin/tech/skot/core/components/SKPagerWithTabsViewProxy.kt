@@ -4,12 +4,19 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
-import tech.skot.viewlegacy.databinding.SkPagerWithTabsBinding
+import tech.skot.view.live.MutableSKLiveData
 
 class SKPagerWithTabsViewProxy(
     override val pager: SKPagerViewProxy,
-    override val labels: List<String>,
+    initialLabels: List<String>,
 ) : SKComponentViewProxy<View>(), SKPagerWithTabsVC {
+
+    private val labelsLD = MutableSKLiveData(initialLabels)
+    override var labels : List<String>
+        get() = labelsLD.value
+        set(value) {
+            labelsLD.postValue(value)
+        }
 
     override fun bindTo(
         activity: SKActivity,
@@ -22,7 +29,10 @@ class SKPagerWithTabsViewProxy(
         return SKPagerWithTabsView(this, activity, fragment, binding, pagerView, tabLayoutView).apply {
             collectObservers = collectingObservers
             pager.bindTo(activity, fragment, pagerView, collectingObservers)
-            onLabels(labels)
+            labelsLD.observe {
+                onLabels(labels)
+            }
+
         }
     }
 

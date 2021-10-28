@@ -2,11 +2,11 @@
 
 a Super Kotlin framework
 Kotlin multiplatform 
-latest version : ***1.0.0-alpha12***
+latest version : [![](https://jitpack.io/v/skot-framework/skot.svg)](https://jitpack.io/#skot-framework/skot)
 
 To get started : 
-- [create project](createproject.md)
-- [learn the nomenclature](nomenclature.md)
-- [understand the framework structure](structure.md)
-- [create my first screen](screen.md)
 
+- [learn the nomenclature](nomenclature/nomenclature.md)
+- [understand the framework structure](architecture/readme.md)
+- [create project](start/createproject.md)
+- [create my first screen](start/createscreen.md)

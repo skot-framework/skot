@@ -3,6 +3,7 @@ package tech.skot.model
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
 import tech.skot.core.SKLog
 import tech.skot.core.currentTimeMillis
@@ -17,11 +18,50 @@ val json: Json by lazy {
     }
 }
 
+
+//On fait le choix de tout sécuriser, les erreurs étant loggées, cela correspond aux cas d'usage standard
+//à voir pour faire des versions non sécurisées des méthodes si besoin de différencier le cas “pas de donnée” du cas “erreur de lecture”
+
 interface SKPersistor {
 
     suspend fun putString(
         name: String,
         data: String,
+        key: String? = null,
+        timestamp: Long = currentTimeMillis()
+    )
+
+    suspend fun putInt(
+        name: String,
+        data: Int,
+        key: String? = null,
+        timestamp: Long = currentTimeMillis()
+    )
+
+    suspend fun putFloat(
+        name: String,
+        data: Float,
+        key: String? = null,
+        timestamp: Long = currentTimeMillis()
+    )
+
+    suspend fun putDouble(
+        name: String,
+        data: Float,
+        key: String? = null,
+        timestamp: Long = currentTimeMillis()
+    )
+
+    suspend fun putLong(
+        name: String,
+        data: Boolean,
+        key: String? = null,
+        timestamp: Long = currentTimeMillis()
+    )
+
+    suspend fun putBoolean(
+        name: String,
+        data: Boolean,
         key: String? = null,
         timestamp: Long = currentTimeMillis()
     )
@@ -35,7 +75,7 @@ interface SKPersistor {
         timestamp: Long = currentTimeMillis()
     )
 
-    suspend fun getDate(
+    suspend fun getDateOfData(
         name: String,
         key: String? = null
     ): Long?
@@ -44,6 +84,31 @@ interface SKPersistor {
         name: String,
         key: String? = null
     ): String?
+
+    suspend fun getInt(
+        name: String,
+        key: String? = null
+    ): Int?
+
+    suspend fun getBoolean(
+        name: String,
+        key: String? = null
+    ): Boolean?
+
+    suspend fun getLong(
+        name: String,
+        key: String? = null
+    ): Long?
+
+    suspend fun getFloat(
+        name: String,
+        key: String? = null
+    ): Float?
+
+    suspend fun getDouble(
+        name: String,
+        key: String? = null
+    ): Double?
 
     suspend fun <D : Any> getData(
         serializer: KSerializer<D>,
@@ -55,66 +120,8 @@ interface SKPersistor {
     suspend fun remove(name: String)
     suspend fun clear()
 
-
-//    suspend fun <D : Any> putDatedData(
-//        serializer: KSerializer<D>,
-//        name: String,
-//        datedData: DatedData<D>,
-//        key: String? = null
-//    ) {
-//        putData(
-//            serializer = serializer,
-//            name = name,
-//            data = datedData.data,
-//            timestamp = datedData.timestamp,
-//            key = key
-//        )
-//    }
-
-//    suspend fun <D : Any> getDataSecured(
-//        serializer: KSerializer<D>,
-//        name: String,
-//        key: String? = null
-//    ): DatedData<D>? = try {
-//        getData(serializer, name, key)
-//    } catch (ex: Exception) {
-//        SKLog.e(ex, "SKPersistor : Error getting data $name from cache")
-//        null
-//    }
-
-//    suspend fun <D : Any> putDataSecured(serializer: KSerializer<D>, name: String, data: D, key: String? = null, timestamp: Long = currentTimeMillis()) {
-//        try {
-//            putData(serializer, name, data, key, timestamp)
-//        }
-//        catch (ex:Exception) {
-//            SKLog.e(ex, "SKPersistor : Error putting data $name in cache")
-//        }
-//    }
-
-
-//    suspend fun putStringSecured( name: String, data: String, key: String? = null, timestamp: Long = currentTimeMillis()) {
-//        try {
-//            putString(name, data, key, timestamp)
-//        }
-//        catch (ex:Exception) {
-//            SKLog.e(ex, "SKPersistor : Error putting data $name in cache")
-//        }
-//    }
-
-
-//    suspend fun getStringValue(name: String, key: String? = null): String?
-//
-//    suspend fun getStringSecured(name: String, key: String? = null): DatedData<String>? = try {
-//        getString(name)
-//    } catch (ex: Exception) {
-//        null
-//    }
-
-
 }
 
-//On fait le choix de tout sécuriser, les erreurs étant loggées, cela correspond aux cas d'usage standard
-//à voir pour faire des versions non sécurisées des méthodes si besoin
 
 abstract class CommonSKPersistor : SKPersistor {
     protected abstract val db: PersistDb
@@ -137,18 +144,51 @@ abstract class CommonSKPersistor : SKPersistor {
         }
     }
 
+    override suspend fun putInt(name: String, data: Int, key: String?, timestamp: Long) {
+        withContext(Dispatchers.Default) {
+            _putString(name, data.toString(), key, timestamp)
+        }
+    }
+
+
+    override suspend fun putFloat(name: String, data: Float, key: String?, timestamp: Long) {
+        withContext(Dispatchers.Default) {
+            _putString(name, data.toString(), key, timestamp)
+        }
+    }
+
+
+    override suspend fun putDouble(name: String, data: Float, key: String?, timestamp: Long) {
+        withContext(Dispatchers.Default) {
+            _putString(name, data.toString(), key, timestamp)
+        }
+    }
+
+    override suspend fun putLong(name: String, data: Boolean, key: String?, timestamp: Long) {
+        withContext(Dispatchers.Default) {
+            _putString(name, data.toString(), key, timestamp)
+        }
+    }
+
+    override suspend fun putBoolean(name: String, data: Boolean, key: String?, timestamp: Long) {
+        withContext(Dispatchers.Default) {
+            _putString(name, data.toString(), key, timestamp)
+        }
+    }
+
     private fun _putString(name: String, data: String, key: String?, timestamp: Long) {
         try {
             db.persistedQueries.putByName(name, key, timestamp, data)
         } catch (ex: Exception) {
             SKLog.e(
                 ex,
-                "SKPersistor: Problem putting data with name: $name and key: $key"
+                "SKPersistor: Problem putting Data with name: $name and key: $key"
             )
         }
     }
 
-    override suspend fun getDate(name: String, key: String?): Long? {
+
+    override suspend fun getDateOfData(name: String, key: String?): Long? {
         return withContext(Dispatchers.Default) {
             try {
                 db.persistedQueries.obtainDateByName(name, key).executeAsOneOrNull()
@@ -174,6 +214,26 @@ abstract class CommonSKPersistor : SKPersistor {
                 null
             }
         }
+    }
+
+    override suspend fun getInt(name: String, key: String?): Int? {
+        return getData(Int.serializer(), name, key)
+    }
+
+    override suspend fun getBoolean(name: String, key: String?): Boolean? {
+        return getData(Boolean.serializer(), name, key)
+    }
+
+    override suspend fun getLong(name: String, key: String?): Long? {
+        return getData(Long.serializer(),name, key)
+    }
+
+    override suspend fun getFloat(name: String, key: String?): Float? {
+        return getData(Float.serializer(),name, key)
+    }
+
+    override suspend fun getDouble(name: String, key: String?): Double? {
+        return getData(Double.serializer(),name, key)
     }
 
     fun _getString(name: String, key: String?) =

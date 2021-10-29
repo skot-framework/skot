@@ -44,7 +44,7 @@ abstract class SKDistantDataWithCache<D : Any>(
     private suspend fun initWithCache() {
         initMutex.withLock {
             if (flow.value == null) {
-                val cacheDate = cache.getDate(name, key)
+                val cacheDate = cache.getDateOfData(name, key)
                 if (cacheDate != null) {
                     try {
                         flow.value = cache.getData(serializer, name, key)?.let { DatedData(it, cacheDate) }

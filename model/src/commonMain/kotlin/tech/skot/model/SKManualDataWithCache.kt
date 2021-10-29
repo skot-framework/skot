@@ -7,12 +7,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.Serializer
 import tech.skot.core.SKLog
-import kotlin.reflect.KProperty
-
 
 
 abstract class SKManualDataWithCache<D : Any>(
@@ -34,7 +29,7 @@ abstract class SKManualDataWithCache<D : Any>(
     private suspend fun initWithCache() {
         initMutex.withLock {
             if (flow.value == null) {
-                val cacheDate = cache.getDate(name, key)
+                val cacheDate = cache.getDateOfData(name, key)
                 if (cacheDate != null) {
                     try {
                         flow.value = cache.getData(serializer, name, key)?.let { DatedData(it, cacheDate) }

@@ -77,7 +77,7 @@ class PluginApp: Plugin<Project> {
         add("implementation", project(":model"))
         add("implementation", project(":view"))
 
-        add("debugImplementation","com.squareup.leakcanary:leakcanary-android:2.6")
+        add("debugImplementation","com.squareup.leakcanary:leakcanary-android:2.7")
 
         add("coreLibraryDesugaring", "com.android.tools:desugar_jdk_libs:1.1.5")
 

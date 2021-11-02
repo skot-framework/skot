@@ -21,7 +21,7 @@ class SKFrameView(
                     fragmentsToRemove.forEach {
                         trans.remove(it)
                     }
-                    trans.commitNow()
+                    trans.commitNowAllowingStateLoss()
                 }
             }
         }

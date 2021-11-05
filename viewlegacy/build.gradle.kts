@@ -9,7 +9,7 @@ plugins {
 
 
 dependencies {
-    api("androidx.core:core:1.6.0")
+    api("androidx.core:core:1.7.0")
     api("androidx.appcompat:appcompat:${Versions.Android.appcompat}")
     api("androidx.constraintlayout:constraintlayout:${Versions.Android.constraintLayout}")
     api("androidx.viewpager2:viewpager2:${Versions.Android.viewpager2}")

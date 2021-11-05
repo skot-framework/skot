@@ -9,13 +9,16 @@ import tech.skot.model.SKData
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
+var errorTreatment: ((component: SKComponent<*>, exception: Exception, errorMessage: String?) -> Unit)? =
+    null
+
 abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
     abstract val view: V
 
-    companion object {
-        var errorTreatment: ((component: SKComponent<*>, exception: Exception, errorMessage: String?) -> Unit)? =
-            null
-    }
+//    companion object {
+//        var errorTreatment: ((component: SKComponent<*>, exception: Exception, errorMessage: String?) -> Unit)? =
+//            null
+//    }
 
 
     protected val job = SupervisorJob()
@@ -46,7 +49,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
 
     open fun treatError(exception: Exception, errorMessage: String?) {
         errorTreatment?.invoke(this, exception, errorMessage)
-            ?: throw IllegalStateException("Valorise Component.errorTreatment or override treatError function to use method treating errors")
+            ?: throw IllegalStateException("Valorise errorTreatment static var or override treatError function to use method treating errors")
     }
 
     fun launchWithOptions(

@@ -12,12 +12,6 @@ import tech.skot.model.persist.PersistDb
 
 data class DatedDataWithKey<D : Any>(val data: D, val id: String?, val timestamp: Long)
 
-val json: Json by lazy {
-    Json {
-        ignoreUnknownKeys = true
-    }
-}
-
 
 //On fait le choix de tout sécuriser, les erreurs étant loggées, cela correspond aux cas d'usage standard
 //à voir pour faire des versions non sécurisées des méthodes si besoin de différencier le cas “pas de donnée” du cas “erreur de lecture”
@@ -126,6 +120,12 @@ interface SKPersistor {
 abstract class CommonSKPersistor : SKPersistor {
     protected abstract val db: PersistDb
 
+    val json: Json =
+        Json {
+            ignoreUnknownKeys = true
+        }
+
+
     override suspend fun <D : Any> putData(
         serializer: KSerializer<D>,
         name: String,
@@ -134,7 +134,7 @@ abstract class CommonSKPersistor : SKPersistor {
         timestamp: Long
     ) {
         withContext(Dispatchers.Default) {
-            _putString(name, json.encodeToString(serializer, data), key, timestamp)
+            _putString(name,json.encodeToString(serializer, data) , key, timestamp)
         }
     }
 

@@ -30,17 +30,17 @@ class SKListView(
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             ViewHolder(viewType, parent)
 
-        override fun getItemViewType(position: Int) = items[position].first.layoutId
-            ?: throw IllegalStateException("${items[position].first::class.simpleName} can't be in a recyclerview")
+        override fun getItemViewType(position: Int) = items[position].component.layoutId
+            ?: throw IllegalStateException("${items[position].component::class.simpleName} can't be in a recyclerview")
 
         override fun getItemCount() = items.size
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             items[position].let { proxy ->
                 val componentViewImpl =
-                    proxy.first.bindToItemView(activity, fragment, holder.itemView)
+                    proxy.component.bindToItemView(activity, fragment, holder.itemView)
                 holder.componentView = componentViewImpl
-                mapProxyIndexComponentViewImpl[proxy.first] = componentViewImpl
+                mapProxyIndexComponentViewImpl[proxy.component] = componentViewImpl
             }
         }
 
@@ -66,7 +66,7 @@ class SKListView(
         }
     }
 
-    var items: List<Triple<SKComponentViewProxy<*>, Any, (() -> Unit)?>> = emptyList()
+    var items: List<SKListViewProxy.Item> = emptyList()
         set(newVal) {
             field.forEach { proxy ->
                 if (!newVal.any { it.first == proxy.first }) {
@@ -109,7 +109,7 @@ class SKListView(
     }
 
 
-    fun onItems(items: List<Triple<SKComponentViewProxy<*>, Any, (() -> Unit)?>>) {
+    fun onItems(items: List<SKListViewProxy.Item>) {
         this.items = items
     }
 
@@ -127,8 +127,8 @@ class SKListView(
 
 
     class DiffCallBack(
-        private val oldList: List<Triple<SKComponentViewProxy<*>, Any, (() -> Unit)?>>,
-        private val newList: List<Triple<SKComponentViewProxy<*>, Any, (() -> Unit)?>>
+        private val oldList: List<SKListViewProxy.Item>,
+        private val newList: List<SKListViewProxy.Item>
     ) : DiffUtil.Callback() {
         override fun getOldListSize(): Int {
             return oldList.size
@@ -141,11 +141,11 @@ class SKListView(
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             val oldItem = oldList[oldItemPosition]
             val newItem = newList[newItemPosition]
-            return oldItem.first.layoutId == newItem.first.layoutId && oldItem.second == newItem.second
+            return oldItem.component.layoutId == newItem.component.layoutId && oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition].first == newList[newItemPosition].first
+            return oldList[oldItemPosition].component == newList[newItemPosition].component
         }
 
     }
@@ -155,7 +155,7 @@ abstract class SKListItemTouchHelperCallBack(private val listView: SKListView) :
     ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        listView.items[viewHolder.absoluteAdapterPosition].third?.invoke()
+        listView.items[viewHolder.absoluteAdapterPosition].onSwipe?.invoke()
     }
 
     override fun getSwipeDirs(
@@ -167,7 +167,7 @@ abstract class SKListItemTouchHelperCallBack(private val listView: SKListView) :
         if (item == null) {
             SKLog.e(IllegalStateException("getSwipeDirs item null"), "getSwipeDirs item null")
         }
-        return if (item?.third != null) {
+        return if (item?.onSwipe != null) {
             super.getSwipeDirs(recyclerView, viewHolder)
         } else {
             0

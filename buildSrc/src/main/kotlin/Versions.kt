@@ -28,7 +28,7 @@ object Versions {
         const val viewpager2 = "1.0.0"
         const val recyclerview = "1.2.1"
         const val material = "1.4.0"
-        const val lifecycle = "2.3.1"
+        const val lifecycle = "2.4.0"
 
     }
 }

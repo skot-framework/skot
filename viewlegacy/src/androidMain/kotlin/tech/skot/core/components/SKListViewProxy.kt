@@ -9,12 +9,20 @@ import tech.skot.viewlegacy.R
 
 class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean, private val nbColumns:Int?, private val animate:Boolean, private val animateItem:Boolean) : SKComponentViewProxy<RecyclerView>(), SKListVC {
 
-    private val itemsLD: MutableSKLiveData<List<Triple<SKComponentViewProxy<*>, Any, (()->Unit)?>>> = MutableSKLiveData(emptyList())
+    data class Item(val component:SKComponentViewProxy<*>,val id:Any, val onSwipe:(()->Unit)?)
 
-    override var items: List<Triple<SKComponentVC, Any, (()->Unit)?>>
-        get() = itemsLD.value
+    private val itemsLD: MutableSKLiveData<List<Item>> = MutableSKLiveData(emptyList())
+
+    override var items: List<SKListVC.Item>
+        get() = itemsLD.value.map { SKListVC.Item(it.component, it.id, it.onSwipe) }
         set(newVal) {
-            itemsLD.postValue(newVal as List<Triple<SKComponentViewProxy<*>, Any, (()->Unit)?>>)
+//            val newProxyItems = newVal as List<SKComponentViewProxy<*>>
+//            itemsLD.value.lastOrNull()?.let {
+//                if (newProxyList.lastOrNull() != it && newProxyList.contains(it)) {
+//                    it.saveState()
+//                }
+//            }
+            itemsLD.postValue(newVal.map { Item(it.component as SKComponentViewProxy<*>, it.id, it.onSwipe) })
         }
 
     private val srollToPositionMessage = SKMessage<Int>()

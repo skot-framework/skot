@@ -16,7 +16,7 @@ class ParamInfos(
     val isVal: Boolean = true,
     val mutable: Boolean = false,
     val isPrivate: Boolean = false,
-    val default:String? = null
+    val default: String? = null
 )
 
 fun TypeSpec.Builder.addPrimaryConstructorWithParams(vals: List<ParamInfos>): TypeSpec.Builder {
@@ -56,6 +56,16 @@ fun TypeSpec.Builder.addPrimaryConstructorWithParams(vals: List<ParamInfos>): Ty
     return this
 }
 
+fun PropertySpec.Builder.byLazyGet() =
+    delegate(
+        CodeBlock
+            .builder()
+            .beginControlFlow("lazy")
+            .addStatement("get()")
+            .endControlFlow()
+            .build()
+    )
+
 
 fun TypeName.nullable() = this.copy(true)
 
@@ -69,7 +79,7 @@ fun FileSpec.Builder.addImportClassName(className: ClassName) =
     addImport(className.packageName, className.simpleName)
 
 fun FileSpec.Builder.addImportTypeName(typeName: TypeName) =
-    when(typeName) {
+    when (typeName) {
         is ParameterizedTypeName -> addImportClassName(typeName.rawType)
         else -> addImportClassName(typeName as ClassName)
     }
@@ -154,4 +164,5 @@ fun KClass<*>.ownProperties(): List<KCallable<*>> {
 fun KClass<*>.ownFuncs() = ownMembers().filterIsInstance(KFunction::class.java)
 
 
-fun ClassName.withSuffix(suffix:String):ClassName = ClassName(packageName, simpleName.suffix(suffix))
+fun ClassName.withSuffix(suffix: String): ClassName =
+    ClassName(packageName, simpleName.suffix(suffix))

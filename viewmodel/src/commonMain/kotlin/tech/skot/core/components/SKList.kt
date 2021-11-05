@@ -1,6 +1,5 @@
 package tech.skot.core.components
 
-import tech.skot.core.SKLog
 import tech.skot.core.di.coreViewInjector
 
 open class SKList(
@@ -14,7 +13,7 @@ open class SKList(
 
     var items: List<SKComponent<*>> = emptyList()
         set(value) {
-            view.items = value.map { Triple(it.view, it.computeItemId(), it.onSwipe) }
+            view.items = value.map { SKListVC.Item(it.view, it.computeItemId(), it.onSwipe) }
             field.forEach { if (!value.contains(it)) it.onRemove() }
             field = value
         }
@@ -23,7 +22,7 @@ open class SKList(
         view.scrollToPosition(position)
     }
 
-    fun showAll(item:SKComponent<*>) {
+    fun showAll(item: SKComponent<*>) {
         view.scrollToPosition(items.indexOf(item))
     }
 

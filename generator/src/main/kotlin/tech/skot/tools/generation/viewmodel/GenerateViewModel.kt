@@ -175,53 +175,55 @@ fun Generator.generateViewModel() {
         }
     }
 
+
+
     FileSpec.builder(shortCuts.packageName, shortCuts.simpleName)
         .addProperty(
             PropertySpec
                 .builder(viewInjectorIntance.simpleName, viewInjectorInterface)
-                .initializer("get()")
+                .byLazyGet()
                 .build()
         )
         .addProperty(
             PropertySpec
                 .builder(modelInjectorIntance.simpleName, modelInjectorInterface)
-                .initializer("get()")
+                .byLazyGet()
                 .build()
         )
         .addProperty(
             PropertySpec
                 .builder(stringsInstance.simpleName, stringsInterface)
-                .initializer("get()")
+                .byLazyGet()
                 .build()
         )
         .addProperty(
             PropertySpec
                 .builder(pluralsInstance.simpleName, pluralsInterface)
-                .initializer("get()")
+                .byLazyGet()
                 .build()
         )
         .addProperty(
             PropertySpec
                 .builder(iconsInstance.simpleName, iconsInterface)
-                .initializer("get()")
+                .byLazyGet()
                 .build()
         )
         .addProperty(
             PropertySpec
                 .builder(colorsInstance.simpleName, colorsInterface)
-                .initializer("get()")
+                .byLazyGet()
                 .build()
         )
         .addProperty(
             PropertySpec
                 .builder(stylesInstance.simpleName, stylesInterface)
-                .initializer("get()")
+                .byLazyGet()
                 .build()
         )
         .addProperty(
             PropertySpec
                 .builder("transitions", transisitonsInterface)
-                .initializer("get()")
+                .byLazyGet()
                 .build()
         )
         .apply {

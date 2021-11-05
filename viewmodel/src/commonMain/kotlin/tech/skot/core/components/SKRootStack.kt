@@ -2,6 +2,8 @@ package tech.skot.core.components
 
 import tech.skot.core.di.coreViewInjector
 
-object SKRootStack:SKStack() {
-    override val view = coreViewInjector.rootStack()
+val SKRootStack:SKStack by lazy {
+    object : SKStack() {
+        override val view = coreViewInjector.rootStack()
+    }
 }

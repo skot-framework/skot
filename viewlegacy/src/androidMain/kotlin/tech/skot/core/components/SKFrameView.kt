@@ -2,7 +2,7 @@ package tech.skot.core.components
 
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
-import tech.skot.core.SKLog
+import androidx.lifecycle.Lifecycle
 
 class SKFrameView(
     proxy: SKFrameViewProxy,
@@ -42,25 +42,19 @@ class SKFrameView(
 
                 fragments.forEach {
                     if (it.tag != tag && !it.isHidden) {
-//                        SKLog.d("###### ))) hide ${it::class.simpleName} ${(it as? SKFragment)?.screen?.let { it::class.simpleName }}  ${it.isHidden()}")
                         trans.hide(it)
-                        it.onPauseRecursive()
+                        trans.setMaxLifecycle(it, Lifecycle.State.STARTED)
                     }
                 }
 
                 if (alreadyAddedFragment != null) {
+                    trans.setMaxLifecycle(alreadyAddedFragment, Lifecycle.State.RESUMED)
                     trans.show(alreadyAddedFragment)
                 } else {
                     screen.createFragment().let { frag ->
                         trans.add(binding.id, frag, tag)
                     }
 
-                }
-
-                alreadyAddedFragment?.let {
-                    trans.runOnCommit {
-                        it.onResumeRecursive()
-                    }
                 }
 
             } else {

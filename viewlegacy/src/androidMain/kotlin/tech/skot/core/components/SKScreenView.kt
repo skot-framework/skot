@@ -5,7 +5,9 @@ import androidx.annotation.CallSuper
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.viewbinding.ViewBinding
+import tech.skot.core.SKLog
 import tech.skot.view.extensions.systemBars
 import tech.skot.view.extensions.updatePadding
 
@@ -61,7 +63,9 @@ abstract class SKScreenView<B : ViewBinding>(
 
     init {
         ScreensManager.backPressed.observe(this) {
-            onBackPressed?.invoke()
+            if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                onBackPressed?.invoke()
+            }
         }
 
     }

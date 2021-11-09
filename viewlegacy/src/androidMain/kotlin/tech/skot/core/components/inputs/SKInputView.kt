@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
 import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKComponentView
-import tech.skot.core.components.SKComponentViewProxy
 import tech.skot.view.extensions.setOnDone
 import tech.skot.view.extensions.setVisible
 
@@ -70,8 +69,8 @@ abstract class SKInputViewCommon<V: View>(
         watching = watcher
     }
 
-    override fun removeObservers() {
-        super.removeObservers()
+    override fun onRecycle() {
+        super.onRecycle()
         watching?.let { editText.removeTextChangedListener(it) }
     }
 

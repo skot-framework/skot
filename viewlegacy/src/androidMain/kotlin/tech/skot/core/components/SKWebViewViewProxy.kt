@@ -16,7 +16,7 @@ class SKWebViewViewProxy(
     override var goBack: SKWebViewVC.BackRequest? by goBackLD
 
 
-    override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: WebView, collectingObservers: Boolean) =
+    override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: WebView) =
             SKWebViewView(this, activity, fragment, binding).apply {
                 onConfig(config)
                 openUrlLD.observe {

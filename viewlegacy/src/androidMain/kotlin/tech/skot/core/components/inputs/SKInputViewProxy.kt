@@ -58,10 +58,8 @@ abstract class SKInputViewProxyCommon<V : View>(
     override fun bindTo(
         activity: SKActivity,
         fragment: Fragment?,
-        binding: V,
-        collectingObservers: Boolean
+        binding: V
     ): SKInputViewCommon<V> = createView(activity, fragment, binding).apply {
-        collectObservers = collectingObservers
         onMaxSize(maxSize)
         onOnDone(onDone)
         onOnFocusLost(onFocusLost)

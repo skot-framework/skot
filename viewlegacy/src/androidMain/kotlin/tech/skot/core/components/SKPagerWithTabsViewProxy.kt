@@ -21,14 +21,12 @@ class SKPagerWithTabsViewProxy(
     override fun bindTo(
         activity: SKActivity,
         fragment: Fragment?,
-        binding: View,
-        collectingObservers: Boolean
+        binding: View
     ) :SKPagerWithTabsView {
         val pagerView = binding.findViewWithTag<ViewPager2>("sk_view_pager2")
         val tabLayoutView = binding.findViewWithTag<TabLayout>("sk_tab_layout")
         return SKPagerWithTabsView(this, activity, fragment, binding, pagerView, tabLayoutView).apply {
-            collectObservers = collectingObservers
-            pager.bindTo(activity, fragment, pagerView, collectingObservers)
+            pager.bindTo(activity, fragment, pagerView)
             labelsLD.observe {
                 onLabels(labels)
             }

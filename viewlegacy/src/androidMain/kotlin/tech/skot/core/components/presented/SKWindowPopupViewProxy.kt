@@ -14,8 +14,7 @@ class SKWindowPopupViewProxy() : SKComponentViewProxy<Unit>(), SKWindowPopupVC {
     override fun bindTo(
         activity: SKActivity,
         fragment: Fragment?,
-        binding: Unit,
-        collectingObservers: Boolean
+        binding: Unit
     ) =
         SKWindowPopupView(this, activity, fragment).apply {
             stateLD.observe {

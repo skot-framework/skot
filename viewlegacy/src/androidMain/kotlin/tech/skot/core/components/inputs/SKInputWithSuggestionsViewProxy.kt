@@ -41,8 +41,7 @@ class SKInputWithSuggestionsViewProxy(
     override fun bindTo(
         activity: SKActivity,
         fragment: Fragment?,
-        binding: SkInputWithSuggestionsBinding,
-        collectingObservers: Boolean
+        binding: SkInputWithSuggestionsBinding
     ) = SKInputWithSuggestionsView(this, activity, fragment, binding).apply {
         bind()
         onOnInputText(onInputText)

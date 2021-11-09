@@ -14,8 +14,9 @@ class SKBoxView(
 
     fun onItems(items: List<SKComponentViewProxy<*>>) {
         binding.removeAllViews()
+        subViews.clear()
         items.forEach {
-            it.inflateInParentAndBind(activity = activity, fragment = fragment, parent = binding)
+            subViews.add(it.inflateInParentAndBind(activity = activity, fragment = fragment, parent = binding))
         }
     }
 

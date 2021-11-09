@@ -258,30 +258,32 @@ fun ComponentDef.buildProxy(
                     .addParameter("activity", AndroidClassNames.skActivity)
                     .addParameter("fragment", AndroidClassNames.fragment.nullable())
                     .addParameter("binding", binding(viewModuleAndroidPackage))
-                    .addParameter("collectingObservers", ClassName("kotlin", "Boolean"))
                     .returns(viewImpl())
-
+                    .apply {
+                        subComponents.filter { it.passToParentView }.forEach {
+                            addStatement("val ${it.name} = "+it.bindToSubComponent(
+                                generator,
+                                includesIds
+                            )+" as ${it.viewImplClassName.simpleName}")
+                        }
+                    }
                     .beginControlFlow("return ${viewImpl().simpleName}(this, activity, fragment, binding${
                         subComponents.filter { it.passToParentView }
                             .map {
-                                ", ${
-                                    it.bindToSubComponent(
-                                        generator,
-                                        includesIds
-                                    )
-                                } as ${it.viewImplClassName.simpleName}"
+                                ", ${it.name}"
                             }.joinToString()
                     }).apply"
                     )
-                    .addStatement("collectObservers = collectingObservers")
                     .apply {
-
+                        subComponents.filter { it.passToParentView }.forEach {
+                            addStatement("subViews.add(${it.name})")
+                        }
                         subComponents.filter { !it.passToParentView }.forEach {
                             addStatement(
                                 it.bindToSubComponent(
                                     generator,
                                     includesIds
-                                )
+                                )+".also { subViews.add(it) }"
                             )
                         }
 

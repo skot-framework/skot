@@ -29,28 +29,22 @@ abstract class SKComponentView<B : Any>(
 
     override fun getLifecycle() = fragment?.viewLifecycleOwner?.lifecycle ?: activity.lifecycle
 
-    var collectObservers = false
-
-    private val componentObservers: MutableList<SKLiveData<*>.LifecycleOwnerObserver> by lazy {
+    val subViews: MutableList<SKComponentView<*>> by lazy {
         mutableListOf()
     }
 
     fun <D> SKLiveData<D>.observe(onChanged: (D) -> Unit) {
-        observe(lifecycleOwner = this@SKComponentView, onChanged).let {
-            if (collectObservers) {
-                componentObservers.add(it)
-            }
-        }
+        setObserver(lifecycleOwner = this@SKComponentView, onChanged)
     }
 
     @CallSuper
-    open fun removeObservers() {
-        componentObservers.forEach { it.remove() }
-        componentObservers.clear()
+    open fun onRecycle() {
+        subViews.forEach { it.onRecycle() }
+        subViews.clear()
     }
 
     fun <D> SKMessage<D>.observe(onReceive: (D) -> Unit) {
-        observe(lifecycleOwner = this@SKComponentView, onReceive)
+        setObserver(lifecycleOwner = this@SKComponentView, onReceive)
     }
 
     fun TextView.setTextColor(color: Color) {

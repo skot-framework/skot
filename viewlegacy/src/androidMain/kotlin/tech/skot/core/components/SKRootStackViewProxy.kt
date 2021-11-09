@@ -44,8 +44,7 @@ object SKRootStackViewProxy : SKComponentViewProxy<Unit>(), SKStackVC {
     override fun bindTo(
         activity: SKActivity,
         fragment: Fragment?,
-        binding: Unit,
-        collectingObservers: Boolean
+        binding: Unit
     ): SKComponentView<Unit> {
         throw IllegalAccessException("On ne bind pas la RootStack")
     }

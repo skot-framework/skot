@@ -2,7 +2,6 @@ package tech.skot.core.components.inputs
 
 import android.view.View
 import androidx.fragment.app.Fragment
-import tech.skot.core.SKLog
 import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKComponentViewProxy
 import tech.skot.view.live.MutableSKLiveData
@@ -33,8 +32,7 @@ class SKComboViewProxy(
     override fun bindTo(
         activity: SKActivity,
         fragment: Fragment?,
-        binding: SkComboBinding,
-        collectingObservers: Boolean
+        binding: SkComboBinding
     ) = SKComboView(this, activity, fragment, binding).apply {
         bind()
     }
@@ -69,7 +67,6 @@ abstract class SKCommonComboViewProxy<Binding: Any>(
 
 
     fun SKCommonComboView<Binding>.bind() {
-        collectObservers = collectObservers
         onHint(hint)
         onOnSelected(onSelected)
         choicesLD.observe {

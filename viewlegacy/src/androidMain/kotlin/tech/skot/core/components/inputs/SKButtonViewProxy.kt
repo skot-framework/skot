@@ -3,7 +3,6 @@ package tech.skot.core.components.inputs
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import tech.skot.core.components.SKActivity
-import tech.skot.core.components.SKComponentView
 import tech.skot.core.components.SKComponentViewProxy
 import tech.skot.view.live.MutableSKLiveData
 
@@ -29,10 +28,8 @@ class SKButtonViewProxy(
     override fun bindTo(
         activity: SKActivity,
         fragment: Fragment?,
-        binding: Button,
-        collectingObservers: Boolean
+        binding: Button
     ) = SKButtonView(this, activity, fragment, binding).apply {
-        collectObservers = collectingObservers
         onTapLD.observe {
             onOnTap(it)
         }

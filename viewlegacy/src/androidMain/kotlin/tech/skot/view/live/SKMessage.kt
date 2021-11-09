@@ -8,11 +8,19 @@ import androidx.lifecycle.OnLifecycleEvent
 class SKMessage<D>(multiReceiver:Boolean = false) : SKMessageCommon<D>(multiReceiver) {
 
     fun observe(lifecycleOwner: LifecycleOwner, onChanged: (d: D) -> Unit) {
-
         observers.add(LifecycleOwnerObserver(lifecycleOwner, onChanged))
-
     }
 
+    fun setObserver(lifecycleOwner: LifecycleOwner, onChanged: (d: D) -> Unit): LifecycleOwnerObserver {
+        val currentObservers = observers.toSet()
+        currentObservers.forEach {
+            (it as? LifecycleOwnerObserver)?.apply {
+                onDestroy()
+                lifecycleOwner.lifecycle.removeObserver(lifecycleOwnerObserver)
+            }
+        }
+        return LifecycleOwnerObserver(lifecycleOwner, onChanged).also { observers.add(it) }
+    }
 
     inner class LifecycleOwnerObserver(
             val lifecycleOwner: LifecycleOwner,
@@ -25,21 +33,22 @@ class SKMessage<D>(multiReceiver:Boolean = false) : SKMessageCommon<D>(multiRece
             }
         }
 
-        init {
-            lifecycleOwner.lifecycle.addObserver(object : LifecycleObserver {
-                @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
-                fun onAny() {
-                    val newState = lifecycleOwner.lifecycle.currentState
-                    when {
-                        newState == Lifecycle.State.DESTROYED -> {
-                            onDestroy()
-                            lifecycleOwner.lifecycle.removeObserver(this)
-                        }
-                        newState.isAtLeast(Lifecycle.State.STARTED) -> onBecomeActive()
-                        else -> onBecomeInactive()
+        val lifecycleOwnerObserver = object : LifecycleObserver {
+            @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
+            fun onAny() {
+                val newState = lifecycleOwner.lifecycle.currentState
+                when {
+                    newState == Lifecycle.State.DESTROYED -> {
+                        onDestroy()
+                        lifecycleOwner.lifecycle.removeObserver(this)
                     }
+                    newState.isAtLeast(Lifecycle.State.STARTED) -> onBecomeActive()
+                    else -> onBecomeInactive()
                 }
-            })
+            }
+        }
+        init {
+            lifecycleOwner.lifecycle.addObserver(lifecycleOwnerObserver)
         }
 
         override fun shouldBeActive(): Boolean {

@@ -14,7 +14,7 @@ open class SKLiveData<D>(initialValue: D) : SKLiveDataCommon<D>(initialValue) {
         LifecycleOwnerObserver(lifecycleOwner, onChanged).also { observers.add(it) }
 
 
-    fun setObserver(lifecycleOwner: LifecycleOwner, onChanged: (d: D) -> Unit) {
+    fun setObserver(lifecycleOwner: LifecycleOwner, onChanged: (d: D) -> Unit): LifecycleOwnerObserver{
         val currentObservers = observers.toSet()
         currentObservers.forEach {
             (it as? LifecycleOwnerObserver)?.apply {
@@ -22,7 +22,7 @@ open class SKLiveData<D>(initialValue: D) : SKLiveDataCommon<D>(initialValue) {
                 lifecycleOwner.lifecycle.removeObserver(lifecycleOwnerObserver)
             }
         }
-        observers.add(LifecycleOwnerObserver(lifecycleOwner, onChanged))
+        return LifecycleOwnerObserver(lifecycleOwner, onChanged).also { observers.add(it) }
     }
 
 

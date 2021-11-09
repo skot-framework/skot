@@ -3,7 +3,6 @@ package tech.skot.core.components
 import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import tech.skot.core.SKLog
 import tech.skot.view.live.MutableSKLiveData
 import tech.skot.view.live.SKMessage
 import tech.skot.viewlegacy.R
@@ -15,12 +14,6 @@ class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean,
     override var items: List<Triple<SKComponentVC, Any, (()->Unit)?>>
         get() = itemsLD.value
         set(newVal) {
-//            val newProxyItems = newVal as List<SKComponentViewProxy<*>>
-//            itemsLD.value.lastOrNull()?.let {
-//                if (newProxyList.lastOrNull() != it && newProxyList.contains(it)) {
-//                    it.saveState()
-//                }
-//            }
             itemsLD.postValue(newVal as List<Triple<SKComponentViewProxy<*>, Any, (()->Unit)?>>)
         }
 
@@ -33,15 +26,13 @@ class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean,
     private var _state: Parcelable? = null
 
     override fun saveState() {
-//        SKLog.d("SKListViewProxy saveState")
         saveSignal.post(Unit)
     }
 
     override val layoutId = R.layout.sk_list
 
-    override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: RecyclerView, collectingObservers:Boolean) =
+    override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: RecyclerView) =
             SKListView(vertical, reverse, nbColumns, animate, animateItem, this, activity, fragment, binding).apply {
-                collectObservers = collectingObservers
                 itemsLD.observe {
                     onItems(it)
                 }

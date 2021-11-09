@@ -1,6 +1,5 @@
 package tech.skot.core.components
 
-import android.content.Context
 import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -47,7 +46,7 @@ class SKListView(
 
         override fun onViewRecycled(holder: ViewHolder) {
             super.onViewRecycled(holder)
-            holder.componentView?.removeObservers()
+            holder.componentView?.onRecycle()
             holder.componentView = null
 
         }
@@ -60,11 +59,17 @@ class SKListView(
 
     private val adapter = Adapter()
 
+    override fun onRecycle() {
+        super.onRecycle()
+        mapProxyIndexComponentViewImpl.values.forEach {
+            it.onRecycle()
+        }
+    }
+
     var items: List<Triple<SKComponentViewProxy<*>, Any, (() -> Unit)?>> = emptyList()
         set(newVal) {
             field.forEach { proxy ->
                 if (!newVal.any { it.first == proxy.first }) {
-                    mapProxyIndexComponentViewImpl[proxy.first]?.removeObservers()
                     mapProxyIndexComponentViewImpl.remove(proxy.first)
                 }
             }

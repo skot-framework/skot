@@ -1,7 +1,6 @@
 package tech.skot.core.components.inputs
 
 
-import android.widget.Button
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import tech.skot.core.components.SKActivity
@@ -31,10 +30,8 @@ class SKImageButtonViewProxy(
     override fun bindTo(
         activity: SKActivity,
         fragment: Fragment?,
-        binding: ImageButton,
-        collectingObservers: Boolean
+        binding: ImageButton
     ) = SKImageButtonView(this, activity, fragment, binding).apply {
-        collectObservers = collectingObservers
         onTapLD.observe {
             onOnTap(it)
         }

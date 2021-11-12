@@ -1,0 +1,113 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "tech.skot",
+    "module": "viewmodel",
+    "version": "0.0.52",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8",
+      "buildId": "jc6y725iebc23nmj56aixso43i"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements-published",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "0.0.52"
+          }
+        },
+        {
+          "group": "com.soywiz.korlibs.klock",
+          "module": "klock",
+          "version": {
+            "requires": "1.12.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewmodel-metadata-0.0.52.jar",
+          "url": "viewmodel-0.0.52.jar",
+          "size": 7431,
+          "sha512": "5f9eac9c5511a40220f64accb74403e63587fd3148aaadcff9c3394145c8739951f4aaad5bb2b1dae320782afe9365af55722ea94b90edaae4473509f47574fc",
+          "sha256": "ca43f52780f5a36e42895009fe429fc9a47abbf16d5ae041acef192522fa43d1",
+          "sha1": "7c8f950417481340c65e1d98ab6cf5e269a81c1a",
+          "md5": "c20ffe01c69dae7ce41b57a4c5c20673"
+        }
+      ]
+    },
+    {
+      "name": "debugApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.api.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewmodel-android/0.0.52/viewmodel-android-0.0.52.module",
+        "group": "tech.skot",
+        "module": "viewmodel-android",
+        "version": "0.0.52"
+      }
+    },
+    {
+      "name": "debugRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.api.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewmodel-android/0.0.52/viewmodel-android-0.0.52.module",
+        "group": "tech.skot",
+        "module": "viewmodel-android",
+        "version": "0.0.52"
+      }
+    },
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.api.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewmodel-android/0.0.52/viewmodel-android-0.0.52.module",
+        "group": "tech.skot",
+        "module": "viewmodel-android",
+        "version": "0.0.52"
+      }
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.api.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewmodel-android/0.0.52/viewmodel-android-0.0.52.module",
+        "group": "tech.skot",
+        "module": "viewmodel-android",
+        "version": "0.0.52"
+      }
+    }
+  ]
+}

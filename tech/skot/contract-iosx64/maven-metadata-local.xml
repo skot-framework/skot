@@ -3,12 +3,13 @@
   <groupId>tech.skot</groupId>
   <artifactId>contract-iosx64</artifactId>
   <versioning>
-    <latest>0.0.51</latest>
-    <release>0.0.51</release>
+    <latest>0.0.52</latest>
+    <release>0.0.52</release>
     <versions>
       <version>0.0.50</version>
       <version>0.0.51</version>
+      <version>0.0.52</version>
     </versions>
-    <lastUpdated>20210525143743</lastUpdated>
+    <lastUpdated>20211112144237</lastUpdated>
   </versioning>
 </metadata>

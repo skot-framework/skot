@@ -1,0 +1,67 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "tech.skot",
+    "module": "model-metadata",
+    "version": "0.0.52",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8",
+      "buildId": "jc6y725iebc23nmj56aixso43i"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements-published",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "tech.skot",
+          "module": "core",
+          "version": {
+            "requires": "0.0.52"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.0.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-json",
+          "version": {
+            "requires": "1.0.1"
+          }
+        },
+        {
+          "group": "com.squareup.sqldelight",
+          "module": "runtime",
+          "version": {
+            "requires": "1.5.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "model-metadata-0.0.52.jar",
+          "url": "model-metadata-0.0.52.jar",
+          "size": 13135,
+          "sha512": "892f235a327ab89949e3848b1a637109c979377e24c8c0d319e8469d1a5085d8b8e48a02f59d8dd3a81add03b991c27bf473b5c3e8eef393ff973bd8a2046a18",
+          "sha256": "4ee7a65814647077c9c25750c1a8b11748b1acfeec32a9491e8b837fd3996a37",
+          "sha1": "78878719fa185d318248b8e029b8e25f7ff456ea",
+          "md5": "53376c88658f8995fb748a69a716f135"
+        }
+      ]
+    }
+  ]
+}

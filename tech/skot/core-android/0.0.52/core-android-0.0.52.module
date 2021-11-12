@@ -1,0 +1,276 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../core/0.0.52/core-0.0.52.module",
+    "group": "tech.skot",
+    "module": "core",
+    "version": "0.0.52",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8",
+      "buildId": "jc6y725iebc23nmj56aixso43i"
+    }
+  },
+  "variants": [
+    {
+      "name": "debugApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.api.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-android",
+          "version": {
+            "requires": "1.4.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.4.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.4.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.4.32"
+          }
+        },
+        {
+          "group": "com.jakewharton.timber",
+          "module": "timber",
+          "version": {
+            "requires": "4.7.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core-debug.aar",
+          "url": "core-android-0.0.52-debug.aar",
+          "size": 17443,
+          "sha512": "a892d3d3879f5c1b9cf777a2267dc16ab0e39a42de6e01c84edfba60efd26e84f9997b5add0ffb9f600d79475348db160fc97cd64ec5c00d3f5e12dc62516413",
+          "sha256": "39dfb3edfcc389ebbbf2db09030165a6151f0dbeb73a8659bed9388d8aef40ba",
+          "sha1": "d7693f3d7f10eb58761c00e65e6e544bc58fb91b",
+          "md5": "2f4b2e3a3df372e1ef2253c07c2cf402"
+        }
+      ]
+    },
+    {
+      "name": "debugRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "com.android.build.api.attributes.VariantAttr": "debug",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-android",
+          "version": {
+            "requires": "1.4.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.4.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.4.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.4.32"
+          }
+        },
+        {
+          "group": "com.jakewharton.timber",
+          "module": "timber",
+          "version": {
+            "requires": "4.7.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core-debug.aar",
+          "url": "core-android-0.0.52-debug.aar",
+          "size": 17443,
+          "sha512": "a892d3d3879f5c1b9cf777a2267dc16ab0e39a42de6e01c84edfba60efd26e84f9997b5add0ffb9f600d79475348db160fc97cd64ec5c00d3f5e12dc62516413",
+          "sha256": "39dfb3edfcc389ebbbf2db09030165a6151f0dbeb73a8659bed9388d8aef40ba",
+          "sha1": "d7693f3d7f10eb58761c00e65e6e544bc58fb91b",
+          "md5": "2f4b2e3a3df372e1ef2253c07c2cf402"
+        }
+      ]
+    },
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.api.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-android",
+          "version": {
+            "requires": "1.4.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.4.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.4.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.4.32"
+          }
+        },
+        {
+          "group": "com.jakewharton.timber",
+          "module": "timber",
+          "version": {
+            "requires": "4.7.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core-release.aar",
+          "url": "core-android-0.0.52.aar",
+          "size": 16943,
+          "sha512": "5aba4436d269882c33a7e5a9b67fff64c1a58b2273ad221dd6929f8e807696aec57f2bbe0a358cbb220c93c08b9e82eb79d3e9353c98c2a02b68a31d9d4af777",
+          "sha256": "780bf9e69000545ff9cbfd9438e591f92191b86507804516a0a88df2fc60036f",
+          "sha1": "80432bc289ed5fb76f62bdf929a8609b64e20b48",
+          "md5": "9611c9b8a6395d966b2dee25c38d0d34"
+        }
+      ]
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "release",
+        "com.android.build.api.attributes.VariantAttr": "release",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-android",
+          "version": {
+            "requires": "1.4.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.4.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.4.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.4.32"
+          }
+        },
+        {
+          "group": "com.jakewharton.timber",
+          "module": "timber",
+          "version": {
+            "requires": "4.7.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core-release.aar",
+          "url": "core-android-0.0.52.aar",
+          "size": 16943,
+          "sha512": "5aba4436d269882c33a7e5a9b67fff64c1a58b2273ad221dd6929f8e807696aec57f2bbe0a358cbb220c93c08b9e82eb79d3e9353c98c2a02b68a31d9d4af777",
+          "sha256": "780bf9e69000545ff9cbfd9438e591f92191b86507804516a0a88df2fc60036f",
+          "sha1": "80432bc289ed5fb76f62bdf929a8609b64e20b48",
+          "md5": "9611c9b8a6395d966b2dee25c38d0d34"
+        }
+      ]
+    }
+  ]
+}

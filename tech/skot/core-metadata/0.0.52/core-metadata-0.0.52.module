@@ -1,0 +1,61 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../core-jvm/0.0.52/core-jvm-0.0.52.module",
+    "group": "tech.skot",
+    "module": "core-jvm",
+    "version": "0.0.52",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8",
+      "buildId": "jc6y725iebc23nmj56aixso43i"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements-published",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.4.21"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.4.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.4.32"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core-metadata-0.0.52.jar",
+          "url": "core-metadata-0.0.52.jar",
+          "size": 5344,
+          "sha512": "212cb95d1db395725b56d78351c6f0b1fcfc26cce7e32ef99eb1ed1bf0f5079ab61a8941292e198687e10adeeda271d2357870614f9b0eec40f7758ec35f1e90",
+          "sha256": "4374b7470077cdebac26a12ddf9dd48ab6a8f034a774f662ec25b51bc3fd9ebd",
+          "sha1": "2cc92e10caa204a1dc665d6725fde114c62f1153",
+          "md5": "5600806b498db30467dd3d67e81553da"
+        }
+      ]
+    }
+  ]
+}

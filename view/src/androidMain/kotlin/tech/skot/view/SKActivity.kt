@@ -29,6 +29,7 @@ abstract class SKActivity : AppCompatActivity() {
 
 
     fun onCreateSK(savedInstanceState: Bundle?) {
+
         val viewKey = getKeyForThisActivity(savedInstanceState)
         if (viewKey != -1L && ScreenViewImpl.oneActivityAlreadyLaunched) {
             if (!ScreenViewImpl.oneActivityAlreadyLaunched) {
@@ -48,7 +49,7 @@ abstract class SKActivity : AppCompatActivity() {
             val encodedPath = intent?.data?.encodedPath
 
             if (action != null && action == Intent.ACTION_VIEW && encodedPath != null) {
-                val screenKey = ScreenViewImpl.onLink?.invoke(encodedPath, intent?.data?.encodedFragment)
+                val screenKey = ScreenViewImpl.onLink?.invoke(encodedPath, intent?.data?.encodedFragment, intent?.data?.getQueryParameter("code"))
                 if (screenKey != null) {
                     screenViewImpl = ScreenViewImpl.getInstance(screenKey)
                 } else {

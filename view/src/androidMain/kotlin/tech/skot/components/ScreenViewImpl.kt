@@ -18,7 +18,7 @@ import tech.skot.view.*
 import tech.skot.view.live.MutableSKLiveData
 import kotlin.reflect.KClass
 
-fun startView(launchActivityClass: Class<*>, onLink: ((encodedPath: String, encodedFragment: String?) -> Long?)? = null, getInitialView: () -> ScreenView) {
+fun startView(launchActivityClass: Class<*>, onLink: ((encodedPath: String, encodedFragment: String?, code:String?) -> Long?)? = null, getInitialView: () -> ScreenView) {
     ScreenViewImpl.getInitialViewImpl = { getInitialView() as ScreenViewImpl<*, *, *> }
     ScreenViewImpl.onLink = onLink
     ScreenViewImpl.launchActivityClass = launchActivityClass
@@ -41,7 +41,7 @@ abstract class ScreenViewImpl<A : AppCompatActivity, F : Fragment, B : ViewBindi
 
         var getInitialViewImpl: (() -> ScreenViewImpl<*, *, *>)? = null
 
-        var onLink: ((encodedPath: String, encodedFragment: String?) -> Long?)? = null
+        var onLink: ((encodedPath: String, encodedFragment: String?, code:String?) -> Long?)? = null
 
         const val SK_EXTRA_VIEW_KEY = "SK_EXTRA_VIEW_KEY"
         const val SK_ARG_VIEW_KEY = "SK_ARG_VIEW_KEY"

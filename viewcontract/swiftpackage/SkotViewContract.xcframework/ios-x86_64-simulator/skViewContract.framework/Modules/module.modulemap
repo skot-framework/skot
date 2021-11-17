@@ -1,0 +1,6 @@
+framework module skViewContract {
+    umbrella header "skViewContract.h"
+
+    export *
+    module * { export * }
+}

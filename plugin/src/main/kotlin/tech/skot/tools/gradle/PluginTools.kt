@@ -5,11 +5,13 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.tasks.Delete
+import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.Exec
 import org.gradle.kotlin.dsl.*
 import tech.skot.Versions
 import java.nio.file.Files
 import java.nio.file.Files.delete
+import org.jetbrains.kotlin.gradle.utils.loadPropertyFromResources
 
 open class SKPluginToolsExtension {
     //    var startScreen: String? = null
@@ -141,6 +143,31 @@ class PluginTools : Plugin<Project> {
 
         }.dependsOn(clearGenerated)
 
+
+        val classLoader = project.javaClass.classLoader
+//        project.task("skCopyFrameworkIosView", type=Copy::class) {
+//            //destinationDir = trueProjectDir
+//            //from(project.fileTree(project.javaClass.classLoader.getResource("iosView")))
+//            //into("../iosApp/tutu")
+//            doFirst {
+//                println("---------- rrrrr")
+//            }
+//        }
+
+        project.task("skTestDir") {
+            doFirst {
+                println("------- skTestDir------")
+
+//                println(project.javaClass.classLoader.getResource("iosView/testtoto.txt"))
+//                println(project.javaClass.classLoader.getResource("iosView"))
+//                println(project.javaClass.classLoader.getResource("../iosView"))
+//                println(project.javaClass.protectionDomain.codeSource.location.toExternalForm())
+
+                val coucou = project.resources.loadPropertyFromResources("test.properties","test")
+
+                println("@@@@@@@ -> $coucou")
+            }
+        }
 
     }
 

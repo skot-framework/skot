@@ -15,10 +15,6 @@ var errorTreatment: ((component: SKComponent<*>, exception: Exception, errorMess
 abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
     abstract val view: V
 
-//    companion object {
-//        var errorTreatment: ((component: SKComponent<*>, exception: Exception, errorMessage: String?) -> Unit)? =
-//            null
-//    }
 
 
     protected val job = SupervisorJob()

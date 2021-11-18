@@ -149,6 +149,7 @@ fun buildVersionsFile() {
         .addIntConst("android_compileSdk", Versions.Android.compileSdk)
         .addIntConst("android_targetSdk", Versions.Android.targetSdk)
         .addStringConst("android_app_compat", Versions.Android.appcompat)
+        .addStringConst("sqldelight", Versions.sqldelight)
 
 
 

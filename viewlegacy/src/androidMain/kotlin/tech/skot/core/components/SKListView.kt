@@ -69,8 +69,8 @@ class SKListView(
     var items: List<SKListViewProxy.Item> = emptyList()
         set(newVal) {
             field.forEach { proxy ->
-                if (!newVal.any { it.first == proxy.first }) {
-                    mapProxyIndexComponentViewImpl.remove(proxy.first)
+                if (!newVal.any { it.component == proxy.component }) {
+                    mapProxyIndexComponentViewImpl.remove(proxy.component)
                 }
             }
             val diffCallBack = DiffCallBack(field, newVal)

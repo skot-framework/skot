@@ -2,7 +2,6 @@ package tech.skot.core.components
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.drop
 import tech.skot.core.Poker
 import tech.skot.core.SKLog
 import tech.skot.model.SKData
@@ -197,8 +196,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
                     fallBackJob?.cancel()
                     treatData(it)
                 }
-            }
-            catch (ex:Exception) {
+            } catch (ex: Exception) {
                 if (ex !is CancellationException) {
                     if (fallBackDataIfError) {
                         fallBack()
@@ -243,20 +241,24 @@ fun List<SKComponent<*>>.plusIfNotNull(otherComponent: SKComponent<*>?): List<SK
     }
 
 fun List<SKComponent<*>>.join(separator: () -> SKComponent<*>): List<SKComponent<*>> {
-    val list = mutableListOf<SKComponent<*>>()
-    val last = last()
-    this.forEach {
-        list.add(it)
-        if (it != last) {
-            list.add(separator())
+    return if (size < 2) {
+        this
+    } else {
+        val list = mutableListOf<SKComponent<*>>()
+        val last = last()
+        this.forEach {
+            list.add(it)
+            if (it != last) {
+                list.add(separator())
+            }
         }
+        list
     }
-    return list
 }
 
 fun List<List<SKComponent<*>>>.joinGroups(separator: () -> SKComponent<*>): List<SKComponent<*>> {
     val list = mutableListOf<SKComponent<*>>()
-    val last = last()
+    val last = lastOrNull()
     this.forEach {
         list.addAll(it)
         if (it != last && it.isNotEmpty()) {

@@ -13,9 +13,9 @@ class SKStackViewProxy:SKComponentViewProxy,ViewcontractSKStackVC, ObservableObj
     @Published var state: ViewcontractSKStackVCState = ViewcontractSKStackVCState(screens: [], transition: nil)
  
     
-    override func ui() -> AnyView
+    func ui() -> SKStackView
     {
-        AnyView(SKStackView(proxy:self))
+        SKStackView(proxy:self)
     }
 }
 
@@ -31,7 +31,7 @@ struct SKStackView: View {
             Text("Empty stack")
         }
         else {
-            (proxy.state.screens.last as! SKScreenViewProxy).ui()
+            ViewLocator().getView(proxy: proxy.state.screens.last as! SKScreenViewProxy)
         }
     }
     

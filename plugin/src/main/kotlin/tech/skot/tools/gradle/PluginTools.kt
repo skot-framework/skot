@@ -144,30 +144,6 @@ class PluginTools : Plugin<Project> {
         }.dependsOn(clearGenerated)
 
 
-        val classLoader = project.javaClass.classLoader
-//        project.task("skCopyFrameworkIosView", type=Copy::class) {
-//            //destinationDir = trueProjectDir
-//            //from(project.fileTree(project.javaClass.classLoader.getResource("iosView")))
-//            //into("../iosApp/tutu")
-//            doFirst {
-//                println("---------- rrrrr")
-//            }
-//        }
-
-        project.task("skTestDir") {
-            doFirst {
-                println("------- skTestDir------")
-
-//                println(project.javaClass.classLoader.getResource("iosView/testtoto.txt"))
-//                println(project.javaClass.classLoader.getResource("iosView"))
-//                println(project.javaClass.classLoader.getResource("../iosView"))
-//                println(project.javaClass.protectionDomain.codeSource.location.toExternalForm())
-
-                val coucou = project.resources.loadPropertyFromResources("test.properties","test")
-
-                println("@@@@@@@ -> $coucou")
-            }
-        }
 
     }
 
@@ -178,7 +154,7 @@ class PluginTools : Plugin<Project> {
         this.add("implementation", project("$parentProjectPath:viewcontract"))
         this.add("implementation", project("$parentProjectPath:modelcontract"))
         this.add("api", "${Versions.group}:generator:${Versions.skot}")
-        this.add("implementation", "com.pinterest:ktlint:0.42.1")
+        this.add("implementation", "com.pinterest:ktlint:0.43.0")
     }
 
 }

@@ -47,8 +47,8 @@ In a terminal :
 1. Move to the folder of your project
 2. Enter the command `gradle wrapper`
 3. Change gradle version to 7.0.2 in gradle.properties   
-4. Enter the command `gradle start`
-5. Enter the command `gradle skGenerate`
+4. Enter the command `./gradlew start`
+5. Enter the command `./gradlew skGenerate`
 6. Launch Android Studio
 
 You can start coding!

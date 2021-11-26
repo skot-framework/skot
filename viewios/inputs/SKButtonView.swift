@@ -10,13 +10,13 @@ import shared
 import SwiftUI
 
 class SKButtonViewProxy:SKComponentViewProxy,ViewcontractSKButtonVC, ObservableObject {
-    var enabled: KotlinBoolean?
+    @Published var enabled: KotlinBoolean?
     
-    var hidden: KotlinBoolean?
+    @Published var hidden: KotlinBoolean?
     
-    var label: String?
+    @Published var label: String?
     
-    var onTap: (() -> Void)?
+    @Published var onTap: (() -> Void)?
     
     init(onTapInitial: (() -> Void)?, labelInitial: String?, enabledInitial: KotlinBoolean?, hiddenInitial: KotlinBoolean?) {
         self.onTap = onTapInitial
@@ -25,8 +25,8 @@ class SKButtonViewProxy:SKComponentViewProxy,ViewcontractSKButtonVC, ObservableO
         self.hidden = hiddenInitial
     }
     
-    override func ui() -> AnyView {
-        AnyView(SKButtonView(proxy: self))
+    func ui() -> SKButtonView {
+        SKButtonView(proxy: self)
     }
     
     
@@ -37,9 +37,12 @@ struct SKButtonView: View {
     @ObservedObject var proxy:SKButtonViewProxy
    
     var body: some View {
-        Button(action:proxy.onTap ?? {}, label:{
-            Text(proxy.label ?? "")
-            })
+        if (!(proxy.hidden?.boolValue == false)) {
+            Button(action:proxy.onTap ?? {}, label:{
+                Text(proxy.label ?? "??")
+            }).disabled(proxy.enabled?.boolValue == false)
+        }
+        
         
     }
 }

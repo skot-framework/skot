@@ -8,7 +8,7 @@
 import Foundation
 import shared
 
-class SKFrameViewProxy:SKComponentViewProxy,ViewcontractSKFrameVC {
+class SKFrameViewProxy:SKComponentViewProxy, ViewcontractSKFrameVC {
     var screen: ViewcontractSKScreenVC?
     
     let screens: Set<AnyHashable>

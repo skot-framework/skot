@@ -55,7 +55,9 @@ fun List<String>.combinaisons(): List<String> {
 }
 
 fun Project.hasIosApp(): Boolean = Files.list(rootProject.rootDir.toPath()).anyMatch {
-    it.getName(it.nameCount-1).toString().startsWith("ios")
+    it.getName(it.nameCount-1).toString().let {
+        it.startsWith("ios") || it.startsWith("skot_ios")
+    }
 }
 
 fun skVariantsCombinaison(path: Path) =

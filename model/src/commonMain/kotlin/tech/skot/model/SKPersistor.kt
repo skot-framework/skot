@@ -123,6 +123,7 @@ abstract class CommonSKPersistor : SKPersistor {
     val json: Json =
         Json {
             ignoreUnknownKeys = true
+            encodeDefaults = true
         }
 
 

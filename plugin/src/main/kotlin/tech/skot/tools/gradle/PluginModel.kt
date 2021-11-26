@@ -74,6 +74,7 @@ class PluginModel: Plugin<Project> {
         android("android")
 
         if (project.hasIosApp()) {
+            println("####### app ios detected")
             ios {
                 binaries {
                     framework {

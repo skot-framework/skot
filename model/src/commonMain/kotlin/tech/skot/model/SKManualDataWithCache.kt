@@ -60,7 +60,7 @@ abstract class SKManualDataWithCache<D : Any>(
 
     fun setValue(newValue: D) {
         flow.value = DatedData(newValue)
-        CoroutineScope(Dispatchers.Default).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             try {
                 cache.putData(
                     serializer = serializer,

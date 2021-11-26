@@ -29,8 +29,4 @@ class SKComponentViewProxy: ViewcontractSKComponentVC {
     
     var style: ViewcontractStyle?
     
-    func ui()-> AnyView {
-        AnyView(Text("Vide"))
-    }
-    
 }

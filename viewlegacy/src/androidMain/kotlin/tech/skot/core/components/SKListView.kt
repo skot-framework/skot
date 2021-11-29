@@ -87,7 +87,14 @@ class SKListView(
                     nbColumns,
                     if (vertical) RecyclerView.VERTICAL else RecyclerView.HORIZONTAL,
                     reverse
-                )
+                ).also {
+                    it.spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
+                        override fun getSpanSize(position: Int): Int {
+                            return items[position].spanSize ?: 1
+                        }
+
+                    }
+                }
             } else {
                 LinearLayoutManager(
                     context,

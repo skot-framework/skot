@@ -4,6 +4,6 @@ import tech.skot.core.di.coreViewInjector
 
 val SKRootStack:SKStack by lazy {
     object : SKStack() {
-        override val view = coreViewInjector.rootStack()
+        override val view = coreViewInjector.rootStack(onDismissTopScreen = onDismissTopScreen)
     }
 }

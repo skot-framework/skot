@@ -4,7 +4,11 @@ import tech.skot.core.di.coreViewInjector
 import tech.skot.core.view.SKTransition
 
 open class SKStack : SKComponent<SKStackVC>() {
-    override val view = coreViewInjector.stack()
+    val onDismissTopScreen = {
+        pop()
+    }
+
+    override val view = coreViewInjector.stack(onDismissTopScreen = onDismissTopScreen)
 
     class State(val screens: List<SKScreen<*>>, val transition: SKTransition? = null)
 
@@ -18,6 +22,8 @@ open class SKStack : SKComponent<SKStackVC>() {
             value.screens.forEach { it.parent = this }
             field = value
         }
+
+
 
     var content: SKScreen<*>
         get() = state.screens.last()

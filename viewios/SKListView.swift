@@ -25,6 +25,7 @@ class SKListViewProxy:SKComponentViewProxy,ViewcontractSKListVC, ObservableObjec
     
     @Published var itemsProxy: [SKListProxyItem]
     
+    let nbColumns: Int
     
     var items: [ViewcontractSKListVCItem] {
         didSet {
@@ -41,6 +42,7 @@ class SKListViewProxy:SKComponentViewProxy,ViewcontractSKListVC, ObservableObjec
     init(vertical: Bool, reverse: Bool, nbColumns: KotlinInt?, animate: Bool, animateItem: Bool) {
         self.items = []
         self.itemsProxy = []
+        self.nbColumns = nbColumns?.intValue ?? 1
         super.init()
     }
     
@@ -59,12 +61,33 @@ struct SKListView:View {
     
     var body: some View {
         ScrollView {
-            LazyVStack(alignment: HorizontalAlignment.leading) {
+            /*LazyVStack(alignment: HorizontalAlignment.leading) {
                 ForEach(proxy.itemsProxy, id:\.component.id) { item in
                     viewLocator.getView(proxy: item.component)
                 }
+            }*/
+            Group {
+                if (proxy.nbColumns == 1) {
+                    LazyVStack {
+                        ForEach(proxy.itemsProxy, id:\.component.id) { item in
+                            viewLocator.getView(proxy: item.component)
+                        }
+                    }
+                }
+                else {
+                    let columns = [
+                        GridItem(.flexible()),
+                        GridItem(.flexible()),
+                    ]
+                    
+                    LazyVGrid(columns: columns, spacing: λ) {
+                        ForEach(proxy.itemsProxy, id:\.component.id) { item in
+                            viewLocator.getView(proxy: item.component)
+                        }
+                    }.padding(λ)
+                }
             }
+            
         }
-        .frame(maxWidth: .infinity, maxHeight:.infinity)
     }
 }

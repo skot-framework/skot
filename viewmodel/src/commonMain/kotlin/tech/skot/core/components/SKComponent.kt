@@ -43,6 +43,8 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
 
     open val onSwipe: (() -> Unit)? = null
 
+    open val spanSize:Int? = null
+
     open fun treatError(exception: Exception, errorMessage: String?) {
         errorTreatment?.invoke(this, exception, errorMessage)
             ?: throw IllegalStateException("Valorise errorTreatment static var or override treatError function to use method treating errors")

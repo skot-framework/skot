@@ -7,9 +7,9 @@ import tech.skot.core.components.presented.*
 
 
 class CoreViewInjectorImpl : CoreViewInjector {
-    override fun rootStack() = SKRootStackViewProxy
+    override fun rootStack(onDismissTopScreen:()->Unit) = SKRootStackViewProxy
 
-    override fun stack() = SKStackViewProxy()
+    override fun stack(onDismissTopScreen:()->Unit) = SKStackViewProxy()
 
     override fun alert() = SKAlertViewProxy()
 

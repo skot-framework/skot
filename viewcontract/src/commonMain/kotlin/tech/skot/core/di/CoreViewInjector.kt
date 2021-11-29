@@ -6,8 +6,8 @@ import tech.skot.core.components.presented.*
 import tech.skot.core.view.Icon
 
 interface CoreViewInjector {
-    fun rootStack(): SKStackVC
-    fun stack(): SKStackVC
+    fun rootStack(onDismissTopScreen:()->Unit): SKStackVC
+    fun stack(onDismissTopScreen:()->Unit): SKStackVC
     fun alert(): SKAlertVC
     fun snackBar(): SKSnackBarVC
     fun bottomSheet(): SKBottomSheetVC

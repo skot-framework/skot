@@ -57,8 +57,8 @@ class CoreViewInjectorImpl: ViewcontractCoreViewInjector {
         return SKPagerWithTabsViewProxy(pager: pager as! SKPagerViewProxy, labels: labels)
     }
     
-    func rootStack() -> ViewcontractSKStackVC {
-        return SKStackViewProxy()
+    func rootStack(onDismissTopScreen: @escaping ()-> Void) -> ViewcontractSKStackVC {
+        return SKRootStackViewProxy(onDismissTopScreen: onDismissTopScreen)
     }
     
     func skBox(itemsInitial: [ViewcontractSKComponentVC], hiddenInitial: KotlinBoolean?) -> ViewcontractSKBoxVC {
@@ -73,8 +73,8 @@ class CoreViewInjectorImpl: ViewcontractCoreViewInjector {
         return SKSnackBarViewProxy()
     }
     
-    func stack() -> ViewcontractSKStackVC {
-        return SKStackViewProxy()
+    func stack(onDismissTopScreen: @escaping ()-> Void) -> ViewcontractSKStackVC {
+        return SKStackViewProxy(onDismissTopScreen: onDismissTopScreen)
     }
     
     func webView(config: ViewcontractSKWebViewVCConfig, openUrlInitial: ViewcontractSKWebViewVCOpenUrl?) -> ViewcontractSKWebViewVC {

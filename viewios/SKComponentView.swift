@@ -18,7 +18,6 @@ class SKComponentViewProxy: ViewcontractSKComponentVC {
     }
     
     
-    
     func displayErrorMessage(message: String) {
         print("Erreur message --------- " + message)
     }

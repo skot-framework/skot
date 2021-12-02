@@ -1,7 +1,7 @@
 object Versions {
 
     const val group = "com.github.skot-framework.skot"
-    const val version = "1.0.0-alpha62"
+    const val version = "1.0.0-iosalpha62"
 
     const val kotlin = "1.6.0"
     const val kotlinCoroutines = "1.5.2-native-mt"

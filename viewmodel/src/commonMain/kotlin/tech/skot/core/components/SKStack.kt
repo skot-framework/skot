@@ -1,10 +1,12 @@
 package tech.skot.core.components
 
+import tech.skot.core.SKLog
 import tech.skot.core.di.coreViewInjector
 import tech.skot.core.view.SKTransition
 
 open class SKStack : SKComponent<SKStackVC>() {
     val onDismissTopScreen = {
+        SKLog.d("----- SKStack onDismissTopScreen")
         pop()
     }
 

@@ -20,10 +20,10 @@ struct SKRootStackView: View {
             Text("Empty stack")
         }
         else {
-            let rootProxy = proxy.state.screens[0] as! SKScreenViewProxy
-            SKScreenHolder(proxy: rootProxy) {
+            let rootProxy = proxy.state.screens.first as! SKScreenViewProxy
+//            SKScreenHolder(proxy: rootProxy) {
                 viewLocator.getView(proxy: rootProxy)
-            }
+//            }
             
             //ViewLocator().getView(proxy: proxy.state.screens.first as! SKScreenViewProxy)
             

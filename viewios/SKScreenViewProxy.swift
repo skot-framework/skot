@@ -15,12 +15,37 @@ class SKScreenViewProxy: SKComponentViewProxy,ViewcontractSKScreenVC {
     let visibilityListener:ViewcontractSKVisiblityListener
     var stack:SKStackViewProxy? = nil
     
+    
     var name:String {
         get {
             "Ecran inconnu"
         }
     }
 
+    @Published var hasNext:Bool = false
+    var nextProxy:SKScreenViewProxy? = nil
+    
+    @Published var hasModal:Bool = false
+    var modalProxy:SKScreenViewProxy? = nil
+    
+
+    /*var indexOfThisInStack:Int{
+        get {
+            stack?.state.screens.firstIndex { screen in
+                return (screen as! SKScreenViewProxy).id == id
+            } ?? -1
+        }
+    }*/
+    
+
+//    //other stack
+//    let indexOfThisInStack:Int = proxy.stack?.state.screens.firstIndex { screen in
+//        return (screen as! SKScreenViewProxy).id == proxy.id
+//    } ?? -1
+//    let hasNext = indexOfThisInStack > -1 && indexOfThisInStack < (proxy.stack?.state.screens.count ?? 0) - 1
+    
+    
+    
     
     init(visibilityListener:ViewcontractSKVisiblityListener) {
         self.visibilityListener = visibilityListener

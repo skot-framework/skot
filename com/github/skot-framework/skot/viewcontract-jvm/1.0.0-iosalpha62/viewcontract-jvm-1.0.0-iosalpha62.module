@@ -1,0 +1,100 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../viewcontract/1.0.0-iosalpha62/viewcontract-1.0.0-iosalpha62.module",
+    "group": "com.github.skot-framework.skot",
+    "module": "viewcontract",
+    "version": "1.0.0-iosalpha62",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.6.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewcontract-jvm-1.0.0-iosalpha62.jar",
+          "url": "viewcontract-jvm-1.0.0-iosalpha62.jar",
+          "size": 65892,
+          "sha512": "6d61252f3c6e19d33cd96494a5751e1872cafc5eec2f20c296c1d5ae08f30a022fd912777be4281be9d7fa792628a9b0ab1024a0bc03fd492563a99507651767",
+          "sha256": "0d2fa9aa60f37fe8518c373e3bc987544065c6c598ab9de011d4295292241b76",
+          "sha1": "159a40723561e86e14688aa23f3060312afd1025",
+          "md5": "db9b5d60ce6d323e03ac64957934c04f"
+        }
+      ]
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.6.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.5.2-native-mt"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewcontract-jvm-1.0.0-iosalpha62.jar",
+          "url": "viewcontract-jvm-1.0.0-iosalpha62.jar",
+          "size": 65892,
+          "sha512": "6d61252f3c6e19d33cd96494a5751e1872cafc5eec2f20c296c1d5ae08f30a022fd912777be4281be9d7fa792628a9b0ab1024a0bc03fd492563a99507651767",
+          "sha256": "0d2fa9aa60f37fe8518c373e3bc987544065c6c598ab9de011d4295292241b76",
+          "sha1": "159a40723561e86e14688aa23f3060312afd1025",
+          "md5": "db9b5d60ce6d323e03ac64957934c04f"
+        }
+      ]
+    }
+  ]
+}

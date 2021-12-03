@@ -1,0 +1,90 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.github.skot-framework.sk-video",
+    "module": "viewlegacy",
+    "version": "0.0.2_1.0.0-alpha61",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "files": [
+        {
+          "name": "viewlegacy-metadata-0.0.2_1.0.0-alpha61.jar",
+          "url": "viewlegacy-0.0.2_1.0.0-alpha61.jar",
+          "size": 261,
+          "sha512": "f1aadb1612e0925e3b4a1a5dafffadc4403b9500608ef4b28820f5f925d0e005b1bff5f38adccab653c5bbc80402d22031869168596a518cb73f1971b353c319",
+          "sha256": "85c7ba778478ec8b65bf7d15c441de499c360e82072cc0b7972656448a1c57b3",
+          "sha1": "c438183a4afdd62e603bb52253f6bfaee683c60a",
+          "md5": "6ae756671b6afd809b8a27c8d817a0e5"
+        }
+      ]
+    },
+    {
+      "name": "debugApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewlegacy-android/0.0.2_1.0.0-alpha61/viewlegacy-android-0.0.2_1.0.0-alpha61.module",
+        "group": "com.github.skot-framework.sk-video",
+        "module": "viewlegacy-android",
+        "version": "0.0.2_1.0.0-alpha61"
+      }
+    },
+    {
+      "name": "debugRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewlegacy-android/0.0.2_1.0.0-alpha61/viewlegacy-android-0.0.2_1.0.0-alpha61.module",
+        "group": "com.github.skot-framework.sk-video",
+        "module": "viewlegacy-android",
+        "version": "0.0.2_1.0.0-alpha61"
+      }
+    },
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewlegacy-android/0.0.2_1.0.0-alpha61/viewlegacy-android-0.0.2_1.0.0-alpha61.module",
+        "group": "com.github.skot-framework.sk-video",
+        "module": "viewlegacy-android",
+        "version": "0.0.2_1.0.0-alpha61"
+      }
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewlegacy-android/0.0.2_1.0.0-alpha61/viewlegacy-android-0.0.2_1.0.0-alpha61.module",
+        "group": "com.github.skot-framework.sk-video",
+        "module": "viewlegacy-android",
+        "version": "0.0.2_1.0.0-alpha61"
+      }
+    }
+  ]
+}

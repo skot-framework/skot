@@ -1,0 +1,71 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../modelcontract/1.0.0-alpha62/modelcontract-1.0.0-alpha62.module",
+    "group": "com.github.skot-framework.skot",
+    "module": "modelcontract",
+    "version": "1.0.0-alpha62",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "iosX64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.6.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "strictly": "1.5.2-native-mt",
+            "requires": "1.5.2-native-mt"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.2.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-datetime",
+          "version": {
+            "requires": "0.2.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "modelcontract.klib",
+          "url": "modelcontract-iosx64-1.0.0-alpha62.klib",
+          "size": 32681,
+          "sha512": "6016a1a4dda871d6731195b5c6b644f87033041a2039b12d70188a370607a2718b6e10ae9811c56e2cfba4a956e35b74721ae00044f5bdb10652bfac52fcb632",
+          "sha256": "eabfa89c23eae7c1aba8f652e8ceb0b7a58f935bd5dd2d2847e34636b5865438",
+          "sha1": "2d161b1d7e1a8d0d675d1cb3e8fc8a709acec65f",
+          "md5": "a37110ac930deec55a64c74b49095c09"
+        }
+      ]
+    }
+  ]
+}

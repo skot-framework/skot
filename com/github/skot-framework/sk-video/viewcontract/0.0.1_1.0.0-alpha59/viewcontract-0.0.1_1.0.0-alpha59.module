@@ -1,0 +1,80 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.github.skot-framework.sk-video",
+    "module": "viewcontract",
+    "version": "0.0.1_1.0.0-alpha59",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "com.github.skot-framework.skot",
+          "module": "viewcontract",
+          "version": {
+            "requires": "1.0.0-alpha59"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.30"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewcontract-metadata-0.0.1_1.0.0-alpha59.jar",
+          "url": "viewcontract-0.0.1_1.0.0-alpha59.jar",
+          "size": 1304,
+          "sha512": "b590ae29f4725c46c6908965fb9986221514fc36590374aa9dc2b99e2bc78d1e7ce16905589f4e5fd1e4c6e9d6360115f72ee60515ea5d15fd0a35fbfd0901fa",
+          "sha256": "cc57be4b0a8d85112fcd567342b2e475c8ee2b1955b94d9f60e1ad36b22fbf43",
+          "sha1": "a4729a5b179ed0e5b0dfaed64ad2970a257cdbcb",
+          "md5": "6e9b24be99bc6a543e03412319b755ff"
+        }
+      ]
+    },
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../viewcontract-jvm/0.0.1_1.0.0-alpha59/viewcontract-jvm-0.0.1_1.0.0-alpha59.module",
+        "group": "com.github.skot-framework.sk-video",
+        "module": "viewcontract-jvm",
+        "version": "0.0.1_1.0.0-alpha59"
+      }
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../viewcontract-jvm/0.0.1_1.0.0-alpha59/viewcontract-jvm-0.0.1_1.0.0-alpha59.module",
+        "group": "com.github.skot-framework.sk-video",
+        "module": "viewcontract-jvm",
+        "version": "0.0.1_1.0.0-alpha59"
+      }
+    }
+  ]
+}

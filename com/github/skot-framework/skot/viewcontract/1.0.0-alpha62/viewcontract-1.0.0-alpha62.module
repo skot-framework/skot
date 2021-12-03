@@ -1,0 +1,110 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.github.skot-framework.skot",
+    "module": "viewcontract",
+    "version": "1.0.0-alpha62",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.6.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewcontract-metadata-1.0.0-alpha62.jar",
+          "url": "viewcontract-1.0.0-alpha62.jar",
+          "size": 20316,
+          "sha512": "cbb7a67ef9f3c1d524eac1d6c255017179e8b898e659821b0ad73d4b125862ecb9127004384325f1c67c233c758e8c8e624efb1a20670d2344b38833d4637779",
+          "sha256": "18e54120aa540f13e508b50245de9c59d325814153cd09d348e711768ef8c19f",
+          "sha1": "4f34a5f91f92b2251b55044304429c01ec2e7efb",
+          "md5": "4776468584204e1176c6cc9475c0708a"
+        }
+      ]
+    },
+    {
+      "name": "iosArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../viewcontract-iosarm64/1.0.0-alpha62/viewcontract-iosarm64-1.0.0-alpha62.module",
+        "group": "com.github.skot-framework.skot",
+        "module": "viewcontract-iosarm64",
+        "version": "1.0.0-alpha62"
+      }
+    },
+    {
+      "name": "iosX64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../viewcontract-iosx64/1.0.0-alpha62/viewcontract-iosx64-1.0.0-alpha62.module",
+        "group": "com.github.skot-framework.skot",
+        "module": "viewcontract-iosx64",
+        "version": "1.0.0-alpha62"
+      }
+    },
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../viewcontract-jvm/1.0.0-alpha62/viewcontract-jvm-1.0.0-alpha62.module",
+        "group": "com.github.skot-framework.skot",
+        "module": "viewcontract-jvm",
+        "version": "1.0.0-alpha62"
+      }
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../viewcontract-jvm/1.0.0-alpha62/viewcontract-jvm-1.0.0-alpha62.module",
+        "group": "com.github.skot-framework.skot",
+        "module": "viewcontract-jvm",
+        "version": "1.0.0-alpha62"
+      }
+    }
+  ]
+}

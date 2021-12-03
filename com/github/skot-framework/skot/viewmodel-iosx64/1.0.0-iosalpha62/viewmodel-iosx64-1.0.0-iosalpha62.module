@@ -1,0 +1,70 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../viewmodel/1.0.0-iosalpha62/viewmodel-1.0.0-iosalpha62.module",
+    "group": "com.github.skot-framework.skot",
+    "module": "viewmodel",
+    "version": "1.0.0-iosalpha62",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "iosX64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "com.github.skot-framework.skot",
+          "module": "core",
+          "version": {
+            "requires": "1.0.0-iosalpha62"
+          }
+        },
+        {
+          "group": "com.github.skot-framework.skot",
+          "module": "viewcontract",
+          "version": {
+            "requires": "1.0.0-iosalpha62"
+          }
+        },
+        {
+          "group": "com.github.skot-framework.skot",
+          "module": "modelcontract",
+          "version": {
+            "requires": "1.0.0-iosalpha62"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.6.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewmodel.klib",
+          "url": "viewmodel-iosx64-1.0.0-iosalpha62.klib",
+          "size": 69327,
+          "sha512": "638435e72929983b39b2ff8b8d712ba2e1d723907bc48e41723533590cc4e07ec0d19c0de00213a56087f16209d7327dfa9943bc84bda0d900a5cbf92d487ccf",
+          "sha256": "2fcebe4c3f54935de9463641f68b3f91dc6baf3f314e65c56d77a91df4e89dcf",
+          "sha1": "012da1c05434f1285bb1cd32e2b9288c91151d83",
+          "md5": "28a35335456b8b82e660e3e9d06d447d"
+        }
+      ]
+    }
+  ]
+}

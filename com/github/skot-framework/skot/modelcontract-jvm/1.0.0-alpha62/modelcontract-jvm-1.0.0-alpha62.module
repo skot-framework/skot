@@ -1,0 +1,137 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../modelcontract/1.0.0-alpha62/modelcontract-1.0.0-alpha62.module",
+    "group": "com.github.skot-framework.skot",
+    "module": "modelcontract",
+    "version": "1.0.0-alpha62",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.6.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "strictly": "1.5.2-native-mt",
+            "requires": "1.5.2-native-mt"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.2.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-datetime",
+          "version": {
+            "requires": "0.2.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "modelcontract-jvm-1.0.0-alpha62.jar",
+          "url": "modelcontract-jvm-1.0.0-alpha62.jar",
+          "size": 80255,
+          "sha512": "08f6ea4e3d4157d5cffabf8da60e6c1b5e114aab4315ee76fb3c0f595b1eae0f77313c695f5ba166f0e50fb1caddc1cadd3c4e7ab58c7f28c44d7b765072b61d",
+          "sha256": "6aca537767f1bc20712376911b78cdabe530cb84dc87dd0c5a05444ef6c10731",
+          "sha1": "0f9b34d3861afa0e0a189f51e7640aad8881d5de",
+          "md5": "76bfc49da54470b6ca6d5b6d4074a82a"
+        }
+      ]
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.6.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "strictly": "1.5.2-native-mt",
+            "requires": "1.5.2-native-mt"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.2.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-datetime",
+          "version": {
+            "requires": "0.2.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "modelcontract-jvm-1.0.0-alpha62.jar",
+          "url": "modelcontract-jvm-1.0.0-alpha62.jar",
+          "size": 80255,
+          "sha512": "08f6ea4e3d4157d5cffabf8da60e6c1b5e114aab4315ee76fb3c0f595b1eae0f77313c695f5ba166f0e50fb1caddc1cadd3c4e7ab58c7f28c44d7b765072b61d",
+          "sha256": "6aca537767f1bc20712376911b78cdabe530cb84dc87dd0c5a05444ef6c10731",
+          "sha1": "0f9b34d3861afa0e0a189f51e7640aad8881d5de",
+          "md5": "76bfc49da54470b6ca6d5b6d4074a82a"
+        }
+      ]
+    }
+  ]
+}

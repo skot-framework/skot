@@ -1,0 +1,90 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.github.skot-framework.sk-tabbar",
+    "module": "viewlegacy",
+    "version": "0.0.2_1.0.0-alpha59",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "files": [
+        {
+          "name": "viewlegacy-metadata-0.0.2_1.0.0-alpha59.jar",
+          "url": "viewlegacy-0.0.2_1.0.0-alpha59.jar",
+          "size": 261,
+          "sha512": "4e4387299623d04f9a10a38a069283b3eea6d4e5e7e876cab99b2bcd4224223459c4a7cee07fb097c0406d60410fd1b4d012ee30a149e3b3e8003e315c38dedc",
+          "sha256": "41cbab243da6bb10880bc23e5429d455c3a956dc6a4e92d3fc5ac1104d7e8ca5",
+          "sha1": "8d0314c2d55cf557a882ea03addb0b61813f7f3a",
+          "md5": "6defe5d6f4986c4872a54cd5592cc873"
+        }
+      ]
+    },
+    {
+      "name": "debugApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewlegacy-android/0.0.2_1.0.0-alpha59/viewlegacy-android-0.0.2_1.0.0-alpha59.module",
+        "group": "com.github.skot-framework.sk-tabbar",
+        "module": "viewlegacy-android",
+        "version": "0.0.2_1.0.0-alpha59"
+      }
+    },
+    {
+      "name": "debugRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewlegacy-android/0.0.2_1.0.0-alpha59/viewlegacy-android-0.0.2_1.0.0-alpha59.module",
+        "group": "com.github.skot-framework.sk-tabbar",
+        "module": "viewlegacy-android",
+        "version": "0.0.2_1.0.0-alpha59"
+      }
+    },
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewlegacy-android/0.0.2_1.0.0-alpha59/viewlegacy-android-0.0.2_1.0.0-alpha59.module",
+        "group": "com.github.skot-framework.sk-tabbar",
+        "module": "viewlegacy-android",
+        "version": "0.0.2_1.0.0-alpha59"
+      }
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewlegacy-android/0.0.2_1.0.0-alpha59/viewlegacy-android-0.0.2_1.0.0-alpha59.module",
+        "group": "com.github.skot-framework.sk-tabbar",
+        "module": "viewlegacy-android",
+        "version": "0.0.2_1.0.0-alpha59"
+      }
+    }
+  ]
+}

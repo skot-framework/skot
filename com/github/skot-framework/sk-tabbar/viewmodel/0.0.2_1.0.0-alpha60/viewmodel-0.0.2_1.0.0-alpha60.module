@@ -1,0 +1,99 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.github.skot-framework.sk-tabbar",
+    "module": "viewmodel",
+    "version": "0.0.2_1.0.0-alpha60",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "com.github.skot-framework.sk-tabbar",
+          "module": "viewcontract",
+          "version": {
+            "requires": "0.0.2_1.0.0-alpha60"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewmodel-metadata-0.0.2_1.0.0-alpha60.jar",
+          "url": "viewmodel-0.0.2_1.0.0-alpha60.jar",
+          "size": 4246,
+          "sha512": "89c17411d24a33ed7b8715cf86c426ff8b734848bf7e758e85af612aaba57c6185496a5c47235889bbbebd190c1f0b69e76594f0e5e41c3ce5922cf9d29a43bc",
+          "sha256": "0ca1d70a2b92f50d67cfc03caae8e2717d9ba4723f89cca7aceac30a6260be7e",
+          "sha1": "fe7b433ee2e9655bbac0e32023f82778b5f6dddb",
+          "md5": "66189e4864df75b67b1263e92c5522c9"
+        }
+      ]
+    },
+    {
+      "name": "debugApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewmodel-android/0.0.2_1.0.0-alpha60/viewmodel-android-0.0.2_1.0.0-alpha60.module",
+        "group": "com.github.skot-framework.sk-tabbar",
+        "module": "viewmodel-android",
+        "version": "0.0.2_1.0.0-alpha60"
+      }
+    },
+    {
+      "name": "debugRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewmodel-android/0.0.2_1.0.0-alpha60/viewmodel-android-0.0.2_1.0.0-alpha60.module",
+        "group": "com.github.skot-framework.sk-tabbar",
+        "module": "viewmodel-android",
+        "version": "0.0.2_1.0.0-alpha60"
+      }
+    },
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewmodel-android/0.0.2_1.0.0-alpha60/viewmodel-android-0.0.2_1.0.0-alpha60.module",
+        "group": "com.github.skot-framework.sk-tabbar",
+        "module": "viewmodel-android",
+        "version": "0.0.2_1.0.0-alpha60"
+      }
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewmodel-android/0.0.2_1.0.0-alpha60/viewmodel-android-0.0.2_1.0.0-alpha60.module",
+        "group": "com.github.skot-framework.sk-tabbar",
+        "module": "viewmodel-android",
+        "version": "0.0.2_1.0.0-alpha60"
+      }
+    }
+  ]
+}

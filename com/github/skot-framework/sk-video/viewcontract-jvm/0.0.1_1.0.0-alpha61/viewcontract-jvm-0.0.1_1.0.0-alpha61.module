@@ -1,0 +1,89 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../viewcontract/0.0.1_1.0.0-alpha61/viewcontract-0.0.1_1.0.0-alpha61.module",
+    "group": "com.github.skot-framework.sk-video",
+    "module": "viewcontract",
+    "version": "0.0.1_1.0.0-alpha61",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.30"
+          }
+        },
+        {
+          "group": "com.github.skot-framework.skot",
+          "module": "viewcontract",
+          "version": {
+            "requires": "1.0.0-alpha61"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewcontract-jvm-0.0.1_1.0.0-alpha61.jar",
+          "url": "viewcontract-jvm-0.0.1_1.0.0-alpha61.jar",
+          "size": 1600,
+          "sha512": "673781d52a950651d7192257796f54a8acf2fa3fe12d91057187091bc0f916a5c18821f78ad49149546b8492feacebf92784154b412e64b735c65b5092ea1f7c",
+          "sha256": "299bb94325d560a6a6eb5c27bdf120f170229974c14c3a2e7a75a337b60c4887",
+          "sha1": "69731834dea3bc3fd30050d14cb8b8ea88ec2381",
+          "md5": "5e3d4ee73a0458a7178ecc2e59cd0c2b"
+        }
+      ]
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.30"
+          }
+        },
+        {
+          "group": "com.github.skot-framework.skot",
+          "module": "viewcontract",
+          "version": {
+            "requires": "1.0.0-alpha61"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewcontract-jvm-0.0.1_1.0.0-alpha61.jar",
+          "url": "viewcontract-jvm-0.0.1_1.0.0-alpha61.jar",
+          "size": 1600,
+          "sha512": "673781d52a950651d7192257796f54a8acf2fa3fe12d91057187091bc0f916a5c18821f78ad49149546b8492feacebf92784154b412e64b735c65b5092ea1f7c",
+          "sha256": "299bb94325d560a6a6eb5c27bdf120f170229974c14c3a2e7a75a337b60c4887",
+          "sha1": "69731834dea3bc3fd30050d14cb8b8ea88ec2381",
+          "md5": "5e3d4ee73a0458a7178ecc2e59cd0c2b"
+        }
+      ]
+    }
+  ]
+}

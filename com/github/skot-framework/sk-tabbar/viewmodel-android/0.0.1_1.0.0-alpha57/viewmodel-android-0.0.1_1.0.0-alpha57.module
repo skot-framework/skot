@@ -1,0 +1,171 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../viewmodel/0.0.1_1.0.0-alpha57/viewmodel-0.0.1_1.0.0-alpha57.module",
+    "group": "com.github.skot-framework.sk-tabbar",
+    "module": "viewmodel",
+    "version": "0.0.1_1.0.0-alpha57",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "debugApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.30"
+          }
+        },
+        {
+          "group": "com.github.skot-framework.sk-tabbar",
+          "module": "viewcontract",
+          "version": {
+            "requires": "0.0.1_1.0.0-alpha57"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewmodel-debug.aar",
+          "url": "viewmodel-android-0.0.1_1.0.0-alpha57-debug.aar",
+          "size": 15870,
+          "sha512": "56f67463e27c5d2c784e38374bf01322dc9fb05d1fd865d689f43d1c28d706d52fc854c140ffe4db86f1273cef8f441459795af9236aba838727a7677616946b",
+          "sha256": "280740e0910a122f676d4aafa7615ae80f747912a4fc693c4b554deee82fb736",
+          "sha1": "eea574a8b32c5a391773451ca455bfd342bc264b",
+          "md5": "63d28c5337aad86d5450a171af462a90"
+        }
+      ]
+    },
+    {
+      "name": "debugRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.30"
+          }
+        },
+        {
+          "group": "com.github.skot-framework.sk-tabbar",
+          "module": "viewcontract",
+          "version": {
+            "requires": "0.0.1_1.0.0-alpha57"
+          }
+        },
+        {
+          "group": "com.github.skot-framework.skot",
+          "module": "viewmodel",
+          "version": {
+            "requires": "1.0.0-alpha57"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewmodel-debug.aar",
+          "url": "viewmodel-android-0.0.1_1.0.0-alpha57-debug.aar",
+          "size": 15870,
+          "sha512": "56f67463e27c5d2c784e38374bf01322dc9fb05d1fd865d689f43d1c28d706d52fc854c140ffe4db86f1273cef8f441459795af9236aba838727a7677616946b",
+          "sha256": "280740e0910a122f676d4aafa7615ae80f747912a4fc693c4b554deee82fb736",
+          "sha1": "eea574a8b32c5a391773451ca455bfd342bc264b",
+          "md5": "63d28c5337aad86d5450a171af462a90"
+        }
+      ]
+    },
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.30"
+          }
+        },
+        {
+          "group": "com.github.skot-framework.sk-tabbar",
+          "module": "viewcontract",
+          "version": {
+            "requires": "0.0.1_1.0.0-alpha57"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewmodel-release.aar",
+          "url": "viewmodel-android-0.0.1_1.0.0-alpha57.aar",
+          "size": 15127,
+          "sha512": "1ef8e7bbcc80a070ee0212b257de659ff45f2968e0f66270180c49fc1927af26a7dd804e7a3e4590b72d0b3bfca552455e62e97dc4f9465b64e263e5fb43753b",
+          "sha256": "afff1da8320863f4a4f809cd0a8f78b108f2514023f86affcbcd76bd8eb3b3cb",
+          "sha1": "0dc48d05006189f3d9156d4c29b5e6008147d5c3",
+          "md5": "ed147c834d7c238b7f68c22f6fd77c66"
+        }
+      ]
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.30"
+          }
+        },
+        {
+          "group": "com.github.skot-framework.sk-tabbar",
+          "module": "viewcontract",
+          "version": {
+            "requires": "0.0.1_1.0.0-alpha57"
+          }
+        },
+        {
+          "group": "com.github.skot-framework.skot",
+          "module": "viewmodel",
+          "version": {
+            "requires": "1.0.0-alpha57"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewmodel-release.aar",
+          "url": "viewmodel-android-0.0.1_1.0.0-alpha57.aar",
+          "size": 15127,
+          "sha512": "1ef8e7bbcc80a070ee0212b257de659ff45f2968e0f66270180c49fc1927af26a7dd804e7a3e4590b72d0b3bfca552455e62e97dc4f9465b64e263e5fb43753b",
+          "sha256": "afff1da8320863f4a4f809cd0a8f78b108f2514023f86affcbcd76bd8eb3b3cb",
+          "sha1": "0dc48d05006189f3d9156d4c29b5e6008147d5c3",
+          "md5": "ed147c834d7c238b7f68c22f6fd77c66"
+        }
+      ]
+    }
+  ]
+}

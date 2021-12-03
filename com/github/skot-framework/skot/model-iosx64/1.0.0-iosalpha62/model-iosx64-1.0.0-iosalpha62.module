@@ -1,0 +1,119 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../model/1.0.0-iosalpha62/model-1.0.0-iosalpha62.module",
+    "group": "com.github.skot-framework.skot",
+    "module": "model",
+    "version": "1.0.0-iosalpha62",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "iosX64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "com.squareup.sqldelight",
+          "module": "native-driver",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-ios",
+          "version": {
+            "requires": "1.6.3"
+          }
+        },
+        {
+          "group": "com.github.skot-framework.skot",
+          "module": "core",
+          "version": {
+            "requires": "1.0.0-iosalpha62"
+          }
+        },
+        {
+          "group": "com.github.skot-framework.skot",
+          "module": "modelcontract",
+          "version": {
+            "requires": "1.0.0-iosalpha62"
+          }
+        },
+        {
+          "group": "com.squareup.sqldelight",
+          "module": "runtime",
+          "version": {
+            "requires": "1.5.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-json",
+          "version": {
+            "requires": "1.2.2"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-core",
+          "version": {
+            "requires": "1.6.3"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-serialization",
+          "version": {
+            "requires": "1.6.3"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-auth",
+          "version": {
+            "requires": "1.6.3"
+          }
+        },
+        {
+          "group": "io.ktor",
+          "module": "ktor-client-logging",
+          "version": {
+            "requires": "1.6.3"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.6.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "model.klib",
+          "url": "model-iosx64-1.0.0-iosalpha62.klib",
+          "size": 68619,
+          "sha512": "bc25d776a2694d11783869e325787a099502ac4ee21743f7a8097223616d99f8ca010aa8b30c3ef5dc22dab31fdf2f24789f10f17ce574c96ce5e8c2199e93eb",
+          "sha256": "a98dcd4e55c0cd251fc66e477664e45000dcbc0a6cd8699a81937b4e18312181",
+          "sha1": "fda08f3721962e6f4ddae7e9d4be722c209bf1dc",
+          "md5": "7f954405624d36f58b5a25614818c14e"
+        }
+      ]
+    }
+  ]
+}

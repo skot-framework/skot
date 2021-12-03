@@ -1,0 +1,132 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.github.skot-framework.skot",
+    "module": "modelcontract",
+    "version": "1.0.0-iosalpha62",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.6.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "strictly": "1.5.2-native-mt",
+            "requires": "1.5.2-native-mt"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.2.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-datetime",
+          "version": {
+            "requires": "0.2.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "modelcontract-metadata-1.0.0-iosalpha62.jar",
+          "url": "modelcontract-1.0.0-iosalpha62.jar",
+          "size": 6618,
+          "sha512": "d7730e3dd395074f0feb00136914d78e7a2d8271577f43cca5c1457abe9982e6276810412dc93e7b3339176259ee8f4fbafc4a5475c853ad5d871e86f156d004",
+          "sha256": "38b7aac32b1b0fa72da57e98447b3208ba0d0e9c9ad9c935a88ad2df361f2544",
+          "sha1": "87b402e7740c109f11b3f21cbf699093fdabdaf4",
+          "md5": "cf04e8dcb974fef8d4e4da6ecb8b5503"
+        }
+      ]
+    },
+    {
+      "name": "iosArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../modelcontract-iosarm64/1.0.0-iosalpha62/modelcontract-iosarm64-1.0.0-iosalpha62.module",
+        "group": "com.github.skot-framework.skot",
+        "module": "modelcontract-iosarm64",
+        "version": "1.0.0-iosalpha62"
+      }
+    },
+    {
+      "name": "iosX64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../modelcontract-iosx64/1.0.0-iosalpha62/modelcontract-iosx64-1.0.0-iosalpha62.module",
+        "group": "com.github.skot-framework.skot",
+        "module": "modelcontract-iosx64",
+        "version": "1.0.0-iosalpha62"
+      }
+    },
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../modelcontract-jvm/1.0.0-iosalpha62/modelcontract-jvm-1.0.0-iosalpha62.module",
+        "group": "com.github.skot-framework.skot",
+        "module": "modelcontract-jvm",
+        "version": "1.0.0-iosalpha62"
+      }
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../modelcontract-jvm/1.0.0-iosalpha62/modelcontract-jvm-1.0.0-iosalpha62.module",
+        "group": "com.github.skot-framework.skot",
+        "module": "modelcontract-jvm",
+        "version": "1.0.0-iosalpha62"
+      }
+    }
+  ]
+}

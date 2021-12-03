@@ -1,0 +1,99 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.github.skot-framework.sk-video",
+    "module": "viewmodel",
+    "version": "0.0.1_1.0.0-alpha59",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "com.github.skot-framework.sk-video",
+          "module": "viewcontract",
+          "version": {
+            "requires": "0.0.1_1.0.0-alpha59"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewmodel-metadata-0.0.1_1.0.0-alpha59.jar",
+          "url": "viewmodel-0.0.1_1.0.0-alpha59.jar",
+          "size": 2284,
+          "sha512": "472ccc6a46e322c24dac282f5b0beaa2ab843a11a813bc803d38fa9cc794abfaa707961d8fd0d1fbaefbf074d4ef3e4338787d42aa69e2c4dbcef0c5256c69f7",
+          "sha256": "3a924adfff8d2c56ddedc9ac6959670378a01451d5e1c24e80f9a3e1bf7870d5",
+          "sha1": "5397bcd0ce32ed42e745d85a10a365a0f7d31de8",
+          "md5": "05584ffd5337fb98726e2a7d65db48bc"
+        }
+      ]
+    },
+    {
+      "name": "debugApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewmodel-android/0.0.1_1.0.0-alpha59/viewmodel-android-0.0.1_1.0.0-alpha59.module",
+        "group": "com.github.skot-framework.sk-video",
+        "module": "viewmodel-android",
+        "version": "0.0.1_1.0.0-alpha59"
+      }
+    },
+    {
+      "name": "debugRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewmodel-android/0.0.1_1.0.0-alpha59/viewmodel-android-0.0.1_1.0.0-alpha59.module",
+        "group": "com.github.skot-framework.sk-video",
+        "module": "viewmodel-android",
+        "version": "0.0.1_1.0.0-alpha59"
+      }
+    },
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewmodel-android/0.0.1_1.0.0-alpha59/viewmodel-android-0.0.1_1.0.0-alpha59.module",
+        "group": "com.github.skot-framework.sk-video",
+        "module": "viewmodel-android",
+        "version": "0.0.1_1.0.0-alpha59"
+      }
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../viewmodel-android/0.0.1_1.0.0-alpha59/viewmodel-android-0.0.1_1.0.0-alpha59.module",
+        "group": "com.github.skot-framework.sk-video",
+        "module": "viewmodel-android",
+        "version": "0.0.1_1.0.0-alpha59"
+      }
+    }
+  ]
+}

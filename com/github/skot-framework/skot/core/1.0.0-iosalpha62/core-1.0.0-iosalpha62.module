@@ -1,0 +1,161 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.github.skot-framework.skot",
+    "module": "core",
+    "version": "1.0.0-iosalpha62",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.5.2-native-mt"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.6.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-datetime",
+          "version": {
+            "requires": "0.2.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.6.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core-metadata-1.0.0-iosalpha62.jar",
+          "url": "core-1.0.0-iosalpha62.jar",
+          "size": 7807,
+          "sha512": "826636a9a17390b304e6ec4f1645659675d8202e922e8e25234b5f234752f70d852818617e15683e85e6044393ecc16a417df02332bc761672aa1244d68c67f4",
+          "sha256": "c199d814517c3302b0d3c2210de304d7b3808f03901001fa19cdfbed4bbcc05d",
+          "sha1": "b00d89ceabeb1ca267dbcfe7986d33e8ccb1daf9",
+          "md5": "cdeb81713c6fca773530693e0cb9dace"
+        }
+      ]
+    },
+    {
+      "name": "debugApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "android",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../core-android/1.0.0-iosalpha62/core-android-1.0.0-iosalpha62.module",
+        "group": "com.github.skot-framework.skot",
+        "module": "core-android",
+        "version": "1.0.0-iosalpha62"
+      }
+    },
+    {
+      "name": "debugRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "android",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../core-android/1.0.0-iosalpha62/core-android-1.0.0-iosalpha62.module",
+        "group": "com.github.skot-framework.skot",
+        "module": "core-android",
+        "version": "1.0.0-iosalpha62"
+      }
+    },
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "android",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../core-android/1.0.0-iosalpha62/core-android-1.0.0-iosalpha62.module",
+        "group": "com.github.skot-framework.skot",
+        "module": "core-android",
+        "version": "1.0.0-iosalpha62"
+      }
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "android",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "available-at": {
+        "url": "../../core-android/1.0.0-iosalpha62/core-android-1.0.0-iosalpha62.module",
+        "group": "com.github.skot-framework.skot",
+        "module": "core-android",
+        "version": "1.0.0-iosalpha62"
+      }
+    },
+    {
+      "name": "iosArm64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_arm64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../core-iosarm64/1.0.0-iosalpha62/core-iosarm64-1.0.0-iosalpha62.module",
+        "group": "com.github.skot-framework.skot",
+        "module": "core-iosarm64",
+        "version": "1.0.0-iosalpha62"
+      }
+    },
+    {
+      "name": "iosX64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../core-iosx64/1.0.0-iosalpha62/core-iosx64-1.0.0-iosalpha62.module",
+        "group": "com.github.skot-framework.skot",
+        "module": "core-iosx64",
+        "version": "1.0.0-iosalpha62"
+      }
+    }
+  ]
+}

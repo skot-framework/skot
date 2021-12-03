@@ -1,0 +1,213 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../viewlegacy/0.0.1_1.0.0-alpha60/viewlegacy-0.0.1_1.0.0-alpha60.module",
+    "group": "com.github.skot-framework.sk-video",
+    "module": "viewlegacy",
+    "version": "0.0.1_1.0.0-alpha60",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "debugApiElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.30"
+          }
+        },
+        {
+          "group": "com.google.android.exoplayer",
+          "module": "exoplayer",
+          "version": {
+            "requires": "2.15.0"
+          }
+        },
+        {
+          "group": "androidx.databinding",
+          "module": "viewbinding",
+          "version": {
+            "requires": "7.0.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewlegacy-debug.aar",
+          "url": "viewlegacy-android-0.0.1_1.0.0-alpha60-debug.aar",
+          "size": 48855,
+          "sha512": "d10e4944f6a2f6b09ee6eb7ce4f1e4ee449907c60b2801c8b37cdbe96e8a9eb02d14bf8092cef05c10a7134b51ee7fd19c59b871b343454525de292dc019ab0a",
+          "sha256": "cbe055ad6ea955639255441c054401f92fcf110ff0110ce229aaa26432aab8f2",
+          "sha1": "71902b7f80d5d0674d80c7779891a17635857e44",
+          "md5": "ea066ad96191a24469fd5d1df4822f10"
+        }
+      ]
+    },
+    {
+      "name": "debugRuntimeElements-published",
+      "attributes": {
+        "com.android.build.api.attributes.BuildTypeAttr": "debug",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.30"
+          }
+        },
+        {
+          "group": "com.github.skot-framework.skot",
+          "module": "viewlegacy",
+          "version": {
+            "requires": "1.0.0-alpha60"
+          }
+        },
+        {
+          "group": "com.github.skot-framework.sk-video",
+          "module": "viewmodel",
+          "version": {
+            "requires": "0.0.1_1.0.0-alpha60"
+          }
+        },
+        {
+          "group": "com.google.android.exoplayer",
+          "module": "exoplayer",
+          "version": {
+            "requires": "2.15.0"
+          }
+        },
+        {
+          "group": "androidx.databinding",
+          "module": "viewbinding",
+          "version": {
+            "requires": "7.0.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewlegacy-debug.aar",
+          "url": "viewlegacy-android-0.0.1_1.0.0-alpha60-debug.aar",
+          "size": 48855,
+          "sha512": "d10e4944f6a2f6b09ee6eb7ce4f1e4ee449907c60b2801c8b37cdbe96e8a9eb02d14bf8092cef05c10a7134b51ee7fd19c59b871b343454525de292dc019ab0a",
+          "sha256": "cbe055ad6ea955639255441c054401f92fcf110ff0110ce229aaa26432aab8f2",
+          "sha1": "71902b7f80d5d0674d80c7779891a17635857e44",
+          "md5": "ea066ad96191a24469fd5d1df4822f10"
+        }
+      ]
+    },
+    {
+      "name": "releaseApiElements-published",
+      "attributes": {
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.30"
+          }
+        },
+        {
+          "group": "com.google.android.exoplayer",
+          "module": "exoplayer",
+          "version": {
+            "requires": "2.15.0"
+          }
+        },
+        {
+          "group": "androidx.databinding",
+          "module": "viewbinding",
+          "version": {
+            "requires": "7.0.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewlegacy-release.aar",
+          "url": "viewlegacy-android-0.0.1_1.0.0-alpha60.aar",
+          "size": 48388,
+          "sha512": "eeb128aa3e27862d804d435744932e1dda00af93e825f9ffea33c922c0304f0aabbdfd2f9962d4730bf77382abe4f7b28c3e24c8646fb94cf70d53aad4eb56a9",
+          "sha256": "e84cec10500d509788d6bc390aecb2d53d5ef4d8106695f24f2518f3f76c2237",
+          "sha1": "df96b9bf4d20d26a12e26acf5b07b0a9d3142022",
+          "md5": "45700adc427880b2be812760eea31adc"
+        }
+      ]
+    },
+    {
+      "name": "releaseRuntimeElements-published",
+      "attributes": {
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "androidJvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.30"
+          }
+        },
+        {
+          "group": "com.github.skot-framework.skot",
+          "module": "viewlegacy",
+          "version": {
+            "requires": "1.0.0-alpha60"
+          }
+        },
+        {
+          "group": "com.github.skot-framework.sk-video",
+          "module": "viewmodel",
+          "version": {
+            "requires": "0.0.1_1.0.0-alpha60"
+          }
+        },
+        {
+          "group": "com.google.android.exoplayer",
+          "module": "exoplayer",
+          "version": {
+            "requires": "2.15.0"
+          }
+        },
+        {
+          "group": "androidx.databinding",
+          "module": "viewbinding",
+          "version": {
+            "requires": "7.0.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewlegacy-release.aar",
+          "url": "viewlegacy-android-0.0.1_1.0.0-alpha60.aar",
+          "size": 48388,
+          "sha512": "eeb128aa3e27862d804d435744932e1dda00af93e825f9ffea33c922c0304f0aabbdfd2f9962d4730bf77382abe4f7b28c3e24c8646fb94cf70d53aad4eb56a9",
+          "sha256": "e84cec10500d509788d6bc390aecb2d53d5ef4d8106695f24f2518f3f76c2237",
+          "sha1": "df96b9bf4d20d26a12e26acf5b07b0a9d3142022",
+          "md5": "45700adc427880b2be812760eea31adc"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../modelcontract/1.0.0-iosalpha62/modelcontract-1.0.0-iosalpha62.module",
+    "group": "com.github.skot-framework.skot",
+    "module": "modelcontract",
+    "version": "1.0.0-iosalpha62",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.6.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "strictly": "1.5.2-native-mt",
+            "requires": "1.5.2-native-mt"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.2.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-datetime",
+          "version": {
+            "requires": "0.2.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "modelcontract-jvm-1.0.0-iosalpha62.jar",
+          "url": "modelcontract-jvm-1.0.0-iosalpha62.jar",
+          "size": 80255,
+          "sha512": "f7b8fbb1433a221e76225ad93cb2f0011d7b99f57a5d510801af7c8167d5ce4147d5c9c41407686be582de5c7c00e83e438e3c6c30a15f6098317120c4a8631a",
+          "sha256": "c9171089106794ca6f88d73ff1ce48dcd1196825aa6bb43da0afb2f74b4af28c",
+          "sha1": "d347ece2ad1aca0687113a88daf6bf3d1a8f5f4e",
+          "md5": "e591fedab66d14e52229940f915de484"
+        }
+      ]
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.6.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "strictly": "1.5.2-native-mt",
+            "requires": "1.5.2-native-mt"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-serialization-core",
+          "version": {
+            "requires": "1.2.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-datetime",
+          "version": {
+            "requires": "0.2.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "modelcontract-jvm-1.0.0-iosalpha62.jar",
+          "url": "modelcontract-jvm-1.0.0-iosalpha62.jar",
+          "size": 80255,
+          "sha512": "f7b8fbb1433a221e76225ad93cb2f0011d7b99f57a5d510801af7c8167d5ce4147d5c9c41407686be582de5c7c00e83e438e3c6c30a15f6098317120c4a8631a",
+          "sha256": "c9171089106794ca6f88d73ff1ce48dcd1196825aa6bb43da0afb2f74b4af28c",
+          "sha1": "d347ece2ad1aca0687113a88daf6bf3d1a8f5f4e",
+          "md5": "e591fedab66d14e52229940f915de484"
+        }
+      ]
+    }
+  ]
+}

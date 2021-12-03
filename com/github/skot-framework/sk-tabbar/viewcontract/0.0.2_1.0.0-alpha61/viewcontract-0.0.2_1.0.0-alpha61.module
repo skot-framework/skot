@@ -1,0 +1,80 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.github.skot-framework.sk-tabbar",
+    "module": "viewcontract",
+    "version": "0.0.2_1.0.0-alpha61",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "com.github.skot-framework.skot",
+          "module": "viewcontract",
+          "version": {
+            "requires": "1.0.0-alpha61"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.30"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "viewcontract-metadata-0.0.2_1.0.0-alpha61.jar",
+          "url": "viewcontract-0.0.2_1.0.0-alpha61.jar",
+          "size": 2466,
+          "sha512": "d3bfb71ece1515d401906b5edc38a8173189d6bf90069edfaea923a18b1af91de0e4f25a2e845a7295aca5e0d90c431385fc59a423fe37aebf77290283d67ab6",
+          "sha256": "530623aff67fac1b7a4fe317c943377f0b725a775de90875daf02ef59f5cbf0f",
+          "sha1": "875b79ad88706a739ddf02683407fe30b68f3d8c",
+          "md5": "11ef0c03ada8f5d561c64e72b34b6d71"
+        }
+      ]
+    },
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../viewcontract-jvm/0.0.2_1.0.0-alpha61/viewcontract-jvm-0.0.2_1.0.0-alpha61.module",
+        "group": "com.github.skot-framework.sk-tabbar",
+        "module": "viewcontract-jvm",
+        "version": "0.0.2_1.0.0-alpha61"
+      }
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../viewcontract-jvm/0.0.2_1.0.0-alpha61/viewcontract-jvm-0.0.2_1.0.0-alpha61.module",
+        "group": "com.github.skot-framework.sk-tabbar",
+        "module": "viewcontract-jvm",
+        "version": "0.0.2_1.0.0-alpha61"
+      }
+    }
+  ]
+}

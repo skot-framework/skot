@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.github.skot-framework.skot</groupId>
+  <artifactId>viewcontract-iosx64</artifactId>
+  <versioning>
+    <latest>1.0.0-iosalpha62</latest>
+    <release>1.0.0-iosalpha62</release>
+    <versions>
+      <version>1.0.0-alpha62</version>
+      <version>1.0.0-iosalpha62</version>
+    </versions>
+    <lastUpdated>20211203133252</lastUpdated>
+  </versioning>
+</metadata>

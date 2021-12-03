@@ -1,0 +1,78 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../core/1.0.0-iosalpha62/core-1.0.0-iosalpha62.module",
+    "group": "com.github.skot-framework.skot",
+    "module": "core",
+    "version": "1.0.0-iosalpha62",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.0.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "iosX64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "ios_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "strictly": "1.5.2-native-mt",
+            "requires": "1.5.2-native-mt"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.5.2-native-mt"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.6.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-datetime",
+          "version": {
+            "requires": "0.2.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.6.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "core.klib",
+          "url": "core-iosx64-1.0.0-iosalpha62.klib",
+          "size": 24642,
+          "sha512": "1d58b1b137d329a1519dd9ace346b48bffd6f84eb067fe59dcfd8f2553ddad2883f72186e34c5cce6defbeedc4300af89a6e903f1030cb95256fc417930d96a9",
+          "sha256": "33185bfdb11af02055f9675fbc4d32b12d585769cb25152c7d051c5ad531ef6f",
+          "sha1": "faebe9c3690ddb3ac4daaedf7be399bae9b4aa8c",
+          "md5": "5e260dcb5d338cad3a465314de8561f6"
+        }
+      ]
+    }
+  ]
+}

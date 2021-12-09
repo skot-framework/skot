@@ -19,7 +19,7 @@ interface SKInputVC: SKComponentVC {
 
     val type: Type?
     val maxSize: Int?
-    val onFocusLost: (() -> Unit)?
+    val onFocusChange: ((hasFocus:Boolean) -> Unit)?
     val onDone: ((text: String?) -> Unit)?
 
     var hint: String?

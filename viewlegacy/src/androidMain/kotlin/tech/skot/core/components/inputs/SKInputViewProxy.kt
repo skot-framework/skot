@@ -12,7 +12,7 @@ import tech.skot.view.live.SKMessage
 abstract class SKInputViewProxyCommon<V : View>(
     override val maxSize: Int?,
     override val onDone: Function1<String?, Unit>?,
-    override val onFocusLost: Function0<Unit>?,
+    override val onFocusChange: Function1<Boolean, Unit>?,
     override val onInputText: Function1<String?, Unit>,
     override val type: SKInputVC.Type?,
     enabledInitial: Boolean?,
@@ -62,7 +62,7 @@ abstract class SKInputViewProxyCommon<V : View>(
     ): SKInputViewCommon<V> = createView(activity, fragment, binding).apply {
         onMaxSize(maxSize)
         onOnDone(onDone)
-        onOnFocusLost(onFocusLost)
+        onOnFocusChange(onFocusChange)
         onOnInputText(onInputText)
         onType(type)
         enabledLD.observe {
@@ -91,7 +91,7 @@ abstract class SKInputViewProxyCommon<V : View>(
 class SKInputViewProxy(
     maxSize: Int?,
     onDone: Function1<String?, Unit>?,
-    onFocusLost: Function0<Unit>?,
+    onFocusChange: ((hasFocus:Boolean) -> Unit)?,
     onInputText: Function1<String?, Unit>,
     type: SKInputVC.Type?,
     enabledInitial: Boolean?,
@@ -102,7 +102,7 @@ class SKInputViewProxy(
 ) : SKInputViewProxyCommon<TextInputLayout>(
     maxSize,
     onDone,
-    onFocusLost,
+    onFocusChange,
     onInputText,
     type,
     enabledInitial,
@@ -130,7 +130,7 @@ class SKInputViewProxy(
 class SKSimpleInputViewProxy(
     maxSize: Int?,
     onDone: Function1<String?, Unit>?,
-    onFocusLost: Function0<Unit>?,
+    onFocusChange: ((hasFocus:Boolean) -> Unit)?,
     onInputText: Function1<String?, Unit>,
     type: SKInputVC.Type?,
     enabledInitial: Boolean?,
@@ -141,7 +141,7 @@ class SKSimpleInputViewProxy(
 ) : SKInputViewProxyCommon<EditText>(
     maxSize,
     onDone,
-    onFocusLost,
+    onFocusChange,
     onInputText,
     type,
     enabledInitial,
@@ -165,7 +165,7 @@ interface SKInputRAI {
 
     fun onOnDone(onDone: Function1<String?, Unit>?)
 
-    fun onOnFocusLost(onFocusLost: Function0<Unit>?)
+    fun onOnFocusChange(onFocusChange: Function1<Boolean, Unit>?)
 
     fun onOnInputText(onInputText: Function1<String?, Unit>)
 

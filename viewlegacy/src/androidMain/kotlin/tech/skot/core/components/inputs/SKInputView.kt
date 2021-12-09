@@ -30,15 +30,14 @@ abstract class SKInputViewCommon<V: View>(
         editText.setOnDone(onDone)
     }
 
-    override fun onOnFocusLost(onFocusLost: (() -> Unit)?) {
-        if (onFocusLost != null) {
+    override fun onOnFocusChange(onFocusChange: ((Boolean) -> Unit)?) {
+        if (onFocusChange != null) {
             editText.setOnFocusChangeListener { v, hasFocus ->
-                if (!hasFocus) {
-                    onFocusLost()
-                }
+                onFocusChange.invoke(hasFocus)
             }
         }
     }
+
 
     private var firstChangeDoneFor = false
 

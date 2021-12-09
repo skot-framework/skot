@@ -68,7 +68,10 @@ open class SKInput(
 
     private var validity: Validity = if (nullable) Validity.Valid else _error
 
-    protected fun onFocusLost() {
+    protected open fun onFocus() {
+    }
+
+    protected open fun onFocusLost() {
         view.error = validity.errorMessage
     }
 
@@ -85,9 +88,14 @@ open class SKInput(
         },
         type = viewType,
         maxSize = maxSize,
-        onFocusLost =
+        onFocusChange =
         {
-            onFocusLost()
+            if (it) {
+                onFocus()
+            }
+            else {
+                onFocusLost()
+            }
         },
         onDone = onDone,
         hintInitial = hint,
@@ -137,9 +145,14 @@ class SKSimpleInput(
         },
         type = viewType,
         maxSize = maxSize,
-        onFocusLost =
+        onFocusChange =
         {
-            onFocusLost()
+            if (it) {
+                onFocus()
+            }
+            else {
+                onFocusLost()
+            }
         },
         onDone = onDone,
         hintInitial = hint,

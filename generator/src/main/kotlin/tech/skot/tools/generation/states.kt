@@ -390,7 +390,7 @@ fun Generator.generateStates(rootState: StateDef) {
             )
             .addFunction(
                 FunSpec.builder(saveStateFunction.simpleName)
-                    .beginControlFlow("GlobalScope.launch")
+                    .beginControlFlow("CoroutineScope(Dispatchers.Main).launch")
                     .addStatement("${FrameworkClassNames.globalCache.simpleName}.putData(")
 //                    .beginControlFlow("${rootState.nameAsProperty}.let")
                     .addStatement("serializer = ${rootState.infosClassName.simpleName}.serializer(),")
@@ -419,7 +419,8 @@ fun Generator.generateStates(rootState: StateDef) {
                     .build()
             )
             .addImportClassName(FrameworkClassNames.globalCache)
-            .addImportClassName(FrameworkClassNames.globalScope)
+            .addImportClassName(FrameworkClassNames.coroutineScope)
+            .addImportClassName(FrameworkClassNames.dispatchers)
             .addImportClassName(FrameworkClassNames.launch)
 //            .addImportClassName(rootState.infosClassName)
             .build()

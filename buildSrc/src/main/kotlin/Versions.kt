@@ -1,7 +1,7 @@
 object Versions {
 
     const val group = "com.github.skot-framework.skot"
-    const val version = "1.0.0-alpha62"
+    const val version = "1.0.0-alpha63"
 
     const val kotlin = "1.5.30"
     const val kotlinCoroutines = "1.5.2-native-mt"
@@ -16,7 +16,7 @@ object Versions {
 
     object Android {
 
-        const val gradle = "7.0.3"
+        const val gradle = "7.0.4"
 
         const val minSdk = 21
         const val compileSdk = 31
@@ -28,7 +28,7 @@ object Versions {
         const val viewpager2 = "1.0.0"
         const val recyclerview = "1.2.1"
         const val material = "1.4.0"
-        const val lifecycle = "2.3.1"
+        const val lifecycle = "2.4.0"
 
     }
 }

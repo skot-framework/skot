@@ -4,6 +4,7 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
+import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.widget.EditText
 import androidx.fragment.app.Fragment
@@ -13,7 +14,7 @@ import tech.skot.core.components.SKComponentView
 import tech.skot.view.extensions.setOnDone
 import tech.skot.view.extensions.setVisible
 
-abstract class SKInputViewCommon<V: View>(
+abstract class SKInputViewCommon<V : View>(
     override val proxy: SKInputViewProxyCommon<V>,
     activity: SKActivity,
     fragment: Fragment?,
@@ -74,20 +75,27 @@ abstract class SKInputViewCommon<V: View>(
     }
 
     override fun onType(type: SKInputVC.Type?) {
-        when (type) {
-            SKInputVC.Type.EMail -> editText.inputType =
-                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
-            SKInputVC.Type.Phone -> editText.inputType = InputType.TYPE_CLASS_PHONE
-            SKInputVC.Type.Number -> editText.inputType = InputType.TYPE_CLASS_NUMBER
-            SKInputVC.Type.NumberPassword -> editText.inputType =
-                InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
-            SKInputVC.Type.LongText -> {
-                editText.inputType =
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
+        if (type != null) {
+            editText.inputType =  when (type) {
+                SKInputVC.Type.EMail -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
+                SKInputVC.Type.Phone -> InputType.TYPE_CLASS_PHONE
+                SKInputVC.Type.Password -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                SKInputVC.Type.Number -> InputType.TYPE_CLASS_NUMBER
+                SKInputVC.Type.NumberPassword -> InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
+                SKInputVC.Type.LongText -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
+                SKInputVC.Type.Normal -> InputType.TYPE_CLASS_TEXT
             }
         }
     }
 
+    override fun onShowPassword(showPassword: Boolean?) {
+        showPassword?.let {
+            val selection = editText.selectionStart
+            editText.transformationMethod = if (it) null  else PasswordTransformationMethod.getInstance()
+            editText.setSelection(selection)
+        }
+
+    }
 
 
     override fun onText(text: String?) {

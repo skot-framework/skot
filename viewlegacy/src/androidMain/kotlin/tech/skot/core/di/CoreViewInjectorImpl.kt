@@ -68,7 +68,8 @@ class CoreViewInjectorImpl : CoreViewInjector {
         textInitial: String?,
         errorInitial: String?,
         hiddenInitial: Boolean?,
-        enabledInitial: Boolean?
+        enabledInitial: Boolean?,
+        showPasswordInitial: Boolean?
     ) =
         SKInputViewProxy(
             maxSize,
@@ -80,7 +81,8 @@ class CoreViewInjectorImpl : CoreViewInjector {
             errorInitial,
             hiddenInitial,
             hintInitial,
-            textInitial
+            textInitial,
+            showPasswordInitial
         )
 
     override fun inputSimple(
@@ -93,7 +95,8 @@ class CoreViewInjectorImpl : CoreViewInjector {
         textInitial: String?,
         errorInitial: String?,
         hiddenInitial: Boolean?,
-        enabledInitial: Boolean?
+        enabledInitial: Boolean?,
+        showPasswordInitial: Boolean?
     ) =
         SKSimpleInputViewProxy(
             maxSize,
@@ -105,7 +108,8 @@ class CoreViewInjectorImpl : CoreViewInjector {
             errorInitial,
             hiddenInitial,
             hintInitial,
-            textInitial
+            textInitial,
+            showPasswordInitial
         )
 
     override fun combo(

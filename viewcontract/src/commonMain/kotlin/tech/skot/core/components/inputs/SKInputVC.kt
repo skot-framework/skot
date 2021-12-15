@@ -10,6 +10,7 @@ interface SKInputVC: SKComponentVC {
         object Normal : Type()
         object Number : Type()
         object Phone : Type()
+        object Password: Type()
         object NumberPassword : Type()
         object LongText : Type()
         object EMail: Type()
@@ -27,6 +28,7 @@ interface SKInputVC: SKComponentVC {
     var error: String?
     var hidden: Boolean?
     var enabled: Boolean?
+    var showPassword:Boolean?
 
     fun requestFocus()
 

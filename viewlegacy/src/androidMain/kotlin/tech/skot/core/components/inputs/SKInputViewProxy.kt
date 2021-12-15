@@ -19,7 +19,8 @@ abstract class SKInputViewProxyCommon<V : View>(
     errorInitial: String?,
     hiddenInitial: Boolean?,
     hintInitial: String?,
-    textInitial: String?
+    textInitial: String?,
+    showPasswordInitial: Boolean?
 ) : SKComponentViewProxy<V>(), SKInputVC {
     private val enabledLD: MutableSKLiveData<Boolean?> = MutableSKLiveData(enabledInitial)
 
@@ -40,6 +41,10 @@ abstract class SKInputViewProxyCommon<V : View>(
     private val textLD: MutableSKLiveData<String?> = MutableSKLiveData(textInitial)
 
     override var text: String? by textLD
+
+    private var showPasswordLD: MutableSKLiveData<Boolean?> = MutableSKLiveData(showPasswordInitial)
+
+    override var showPassword: Boolean? by showPasswordLD
 
     private val requestFocusMessage = SKMessage<Unit>()
     override fun requestFocus() {
@@ -62,9 +67,9 @@ abstract class SKInputViewProxyCommon<V : View>(
     ): SKInputViewCommon<V> = createView(activity, fragment, binding).apply {
         onMaxSize(maxSize)
         onOnDone(onDone)
+        onType(type)
         onOnFocusChange(onFocusChange)
         onOnInputText(onInputText)
-        onType(type)
         enabledLD.observe {
             onEnabled(it)
         }
@@ -79,6 +84,9 @@ abstract class SKInputViewProxyCommon<V : View>(
         }
         textLD.observe {
             onText(it)
+        }
+        showPasswordLD.observe {
+            onShowPassword(it)
         }
         requestFocusMessage.observe {
             requestFocus()
@@ -98,7 +106,8 @@ class SKInputViewProxy(
     errorInitial: String?,
     hiddenInitial: Boolean?,
     hintInitial: String?,
-    textInitial: String?
+    textInitial: String?,
+    showPasswordInitial: Boolean?
 ) : SKInputViewProxyCommon<TextInputLayout>(
     maxSize,
     onDone,
@@ -109,7 +118,8 @@ class SKInputViewProxy(
     errorInitial,
     hiddenInitial,
     hintInitial,
-    textInitial
+    textInitial,
+    showPasswordInitial,
 ) {
 
     companion object {
@@ -137,7 +147,8 @@ class SKSimpleInputViewProxy(
     errorInitial: String?,
     hiddenInitial: Boolean?,
     hintInitial: String?,
-    textInitial: String?
+    textInitial: String?,
+    showPasswordInitial: Boolean?
 ) : SKInputViewProxyCommon<EditText>(
     maxSize,
     onDone,
@@ -148,7 +159,8 @@ class SKSimpleInputViewProxy(
     errorInitial,
     hiddenInitial,
     hintInitial,
-    textInitial
+    textInitial,
+    showPasswordInitial
 ), SKSimpleInputVC {
 
 
@@ -180,4 +192,6 @@ interface SKInputRAI {
     fun onHint(hint: String?)
 
     fun onText(text: String?)
+
+    fun onShowPassword(showPassword: Boolean?)
 }

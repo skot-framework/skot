@@ -30,7 +30,8 @@ interface CoreViewInjector {
         textInitial: String?,
         errorInitial: String?,
         hiddenInitial: Boolean?,
-        enabledInitial: Boolean?
+        enabledInitial: Boolean?,
+        showPasswordInitial: Boolean?
     ) : SKInputVC
 
     fun inputSimple(
@@ -43,7 +44,8 @@ interface CoreViewInjector {
         textInitial: String?,
         errorInitial: String?,
         hiddenInitial: Boolean?,
-        enabledInitial: Boolean?
+        enabledInitial: Boolean?,
+        showPasswordInitial: Boolean?
     ) : SKSimpleInputVC
 
     fun combo(

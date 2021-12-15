@@ -81,27 +81,39 @@ abstract class SKActivity : AppCompatActivity() {
         }
     }
 
+    private var loadingInsetsInvalidated = false
+
     fun setFullScreen(
         fullScreen: Boolean,
         lightStatusBar: Boolean,
         onWindowInsets: ((windowInsets: WindowInsetsCompat) -> Unit)? = null
     ) {
+        loadingInsetsInvalidated = true
         screen?.view?.let {
             WindowInsetsControllerCompat(window, it).isAppearanceLightStatusBars = lightStatusBar
             WindowCompat.setDecorFitsSystemWindows(window, !fullScreen)
             val loadedInsets = ViewCompat.getRootWindowInsets(it)
             if (loadedInsets != null) {
-                it.updatePadding(bottom = if (fullScreen) loadedInsets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom else 0)
+                it.updatePadding(
+                    bottom = if (fullScreen) loadedInsets.getInsets(
+                        WindowInsetsCompat.Type.systemBars()
+                    ).bottom else 0
+                )
                 onWindowInsets?.invoke(loadedInsets)
             } else {
-                ViewCompat.setOnApplyWindowInsetsListener(it) { view, windowInsets ->
-                    it.updatePadding(
-                        bottom = if (fullScreen) windowInsets.getInsets(
-                            WindowInsetsCompat.Type.systemBars()
-                        ).bottom else 0
-                    )
-                    onWindowInsets?.invoke(windowInsets)
-                    windowInsets
+                if (!loadingInsetsInvalidated) {
+                    loadingInsetsInvalidated = false
+                    ViewCompat.setOnApplyWindowInsetsListener(it) { view, windowInsets ->
+                        it.updatePadding(
+                            bottom = if (fullScreen) windowInsets.getInsets(
+                                WindowInsetsCompat.Type.systemBars()
+                            ).bottom else 0
+                        )
+                        onWindowInsets?.invoke(windowInsets)
+                        windowInsets
+                    }
+                } else {
+                    null
                 }
             }
         }

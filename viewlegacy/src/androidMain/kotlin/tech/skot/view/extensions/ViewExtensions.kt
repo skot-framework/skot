@@ -31,15 +31,22 @@ fun View.setOnClickOrGone(myOnClick: (() -> Unit)?, single: Boolean = true, dela
     if (myOnClick != null) {
         setOnClick(myOnClick, single, delay)
         setVisible(true)
-    }
-    else {
+    } else {
         setVisible(false)
     }
 }
 
 
-
-
-fun View.updatePadding(left:Int? =null, top:Int? = null, right:Int? = null, bottom:Int? = null) {
-    setPadding(left ?:paddingLeft, top ?: paddingTop, right ?: paddingRight, bottom ?: paddingBottom)
+fun View.updatePadding(
+    left: Int? = null,
+    top: Int? = null,
+    right: Int? = null,
+    bottom: Int? = null
+) {
+    setPadding(
+        left ?: paddingLeft,
+        top ?: paddingTop,
+        right ?: paddingRight,
+        bottom ?: paddingBottom
+    )
 }

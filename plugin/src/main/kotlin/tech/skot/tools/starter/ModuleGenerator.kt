@@ -24,6 +24,7 @@ class ModuleGenerator(
         const val activityTemplateRoot = """        <activity
             android:name="%s"
             android:allowTaskReparenting="true"
+            android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/%s">

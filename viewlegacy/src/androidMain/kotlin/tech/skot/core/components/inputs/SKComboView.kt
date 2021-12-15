@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
 import tech.skot.core.SKLog
@@ -15,7 +14,7 @@ import tech.skot.view.extensions.setVisible
 import tech.skot.view.extensions.strike
 import tech.skot.viewlegacy.R
 import tech.skot.viewlegacy.databinding.SkComboBinding
-import tech.skot.view.extensions.getColotFromAttr
+import tech.skot.view.extensions.getColorFromAttr
 
 class SKComboView(
     override val proxy: SKComboViewProxy,
@@ -63,7 +62,7 @@ abstract class SKCommonComboView<Binding : Any>(
                         textView.text = choice.text
                         textView.strike(choice.strikethrough)
                         textView.setTextColor(
-                            activity.getColotFromAttr(
+                            activity.getColorFromAttr(
                                 if (choice.colored) R.attr.sk_combo_choice_text_colored_color else R.attr.sk_combo_choice_text_color
                             )
                         )
@@ -136,7 +135,7 @@ abstract class SKCommonComboView<Binding : Any>(
         autoComplete.setText(selected?.inputText, false)
         autoComplete.strike(selected?.strikethrough == true)
         autoComplete.setTextColor(
-            activity.getColotFromAttr(
+            activity.getColorFromAttr(
                     if (selected?.colored == true) R.attr.sk_combo_choice_text_colored_color else R.attr.sk_combo_choice_text_color
                 )
         )

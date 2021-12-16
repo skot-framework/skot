@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         style="?sk_combo_style_auto_complete_text_view"
         android:enabled="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         />
 
 </com.google.android.material.textfield.TextInputLayout>

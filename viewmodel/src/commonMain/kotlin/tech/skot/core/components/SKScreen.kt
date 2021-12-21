@@ -1,12 +1,14 @@
 package tech.skot.core.components
 
 import tech.skot.core.components.presented.SKBottomSheet
+import tech.skot.core.components.presented.SKDialog
 import tech.skot.core.view.SKTransition
 
 
 abstract class SKScreen<V : SKScreenVC>: SKComponent<SKScreenVC>(), SKVisiblityListener {
     var parent: SKStack? = null
-    var presenter: SKBottomSheet? = null
+    var presenterBottomSheet: SKBottomSheet? = null
+    var presenterDialog: SKDialog? = null
 
     //CallSuper!!
     override fun onResume(){
@@ -45,12 +47,19 @@ abstract class SKScreen<V : SKScreenVC>: SKComponent<SKScreenVC>(), SKVisiblityL
     }
 
     fun dismiss() {
-        presenter?.dismiss() ?: throw IllegalStateException("This ${this::class.simpleName} is not currently displayed as a BottomSheet")
+        presenterBottomSheet?.dismiss() ?:  presenterDialog?.dismiss() ?: throw IllegalStateException("This ${this::class.simpleName} is not currently displayed as a BottomSheet or Dialog")
     }
 
+    @Deprecated("User dismissIfPresented instead")
     fun dismissIfBottomSheet() {
-        presenter?.dismiss()
+        presenterBottomSheet?.dismiss()
     }
+
+    fun dismissIfPresented() {
+        presenterBottomSheet?.dismiss()
+        presenterDialog?.dismiss()
+    }
+
 
 
 

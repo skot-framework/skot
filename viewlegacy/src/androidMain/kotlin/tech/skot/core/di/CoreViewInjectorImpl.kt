@@ -17,6 +17,8 @@ class CoreViewInjectorImpl : CoreViewInjector {
 
     override fun bottomSheet() = SKBottomSheetViewProxy()
 
+    override fun dialog() = SKDialogViewProxy()
+
     override fun windowPopup() = SKWindowPopupViewProxy()
 
     override fun pager(

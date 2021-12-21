@@ -11,14 +11,14 @@ class SKBottomSheet : SKComponent<SKBottomSheetVC>() {
     var shownScreen: SKScreen<*>? = null
 
     fun show(screen: SKScreen<*>, onDismiss: (() -> Unit)? = null, expanded:Boolean = true) {
-        shownScreen?.presenter = null
+        shownScreen?.presenterBottomSheet = null
         view.state = SKBottomSheetVC.Shown(screen = screen.view, onDismiss = onDismiss, expanded = expanded)
-        screen.presenter = this
+        screen.presenterBottomSheet = this
         shownScreen = screen
     }
 
     fun dismiss() {
-        shownScreen?.presenter = null
+        shownScreen?.presenterBottomSheet = null
         shownScreen = null
         view.state = null
     }

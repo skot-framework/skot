@@ -13,25 +13,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-//class SKBottomSheetDialog(context: Context, theme:Int): BottomSheetDialog(context, theme), LifecycleOwner {
-//
-//    override fun onDetachedFromWindow() {
-//        super.onDetachedFromWindow()
-//        _lifecycle.currentState = Lifecycle.State.DESTROYED
-//    }
-//
-//    override fun onStart() {
-//        super.onStart()
-//        _lifecycle.currentState = Lifecycle.State.STARTED
-//    }
-//
-//    private val _lifecycle= LifecycleRegistry(this)
-//
-//    override fun getLifecycle(): Lifecycle {
-//        return _lifecycle
-//    }
-//}
-
 const val SK_BOTTOM_SHEET_DIALOG_EXPANDED = "SK_BOTTOM_SHEET_DIALOG_EXPANDED"
 
 class SKBottomSheetDialogFragment() : BottomSheetDialogFragment() {

@@ -1,6 +1,8 @@
 package tech.skot.core.components.inputs
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
@@ -163,12 +165,20 @@ class SKSimpleInputViewProxy(
     showPasswordInitial
 ), SKSimpleInputVC {
 
+    companion object {
+        var LAYOUT_ID: Int? = null
+    }
+
+    override val layoutId: Int?
+        get() = LAYOUT_ID
 
     override fun createView(
         activity: SKActivity,
         fragment: Fragment?,
         binding: EditText
     ) = SKSimpleInputView(this, activity, fragment, binding)
+
+
 }
 
 

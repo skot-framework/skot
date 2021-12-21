@@ -14,6 +14,7 @@ interface SKInputVC: SKComponentVC {
         object NumberPassword : Type()
         object LongText : Type()
         object EMail: Type()
+        object TextCapSentences: Type()
     }
 
     val onInputText: (newText: String?) -> Unit

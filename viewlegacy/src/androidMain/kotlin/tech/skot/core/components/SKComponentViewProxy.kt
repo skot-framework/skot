@@ -63,7 +63,13 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
         parent: ViewGroup?,
         attachToParent: Boolean
     ): B {
-        TODO("inflate method not implemented")
+        return layoutId?.let {
+            val b = layoutInflater.inflate(it, parent, false)
+            if (attachToParent) {
+                parent?.addView(b)
+            }
+            b as B
+        } ?: throw Exception("Vous devez implémenter layoutId ou bien la méthode inflate pour le composant ${this::class.simpleName}")
     }
 
     fun bindToView(

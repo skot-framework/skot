@@ -83,6 +83,7 @@ abstract class SKInputViewCommon<V : View>(
                 SKInputVC.Type.Number -> InputType.TYPE_CLASS_NUMBER
                 SKInputVC.Type.NumberPassword -> InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
                 SKInputVC.Type.LongText -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
+                SKInputVC.Type.TextCapSentences -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
                 SKInputVC.Type.Normal -> InputType.TYPE_CLASS_TEXT
             }
         }

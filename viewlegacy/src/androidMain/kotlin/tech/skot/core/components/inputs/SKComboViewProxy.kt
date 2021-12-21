@@ -26,7 +26,7 @@ class SKComboViewProxy(
     hiddenInitial = hiddenInitial,
     dropDownDisplayedInitial = dropDownDisplayedInitial
 ) {
-    override val layoutId: Int? = R.layout.sk_combo
+    override val layoutId: Int = R.layout.sk_combo
     override fun bindingOf(view: View) = SkComboBinding.bind(view)
 
     override fun bindTo(

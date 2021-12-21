@@ -11,8 +11,9 @@ open class SKInput(
     showPassword: Boolean? = null,
     protected val defaultErrorMessage: String? = null,
     private val maxSize: Int? = null,
+    private val regex: Regex? = null,
     private val modeErrorOnTap: Boolean = false,
-    private val afterValidation: (() -> Unit)? = null,
+    private val afterValidation: ((validity:SKInput.Validity) -> Unit)? = null,
 ) : SKComponent<SKInputVC>() {
 
     sealed class Validity(val errorMessage: String?) {
@@ -39,7 +40,8 @@ open class SKInput(
     }
 
     protected open fun validate(str: String?): Validity {
-        return if (nullable || (str != null && str.isNotBlank() && (maxSize == null || str.length <= maxSize))) {
+        return if ((nullable && str == null)
+            || (str != null && str.isNotBlank() && (maxSize == null || str.length <= maxSize) && (regex == null || regex.matches(str)))) {
             Validity.Valid
         } else {
             Validity.Error(defaultErrorMessage)
@@ -62,7 +64,7 @@ open class SKInput(
                 } else {
                     view.error = null
                 }
-                afterValidation?.invoke()
+                afterValidation?.invoke(newValidity)
             }
         }
     }
@@ -110,8 +112,8 @@ open class SKInput(
     )
 }
 
+@Deprecated("Use SKinput with regex param instead")
 open class SKInputRegExp(
-    private val regex: Regex,
     hint: String? = null,
     nullable: Boolean = true,
     onDone: ((text: String?) -> Unit)? = null,
@@ -119,8 +121,9 @@ open class SKInputRegExp(
     showPassword: Boolean? = null,
     defaultErrorMessage: String? = null,
     maxSize: Int? = null,
+    regex: Regex? = null,
     modeErrorOnTap: Boolean = false,
-    afterValidation: (() -> Unit)? = null
+    afterValidation: ((validity:SKInput.Validity) -> Unit)? = null
 ) : SKInput(
     hint,
     nullable,
@@ -129,21 +132,10 @@ open class SKInputRegExp(
     showPassword,
     defaultErrorMessage,
     maxSize,
+    regex,
     modeErrorOnTap,
     afterValidation
-) {
-    override fun validate(str: String?): Validity {
-        val superValidity = super.validate(str)
-        return if (superValidity == Validity.Valid) {
-            when {
-                !str.isNullOrBlank() && !regex.matches(str) -> Validity.Error(errorMessage = defaultErrorMessage)
-                else -> Validity.Valid
-            }
-        } else {
-            superValidity
-        }
-    }
-}
+)
 
 open class SKSimpleInput(
     hint: String? = null,
@@ -153,8 +145,9 @@ open class SKSimpleInput(
     showPassword: Boolean? = null,
     defaultErrorMessage: String? = null,
     maxSize: Int? = null,
+    regex: Regex? = null,
     modeErrorOnTap: Boolean = false,
-    afterValidation: (() -> Unit)? = null
+    afterValidation: ((validity:SKInput.Validity) -> Unit)? = null
 ) : SKInput(
     hint,
     nullable,
@@ -163,6 +156,7 @@ open class SKSimpleInput(
     showPassword,
     defaultErrorMessage,
     maxSize,
+    regex,
     modeErrorOnTap,
     afterValidation
 ) {

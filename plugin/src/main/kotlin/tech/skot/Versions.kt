@@ -8,19 +8,17 @@ object Versions {
 
   const val group: String = "tech.skot"
 
-  const val serialization: String = "1.2.2"
+  const val serialization: String = "1.3.1"
 
-  const val kotlinxDateTime: String = "0.2.1"
+  const val kotlinxDateTime: String = "0.3.1"
 
-  const val ktor: String = "1.6.3"
+  const val ktor: String = "1.6.7"
 
-  const val kotlin: String = "1.5.30"
+  const val kotlin: String = "1.6.10"
 
-  const val kotlinCoroutines: String = "1.5.2-native-mt"
+  const val kotlinCoroutines: String = "1.6.0"
 
   const val kotlinpoet: String = "1.4.0"
-
-  const val sl4j: String = "1.6.1"
 
   const val android_minSdk: Int = 21
 
@@ -28,5 +26,5 @@ object Versions {
 
   const val android_targetSdk: Int = 31
 
-  const val android_app_compat: String = "1.3.1"
+  const val android_app_compat: String = "1.4.0"
 }

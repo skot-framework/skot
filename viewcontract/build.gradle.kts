@@ -1,6 +1,5 @@
 plugins {
     kotlin("multiplatform")
-    id("com.github.ben-manes.versions")
     id("maven-publish")
     signing
 }

@@ -4,7 +4,6 @@ version = Versions.version
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("com.github.ben-manes.versions")
     id("maven-publish")
     signing
 }
@@ -12,13 +11,13 @@ plugins {
 
 dependencies {
     api("androidx.core:core:1.7.0")
-    api("androidx.appcompat:appcompat:${Versions.Android.appcompat}")
-    api("androidx.constraintlayout:constraintlayout:${Versions.Android.constraintLayout}")
-    api("androidx.viewpager2:viewpager2:${Versions.Android.viewpager2}")
-    api("androidx.recyclerview:recyclerview:${Versions.Android.recyclerview}")
-    api("com.google.android.material:material:${Versions.Android.material}")
+    api("androidx.appcompat:appcompat:1.4.0")
+    api("androidx.constraintlayout:constraintlayout:2.1.2")
+    api("androidx.viewpager2:viewpager2:1.0.0")
+    api("androidx.recyclerview:recyclerview:1.2.1")
+    api("com.google.android.material:material:${Versions.Android.appcompat}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${Versions.Android.lifecycle}")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
 }
 
 

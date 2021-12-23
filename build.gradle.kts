@@ -9,8 +9,6 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
         classpath("org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}")
         classpath("com.squareup.sqldelight:gradle-plugin:${Versions.sqldelight}")
-        classpath("com.github.ben-manes:gradle-versions-plugin:+")
-
         classpath("com.squareup:kotlinpoet:${Versions.kotlinpoet}")
 
     }
@@ -20,25 +18,27 @@ version=Versions.version
 
 plugins {
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+    id("com.github.ben-manes.versions") version "0.39.0"
 }
 
-//apply(plugin = "io.github.gradle-nexus.publish-plugin")
 
 tasks.register("clean",Delete::class){
     delete(rootProject.buildDir)
 }
 
+tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask> {
+    rejectVersionIf {
+        candidate.version.let {
+            it.contains("alpha") || it.contains("beta") || it.contains("-rc")
+        }
+    }
+}
 
 allprojects {
     repositories {
         google()
         mavenCentral()
     }
-//    apply("com.github.ben-manes.versions")
-
-//    apply(plugin = "maven-publish")
-//    apply(plugin = "org.gradle.signing")
-
 }
 
 val publication = getPublication(project)

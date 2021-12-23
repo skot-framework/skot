@@ -3,7 +3,6 @@ plugins {
     id("com.android.library")
     id("kotlinx-serialization")
     id("com.squareup.sqldelight")
-    id("com.github.ben-manes.versions")
     id("maven-publish")
     signing
 }
@@ -129,7 +128,7 @@ android {
 
 dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlin}")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
 //    androidTestImplementation(project(":androidTests"))
 }
 

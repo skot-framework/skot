@@ -1,7 +1,6 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("com.github.ben-manes.versions")
     id("maven-publish")
     signing
 }
@@ -39,7 +38,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                api("com.jakewharton.timber:timber:${Versions.Android.timber}")
+                api("com.jakewharton.timber:timber:5.0.1")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}")
 
             }

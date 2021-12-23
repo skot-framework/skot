@@ -140,7 +140,6 @@ fun buildVersionsFile() {
         .addStringConst("kotlin", Versions.kotlin)
         .addStringConst("kotlinCoroutines", Versions.kotlinCoroutines)
         .addStringConst("kotlinpoet", Versions.kotlinpoet)
-        .addStringConst("sl4j", Versions.sl4j)
         .addIntConst("android_minSdk", Versions.Android.minSdk)
         .addIntConst("android_compileSdk", Versions.Android.compileSdk)
         .addIntConst("android_targetSdk", Versions.Android.targetSdk)

@@ -12,34 +12,45 @@ buildscript {
         classpath("com.github.ben-manes:gradle-versions-plugin:+")
 
         classpath("com.squareup:kotlinpoet:${Versions.kotlinpoet}")
+
     }
 }
+group=Versions.group
+version=Versions.version
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    apply(plugin = "maven-publish")
-
+plugins {
+    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 }
+
+//apply(plugin = "io.github.gradle-nexus.publish-plugin")
 
 tasks.register("clean",Delete::class){
     delete(rootProject.buildDir)
 }
 
 
-tasks {
-    val skotRepository = "/Users/mscotet/skot/repository"
-    val m2LocalRepository = "/Users/mscotet/.m2/repository"
-
-
-    create<Exec>("publishToGitHub") {
-        group = "skot"
-        commandLine = listOf("./publishToGitHub.sh", skotRepository, m2LocalRepository, Versions.version, rootDir.absolutePath)
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
     }
+//    apply("com.github.ben-manes.versions")
 
+//    apply(plugin = "maven-publish")
+//    apply(plugin = "org.gradle.signing")
 
 }
 
+val publication = getPublication(project)
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            stagingProfileId.set(publication.sonatypeStagingProfileId)
+            username.set(publication.ossrhUsername)
+            password.set(publication.ossrhPassword)
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+        }
+    }
+}

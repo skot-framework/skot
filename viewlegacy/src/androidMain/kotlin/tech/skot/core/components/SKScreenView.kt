@@ -33,6 +33,7 @@ abstract class SKScreenView<B : ViewBinding>(
     @CallSuper
     open fun onResume() {
         if (fragment !is DialogFragment) {
+            SKLog.d("&&&&&&&&&& SKScreenView onResume  ${this::class.simpleName}  will call activity onResume")
             activity.setFullScreen(
                 fullScreen,
                 lightStatusBar,

@@ -73,25 +73,22 @@ abstract class SKActivity : AppCompatActivity() {
                             onResume()
                         }
                     }
-
-
             }
-
-
         }
     }
 
-    private var loadingInsetsInvalidated = false
+    private var loadingInsetsCounter: Long = 0L
 
     fun setFullScreen(
         fullScreen: Boolean,
         lightStatusBar: Boolean,
         onWindowInsets: ((windowInsets: WindowInsetsCompat) -> Unit)? = null
     ) {
-        loadingInsetsInvalidated = true
+
         screen?.view?.let {
             WindowInsetsControllerCompat(window, it).isAppearanceLightStatusBars = lightStatusBar
             WindowCompat.setDecorFitsSystemWindows(window, !fullScreen)
+            loadingInsetsCounter++
             val loadedInsets = ViewCompat.getRootWindowInsets(it)
             if (loadedInsets != null) {
                 it.updatePadding(
@@ -101,20 +98,19 @@ abstract class SKActivity : AppCompatActivity() {
                 )
                 onWindowInsets?.invoke(loadedInsets)
             } else {
-                if (!loadingInsetsInvalidated) {
-                    loadingInsetsInvalidated = false
-                    ViewCompat.setOnApplyWindowInsetsListener(it) { view, windowInsets ->
+                val loadingIndex = loadingInsetsCounter
+                ViewCompat.setOnApplyWindowInsetsListener(it) { view, windowInsets ->
+                    if (loadingInsetsCounter == loadingIndex) {
                         it.updatePadding(
                             bottom = if (fullScreen) windowInsets.getInsets(
                                 WindowInsetsCompat.Type.systemBars()
                             ).bottom else 0
                         )
-                        onWindowInsets?.invoke(windowInsets)
-                        windowInsets
                     }
-                } else {
-                    null
+                    onWindowInsets?.invoke(windowInsets)
+                    windowInsets
                 }
+
             }
         }
 

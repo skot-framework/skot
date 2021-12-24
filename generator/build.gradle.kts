@@ -35,10 +35,21 @@ dependencies {
 
 
 val publication = getPublication(project)
+
+val javadocJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("javadoc")
+}
+val sourceJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("sources")
+    from(sourceSets.main.get().allSource)
+}
+
 publishing {
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
+            artifact(javadocJar.get())
+            artifact(sourceJar.get())
 
             pom {
                 name.set(project.name)

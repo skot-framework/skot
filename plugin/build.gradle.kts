@@ -6,6 +6,7 @@ plugins {
     `java-gradle-plugin`
     id("kotlinx-serialization")
     id("maven-publish")
+    id("com.gradle.plugin-publish") version "0.18.0"
     signing
 }
 
@@ -28,71 +29,103 @@ configurations {
     }
 }
 
+pluginBundle {
+    website = "https://github.com/skot-framework/skot"
+    vcsUrl = "https://github.com/skot-framework/skot/tree/master"
+    tags = listOf("skot", "kotlin", "kmm")
+    mavenCoordinates {  }
+}
 
 gradlePlugin {
     plugins {
         create("SkotModelContract") {
-            id = "skot-modelcontract"
+            id = "tech.skot.modelcontract"
+            displayName = "SKot modelcontract"
+            description = "Plugin skot pour le module modelcontract"
             implementationClass = "tech.skot.tools.gradle.PluginModelContract"
         }
 
         create("SkotViewContract") {
-            id = "skot-viewcontract"
+            id = "tech.skot.viewcontract"
+            displayName = "SKot viewcontract"
+            description = "Plugin skot pour le module viewcontract"
             implementationClass = "tech.skot.tools.gradle.PluginViewContract"
         }
 
         create("SkotViewModel") {
-            id = "skot-viewmodel"
+            id = "tech.skot.viewmodel"
+            displayName = "SKot viewmodel"
+            description = "Plugin skot pour le module viewmodel"
             implementationClass = "tech.skot.tools.gradle.PluginViewModel"
         }
 
         create("SkotModel") {
-            id = "skot-model"
+            id = "tech.skot.model"
+            displayName = "SKot model"
+            description = "Plugin skot pour le module model"
             implementationClass = "tech.skot.tools.gradle.PluginModel"
         }
 
         create("SkotViewLegacy") {
-            id = "skot-viewlegacy"
+            id = "tech.skot.viewlegacy"
+            displayName = "SKot viewlegacy"
+            description = "Plugin skot pour le module viewlegacy"
             implementationClass = "tech.skot.tools.gradle.PluginViewLegacy"
         }
 
         create("SkotApp") {
-            id = "skot-app"
+            id = "tech.skot.app"
+            displayName = "SKot androidApp"
+            description = "Plugin skot pour le module androidApp"
             implementationClass = "tech.skot.tools.gradle.PluginApp"
         }
 
         create("SkotFeature") {
-            id = "skot-feature"
+            id = "tech.skot.feature"
+            displayName = "SKot feature"
+            description = "Plugin skot pour un module feature"
             implementationClass = "tech.skot.tools.gradle.PluginFeature"
         }
 
         create("SkotTools") {
-            id = "skot-tools"
+            id = "tech.skot.tools"
+            displayName = "SKot tools"
+            description = "Plugin skot pour un module skot"
             implementationClass = "tech.skot.tools.gradle.PluginTools"
         }
 
         create("Skot") {
-            id = "skot-general"
+            id = "tech.skot.general"
+            displayName = "SKot general"
+            description = "Plugin skot pour un projet skot"
             implementationClass = "tech.skot.tools.gradle.PluginGeneral"
         }
 
         create("SkotStarter") {
-            id = "skot-starter"
+            id = "tech.skot.starter"
+            displayName = "SKot starter"
+            description = "Plugin skot pour démarrer un projet"
             implementationClass = "tech.skot.tools.gradle.PluginStarter"
         }
 
         create("SkotLibraryContract") {
-            id = "skot-library-contract"
+            id = "tech.skot.library-contract"
+            displayName = "SKot library-contract"
+            description = "Plugin skot pour un module contract de library"
             implementationClass = "tech.skot.tools.gradle.PluginLibraryContract"
         }
 
         create("SkotLibrary") {
-            id = "skot-library"
+            id = "tech.skot.library"
+            displayName = "SKot library"
+            description = "Plugin skot pour un module de library"
             implementationClass = "tech.skot.tools.gradle.PluginLibrary"
         }
 
         create("SkotLibraryViewlegacy") {
-            id = "skot-library-viewlegacy"
+            id = "tech.skot.library-viewlegacy"
+            displayName = "SKot library-viewlegacy"
+            description = "Plugin skot pour un module viewlegacy de library"
             implementationClass = "tech.skot.tools.gradle.PluginLibraryViewLegacy"
         }
     }
@@ -154,34 +187,97 @@ fun buildVersionsFile() {
 
 buildVersionsFile()
 
+
+//publishing {
+//    repositories {
+//        maven {
+//            name = "localPluginRepository"
+//            url = uri("/Users/mscotet/skoy/localPlugins")
+//        }
+//    }
+//}
+
 val publication = getPublication(project)
-publishing {
-    publications.withType<MavenPublication> {
-        pom {
-            name.set(project.name)
-            description.set("${project.name} description")
-            url.set("https://github.com/skot-framework/skot")
-            licenses {
-                license {
-                    name.set("Apache 2.0")
-                    url.set("https://www.apache.org/licenses/LICENSE-2.0")
+
+val javadocJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("javadoc")
+}
+val sourceJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("sources")
+    from(sourceSets.main.get().allSource)
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+//            this.
+
+//            mavenC
+            withType<MavenPublication>().configureEach {
+                artifact(javadocJar.get())
+                artifact(sourceJar.get())
+                pom {
+                    name.set(project.name)
+                    description.set("${project.name} description")
+                    url.set("https://github.com/skot-framework/skot")
+                    licenses {
+                        license {
+                            name.set("Apache 2.0")
+                            url.set("https://www.apache.org/licenses/LICENSE-2.0")
+                        }
+                    }
+                    developers {
+                        developer {
+                            id.set("MathieuScotet")
+                            name.set("Mathieu Scotet")
+                            email.set("mscotet.lmit@gmail.com")
+                        }
+                    }
+                    scm {
+                        connection.set("scm:git:github.com/skot-framework/skot.git")
+                        developerConnection.set("scm:git:ssh://github.com/skot-framework/skot.git")
+                        url.set("https://github.com/skot-framework/skot/tree/master")
+                    }
                 }
             }
-            developers {
-                developer {
-                    id.set("MathieuScotet")
-                    name.set("Mathieu Scotet")
-                    email.set("mscotet.lmit@gmail.com")
-                }
-            }
-            scm {
-                connection.set("scm:git:github.com/skot-framework/skot.git")
-                developerConnection.set("scm:git:ssh://github.com/skot-framework/skot.git")
-                url.set("https://github.com/skot-framework/skot/tree/master")
-            }
+//            create<MavenPublication>("mavenPlugin") {
+//
+//                artifact(javadocJar.get())
+//                artifact(sourceJar.get())
+//
+//                pom {
+//                    name.set(project.name)
+//                    description.set("${project.name} description")
+//                    url.set("https://github.com/skot-framework/skot")
+//                    licenses {
+//                        license {
+//                            name.set("Apache 2.0")
+//                            url.set("https://www.apache.org/licenses/LICENSE-2.0")
+//                        }
+//                    }
+//                    developers {
+//                        developer {
+//                            id.set("MathieuScotet")
+//                            name.set("Mathieu Scotet")
+//                            email.set("mscotet.lmit@gmail.com")
+//                        }
+//                    }
+//                    scm {
+//                        connection.set("scm:git:github.com/skot-framework/skot.git")
+//                        developerConnection.set("scm:git:ssh://github.com/skot-framework/skot.git")
+//                        url.set("https://github.com/skot-framework/skot/tree/master")
+//                    }
+//                }
+//            }
+
+//            techSkotToolsPluginMarkerMaven {
+//
+//            }
         }
+
     }
 }
+
 
 signing {
     useInMemoryPgpKeys(

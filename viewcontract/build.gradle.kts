@@ -30,9 +30,15 @@ kotlin {
 
 }
 
+val javadocJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("javadoc")
+}
+
 val publication = getPublication(project)
 publishing {
     publications.withType<MavenPublication> {
+        artifact(javadocJar.get())
+
         pom {
             name.set(project.name)
             description.set("${project.name} description")

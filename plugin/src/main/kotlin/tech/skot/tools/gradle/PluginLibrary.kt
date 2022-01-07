@@ -46,7 +46,7 @@ class PluginLibrary: Plugin<Project> {
 
     private fun KotlinMultiplatformExtension.conf() {
 
-//        jvm("jvm")
+        jvm("jvm")
 
         android("android") {
             publishLibraryVariants("release", "debug")
@@ -58,7 +58,6 @@ class PluginLibrary: Plugin<Project> {
             api(project(":viewcontract"))
         }
 
-//        sourceSets["commonMain"].kotlin.srcDir("src/commin/kotlin")
 
         sourceSets["commonMain"].dependencies {
             implementation("${Versions.group}:viewmodel:${Versions.skot}")

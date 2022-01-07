@@ -31,9 +31,9 @@ class PluginViewModel: Plugin<Project> {
     private fun LibraryExtension.conf() {
 
         defaultConfig {
-            minSdkVersion(Versions.android_minSdk)
+            minSdk = Versions.android_minSdk
         }
-        compileSdkVersion(Versions.android_compileSdk)
+        compileSdk = Versions.android_compileSdk
 
         sourceSets {
             getByName("main").java.srcDirs("src/androidMain/kotlin")
@@ -45,6 +45,7 @@ class PluginViewModel: Plugin<Project> {
 
     private fun KotlinMultiplatformExtension.conf(project: Project) {
         android("android")
+        jvm("jvm")
         if (project.hasIosApp()) {
             ios {
                 binaries {
@@ -82,12 +83,22 @@ class PluginViewModel: Plugin<Project> {
             implementation("org.jetbrains.kotlin:kotlin-test-annotations-common:${Versions.kotlin}")
         }
 
+        sourceSets["jvmTest"].kotlin.srcDir("generated/jvmTest/kotlin")
+        skVariantsCombinaison(project.rootProject.rootDir.toPath()).forEach {
+            sourceSets["jvmTest"].kotlin.srcDir("generated$it/jvmTest/kotlin")
+        }
+
+        sourceSets["jvmTest"].dependencies {
+            implementation("${Versions.group}:viewmodelTests:${Versions.skot}")
+        }
+
         sourceSets["androidTest"].dependencies {
             implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
             implementation("org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}")
         }
 
-        SKLibrary.addDependenciesToLibraries(this, (project.parent?.projectDir ?: project.rootDir).toPath(), "viewmodel")
+        SKLibrary.addDependenciesToLibraries(this, (project.parent?.projectDir ?: project.rootDir).toPath(), "commonMain", "viewmodel")
+        SKLibrary.addDependenciesToLibraries(this, (project.parent?.projectDir ?: project.rootDir).toPath(), "jvmTest", "viewmodelTests")
     }
 
 

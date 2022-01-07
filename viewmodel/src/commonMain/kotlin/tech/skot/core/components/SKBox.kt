@@ -6,13 +6,20 @@ open class SKBox(items: List<SKComponent<*>>?) : SKComponent<SKBoxVC>() {
     constructor(vararg item:SKComponent<*>) : this(item.asList())
 
 
-    override val view = coreViewInjector.skBox(items?.map { it.view } ?: emptyList(), hiddenInitial = null)
+    override val view =
+        coreViewInjector.skBox(items?.map { it.view } ?: emptyList(), hiddenInitial = null)
 
-    var items: List<SKComponent<*>> = items ?: emptyList()
+    protected var _items: List<SKComponent<*>> = items ?: emptyList()
         set(value) {
             view.items = value.map { it.view }
             field.forEach { if (!value.contains(it)) it.onRemove() }
             field = value
+        }
+
+    var items: List<SKComponent<*>>
+        get() = _items
+        set(value) {
+            _items = value
         }
 
     var content: SKComponent<*>? = null
@@ -22,7 +29,7 @@ open class SKBox(items: List<SKComponent<*>>?) : SKComponent<SKBoxVC>() {
         }
 
 
-    var hidden:Boolean? = null
+    var hidden: Boolean? = null
         set(value) {
             field = value
             view.hidden = value

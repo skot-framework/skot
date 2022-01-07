@@ -47,9 +47,11 @@ class PluginViewLegacy: Plugin<Project> {
         }
 
         defaultConfig {
-            minSdkVersion(Versions.android_minSdk)
+            minSdk = Versions.android_minSdk
+            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+            targetSdk = Versions.android_compileSdk
         }
-        compileSdkVersion(Versions.android_compileSdk)
+        compileSdk = Versions.android_compileSdk
 
         lintOptions {
             isAbortOnError = false
@@ -65,6 +67,8 @@ class PluginViewLegacy: Plugin<Project> {
         }
 
 
+
+
     }
 
 
@@ -76,6 +80,8 @@ class PluginViewLegacy: Plugin<Project> {
 
         add("api", "${Versions.group}:viewlegacy:${Versions.skot}")
         add("api", project("$parentProjectPath:viewcontract"))
+        add("androidTestImplementation", "${Versions.group}:viewlegacyTests:${Versions.skot}")
+
     }
 
 }

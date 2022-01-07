@@ -77,12 +77,16 @@ class PluginViewContract : Plugin<Project> {
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
         sourceSets["commonMain"].dependencies {
             api("${Versions.group}:viewcontract:${Versions.skot}")
+
+            //utilisé souvent par les projets et inclu à core de toutes façons
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinxDateTime}")
         }
 
         println("Adding dependencies to libraries ")
         addDependenciesToLibraries(
             this,
             (project.parent?.projectDir ?: project.rootDir).toPath(),
+                "commonMain",
             "viewcontract"
         )
 

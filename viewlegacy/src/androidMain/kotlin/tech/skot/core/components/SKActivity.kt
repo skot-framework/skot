@@ -3,6 +3,7 @@ package tech.skot.core.components
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -11,6 +12,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import tech.skot.core.SKFeatureInitializer
+import tech.skot.core.SKLog
 import tech.skot.core.toSKUri
 import tech.skot.view.extensions.updatePadding
 
@@ -34,13 +36,16 @@ abstract class SKActivity : AppCompatActivity() {
 //    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("TEST","---- onCreate")
+        SKLog.d("@&@&@&@& ---- onCreate ")
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
 
             featureInitializer.initializeIfNeeded(intent?.data?.toSKUri())
 
             val viewKey = getKeyForThisActivity(savedInstanceState)
-//            SKLog.d("@&@&@&@& ---- onCreate   viewKey : $viewKey")
+            Log.d("TEST","---- onCreate   viewKey : $viewKey")
+            SKLog.d("@&@&@&@& ---- onCreate   viewKey : $viewKey")
 
             if (!oneActivityAlreadyLaunched && viewKey != -1L) {
                 oneActivityAlreadyLaunched = true

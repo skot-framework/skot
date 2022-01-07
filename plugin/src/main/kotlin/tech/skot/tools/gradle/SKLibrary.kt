@@ -32,14 +32,14 @@ data class SKLibrary(val group: String, val version: String) {
                     }
         }
 
-        fun addDependenciesToLibraries(kotlinExtension:KotlinMultiplatformExtension, path:Path, module:String) {
+        fun addDependenciesToLibraries(kotlinExtension:KotlinMultiplatformExtension, path:Path, sourcesSet:String = "commonMain", module:String) {
             kotlinExtension.addDependenciesToLibraries(
-                    getDeclaredLibraries(path), module
+                    getDeclaredLibraries(path), sourcesSet, module
             )
         }
 
-        fun KotlinMultiplatformExtension.addDependenciesToLibraries(libraries: List<SKLibrary>, module:String) {
-            sourceSets["commonMain"].dependencies {
+        fun KotlinMultiplatformExtension.addDependenciesToLibraries(libraries: List<SKLibrary>, sourcesSet:String, module:String) {
+            sourceSets[sourcesSet].dependencies {
                 libraries.forEach { skApi(it,module) }
             }
         }

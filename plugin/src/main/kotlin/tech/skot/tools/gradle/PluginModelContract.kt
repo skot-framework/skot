@@ -41,6 +41,13 @@ class PluginModelContract : Plugin<Project> {
                     }
                 }
             }
+            project.tasks.getByName("compileKotlinJvm").doFirst {
+                extension.buildFiles?.let {
+                    it.forEach {
+                        copyBuildFileToImplementation(it, project, true, false)
+                    }
+                }
+            }
         }
 
 

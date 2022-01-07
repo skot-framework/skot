@@ -27,7 +27,6 @@ kotlin {
         }
     }
 
-//    ios()
 
 
 
@@ -42,7 +41,6 @@ kotlin {
                 api("io.ktor:ktor-client-core:${Versions.ktor}")
                 api("io.ktor:ktor-client-serialization:${Versions.ktor}")
                 api("io.ktor:ktor-client-auth:${Versions.ktor}")
-//                api("io.ktor:ktor-client-json:${Versions.ktor}")
                 api("io.ktor:ktor-client-logging:${Versions.ktor}")
             }
         }
@@ -54,22 +52,12 @@ kotlin {
                 implementation("org.jetbrains.kotlin:kotlin-test-annotations-common:${Versions.kotlin}")
             }
         }
-//        sourceSets["commonTest"].kotlin.srcDir("src/commonTest/kotlin")
-//
-//        sourceSets["commonTest"].dependencies {
-//            implementation("org.jetbrains.kotlin:kotlin-test-common:${Versions.kotlin}")
-//            implementation("org.jetbrains.kotlin:kotlin-test-annotations-common:${Versions.kotlin}")
-//        }
+
 
         val androidMain by getting {
             dependencies {
                 api("com.squareup.sqldelight:android-driver:${Versions.sqldelight}")
                 api("io.ktor:ktor-client-okhttp:${Versions.ktor}")
-//                api("io.ktor:ktor-client-json-jvm:${Versions.ktor}")
-//                api("io.ktor:ktor-client-serialization-jvm:${Versions.ktor}")
-//                api("io.ktor:ktor-client-logging-jvm:${Versions.ktor}")
-//                api("io.ktor:ktor-client-auth-jvm:${Versions.ktor}")
-//                api("org.slf4j:slf4j-simple:${Versions.sl4j}")
             }
         }
 
@@ -77,9 +65,6 @@ kotlin {
             dependencies {
                 api("com.squareup.sqldelight:native-driver:${Versions.sqldelight}")
                 api("io.ktor:ktor-client-ios:${Versions.ktor}")
-//                api("io.ktor:ktor-client-json-native:${Versions.ktor}")
-//                api("io.ktor:ktor-client-serialization-native:${Versions.ktor}")
-//                api("io.ktor:ktor-client-logging-native:${Versions.ktor}")
             }
         }
 

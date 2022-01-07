@@ -179,111 +179,67 @@ fun buildVersionsFile() {
         .addStringConst("android_app_compat", Versions.Android.appcompat)
 
 
-
-
     file.addType(classBuilderCommon.build())
     file.build().writeTo(rootProject.projectDir.resolve("plugin/src/main/kotlin"))
 }
 
 buildVersionsFile()
 
+if (!localPublication) {
+    val publication = getPublication(project)
 
-//publishing {
-//    repositories {
-//        maven {
-//            name = "localPluginRepository"
-//            url = uri("/Users/mscotet/skoy/localPlugins")
-//        }
-//    }
-//}
+    val javadocJar by tasks.registering(Jar::class) {
+        archiveClassifier.set("javadoc")
+    }
+    val sourceJar by tasks.registering(Jar::class) {
+        archiveClassifier.set("sources")
+        from(sourceSets.main.get().allSource)
+    }
 
-val publication = getPublication(project)
+    afterEvaluate {
+        publishing {
+            publications {
 
-val javadocJar by tasks.registering(Jar::class) {
-    archiveClassifier.set("javadoc")
-}
-val sourceJar by tasks.registering(Jar::class) {
-    archiveClassifier.set("sources")
-    from(sourceSets.main.get().allSource)
-}
-
-afterEvaluate {
-    publishing {
-        publications {
-//            this.
-
-//            mavenC
-            withType<MavenPublication>().configureEach {
-                artifact(javadocJar.get())
-                artifact(sourceJar.get())
-                pom {
-                    name.set(project.name)
-                    description.set("${project.name} description")
-                    url.set("https://github.com/skot-framework/skot")
-                    licenses {
-                        license {
-                            name.set("Apache 2.0")
-                            url.set("https://www.apache.org/licenses/LICENSE-2.0")
+                withType<MavenPublication>().configureEach {
+                    artifact(javadocJar.get())
+                    artifact(sourceJar.get())
+                    pom {
+                        name.set(project.name)
+                        description.set("${project.name} description")
+                        url.set("https://github.com/skot-framework/skot")
+                        licenses {
+                            license {
+                                name.set("Apache 2.0")
+                                url.set("https://www.apache.org/licenses/LICENSE-2.0")
+                            }
                         }
-                    }
-                    developers {
-                        developer {
-                            id.set("MathieuScotet")
-                            name.set("Mathieu Scotet")
-                            email.set("mscotet.lmit@gmail.com")
+                        developers {
+                            developer {
+                                id.set("MathieuScotet")
+                                name.set("Mathieu Scotet")
+                                email.set("mscotet.lmit@gmail.com")
+                            }
                         }
-                    }
-                    scm {
-                        connection.set("scm:git:github.com/skot-framework/skot.git")
-                        developerConnection.set("scm:git:ssh://github.com/skot-framework/skot.git")
-                        url.set("https://github.com/skot-framework/skot/tree/master")
+                        scm {
+                            connection.set("scm:git:github.com/skot-framework/skot.git")
+                            developerConnection.set("scm:git:ssh://github.com/skot-framework/skot.git")
+                            url.set("https://github.com/skot-framework/skot/tree/master")
+                        }
                     }
                 }
             }
-//            create<MavenPublication>("mavenPlugin") {
-//
-//                artifact(javadocJar.get())
-//                artifact(sourceJar.get())
-//
-//                pom {
-//                    name.set(project.name)
-//                    description.set("${project.name} description")
-//                    url.set("https://github.com/skot-framework/skot")
-//                    licenses {
-//                        license {
-//                            name.set("Apache 2.0")
-//                            url.set("https://www.apache.org/licenses/LICENSE-2.0")
-//                        }
-//                    }
-//                    developers {
-//                        developer {
-//                            id.set("MathieuScotet")
-//                            name.set("Mathieu Scotet")
-//                            email.set("mscotet.lmit@gmail.com")
-//                        }
-//                    }
-//                    scm {
-//                        connection.set("scm:git:github.com/skot-framework/skot.git")
-//                        developerConnection.set("scm:git:ssh://github.com/skot-framework/skot.git")
-//                        url.set("https://github.com/skot-framework/skot/tree/master")
-//                    }
-//                }
-//            }
 
-//            techSkotToolsPluginMarkerMaven {
-//
-//            }
         }
+    }
 
+
+    signing {
+        useInMemoryPgpKeys(
+                publication.signingKeyId,
+                publication.signingKey,
+                publication.signingPassword
+        )
+        this.sign(publishing.publications)
     }
 }
 
-
-signing {
-    useInMemoryPgpKeys(
-        publication.signingKeyId,
-        publication.signingKey,
-        publication.signingPassword
-    )
-    this.sign(publishing.publications)
-}

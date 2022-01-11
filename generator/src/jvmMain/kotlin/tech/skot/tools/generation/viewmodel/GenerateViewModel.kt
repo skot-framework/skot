@@ -224,6 +224,12 @@ fun Generator.generateViewModel() {
                 .initializer("get()")
                 .build()
         )
+        .addProperty(
+            PropertySpec
+                .builder("permissions", permissionsInterface)
+                .initializer("get()")
+                .build()
+        )
         .apply {
             if (rootState != null) {
                 addProperty(

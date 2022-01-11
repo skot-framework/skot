@@ -9,10 +9,7 @@ import org.w3c.dom.Element
 import tech.skot.core.components.SKComponentVC
 import tech.skot.core.components.SKScreenVC
 import tech.skot.tools.generation.model.generateModel
-import tech.skot.tools.generation.resources.generateIcons
-import tech.skot.tools.generation.resources.generatePlurals
-import tech.skot.tools.generation.resources.generateStrings
-import tech.skot.tools.generation.resources.generateTransitions
+import tech.skot.tools.generation.resources.*
 import tech.skot.tools.generation.viewlegacy.*
 import tech.skot.tools.generation.viewmodel.*
 import java.nio.file.Files
@@ -124,6 +121,11 @@ class Generator(
     val transitionsImpl = ClassName("$appPackage.view", "TransitionsImpl")
     val transitionsMock = ClassName("$appPackage.view", "TransitionsMock")
 
+    val permissionsInterface = ClassName("$appPackage.view", "Permissions")
+    val permissionsImpl = ClassName("$appPackage.view", "PermissionsImpl")
+    val permissionsMock = ClassName("$appPackage.view", "PermissionsMock")
+
+
 
     val stringsInstance = ClassName(appPackage, "strings")
     val stringsInterface = ClassName(appPackage, "Strings")
@@ -196,6 +198,7 @@ class Generator(
         generateModelInjectorMock()
 
         generateTransitions()
+        generatePermissions()
 
         generateModelContract()
         generateModel()
@@ -449,6 +452,7 @@ class Generator(
                         .addStatement("single<${viewInjectorInterface.simpleName}> { ${viewInjectorImpl.simpleName}()}")
                         .addStatement("single<${modelInjectorInterface.simpleName}> { ${modelInjectorImpl.simpleName}()}")
                         .addStatement("single<${transitionsInterface.simpleName}> { ${transitionsImpl.simpleName}()}")
+                        .addStatement("single<${permissionsInterface.simpleName}> { ${permissionsImpl.simpleName}()}")
                         .beginControlFlow("single")
                         .addStatement("${appFeatureInitializer.simpleName}(")
 
@@ -508,6 +512,8 @@ class Generator(
             .addImportClassName(appFeatureInitializer)
             .addImportClassName(transitionsInterface)
             .addImportClassName(transitionsImpl)
+            .addImportClassName(permissionsInterface)
+            .addImportClassName(permissionsImpl)
             .addImport("tech.skot.di", "modelFrameworkModule")
             .addImport("tech.skot.core.di", "coreViewModule")
             .addImport(appPackage, "start")

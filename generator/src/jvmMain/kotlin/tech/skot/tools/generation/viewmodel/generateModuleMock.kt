@@ -29,6 +29,7 @@ fun Generator.generateModuleMock() {
                         .addStatement("single<${viewInjectorInterface.simpleName}> { ${viewInjectorMock.simpleName}()}")
                         .addStatement("single<${modelInjectorInterface.simpleName}> { ${modelInjectorMock.simpleName}()}")
                         .addStatement("single<${transitionsInterface.simpleName}> { ${transitionsMock.simpleName}()}")
+                        .addStatement("single<${permissionsInterface.simpleName}> { ${permissionsMock.simpleName}()}")
                         .endControlFlow()
                         .build()
                 )
@@ -51,6 +52,8 @@ fun Generator.generateModuleMock() {
         .addImportClassName(stylesMock)
         .addImportClassName(transitionsInterface)
         .addImportClassName(transitionsMock)
+        .addImportClassName(permissionsInterface)
+        .addImportClassName(permissionsMock)
         .build()
         .writeTo(generatedJvmTestSources(modules.viewmodel))
 }

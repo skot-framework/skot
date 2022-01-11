@@ -4,6 +4,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import tech.skot.core.Poker
 import tech.skot.core.SKLog
+import tech.skot.core.view.SKPermission
 import tech.skot.model.SKData
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
@@ -46,6 +47,27 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
     open fun treatError(exception: Exception, errorMessage: String?) {
         errorTreatment?.invoke(this, exception, errorMessage)
             ?: throw IllegalStateException("Valorise Component.errorTreatment or override treatError function to use method treating errors")
+    }
+
+
+
+    fun requestPermissions(permissions: List<SKPermission>, onResult:(grantedPermissions:List<SKPermission>)->Unit) {
+        view.requestPermissions(permissions = permissions, onResult = onResult)
+    }
+
+    fun doWithPermission(permission:SKPermission, onKo:(()->Unit)? = null, onOk:()->Unit) {
+        requestPermissions(listOf(permission)) { grantedPermissions->
+            if (grantedPermissions.isNotEmpty()) {
+                onOk()
+            }
+            else {
+                onKo?.invoke()
+            }
+        }
+    }
+
+    fun hasPermission(vararg permission:SKPermission): Boolean {
+        return view.hasPermission(*permission)
     }
 
     fun launchWithOptions(

@@ -1,6 +1,8 @@
 package tech.skot.core.components
 
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.view.View
 import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
@@ -11,7 +13,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
+import tech.skot.core.SKLog
 import tech.skot.core.view.Color
+import tech.skot.view.SKPermissionAndroid
 import tech.skot.view.live.SKLiveData
 import tech.skot.view.live.SKMessage
 
@@ -82,6 +86,57 @@ abstract class SKComponentView<B : Any>(
         }
 
     }
+
+
+    private fun SKPermissionAndroid.isGranted(): Boolean =
+        ContextCompat.checkSelfPermission(context, name) == PackageManager.PERMISSION_GRANTED
+
+
+    var pendingPermissionsRequests: MutableList<SKComponentViewProxy.PermissionsRequest>? = null
+
+    fun requestPermissions(permissionsRequest: SKComponentViewProxy.PermissionsRequest) {
+        when {
+            (permissionsRequest.permissions.all { it.isGranted() }) -> {
+                permissionsRequest.onResult(permissionsRequest.permissions)
+            }
+            else -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    addPendingPermissionsRequest(permissionsRequest)
+                    activity.requestPermissions(
+                        permissionsRequest.permissions.map { it.name }.toTypedArray(),
+                        permissionsRequest.requestCode
+                    )
+                } else {
+                    SKLog.e(
+                        Exception("You need to declare some permissions in your manifest"),
+                        permissionsRequest.permissions.filter { !it.isGranted() }.joinToString()
+                    )
+                    permissionsRequest.onResult(
+                        permissionsRequest.permissions.filter { it.isGranted() }
+                    )
+                }
+            }
+        }
+    }
+
+    private fun addPendingPermissionsRequest(permissionsRequest: SKComponentViewProxy.PermissionsRequest) {
+        val currentPendingPermissionsRequests = pendingPermissionsRequests
+        if (currentPendingPermissionsRequests == null) {
+            pendingPermissionsRequests = mutableListOf(permissionsRequest)
+            ScreensManager.permissionsResults.observe { result ->
+                pendingPermissionsRequests?.let { requests ->
+                    requests.find { it.requestCode == result.requestCode }
+                        ?.let { request ->
+                            request.onResult(result.grantedPermissions)
+                            requests.remove(request)
+                        }
+                }
+            }
+        } else {
+            currentPendingPermissionsRequests.add(permissionsRequest)
+        }
+    }
+
 
     companion object {
         var displayError: (SKComponentView<*>.(message: String) -> Unit)? = null

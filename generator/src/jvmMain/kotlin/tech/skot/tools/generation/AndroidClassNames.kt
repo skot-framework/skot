@@ -15,4 +15,5 @@ object AndroidClassNames {
     val build = ClassName("android.os", "Build")
     val viewGroup = ClassName("android.view", "ViewGroup")
     val intent = ClassName("android.content", "Intent")
+    val manifest = ClassName("android","Manifest")
 }

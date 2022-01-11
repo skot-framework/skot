@@ -42,7 +42,9 @@ object FrameworkClassNames {
     val bm = ClassName("tech.skot.model", "SKBM")
 
     val transistionAndroidLegacy = ClassName("tech.skot.view", "SKTransitionAndroidLegacy")
+    val permissionAndroidLegacy = ClassName("tech.skot.view", "SKPermissionAndroid")
     val skTransitionMock = ClassName("tech.skot.core.view", "SKTransitionMock")
+    val skPermissionMock = ClassName("tech.skot.core.view", "SKPermissionMock")
     val skFunMock = ClassName("tech.skot.core.test", "SKFunMock")
     val skFunUnitMock = ClassName("tech.skot.core.test", "SKFunUnitMock")
     val skDataMock = ClassName("tech.skot.core.test", "SKDataMock")

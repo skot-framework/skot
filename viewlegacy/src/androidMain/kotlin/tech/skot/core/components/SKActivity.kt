@@ -1,9 +1,9 @@
 package tech.skot.core.components
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -12,8 +12,9 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import tech.skot.core.SKFeatureInitializer
-import tech.skot.core.SKLog
 import tech.skot.core.toSKUri
+import tech.skot.view.SKPermissionAndroid
+import tech.skot.view.SKPermissionsRequestResutlAndroid
 import tech.skot.view.extensions.updatePadding
 
 abstract class SKActivity : AppCompatActivity() {
@@ -36,17 +37,12 @@ abstract class SKActivity : AppCompatActivity() {
 //    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("TEST","---- onCreate")
-        SKLog.d("@&@&@&@& ---- onCreate ")
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
 
             featureInitializer.initializeIfNeeded(intent?.data?.toSKUri())
 
             val viewKey = getKeyForThisActivity(savedInstanceState)
-            Log.d("TEST","---- onCreate   viewKey : $viewKey")
-            SKLog.d("@&@&@&@& ---- onCreate   viewKey : $viewKey")
-
             if (!oneActivityAlreadyLaunched && viewKey != -1L) {
                 oneActivityAlreadyLaunched = true
                 SKRootStackViewProxy.stateLD.value.state.screens.getOrNull(0)?.let {
@@ -219,6 +215,24 @@ abstract class SKActivity : AppCompatActivity() {
     //Pas de back par défaut, il faut faire attention avec ça
     override fun onBackPressed() {
         ScreensManager.backPressed.post(Unit)
+    }
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        ScreensManager.permissionsResults.post(
+            SKPermissionsRequestResutlAndroid(
+                requestCode = requestCode,
+                grantedPermissions = permissions.filterIndexed { index, _ ->
+                    grantResults[index] == PackageManager.PERMISSION_GRANTED
+                }.map { SKPermissionAndroid(it) }
+            )
+
+        )
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
 }

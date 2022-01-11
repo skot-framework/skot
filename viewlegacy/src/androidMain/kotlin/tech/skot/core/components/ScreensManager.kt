@@ -1,5 +1,6 @@
 package tech.skot.core.components
 
+import tech.skot.view.SKPermissionsRequestResutlAndroid
 import tech.skot.view.live.SKMessage
 
 
@@ -16,7 +17,9 @@ object ScreensManager {
         return key
     }
 
+
     val backPressed = SKMessage<Unit>(true)
+    val permissionsResults = SKMessage<SKPermissionsRequestResutlAndroid>()
 
     const val SK_EXTRA_VIEW_KEY = "SK_EXTRA_VIEW_KEY"
     const val SK_ARGUMENT_VIEW_KEY = "SK_ARGUMENT_VIEW_KEY"

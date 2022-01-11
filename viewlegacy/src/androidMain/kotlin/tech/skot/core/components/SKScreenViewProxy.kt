@@ -40,6 +40,9 @@ abstract class SKScreenViewProxy<B : ViewBinding> : SKComponentViewProxy<B>(), S
             closeKeyboardMessage.observe {
                 closeKeyboard()
             }
+            requestPermissionsMessage.observe {
+                requestPermissions(it)
+            }
         }
     }
 

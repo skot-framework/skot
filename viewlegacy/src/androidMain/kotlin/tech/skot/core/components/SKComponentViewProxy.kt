@@ -1,14 +1,20 @@
 package tech.skot.core.components
 
+import android.content.Context
+import android.content.pm.PackageManager
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import tech.skot.core.SKLog
+import tech.skot.core.di.get
+import tech.skot.core.view.SKPermission
 import tech.skot.core.view.Style
+import tech.skot.view.SKPermissionAndroid
 import tech.skot.view.live.SKMessage
+import java.util.concurrent.atomic.AtomicInteger
 
 
 abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
@@ -24,6 +30,40 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
     override fun closeKeyboard() {
         closeKeyboardMessage.post(Unit)
     }
+
+    data class PermissionsRequest(
+        val requestCode: Int,
+        val permissions: List<SKPermissionAndroid>,
+        val onResult: (permissionsOk: List<SKPermissionAndroid>) -> Unit
+    )
+
+
+    protected val requestPermissionsMessage = SKMessage<PermissionsRequest>()
+    override fun requestPermissions(
+        permissions: List<SKPermission>,
+        onResult: (permissionsOk: List<SKPermission>) -> Unit
+    ) {
+        requestPermissionsMessage.post(
+            PermissionsRequest(
+                requestCode = permissionsRequestCounter.getAndIncrement(),
+                permissions = permissions as List<SKPermissionAndroid>
+            ) { result ->
+                onResult(result)
+            })
+    }
+
+
+    override fun hasPermission(vararg permission: SKPermission): Boolean {
+        val context: Context = get()
+        return permission.all {
+            ContextCompat.checkSelfPermission(
+                context,
+                (it as SKPermissionAndroid).name
+            ) == PackageManager.PERMISSION_GRANTED
+        }
+
+    }
+
 
     override var style: Style? = null
 
@@ -44,6 +84,9 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
             }
             closeKeyboardMessage.observe {
                 closeKeyboard()
+            }
+            requestPermissionsMessage.observe {
+                requestPermissions(it)
             }
         }
 
@@ -110,6 +153,10 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
         } else {
             return _bindTo(activity, fragment, bindingOf(view))
         }
+    }
+
+    companion object {
+        val permissionsRequestCounter = AtomicInteger(0)
     }
 }
 

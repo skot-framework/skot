@@ -6,15 +6,11 @@
 buildscript {
     repositories {
         google()
-        jcenter()
         mavenCentral()
-        maven {
-            url = uri("https://jitpack.io")
-        }
     }
 }
 plugins {
-	id("skot-starter").version("latest_version")
+	id("tech.skot.starter").version("latest_version")
 }
 skot {
 	appPackage = "your.package.name"
@@ -26,16 +22,13 @@ skot {
 pluginManagement {
     resolutionStrategy {
         eachPlugin {
-            if (requested.id.toString() == "skot-starter") {
-                useModule("com.github.skot-framework.skot:plugin:latest_version")
+            if (requested.id.toString() == "tech.skot.starter") {
+                useModule("com.tech.skot:plugin:latest_version")
             }
         }
     }
     repositories {
-       //mavenLocal()
-        maven {
-            url = uri("https://jitpack.io")
-        }
+       mavenCentral()
     }
 
 }
@@ -47,8 +40,8 @@ In a terminal :
 1. Move to the folder of your project
 2. Enter the command `gradle wrapper`
 3. Change gradle version to 7.0.2 in gradle.properties   
-4. Enter the command `gradle start`
-5. Enter the command `gradle skGenerate`
+4. Enter the command `./gradlew start`
+5. Enter the command `./gradlew skGenerate`
 6. Launch Android Studio
 
 You can start coding!

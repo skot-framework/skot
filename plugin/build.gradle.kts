@@ -29,105 +29,112 @@ configurations {
     }
 }
 
+val gradlePortal = false
+
 pluginBundle {
     website = "https://github.com/skot-framework/skot"
     vcsUrl = "https://github.com/skot-framework/skot/tree/master"
     tags = listOf("skot", "kotlin", "kmm")
-    mavenCoordinates {  }
+    mavenCoordinates { }
 }
 
 gradlePlugin {
     plugins {
-        create("SkotModelContract") {
-            id = "tech.skot.modelcontract"
-            displayName = "SKot modelcontract"
-            description = "Plugin skot pour le module modelcontract"
-            implementationClass = "tech.skot.tools.gradle.PluginModelContract"
-        }
 
-        create("SkotViewContract") {
-            id = "tech.skot.viewcontract"
-            displayName = "SKot viewcontract"
-            description = "Plugin skot pour le module viewcontract"
-            implementationClass = "tech.skot.tools.gradle.PluginViewContract"
-        }
-
-        create("SkotViewModel") {
-            id = "tech.skot.viewmodel"
-            displayName = "SKot viewmodel"
-            description = "Plugin skot pour le module viewmodel"
-            implementationClass = "tech.skot.tools.gradle.PluginViewModel"
-        }
-
-        create("SkotModel") {
-            id = "tech.skot.model"
-            displayName = "SKot model"
-            description = "Plugin skot pour le module model"
-            implementationClass = "tech.skot.tools.gradle.PluginModel"
-        }
-
-        create("SkotViewLegacy") {
-            id = "tech.skot.viewlegacy"
-            displayName = "SKot viewlegacy"
-            description = "Plugin skot pour le module viewlegacy"
-            implementationClass = "tech.skot.tools.gradle.PluginViewLegacy"
-        }
-
-        create("SkotApp") {
-            id = "tech.skot.app"
-            displayName = "SKot androidApp"
-            description = "Plugin skot pour le module androidApp"
-            implementationClass = "tech.skot.tools.gradle.PluginApp"
-        }
-
-        create("SkotFeature") {
-            id = "tech.skot.feature"
-            displayName = "SKot feature"
-            description = "Plugin skot pour un module feature"
-            implementationClass = "tech.skot.tools.gradle.PluginFeature"
-        }
-
-        create("SkotTools") {
-            id = "tech.skot.tools"
-            displayName = "SKot tools"
-            description = "Plugin skot pour un module skot"
-            implementationClass = "tech.skot.tools.gradle.PluginTools"
-        }
-
-        create("Skot") {
-            id = "tech.skot.general"
-            displayName = "SKot general"
-            description = "Plugin skot pour un projet skot"
-            implementationClass = "tech.skot.tools.gradle.PluginGeneral"
-        }
 
         create("SkotStarter") {
             id = "tech.skot.starter"
             displayName = "SKot starter"
-            description = "Plugin skot pour démarrer un projet"
+            description = "Starting a Skot Project"
             implementationClass = "tech.skot.tools.gradle.PluginStarter"
         }
 
-        create("SkotLibraryContract") {
-            id = "tech.skot.library-contract"
-            displayName = "SKot library-contract"
-            description = "Plugin skot pour un module contract de library"
-            implementationClass = "tech.skot.tools.gradle.PluginLibraryContract"
+        if (!gradlePortal) {
+            create("SkotModelContract") {
+                id = "tech.skot.modelcontract"
+                displayName = "SKot modelcontract"
+                description = "Plugin skot pour le module modelcontract"
+                implementationClass = "tech.skot.tools.gradle.PluginModelContract"
+            }
+
+            create("SkotViewContract") {
+                id = "tech.skot.viewcontract"
+                displayName = "SKot viewcontract"
+                description = "Plugin skot pour le module viewcontract"
+                implementationClass = "tech.skot.tools.gradle.PluginViewContract"
+            }
+
+            create("SkotViewModel") {
+                id = "tech.skot.viewmodel"
+                displayName = "SKot viewmodel"
+                description = "Plugin skot pour le module viewmodel"
+                implementationClass = "tech.skot.tools.gradle.PluginViewModel"
+            }
+
+            create("SkotModel") {
+                id = "tech.skot.model"
+                displayName = "SKot model"
+                description = "Plugin skot pour le module model"
+                implementationClass = "tech.skot.tools.gradle.PluginModel"
+            }
+
+            create("SkotViewLegacy") {
+                id = "tech.skot.viewlegacy"
+                displayName = "SKot viewlegacy"
+                description = "Plugin skot pour le module viewlegacy"
+                implementationClass = "tech.skot.tools.gradle.PluginViewLegacy"
+            }
+
+            create("SkotApp") {
+                id = "tech.skot.app"
+                displayName = "SKot androidApp"
+                description = "Plugin skot pour le module androidApp"
+                implementationClass = "tech.skot.tools.gradle.PluginApp"
+            }
+
+            create("SkotFeature") {
+                id = "tech.skot.feature"
+                displayName = "SKot feature"
+                description = "Plugin skot pour un module feature"
+                implementationClass = "tech.skot.tools.gradle.PluginFeature"
+            }
+
+            create("SkotTools") {
+                id = "tech.skot.tools"
+                displayName = "SKot tools"
+                description = "Plugin skot pour un module skot"
+                implementationClass = "tech.skot.tools.gradle.PluginTools"
+            }
+
+            create("Skot") {
+                id = "tech.skot.general"
+                displayName = "SKot general"
+                description = "Plugin skot pour un projet skot"
+                implementationClass = "tech.skot.tools.gradle.PluginGeneral"
+            }
+
+            create("SkotLibraryContract") {
+                id = "tech.skot.library-contract"
+                displayName = "SKot library-contract"
+                description = "Plugin skot pour un module contract de library"
+                implementationClass = "tech.skot.tools.gradle.PluginLibraryContract"
+            }
+
+            create("SkotLibrary") {
+                id = "tech.skot.library"
+                displayName = "SKot library"
+                description = "Plugin skot pour un module de library"
+                implementationClass = "tech.skot.tools.gradle.PluginLibrary"
+            }
+
+            create("SkotLibraryViewlegacy") {
+                id = "tech.skot.library-viewlegacy"
+                displayName = "SKot library-viewlegacy"
+                description = "Plugin skot pour un module viewlegacy de library"
+                implementationClass = "tech.skot.tools.gradle.PluginLibraryViewLegacy"
+            }
         }
 
-        create("SkotLibrary") {
-            id = "tech.skot.library"
-            displayName = "SKot library"
-            description = "Plugin skot pour un module de library"
-            implementationClass = "tech.skot.tools.gradle.PluginLibrary"
-        }
-
-        create("SkotLibraryViewlegacy") {
-            id = "tech.skot.library-viewlegacy"
-            displayName = "SKot library-viewlegacy"
-            description = "Plugin skot pour un module viewlegacy de library"
-            implementationClass = "tech.skot.tools.gradle.PluginLibraryViewLegacy"
-        }
     }
 }
 

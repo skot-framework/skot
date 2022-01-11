@@ -13,7 +13,7 @@ fun StarterGenerator.viewContract(){
         buildGradle {
             publish(group = "\"${configuration.appPackage}\"", version = "Build.versionName")
             plugin(BuildGradleGenerator.Plugin.Kotlin("multiplatform"))
-            plugin(BuildGradleGenerator.Plugin.Id("skot-viewcontract"))
+            plugin(BuildGradleGenerator.Plugin.Id("tech.skot.viewcontract"))
         }
         androidPackage = configuration.appPackage+".viewcontract"
         mainPackage = configuration.appPackage

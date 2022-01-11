@@ -9,7 +9,7 @@ fun StarterGenerator.modelContract(){
         buildGradle {
             publish(group = "\"${configuration.appPackage}\"", version = "Build.versionName")
             plugin(BuildGradleGenerator.Plugin.Kotlin("multiplatform"))
-            plugin(BuildGradleGenerator.Plugin.Id("skot-modelcontract"))
+            plugin(BuildGradleGenerator.Plugin.Id("tech.skot.modelcontract"))
         }
 
         androidPackage = configuration.appPackage+".modelcontract"

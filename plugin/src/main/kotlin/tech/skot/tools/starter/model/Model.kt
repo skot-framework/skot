@@ -12,7 +12,7 @@ fun StarterGenerator.model(){
     ModuleGenerator("model", configuration, rootDir).apply {
         buildGradle {
             plugin(BuildGradleGenerator.Plugin.Kotlin("multiplatform"))
-            plugin(BuildGradleGenerator.Plugin.Id("skot-model"))
+            plugin(BuildGradleGenerator.Plugin.Id("tech.skot.model"))
         }
 
         androidPackage = configuration.appPackage+".model"

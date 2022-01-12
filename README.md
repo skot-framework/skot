@@ -1,7 +1,7 @@
 # skot
 a Super Kotlin framework
 
-[![](https://jitpack.io/v/skot-framework/skot.svg)](https://jitpack.io/#skot-framework/skot)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/tech.skot.starter/tech.skot.starter.gradle.plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/tech.skot.starter/tech.skot.starter.gradle.plugin)
 
 To get started :
 - [learn the nomenclature](docs/nomenclature/nomenclature.md)

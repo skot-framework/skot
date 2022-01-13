@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import tech.skot.core.SKFeatureInitializer
 import tech.skot.core.toSKUri
 import tech.skot.view.SKPermissionAndroid
-import tech.skot.view.SKPermissionsRequestResutlAndroid
+import tech.skot.view.SKPermissionsRequestResultAndroid
 import tech.skot.view.extensions.updatePadding
 
 abstract class SKActivity : AppCompatActivity() {
@@ -224,7 +224,7 @@ abstract class SKActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         ScreensManager.permissionsResults.post(
-            SKPermissionsRequestResutlAndroid(
+            SKPermissionsRequestResultAndroid(
                 requestCode = requestCode,
                 grantedPermissions = permissions.filterIndexed { index, _ ->
                     grantResults[index] == PackageManager.PERMISSION_GRANTED

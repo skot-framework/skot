@@ -4,7 +4,7 @@ import tech.skot.core.view.SKPermission
 
 data class SKPermissionAndroid(val name: String) : SKPermission
 
-class SKPermissionsRequestResutlAndroid(
+class SKPermissionsRequestResultAndroid(
     val requestCode:Int,
     val grantedPermissions: List<SKPermissionAndroid>,
 )

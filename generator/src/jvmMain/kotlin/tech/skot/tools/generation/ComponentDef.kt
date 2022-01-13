@@ -257,5 +257,35 @@ fun KType.isBoolean() = this == booleanType
 val nullableBooleanType = booleanType.withNullability(true)
 fun KType.isNullableBoolean() = this == nullableBooleanType
 
+val intType = Int::class.createType()
+fun KType.isInt() = this == intType
+
+val nullableIntType = intType.withNullability(true)
+fun KType.isNullableInt() = this == nullableIntType
+
+
+val longType = Long::class.createType()
+fun KType.islong() = this == longType
+
+val nullablelongType = longType.withNullability(true)
+fun KType.isNullablelong() = this == nullablelongType
+
+
 val unitType = Unit::class.createType()
 fun KType.isUnit() = this == unitType
+
+fun KType.primitiveDefaultInit():String? {
+    val erasure = jvmErasure
+    return when {
+        erasure.isSubclassOf(Char::class) -> "\'?\'"
+        erasure.isSubclassOf(Byte::class) -> "0"
+        erasure.isSubclassOf(Short::class) -> "0"
+        erasure.isSubclassOf(Int::class) -> "0"
+        erasure.isSubclassOf(Long::class) -> "0L"
+        erasure.isSubclassOf(Float::class) -> "0f"
+        erasure.isSubclassOf(Double::class) -> "0.0"
+        erasure.isSubclassOf(Boolean::class) -> "false"
+        else -> null
+    }
+
+}

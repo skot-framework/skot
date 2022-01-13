@@ -1,10 +1,7 @@
 package tech.skot.tools
 
 import com.squareup.kotlinpoet.asTypeName
-import tech.skot.tools.generation.combinaisons
-import tech.skot.tools.generation.getDocument
-import tech.skot.tools.generation.getElementsWithTagName
-import tech.skot.tools.generation.replaceSegment
+import tech.skot.tools.generation.*
 import tech.skot.tools.generation.viewlegacy.binding
 import tech.skot.tools.generation.viewlegacy.toProxy
 import java.lang.reflect.AnnotatedParameterizedType
@@ -58,6 +55,27 @@ class Tests {
             "%d %s %s %i",
             res
         )
+    }
+
+    interface TestPrim {
+        val prim1:Char
+        val prim2:Byte
+        val prim3:Short
+        val prim4:Int
+        val prim5:Float
+        val prim6:Double
+    }
+
+
+
+    @Test
+    fun testPrims(){
+
+        TestPrim::class.ownProperties().forEach {
+            println(it.returnType.primitiveDefaultInit())
+        }
+
+
     }
 }
 

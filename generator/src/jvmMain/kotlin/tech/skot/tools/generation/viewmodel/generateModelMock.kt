@@ -18,7 +18,7 @@ fun Generator.generateModelMock() {
             //un model a été défini (par convention de nommage)
 
             if (!it.modelMock().existsJvmTestInModule(modules.viewmodel)) {
-//                println("pas d'implémentation spécifique trouvée on génère")
+                //pas d'implémentation spécifique trouvée on génère
 
                 it.modelMock().fileClassBuilder {
                     addSuperinterface(it.modelContract())
@@ -43,24 +43,6 @@ fun Generator.generateModelMock() {
                     it.modelClass!!.ownProperties().forEach {
 
                         when {
-                            it.returnType.isBoolean() -> {
-                                addProperty(
-                                    PropertySpec.builder(it.name, it.returnType.asTypeName())
-                                        .addModifiers(KModifier.OVERRIDE)
-                                        .mutable(true)
-                                        .initializer("false")
-                                        .build()
-                                )
-                            }
-                            it.returnType.isNullableBoolean() -> {
-                                addProperty(
-                                    PropertySpec.builder(it.name, it.returnType.asTypeName())
-                                        .addModifiers(KModifier.OVERRIDE)
-                                        .mutable(true)
-                                        .initializer("null")
-                                        .build()
-                                )
-                            }
                             it.returnType.isString() || it.returnType.isNullableString() -> {
                                 addProperty(
                                     PropertySpec.builder(it.name, it.returnType.asTypeName())
@@ -82,20 +64,35 @@ fun Generator.generateModelMock() {
                                 )
                             }
                             else -> {
-                                addProperty(
-                                    PropertySpec.builder(it.name, it.returnType.asTypeName())
-                                        .addModifiers(KModifier.OVERRIDE)
-                                        .mutable(true)
-                                        .apply {
-                                            if (it.returnType.isMarkedNullable) {
-                                                initializer("null")
+                                val primInit = it.returnType.primitiveDefaultInit()
+                                if (primInit != null) {
+                                    addProperty(
+                                        PropertySpec.builder(it.name, it.returnType.asTypeName())
+                                            .addModifiers(KModifier.OVERRIDE)
+                                            .mutable(true)
+                                            .apply {
+                                                initializer(primInit)
                                             }
-                                            else {
-                                                addModifiers(KModifier.LATEINIT)
+                                            .build()
+                                    )
+                                }
+                                else {
+                                    addProperty(
+                                        PropertySpec.builder(it.name, it.returnType.asTypeName())
+                                            .addModifiers(KModifier.OVERRIDE)
+                                            .mutable(true)
+                                            .apply {
+                                                if (it.returnType.isMarkedNullable) {
+                                                    initializer("null")
+                                                }
+                                                else {
+                                                    addModifiers(KModifier.LATEINIT)
+                                                }
                                             }
-                                        }
-                                        .build()
-                                )
+                                            .build()
+                                    )
+                                }
+
                             }
                         }
 

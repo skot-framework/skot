@@ -7,10 +7,7 @@ import tech.skot.core.components.SKBoxViewProxy
 import tech.skot.core.components.SKComponentViewProxy
 import tech.skot.core.components.SKListViewProxy
 import tech.skot.core.components.SKVisiblityListener
-import tech.skot.core.components.inputs.SKButtonViewProxy
-import tech.skot.core.components.inputs.SKComboVC
-import tech.skot.core.components.inputs.SKComboViewProxy
-import tech.skot.core.components.inputs.SKInputViewProxy
+import tech.skot.core.components.inputs.*
 
 abstract class SKTestView {
 
@@ -79,6 +76,21 @@ abstract class SKTestView {
         textInitial = text,
         showPasswordInitial = null
     )
+
+    fun dummySimpleInput(text:String? = null, hint:String? = null) = SKSimpleInputViewProxy(
+        maxSize = null,
+        onDone = null,
+        onFocusChange = null,
+        onInputText = {},
+        type = null,
+        enabledInitial = null,
+        errorInitial = null,
+        hiddenInitial = null,
+        hintInitial = hint,
+        textInitial = text,
+        showPasswordInitial = null
+    )
+
 
     fun dummyShortText() =
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla commodo semper nulla, cursus placerat justo suscipit et."

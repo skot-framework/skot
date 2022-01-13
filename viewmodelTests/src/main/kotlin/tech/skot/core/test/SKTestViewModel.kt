@@ -11,6 +11,8 @@ import org.junit.After
 import org.junit.Before
 import tech.skot.core.SKLog
 import tech.skot.core.components.SKComponent
+import tech.skot.core.components.SKRootStack
+import tech.skot.core.components.SKScreen
 import tech.skot.core.di.InjectorMock
 import tech.skot.core.di.Module
 import tech.skot.core.di.injector
@@ -43,6 +45,8 @@ abstract class SKTestViewModel(vararg modules: Module<InjectorMock>) {
     }
 
 
+    val screenOnTop:SKScreen<*>?
+        get() = SKRootStack.state.screens.lastOrNull()
 
     fun CoroutineScope.step(
         model: (() -> Unit)? = null,

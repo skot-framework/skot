@@ -1,6 +1,5 @@
 package tech.skot.core.components.inputs
 
-import tech.skot.core.SKLog
 import tech.skot.core.components.SKComponentViewMock
 import tech.skot.core.view.Icon
 
@@ -21,6 +20,5 @@ class SKImageButtonViewMock(
 }
 
 fun SKImageButtonVC.userTap() {
-    SKLog.d("--------SKImageButtonVC----------- tap !!!!")
-    (this as SKButtonViewMock).userTap()
+    (this as SKImageButtonViewMock).userTap()
 }

@@ -193,6 +193,7 @@ class Generator(
         generateViewModel()
         generateViewMock()
         generateViewInjectorMock()
+        generateViewModelTests()
         generateModuleMock()
         generateModelMock()
         generateModelInjectorMock()

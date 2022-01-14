@@ -17,7 +17,9 @@ open class SKButtonViewMock(
     override var style: Style? = null
 
     fun userTap() {
-        onTap?.invoke()
+        if (enabled != false) {
+            onTap?.invoke()
+        }
     }
 
 }

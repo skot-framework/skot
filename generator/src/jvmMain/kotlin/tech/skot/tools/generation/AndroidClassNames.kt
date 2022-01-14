@@ -16,4 +16,8 @@ object AndroidClassNames {
     val viewGroup = ClassName("android.view", "ViewGroup")
     val intent = ClassName("android.content", "Intent")
     val manifest = ClassName("android","Manifest")
+
+    object Annotations {
+        val before = ClassName("org.junit","Before")
+    }
 }

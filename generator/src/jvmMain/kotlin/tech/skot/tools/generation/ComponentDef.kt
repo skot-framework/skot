@@ -1,6 +1,7 @@
 package tech.skot.tools.generation
 
 import com.squareup.kotlinpoet.*
+import org.jetbrains.kotlin.util.prefixIfNot
 import tech.skot.core.components.*
 import tech.skot.core.components.SKLayoutIsRoot
 import tech.skot.core.components.SKLayoutNo
@@ -32,12 +33,14 @@ data class ComponentDef(
     fun rai() = ClassName(packageName, name.suffix("RAI"))
     fun viewModelGen() = ClassName(packageName, name.suffix("Gen"))
     fun viewModel() = ClassName(packageName, name)
+    fun testViewModel() = ClassName(packageName, name.prefix("Test"))
+    fun viewModelTester() = ClassName(packageName, name.suffix("Tester"))
     fun modelContract() = ClassName(packageName, name.suffix("MC"))
     fun viewContract() = ClassName(packageName, name.suffix("VC"))
     fun model() = ClassName(packageName, name.suffix("Model"))
     fun modelMock() = ClassName(packageName, name.suffix("ModelMock"))
 
-    fun layoutName() = name.map { if (it.isUpperCase()) "_${it.toLowerCase()}" else it }
+    fun layoutName() = name.map { if (it.isUpperCase()) "_${it.lowercase()}" else it }
         .joinToString(separator = "").substring(1)
 
     fun binding(viewModuleAndroidPackage: String) =
@@ -227,6 +230,7 @@ fun KClass<*>.isDescendantOf(kType: KType) = supertypes.contains(kType)
 
 fun String.withOut(suffix: String) = substring(0, lastIndexOf(suffix))
 fun String.suffix(suffix: String) = "$this$suffix"
+fun String.prefix(prefix: String) = "$prefix$this"
 
 fun String.initial() = suffix("Initial")
 

@@ -10,9 +10,7 @@ import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import tech.skot.core.SKLog
-import tech.skot.core.components.SKComponent
-import tech.skot.core.components.SKRootStack
-import tech.skot.core.components.SKScreen
+import tech.skot.core.components.*
 import tech.skot.core.di.InjectorMock
 import tech.skot.core.di.Module
 import tech.skot.core.di.injector
@@ -45,20 +43,26 @@ abstract class SKTestViewModel(vararg modules: Module<InjectorMock>) {
     }
 
 
+    fun SKScreen<*>.isRemoved():Boolean = (view as SKScreenViewMock).removed
+    fun SKScreenVC.isRemoved():Boolean = (this as SKScreenViewMock).removed
+
+
     val screenOnTop:SKScreen<*>?
         get() = SKRootStack.state.screens.lastOrNull()
 
     fun CoroutineScope.step(
         model: (() -> Unit)? = null,
         user: (() -> Unit)? = null,
-        test: suspend CoroutineScope.() -> Unit,
+        test: (suspend CoroutineScope.() -> Unit)? = null,
         then: (CoroutineScope.() -> Unit)? = null
     ) {
         launch {
             model?.invoke()
             user?.invoke()
-            launch {
-                test.invoke(this)
+            test?.let {
+                launch {
+                    it.invoke(this)
+                }
             }
             then?.invoke(this)
         }

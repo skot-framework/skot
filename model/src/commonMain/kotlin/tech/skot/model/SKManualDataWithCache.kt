@@ -29,16 +29,18 @@ abstract class SKManualDataWithCache<D : Any>(
     private suspend fun initWithCache() {
         initMutex.withLock {
             if (flow.value == null) {
-                val cacheDate = cache.getDateOfData(name, key)
-                if (cacheDate != null) {
+                val cachedDatedData = cache.getDateOfData(name, key)?.let { cacheDate ->
                     try {
-                        flow.value = cache.getData(serializer, name, key)?.let { DatedData(it, cacheDate) }
+                        cache.getData(serializer, name, key)?.let { DatedData(it, cacheDate) }
+                    } catch (ex: Exception) {
+                        SKLog.e(
+                            ex,
+                            "SKManualDataWithCache Problème à la récupération du cache de la donnée $name $key"
+                        )
+                        null
                     }
-                    catch (ex:Exception) {
-                        SKLog.e(ex, "SKManualDataWithCache Problème à la récupération du cache de la donnée $name $key")
-                    }
-
                 }
+                flow.value = cachedDatedData ?: DatedData(initialDefaultValue, 0)
             }
         }
     }

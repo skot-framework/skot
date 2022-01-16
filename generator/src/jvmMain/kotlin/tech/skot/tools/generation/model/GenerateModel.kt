@@ -157,4 +157,6 @@ fun Generator.generateModel() {
         )
 
     }.writeTo(generatedCommonSources(modules.model))
+
+    generateModelTests()
 }

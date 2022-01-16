@@ -34,6 +34,7 @@ data class ComponentDef(
     fun viewModelGen() = ClassName(packageName, name.suffix("Gen"))
     fun viewModel() = ClassName(packageName, name)
     fun testViewModel() = ClassName(packageName, name.prefix("Test"))
+    fun testModel() = ClassName(packageName, name.prefix("TestModel"))
     fun viewModelTester() = ClassName(packageName, name.suffix("Tester"))
     fun modelContract() = ClassName(packageName, name.suffix("MC"))
     fun viewContract() = ClassName(packageName, name.suffix("VC"))

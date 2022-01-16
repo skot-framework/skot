@@ -14,6 +14,8 @@ version = Versions.version
 
 kotlin {
 
+    jvm("jvm")
+
     android {
         publishLibraryVariants("release", "debug")
         publishLibraryVariantsGroupedByFlavor = true
@@ -65,6 +67,16 @@ kotlin {
             dependencies {
                 api("com.squareup.sqldelight:native-driver:${Versions.sqldelight}")
                 api("io.ktor:ktor-client-ios:${Versions.ktor}")
+            }
+        }
+
+        val jvmMain by getting {
+            dependencies {
+                api("com.squareup.sqldelight:sqlite-driver:${Versions.sqldelight}")
+                api("io.ktor:ktor-client-okhttp:${Versions.ktor}")
+                api("io.ktor:ktor-client-mock-jvm:${Versions.ktor}")
+                api("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
             }
         }
 
@@ -125,40 +137,48 @@ sqldelight {
     linkSqlite = false
 }
 
-val publication = getPublication(project)
-publishing {
-    publications.withType<MavenPublication> {
-        pom {
-            name.set(project.name)
-            description.set("${project.name} description")
-            url.set("https://github.com/skot-framework/skot")
-            licenses {
-                license {
-                    name.set("Apache 2.0")
-                    url.set("https://www.apache.org/licenses/LICENSE-2.0")
+
+if (!localPublication) {
+    val javadocJar by tasks.registering(Jar::class) {
+        archiveClassifier.set("javadoc")
+    }
+    val publication = getPublication(project)
+    publishing {
+
+        publications.withType<MavenPublication> {
+            artifact(javadocJar.get())
+            pom {
+                name.set(project.name)
+                description.set("${project.name} description")
+                url.set("https://github.com/skot-framework/skot")
+                licenses {
+                    license {
+                        name.set("Apache 2.0")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0")
+                    }
                 }
-            }
-            developers {
-                developer {
-                    id.set("MathieuScotet")
-                    name.set("Mathieu Scotet")
-                    email.set("mscotet.lmit@gmail.com")
+                developers {
+                    developer {
+                        id.set("MathieuScotet")
+                        name.set("Mathieu Scotet")
+                        email.set("mscotet.lmit@gmail.com")
+                    }
                 }
-            }
-            scm {
-                connection.set("scm:git:github.com/skot-framework/skot.git")
-                developerConnection.set("scm:git:ssh://github.com/skot-framework/skot.git")
-                url.set("https://github.com/skot-framework/skot/tree/master")
+                scm {
+                    connection.set("scm:git:github.com/skot-framework/skot.git")
+                    developerConnection.set("scm:git:ssh://github.com/skot-framework/skot.git")
+                    url.set("https://github.com/skot-framework/skot/tree/master")
+                }
             }
         }
     }
-}
 
-signing {
-    useInMemoryPgpKeys(
-        publication.signingKeyId,
-        publication.signingKey,
-        publication.signingPassword
-    )
-    this.sign(publishing.publications)
+    signing {
+        useInMemoryPgpKeys(
+            publication.signingKeyId,
+            publication.signingKey,
+            publication.signingPassword
+        )
+        this.sign(publishing.publications)
+    }
 }

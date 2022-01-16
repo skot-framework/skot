@@ -3,8 +3,6 @@ package tech.skot.tools.gradle
 import com.android.build.gradle.LibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.create
-import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -72,7 +70,7 @@ class PluginModel: Plugin<Project> {
 
     private fun KotlinMultiplatformExtension.conf(project: Project) {
         android("android")
-
+        jvm("jvm")
         if (project.hasIosApp()) {
             ios {
                 binaries {
@@ -104,12 +102,21 @@ class PluginModel: Plugin<Project> {
             sourceSets["androidMain"].kotlin.srcDir("src/androidMain/kotlin$it")
         }
 
-        sourceSets["commonTest"].kotlin.srcDir("src/commonTest/kotlin")
+//        sourceSets["commonTest"].kotlin.srcDir("src/commonTest/kotlin")
+//
+//        sourceSets["commonTest"].dependencies {
+//            implementation("org.jetbrains.kotlin:kotlin-test-common:${Versions.kotlin}")
+//            implementation("org.jetbrains.kotlin:kotlin-test-annotations-common:${Versions.kotlin}")
+//        }
 
-        sourceSets["commonTest"].dependencies {
-            implementation("org.jetbrains.kotlin:kotlin-test-common:${Versions.kotlin}")
-            implementation("org.jetbrains.kotlin:kotlin-test-annotations-common:${Versions.kotlin}")
-        }
+//        sourceSets["jvmMain"].dependencies {
+//            implementation("io.ktor:ktor-client-mock-jvm:${Versions.ktor}")
+//        }
+
+//        sourceSets["jvmTest"].dependencies {
+//            implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+//            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+//        }
 
         sourceSets["androidTest"].dependencies {
             implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")

@@ -1,5 +1,8 @@
 package tech.skot.core.test
 
+import tech.skot.core.SKLog
+import kotlin.test.assertTrue
+
 open class SKFunMock<C : Any, R : Any?>(val name: String) {
 
     var calls: MutableList<C> = mutableListOf()
@@ -16,7 +19,7 @@ open class SKFunMock<C : Any, R : Any?>(val name: String) {
 
     var nextCallException: Exception? = null
     fun willFail(ex: Exception) {
-        nextCallException
+        nextCallException = ex
     }
 
     operator fun invoke(c: C): R {
@@ -26,6 +29,12 @@ open class SKFunMock<C : Any, R : Any?>(val name: String) {
             throw it
         }
         return getReturn()
+    }
+
+    fun assertCalled(rule:String = "") {
+        assertTrue("$rule -> $name doit avoir été appelé") {
+            calls.isNotEmpty()
+        }
     }
 
     open fun getReturn(): R {

@@ -21,7 +21,7 @@ abstract class SKTestViewModel(vararg modules: Module<InjectorMock>) {
     private val _modules: List<Module<InjectorMock>> = modules.asList()
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
-    class ErrorTreated(val comp: SKComponent<*>, val ex: Exception, var errorMessage: String?)
+    data class ErrorTreated(val comp: SKComponent<*>, val ex: Exception, var errorMessage: String?)
 
     val errorsTreated = mutableListOf<ErrorTreated>()
 

@@ -390,7 +390,7 @@ fun Generator.generateStates(rootState: StateDef) {
             )
             .addFunction(
                 FunSpec.builder(saveStateFunction.simpleName)
-                    .beginControlFlow("CoroutineScope(Dispatchers.Main).launch")
+                    .beginControlFlow("CoroutineScope(Dispatchers.Default).launch")
                     .addStatement("${FrameworkClassNames.globalCache.simpleName}.putData(")
 //                    .beginControlFlow("${rootState.nameAsProperty}.let")
                     .addStatement("serializer = ${rootState.infosClassName.simpleName}.serializer(),")

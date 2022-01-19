@@ -23,6 +23,7 @@ object FrameworkClassNames {
     val skTestViewModel = ClassName("tech.skot.core.test", "SKTestViewModel")
     val skTestModel = ClassName("tech.skot.model.test", "SKTestModel")
     val skViewModelTester = ClassName("tech.skot.core.test", "SKViewModelTester")
+    val mockHttp = ClassName("tech.skot.model.test.network", "mockHttp")
 
     val modelFrameworkModule = ClassName("tech.skot.di", "modelFrameworkModule")
 

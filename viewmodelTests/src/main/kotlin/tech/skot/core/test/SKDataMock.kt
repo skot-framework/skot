@@ -19,18 +19,22 @@ class SKDataMock<D:Any?>(val name:String): SKData<D> {
         }
     }
 
+    private val errorNotSetMessage: Exception by lazy {
+        Exception("You have to set a value for SKData $name before it is watched")
+    }
+
     override val flow: Flow<DatedData<D>?>
-        get() = internalManual?.flow ?: throw Exception("You have to set a value for $name before data is watched")
+        get() = internalManual?.flow ?: throw errorNotSetMessage
     override val defaultValidity: Long
-        get() = internalManual?.defaultValidity ?: throw Exception("You have to set a value for $name before data is watched")
+        get() = internalManual?.defaultValidity ?: throw errorNotSetMessage
     override val _current: DatedData<D>?
-        get() = internalManual?._current ?: throw Exception("You have to set a value for $name before data is watched")
+        get() = internalManual?._current ?: throw errorNotSetMessage
 
     override suspend fun update(): D {
-        return internalManual?.update() ?: throw Exception("You have to set a value for $name before data is watched")
+        return internalManual?.update() ?: throw errorNotSetMessage
     }
 
     override suspend fun fallBackValue(): D? {
-        return internalManual?.fallBackValue() ?: throw Exception("You have to set a value for $name before data is watched")
+        return internalManual?.fallBackValue() ?: throw errorNotSetMessage
     }
 }

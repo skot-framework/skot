@@ -84,6 +84,10 @@ fun Generator.generateStrings() {
             }
         )
     }
-        .writeTo(generatedJvmTestSources(feature ?: modules.viewmodel))
+        .apply {
+            writeTo(generatedJvmTestSources(feature ?: modules.viewmodel))
+            writeTo(generatedJvmTestSources(modules.model))
+        }
+
 
 }

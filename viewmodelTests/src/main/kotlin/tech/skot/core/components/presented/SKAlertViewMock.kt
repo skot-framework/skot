@@ -9,6 +9,22 @@ class SKAlertViewMock : SKComponentViewMock(), SKAlertVC {
     override var state: SKAlertVC.Shown? = null
 }
 
+fun SKAlertVC.assertCloseOnTapMainButton(rule:String? = null) {
+    val errorPrefix = rule?.let { "$it -> " } ?: ""
+    userTapMainButton()
+    assertTrue("${errorPrefix}l'alerte doit se fermer au tap sur le bouton principal") {
+        state == null
+    }
+}
+
+fun SKAlertVC.assertCloseOnTapSecondButton(rule:String? = null) {
+    val errorPrefix = rule?.let { "$it -> " } ?: ""
+    userTapSecondaryButton()
+    assertTrue("${errorPrefix}l'alerte doit se fermer au tap sur le bouton principal") {
+        state == null
+    }
+}
+
 fun SKAlertVC.assertNotDisplayed(rule: String? = null) {
     val errorPrefix = rule?.let { "$it -> " } ?: ""
     assertTrue("${errorPrefix}une alerte ne doit pas être affichée") {

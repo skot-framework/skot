@@ -17,6 +17,7 @@ fun Generator.generateModelTests() {
             listOfNotNull(
                 FrameworkClassNames.skTestModel,
                 FrameworkClassNames.modelFrameworkModule,
+                FrameworkClassNames.mockHttp,
                 rootState?.modelClassName,
                 rootState?.infosClassName,
                 rootState?.let { ClassName("$appPackage.states", rootStatePropertyName!!) })
@@ -29,7 +30,8 @@ fun Generator.generateModelTests() {
                 addFunction(
                     FunSpec.builder("initStates")
                         .addAnnotation(AndroidClassNames.Annotations.before)
-                        .addCode("$rootStatePropertyName = ${it.modelClassName.simpleName}(${it.infosClassName.simpleName}())")
+                        .addStatement("mockHttp.init()")
+                        .addStatement("$rootStatePropertyName = ${it.modelClassName.simpleName}(${it.infosClassName.simpleName}())")
                         .build()
                 )
             }

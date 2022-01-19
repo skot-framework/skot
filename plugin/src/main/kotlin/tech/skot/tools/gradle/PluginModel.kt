@@ -118,6 +118,8 @@ class PluginModel: Plugin<Project> {
 //            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
 //        }
 
+        sourceSets["jvmTest"].kotlin.srcDir("generated/jvmTest")
+
         sourceSets["androidTest"].dependencies {
             implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
             implementation("org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}")

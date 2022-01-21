@@ -11,6 +11,7 @@ interface SKAlertVC:SKComponentVC {
             val message:String?,
 //            val onDismissRequest:(()->Unit)?,
             val cancelable:Boolean,
+            val withInput:Boolean,
             val mainButton:Button,
             val secondaryButton:Button?
     )
@@ -18,5 +19,5 @@ interface SKAlertVC:SKComponentVC {
     data class Button(val label:String, val action:(()->Unit)?)
 
     var state: Shown?
-
+    var inputText:String?
 }

@@ -7,6 +7,7 @@ import kotlin.test.assertTrue
 
 class SKAlertViewMock : SKComponentViewMock(), SKAlertVC {
     override var state: SKAlertVC.Shown? = null
+    override var inputText: String? = null
 }
 
 fun SKAlertVC.assertCloseOnTapMainButton(rule:String? = null) {
@@ -37,7 +38,8 @@ fun SKAlertVC.assertDisplayedWith(
     title: String? = null,
     message: String? = null,
     mainButtonLabel:String? = null,
-    secondaryButtonLabel:String? = null
+    secondaryButtonLabel:String? = null,
+    inputText:String? = null
 ) {
     val errorPrefix = rule?.let { "$it -> " } ?: ""
     assertTrue("${errorPrefix}une alerte doit être affichée") {
@@ -77,6 +79,17 @@ fun SKAlertVC.assertDisplayedWith(
             message = "${errorPrefix}le label du bouton secondaire doit être correct",
             expected = it,
             actual = state?.secondaryButton?.label
+        )
+    }
+
+    inputText?.let {
+        assertTrue("${errorPrefix}l'alerte doit avoir un champ input") {
+            state?.withInput == true
+        }
+        assertEquals(
+            message = "${errorPrefix}le contenu du champ input doit être correct",
+            expected = it,
+            actual = this.inputText
         )
     }
 

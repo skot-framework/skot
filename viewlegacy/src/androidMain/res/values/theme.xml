@@ -9,4 +9,6 @@
     <attr name="sk_combo_choice_text_color" format="reference" />
     <attr name="sk_combo_choice_text_colored_color" format="reference" />
 
+    <attr name="sk_alert_input_style" format="reference" />
+
 </resources>

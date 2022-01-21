@@ -8,4 +8,11 @@
     <style name="sk_input_with_suggestions_style_text_input_layout_default" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu" />
 
     <style name="sk_input_with_suggestions_style_auto_complete_text_view_default" parent="sk_combo_style_auto_complete_text_view_default" />
+
+    <style name="sk_alert_input_style_default">
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:padding">6dp</item>
+    </style>
 </resources>

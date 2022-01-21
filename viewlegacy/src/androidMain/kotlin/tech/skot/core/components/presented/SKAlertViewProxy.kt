@@ -11,10 +11,17 @@ class SKAlertViewProxy() : SKComponentViewProxy<Unit>(), SKAlertVC {
 
     override var state: SKAlertVC.Shown? by stateLD
 
+    private val inputTextLD =  MutableSKLiveData<String?>(null)
+
+    override var inputText: String? by inputTextLD
+
     override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: Unit) =
             SKAlertView(this, activity, fragment).apply {
                 stateLD.observe {
                     onState(it)
+                }
+                inputTextLD.observe {
+                    onInputText(it)
                 }
             }
 

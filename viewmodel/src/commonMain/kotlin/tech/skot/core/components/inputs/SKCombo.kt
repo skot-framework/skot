@@ -9,7 +9,7 @@ abstract class SKBaseCombo<D : Any?, V : SKComboVC>(
     private val colored: ((data: D) -> Boolean)?,
     private val striked: ((data: D) -> Boolean)?,
     private val onSelected: ((data: D) -> Unit)?,
-    ) : SKComponent<V>() {
+) : SKComponent<V>() {
 
     var choices: List<D> = emptyList()
         set(newVal) {
@@ -50,6 +50,7 @@ abstract class SKBaseCombo<D : Any?, V : SKComboVC>(
 
 class SKCombo<D : Any?>(
     hint: String? = null,
+    error: String? = null,
     initialChoices: List<D> = emptyList(),
     enabled: Boolean = true,
     label: ((data: D) -> String)? = null,
@@ -57,7 +58,7 @@ class SKCombo<D : Any?>(
     colored: ((data: D) -> Boolean)? = null,
     striked: ((data: D) -> Boolean)? = null,
     onSelected: ((data: D) -> Unit)? = null
-    ) : SKBaseCombo<D, SKComboVC>(
+) : SKBaseCombo<D, SKComboVC>(
     onSelected = onSelected,
     label = label,
     inputText = inputText,
@@ -66,6 +67,7 @@ class SKCombo<D : Any?>(
 ) {
     override val view = coreViewInjector.combo(
         hint = hint,
+        errorInitial = error,
         choicesInitial = initialChoices.map { it.toChoice() },
         onSelected = onSelectedLambda(),
         selectedInitial = null,

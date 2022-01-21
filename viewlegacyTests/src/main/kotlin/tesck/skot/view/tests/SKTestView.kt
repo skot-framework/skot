@@ -30,32 +30,34 @@ abstract class SKTestView {
     }
 
 
-    fun dummyButton(toast: String? = null, label:String? = null, ): SKButtonViewProxy = SKButtonViewProxy(
-        onTapInitial = toast?.let { toast(it) },
-        labelInitial = label,
-        enabledInitial = null,
-        hiddenInitial = null
-    )
+    fun dummyButton(toast: String? = null, label: String? = null): SKButtonViewProxy =
+        SKButtonViewProxy(
+            onTapInitial = toast?.let { toast(it) },
+            labelInitial = label,
+            enabledInitial = null,
+            hiddenInitial = null
+        )
 
-    fun dummyCombo(selected:String = "choice"):SKComboViewProxy {
+    fun dummyCombo(selected: String = "choice"): SKComboViewProxy {
         val choice = SKComboVC.Choice(selected)
         return SKComboViewProxy(
             hint = null,
+            errorInitial = null,
             onSelected = null,
             choicesInitial = listOf(choice),
-            selectedInitial =  choice,
+            selectedInitial = choice,
             enabledInitial = null,
             hiddenInitial = null,
             dropDownDisplayedInitial = false
         )
     }
 
-    fun dummyBox(vararg component:SKComponentViewProxy<*>) = SKBoxViewProxy(
+    fun dummyBox(vararg component: SKComponentViewProxy<*>) = SKBoxViewProxy(
         itemsInitial = component.asList(),
         hiddenInitial = false,
     )
 
-    fun dummyList(vararg component:SKComponentViewProxy<*>) = SKListViewProxy(
+    fun dummyList(vararg component: SKComponentViewProxy<*>) = SKListViewProxy(
         vertical = true,
         reverse = false,
         nbColumns = null,
@@ -63,7 +65,7 @@ abstract class SKTestView {
         animateItem = false
     ).apply { setItems(*component) }
 
-    fun dummyInput(text:String? = null, hint:String? = null) = SKInputViewProxy(
+    fun dummyInput(text: String? = null, hint: String? = null) = SKInputViewProxy(
         maxSize = null,
         onDone = null,
         onFocusChange = null,
@@ -77,7 +79,7 @@ abstract class SKTestView {
         showPasswordInitial = null
     )
 
-    fun dummySimpleInput(text:String? = null, hint:String? = null) = SKSimpleInputViewProxy(
+    fun dummySimpleInput(text: String? = null, hint: String? = null) = SKSimpleInputViewProxy(
         maxSize = null,
         onDone = null,
         onFocusChange = null,
@@ -100,12 +102,12 @@ abstract class SKTestView {
 
     fun dummyLargeText() = dummyMediumText() + dummyMediumText() + dummyMediumText()
 
-    fun SKListViewProxy.setItems(vararg component:SKComponentViewProxy<*>) {
+    fun SKListViewProxy.setItems(vararg component: SKComponentViewProxy<*>) {
         this.items = component.map {
             Triple(it, it, null)
         }
     }
 
-    fun string(res:Int) = ApplicationProvider.getApplicationContext<Context>().getString(res)
+    fun string(res: Int) = ApplicationProvider.getApplicationContext<Context>().getString(res)
 
 }

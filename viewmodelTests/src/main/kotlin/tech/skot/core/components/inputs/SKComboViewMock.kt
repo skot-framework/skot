@@ -4,14 +4,16 @@ import tech.skot.core.components.SKComponentViewMock
 
 class SKComboViewMock(
     hint: String?,
+    errorInitial: String?,
     onSelected: ((choice: Any?) -> Unit)?,
     choicesInitial: List<SKComboVC.Choice>,
     selectedInitial: SKComboVC.Choice?,
     enabledInitial: Boolean?,
     hiddenInitial: Boolean?,
     dropDownDisplayedInitial: Boolean
-): SKComponentViewMock(), SKComboVC {
+) : SKComponentViewMock(), SKComboVC {
     override val hint: String? = hint
+    override var error: String? = errorInitial
     override val onSelected: ((choice: Any?) -> Unit)? = onSelected
     override var choices: List<SKComboVC.Choice> = choicesInitial
     override var selected: SKComboVC.Choice? = selectedInitial

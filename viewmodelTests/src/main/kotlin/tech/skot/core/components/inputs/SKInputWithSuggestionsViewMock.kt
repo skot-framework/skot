@@ -4,6 +4,7 @@ import tech.skot.core.components.SKComponentViewMock
 
 class SKInputWithSuggestionsViewMock(
     hint: String?,
+    errorInitial: String?,
     onSelected: ((choice: Any?) -> Unit)?,
     choicesInitial: List<SKComboVC.Choice>,
     selectedInitial: SKComboVC.Choice?,
@@ -11,10 +12,9 @@ class SKInputWithSuggestionsViewMock(
     hiddenInitial: Boolean?,
     dropDownDisplayedInitial: Boolean,
     onInputText: (input: String?) -> Unit
-): SKComponentViewMock(), SKInputWithSuggestionsVC {
+) : SKComponentViewMock(), SKInputWithSuggestionsVC {
     override val onInputText: (input: String?) -> Unit = onInputText
-
-
+    override var error: String? = errorInitial
     override val hint: String? = hint
     override val onSelected: ((choice: Any?) -> Unit)? = onSelected
     override var choices: List<SKComboVC.Choice> = choicesInitial
@@ -25,9 +25,9 @@ class SKInputWithSuggestionsViewMock(
 
     var requestFocusCounter = 0
     override fun requestFocus() {
-        requestFocusCounter ++
+        requestFocusCounter++
     }
 }
 
-fun SKInputWithSuggestionsVC.requestFocusCount():Int =
+fun SKInputWithSuggestionsVC.requestFocusCount(): Int =
     (this as SKInputViewMock).requestFocusCounter

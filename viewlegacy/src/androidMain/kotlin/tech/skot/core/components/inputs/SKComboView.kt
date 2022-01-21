@@ -7,14 +7,13 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
-import tech.skot.core.SKLog
 import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKComponentView
+import tech.skot.view.extensions.getColorFromAttr
 import tech.skot.view.extensions.setVisible
 import tech.skot.view.extensions.strike
 import tech.skot.viewlegacy.R
 import tech.skot.viewlegacy.databinding.SkComboBinding
-import tech.skot.view.extensions.getColorFromAttr
 
 class SKComboView(
     override val proxy: SKComboViewProxy,
@@ -104,6 +103,10 @@ abstract class SKCommonComboView<Binding : Any>(
         inputLayout.hint = hint
     }
 
+    fun onError(error: String?) {
+        inputLayout.error = error
+    }
+
     protected var lockSelectedReaction = false
 
     fun onOnSelected(onSelected: ((data: Any?) -> Unit)?) {
@@ -136,8 +139,8 @@ abstract class SKCommonComboView<Binding : Any>(
         autoComplete.strike(selected?.strikethrough == true)
         autoComplete.setTextColor(
             activity.getColorFromAttr(
-                    if (selected?.colored == true) R.attr.sk_combo_choice_text_colored_color else R.attr.sk_combo_choice_text_color
-                )
+                if (selected?.colored == true) R.attr.sk_combo_choice_text_colored_color else R.attr.sk_combo_choice_text_color
+            )
         )
         lockSelectedReaction = false
     }

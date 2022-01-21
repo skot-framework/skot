@@ -5,6 +5,7 @@ import tech.skot.core.di.coreViewInjector
 
 class SKInputWithSuggestions<D : Any?>(
     hint: String? = null,
+    errorInitial: String? = null,
     initialChoices: List<D> = emptyList(),
     enabled: Boolean = true,
     onSelected: ((data: D) -> Unit)? = null,
@@ -23,6 +24,7 @@ class SKInputWithSuggestions<D : Any?>(
 ) {
     override val view = coreViewInjector.inputWithSuggestions(
         hint = hint,
+        errorInitial = errorInitial,
         choicesInitial = initialChoices.map { it.toChoice() },
         onSelected = onSelectedLambda(),
         selectedInitial = null,

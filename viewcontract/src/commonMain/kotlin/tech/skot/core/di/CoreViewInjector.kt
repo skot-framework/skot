@@ -51,6 +51,7 @@ interface CoreViewInjector {
 
     fun combo(
         hint: String?,
+        errorInitial: String?,
         onSelected: ((choice: Any?) -> Unit)?,
         choicesInitial: List<SKComboVC.Choice>,
         selectedInitial: SKComboVC.Choice?,
@@ -61,6 +62,7 @@ interface CoreViewInjector {
 
     fun inputWithSuggestions(
         hint: String?,
+        errorInitial: String?,
         onSelected: ((choice: Any?) -> Unit)?,
         choicesInitial: List<SKComboVC.Choice>,
         selectedInitial: SKComboVC.Choice?,

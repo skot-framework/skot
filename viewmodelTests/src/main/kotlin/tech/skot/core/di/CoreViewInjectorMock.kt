@@ -5,7 +5,7 @@ import tech.skot.core.components.inputs.*
 import tech.skot.core.components.presented.*
 import tech.skot.core.view.Icon
 
-class CoreViewInjectorMock: CoreViewInjector {
+class CoreViewInjectorMock : CoreViewInjector {
     override fun rootStack(): SKStackVC {
         return SKRootStackViewMock
     }
@@ -89,7 +89,19 @@ class CoreViewInjectorMock: CoreViewInjector {
         enabledInitial: Boolean?,
         showPasswordInitial: Boolean?
     ): SKInputVC {
-        return SKInputViewMock(onInputText, type, maxSize, onFocusChange, onDone, hintInitial, textInitial, errorInitial, hiddenInitial, enabledInitial, showPasswordInitial)
+        return SKInputViewMock(
+            onInputText,
+            type,
+            maxSize,
+            onFocusChange,
+            onDone,
+            hintInitial,
+            textInitial,
+            errorInitial,
+            hiddenInitial,
+            enabledInitial,
+            showPasswordInitial
+        )
     }
 
     override fun inputSimple(
@@ -105,11 +117,24 @@ class CoreViewInjectorMock: CoreViewInjector {
         enabledInitial: Boolean?,
         showPasswordInitial: Boolean?
     ): SKSimpleInputVC {
-        return SKSimpleInputViewMock(onInputText, type, maxSize, onFocusChange, onDone, hintInitial, textInitial, errorInitial, hiddenInitial, enabledInitial, showPasswordInitial)
+        return SKSimpleInputViewMock(
+            onInputText,
+            type,
+            maxSize,
+            onFocusChange,
+            onDone,
+            hintInitial,
+            textInitial,
+            errorInitial,
+            hiddenInitial,
+            enabledInitial,
+            showPasswordInitial
+        )
     }
 
     override fun combo(
         hint: String?,
+        errorInitial: String?,
         onSelected: ((choice: Any?) -> Unit)?,
         choicesInitial: List<SKComboVC.Choice>,
         selectedInitial: SKComboVC.Choice?,
@@ -117,11 +142,21 @@ class CoreViewInjectorMock: CoreViewInjector {
         hiddenInitial: Boolean?,
         dropDownDisplayedInitial: Boolean
     ): SKComboVC {
-        return SKComboViewMock(hint, onSelected, choicesInitial, selectedInitial, enabledInitial, hiddenInitial, dropDownDisplayedInitial)
+        return SKComboViewMock(
+            hint,
+            errorInitial,
+            onSelected,
+            choicesInitial,
+            selectedInitial,
+            enabledInitial,
+            hiddenInitial,
+            dropDownDisplayedInitial
+        )
     }
 
     override fun inputWithSuggestions(
         hint: String?,
+        errorInitial: String?,
         onSelected: ((choice: Any?) -> Unit)?,
         choicesInitial: List<SKComboVC.Choice>,
         selectedInitial: SKComboVC.Choice?,
@@ -130,7 +165,17 @@ class CoreViewInjectorMock: CoreViewInjector {
         dropDownDisplayedInitial: Boolean,
         onInputText: (input: String?) -> Unit
     ): SKInputWithSuggestionsVC {
-        return SKInputWithSuggestionsViewMock(hint, onSelected, choicesInitial, selectedInitial, enabledInitial, hiddenInitial, dropDownDisplayedInitial, onInputText)
+        return SKInputWithSuggestionsViewMock(
+            hint,
+            errorInitial,
+            onSelected,
+            choicesInitial,
+            selectedInitial,
+            enabledInitial,
+            hiddenInitial,
+            dropDownDisplayedInitial,
+            onInputText
+        )
     }
 
     override fun button(

@@ -16,7 +16,7 @@ fun Generator.generateStatesMocks(rootState: StateDef) {
             addSuperinterface(contractClassName)
             addPrimaryConstructorWithParams(
                 parentsList.map {
-                    ParamInfos(it.name.decapitalizeAsciiOnly(), it.mockClassName)
+                    ParamInfos(it.name.decapitalizeAsciiOnly(), it.mockClassName, modifiers = listOf(KModifier.OVERRIDE))
                 } + compositeParts.map {
                     ParamInfos(it.name.decapitalizeAsciiOnly(), it.mock, modifiers = listOf(KModifier.OVERRIDE))
                 } +

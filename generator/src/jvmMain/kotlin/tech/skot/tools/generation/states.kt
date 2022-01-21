@@ -9,8 +9,19 @@ import org.jetbrains.kotlin.util.capitalizeDecapitalize.decapitalizeAsciiOnly
 fun Generator.generateStates(rootState: StateDef) {
 
     fun StateDef.generate() {
-
         contractClassName.fileInterfaceBuilder {
+
+
+            parentsList.forEach {
+                addProperty(
+                    PropertySpec.builder(
+                        it.nameAsProperty,
+                        it.contractClassName
+                    )
+                        .build()
+                )
+            }
+
             (subStates + compositeSubStates).forEach {
                 addProperty(
                     PropertySpec.builder(
@@ -78,7 +89,7 @@ fun Generator.generateStates(rootState: StateDef) {
             if (isCompositeState) {
                 addPrimaryConstructorWithParams(
                     parentsList.map {
-                        ParamInfos(it.name.decapitalizeAsciiOnly(), it.modelClassName)
+                        ParamInfos(it.name.decapitalizeAsciiOnly(), it.modelClassName, modifiers = listOf(KModifier.OVERRIDE))
                     } + compositeParts.map {
                         ParamInfos(it.name.decapitalizeAsciiOnly(), it.model, modifiers = listOf(KModifier.OVERRIDE))
                     }
@@ -109,7 +120,7 @@ fun Generator.generateStates(rootState: StateDef) {
             } else {
                 addPrimaryConstructorWithParams(
                     parentsList.map {
-                        ParamInfos(it.name.decapitalizeAsciiOnly(), it.modelClassName)
+                        ParamInfos(it.name.decapitalizeAsciiOnly(), it.modelClassName, modifiers = listOf(KModifier.OVERRIDE))
                     } + ParamInfos("infos", this@generate.infosClassName, isVal = false)
                 )
 

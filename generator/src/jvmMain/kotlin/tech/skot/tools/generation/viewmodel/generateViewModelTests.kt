@@ -5,10 +5,12 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.asTypeName
+import tech.skot.core.components.SKNoVM
 import tech.skot.tools.generation.AndroidClassNames
 import tech.skot.tools.generation.FrameworkClassNames
 import tech.skot.tools.generation.Generator
 import tech.skot.tools.generation.fileClassBuilder
+import kotlin.reflect.full.hasAnnotation
 
 @ExperimentalStdlibApi
 fun Generator.generateViewModelTests() {
@@ -37,21 +39,22 @@ fun Generator.generateViewModelTests() {
     }
     components.forEach {
 
-        it.viewModelTester().fileClassBuilder {
-            primaryConstructor(
-                FunSpec.constructorBuilder()
-                    .addParameter("component", it.viewModel())
-                    .build()
-            )
-            superclass(
-                FrameworkClassNames.skViewModelTester.parameterizedBy(
-                    it.viewMock(),
-                    if (it.hasModel()) it.modelMock() else Unit::class.asTypeName()
+        if (!it.vc.hasAnnotation<SKNoVM>()) {
+            it.viewModelTester().fileClassBuilder {
+                primaryConstructor(
+                    FunSpec.constructorBuilder()
+                        .addParameter("component", it.viewModel())
+                        .build()
                 )
-            )
-            addSuperclassConstructorParameter("component")
-        }.writeTo(generatedJvmTestSources(modules.viewmodel))
-
+                superclass(
+                    FrameworkClassNames.skViewModelTester.parameterizedBy(
+                        it.viewMock(),
+                        if (it.hasModel()) it.modelMock() else Unit::class.asTypeName()
+                    )
+                )
+                addSuperclassConstructorParameter("component")
+            }.writeTo(generatedJvmTestSources(modules.viewmodel))
+        }
         if (!it.testViewModel().existsJvmTestInModule(modules.viewmodel)) {
             it.testViewModel().fileClassBuilder {
                 superclass(abstractTestScreen)

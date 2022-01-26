@@ -1,8 +1,8 @@
 package tech.skot.tools.generation
 
-import java.nio.file.Paths
 import tech.skot.core.components.SKScreenVC
 import tech.skot.tools.generation.viewmodel.InitializationPlan
+import java.nio.file.Paths
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
 
@@ -44,7 +44,6 @@ fun buildGenerator(args: Array<String>):Generator {
 
 
     val strBaseActivity = args[3]
-    val rootPath = Paths.get(args[4])
 
     println("########   $appPackage$strBaseActivity")
     val baseActivity =
@@ -59,16 +58,18 @@ fun buildGenerator(args: Array<String>):Generator {
 
     println("########   ${baseActivity.simpleName} ${baseActivity.packageName}")
 
-    if (! startClass.isScreenVC()) {
+    if (!startClass.isScreenVC()) {
         throw IllegalArgumentException("Start class ${args[0]} is not a ScreenVC !")
     }
+
+    val rootPath = Paths.get(args[4])
+    println("########   rootPath $rootPath")
 
     val feature =
         if (args[5] != "null") {
             println("########   feature = ${args[5]}")
             args[5]
-        }
-        else {
+        } else {
             null
         }
 
@@ -82,15 +83,18 @@ fun buildGenerator(args: Array<String>):Generator {
             else {
                 argBaseActVar
             }
-        }
-        else {
+        } else {
             null
         }
 
-//    val initPlan =  Class.forName("com.sezane.tracking.FirebasePdt").kotlin.createInstance() as InitializationPlan
+    val initPlans =
+        if (args[7] == "null") {
+            emptyList<InitializationPlan>()
+        } else {
+            args[7].split("_").filterNot { it.isBlank() }
+                .map { Class.forName(it).kotlin.createInstance() as InitializationPlan }
+        }
 
-//    val initPlansStr =
-    val initPlans = args[7].split("_").filterNot { it.isBlank() }.map { Class.forName(it).kotlin.createInstance() as InitializationPlan }
 
     return Generator(
         appPackage,

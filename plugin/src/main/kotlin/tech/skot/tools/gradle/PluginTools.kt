@@ -1,15 +1,11 @@
 package tech.skot.tools.gradle
 
-import com.android.build.gradle.LibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.tasks.Delete
-import org.gradle.api.tasks.Exec
 import org.gradle.kotlin.dsl.*
 import tech.skot.Versions
-import java.nio.file.Files
-import java.nio.file.Files.delete
 
 open class SKPluginToolsExtension {
     //    var startScreen: String? = null
@@ -120,7 +116,11 @@ class PluginTools : Plugin<Project> {
                             (project.parent?.projectDir ?: project.rootDir).toPath().toString(),
                             app.feature ?: "null",
                             app.baseActivityVar ?: "null",
-                            app.initializationPlans.joinToString("_"),
+                            if (app.initializationPlans.isEmpty()) {
+                                "null"
+                            } else {
+                                app.initializationPlans.joinToString("_")
+                            },
                             app.iOs.toString(),
                             app.referenceIconsByVariant.toString()
                         )

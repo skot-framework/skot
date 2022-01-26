@@ -88,6 +88,7 @@ fun Generator.generateViewLegacy() {
     }
 
     generateViewLegacyInjectorImpl(modules.view)
+    generateAndroidTestAbstractTestView()
 }
 
 const val LAYOUT_TEMPLATE = """<?xml version="1.0" encoding="utf-8"?>

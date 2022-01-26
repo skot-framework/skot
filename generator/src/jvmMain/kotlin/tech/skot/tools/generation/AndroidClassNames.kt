@@ -17,6 +17,8 @@ object AndroidClassNames {
     val intent = ClassName("android.content", "Intent")
     val manifest = ClassName("android","Manifest")
 
+    val runBlocking = ClassName("kotlinx.coroutines", "runBlocking")
+    val applicationProvider = ClassName("androidx.test.core.app", "ApplicationProvider")
     object Annotations {
         val before = ClassName("org.junit","Before")
     }

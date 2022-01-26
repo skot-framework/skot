@@ -37,6 +37,7 @@ class PluginViewLegacy: Plugin<Project> {
             res.srcDir("src/androidMain/res_referenced")
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
+
             skVariantsCombinaison(project.rootProject.rootDir.toPath()).forEach {
                 res.srcDir("src/androidMain/res$it")
                 res.srcDir("src/androidMain/res${it}_referenced")
@@ -44,6 +45,10 @@ class PluginViewLegacy: Plugin<Project> {
             }
             res.srcDir("src/androidMain/res")
 
+        }
+
+        sourceSets.getByName("androidTest") {
+            java.srcDir("generated/androidTest/kotlin")
         }
 
         defaultConfig {

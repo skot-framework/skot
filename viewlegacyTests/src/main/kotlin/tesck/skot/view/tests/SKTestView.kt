@@ -3,11 +3,13 @@ package tesck.skot.view.tests
 import android.content.Context
 import android.widget.Toast
 import androidx.test.core.app.ApplicationProvider
+import org.junit.Before
 import tech.skot.core.components.SKBoxViewProxy
 import tech.skot.core.components.SKComponentViewProxy
 import tech.skot.core.components.SKListViewProxy
 import tech.skot.core.components.SKVisiblityListener
 import tech.skot.core.components.inputs.*
+import timber.log.Timber
 
 abstract class SKTestView {
 
@@ -19,6 +21,11 @@ abstract class SKTestView {
             override fun onPause() {
             }
         }
+    }
+
+    @Before
+    fun initSKTestView(){
+        Timber.plant(Timber.DebugTree())
     }
 
     fun toast(message: String): () -> Unit = {
@@ -109,5 +116,8 @@ abstract class SKTestView {
     }
 
     fun string(res: Int) = ApplicationProvider.getApplicationContext<Context>().getString(res)
+
+    val context:Context
+        get() = ApplicationProvider.getApplicationContext()
 
 }

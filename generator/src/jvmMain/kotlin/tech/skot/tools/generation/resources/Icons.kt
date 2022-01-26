@@ -76,6 +76,22 @@ fun Generator.generateIcons() {
     }
         .writeTo(generatedAndroidSources(feature ?: modules.app, if (referenceIconsByVariant) mainVariant else null))
 
+    println("generate Icons android for view androidTests .........")
+    iconsImpl.fileClassBuilder(listOf(viewR)) {
+        addProperties(
+            icons.map {
+                PropertySpec.builder(
+                    it.toIconsPropertyName(),
+                    tech.skot.core.view.Icon::class
+                )
+                    .initializer("Icon(R.drawable.$it)")
+                    .build()
+            }
+        )
+    }
+        .writeTo(generatedAndroidTestSources(modules.view, if (referenceIconsByVariant) mainVariant else null))
+
+
     println("generate Icons mock  .........")
     iconsMock.fileClassBuilder {
         addSuperinterface(iconsInterface)

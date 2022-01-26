@@ -73,6 +73,28 @@ fun Generator.generateStrings() {
     }
             .writeTo(generatedAndroidSources(feature ?: modules.app))
 
+    println("generate Strings for view androidTest")
+    stringsImpl.fileClassBuilder(listOf(viewR)) {
+        addPrimaryConstructorWithParams(listOf(ParamInfos("applicationContext", AndroidClassNames.context, listOf(KModifier.PRIVATE))))
+        addFunction(
+            FunSpec.builder("get")
+                .addModifiers(KModifier.PRIVATE)
+                .addParameter("strId", Int::class)
+                .returns(String::class)
+                .addStatement("return applicationContext.getString(strId)")
+                .build()
+        )
+        addProperties(
+            strings.map {
+                PropertySpec.builder(it.toStringsPropertyName(), String::class)
+                    .getter(FunSpec.getterBuilder().addStatement("return get(R.string.${it.replace('.', '_')})").build())
+                    .build()
+            }
+        )
+    }
+        .writeTo(generatedAndroidTestSources(modules.view))
+
+
     println("generate Strings jvm mock .........")
     stringsMock.fileClassBuilder() {
         addSuperinterface(stringsInterface)

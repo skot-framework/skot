@@ -153,7 +153,7 @@ class Generator(
     val stylesImpl = ClassName(appPackage, "StylesImpl")
     val stylesMock = ClassName(appPackage, "StylesMock")
 
-
+    val initializeView = ClassName("${appPackage}.di", "initializeView")
 
     val skBuild = ClassName(appPackage, "SKBuild")
     val generatedAppModules = ClassName("$appPackage.di", "generatedAppModules")
@@ -272,11 +272,17 @@ class Generator(
     fun generatedJvmTestSources(module: String, combinaison: String? = null) =
         rootPath.resolve("$module/generated${combinaison ?: ""}/jvmTest/kotlin")
 
+    fun generatedAndroidTestSources(module: String, combinaison: String? = null) =
+        rootPath.resolve("$module/generated${combinaison ?: ""}/androidTest/kotlin")
+
     fun generatedAndroidSources(module: String, combinaison: String? = null) =
         rootPath.resolve("$module/generated${combinaison ?: ""}/androidMain/kotlin")
 
     fun androidSources(module: String) =
         rootPath.resolve("$module/src/androidMain/kotlin")
+
+    fun androidTestSources(module: String) =
+        rootPath.resolve("$module/src/androidTest/kotlin")
 
     fun deleteModuleGenerated(module: String) {
         rootPath.resolve("$module/generated").toFile().deleteRecursively()
@@ -401,6 +407,12 @@ class Generator(
     fun ClassName.existsAndroidInModule(module: String) =
         Files.exists(
             androidSources(module).resolve(packageName.packageToPathFragment())
+                .resolve("$simpleName.kt")
+        )
+
+    fun ClassName.existsAndroidTestInModule(module: String) =
+        Files.exists(
+            androidTestSources(module).resolve(packageName.packageToPathFragment())
                 .resolve("$simpleName.kt")
         )
 

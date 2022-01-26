@@ -22,7 +22,7 @@ kotlin {
                 api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
                 api("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
-                implementation(project(":core"))
+                api(project(":core"))
                 implementation(project(":viewmodel"))
                 implementation(project(":viewcontract"))
                 implementation(project(":modelcontract"))

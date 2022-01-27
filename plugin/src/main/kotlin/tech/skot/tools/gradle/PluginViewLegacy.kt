@@ -49,6 +49,9 @@ class PluginViewLegacy: Plugin<Project> {
 
         sourceSets.getByName("androidTest") {
             java.srcDir("generated/androidTest/kotlin")
+            skVariantsCombinaison(project.rootProject.rootDir.toPath()).forEach {
+                java.srcDir("generated$it/androidTest/kotlin")
+            }
         }
 
         defaultConfig {

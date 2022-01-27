@@ -153,18 +153,16 @@ abstract class SKCommonComboView<Binding : Any>(
         hidden?.let { inputLayout.setVisible(!it) }
     }
 
-    init {
-        autoComplete.setOnDismissListener {
-
-        }
-    }
 
     fun onDropDownDisplayed(state: Boolean) {
-        if (state) {
-            autoComplete.showDropDown()
-        } else {
-            autoComplete.dismissDropDown()
+        autoComplete.post {
+            if (state) {
+                autoComplete.showDropDown()
+            } else {
+                autoComplete.dismissDropDown()
+            }
         }
+
     }
 
 }

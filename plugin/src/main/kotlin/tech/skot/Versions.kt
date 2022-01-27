@@ -4,7 +4,7 @@ import kotlin.Int
 import kotlin.String
 
 object Versions {
-  const val skot: String = "1.1.4"
+  const val skot: String = "1.1.5"
 
   const val group: String = "tech.skot"
 
@@ -27,4 +27,6 @@ object Versions {
   const val android_targetSdk: Int = 31
 
   const val android_app_compat: String = "1.4.0"
+
+  const val sqldelight: String = "1.5.3"
 }

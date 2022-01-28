@@ -1,5 +1,6 @@
 package tech.skot.core.components.presented
 
+import tech.skot.core.SKLog
 import tech.skot.core.components.SKComponentViewMock
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -95,10 +96,21 @@ fun SKAlertVC.assertDisplayedWith(
 
 }
 
+
 fun SKAlertVC.userTapMainButton() {
-    state?.mainButton?.action?.invoke() ?: throw Exception("Pas de main bouton")
+    state?.mainButton?.let { button ->
+        state = null
+        button.action?.invoke()
+        Unit
+    } ?: throw Exception("Pas de main bouton")
 }
 
+
+
 fun SKAlertVC.userTapSecondaryButton() {
-    state?.secondaryButton?.action?.invoke() ?: throw Exception("Pas de second bouton")
+    state?.secondaryButton?.let { button ->
+        state = null
+        button.action?.invoke()
+        Unit
+    } ?: throw Exception("Pas de secondary bouton")
 }

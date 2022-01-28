@@ -16,7 +16,7 @@ interface SKAlertVC:SKComponentVC {
             val secondaryButton:Button?
     )
 
-    data class Button(val label:String, val action:(()->Unit)?)
+    data class Button(val label:String, val action:(()->Unit)? = null)
 
     var state: Shown?
     var inputText:String?

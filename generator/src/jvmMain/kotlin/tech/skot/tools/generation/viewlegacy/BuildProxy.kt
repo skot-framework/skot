@@ -71,14 +71,16 @@ fun ComponentDef.buildProxy(
                             name = it.name,
                             typeName = it.type,
                             modifiers = listOf(KModifier.OVERRIDE),
-                            isVal = true
+                            isVal = true,
+                            default = if (it.type.isNullable) "null" else null
                         )
                     } +
                     mutableProperties.map {
                         ParamInfos(
                             name = it.name.initial(),
                             typeName = it.type,
-                            isVal = false
+                            isVal = false,
+                            default = if (it.type.isNullable) "null" else null
                         )
                     }
         )

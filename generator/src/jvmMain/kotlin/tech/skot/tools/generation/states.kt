@@ -15,7 +15,7 @@ fun Generator.generateStates(rootState: StateDef) {
             parentsList.forEach {
                 addProperty(
                     PropertySpec.builder(
-                        it.nameAsProperty,
+                        it.name.decapitalizeAsciiOnly(),
                         it.contractClassName
                     )
                         .build()

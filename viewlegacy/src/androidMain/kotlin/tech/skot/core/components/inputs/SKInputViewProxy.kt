@@ -10,6 +10,7 @@ import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKComponentViewProxy
 import tech.skot.view.live.MutableSKLiveData
 import tech.skot.view.live.SKMessage
+import tech.skot.viewlegacy.R
 
 abstract class SKInputViewProxyCommon<V : View>(
     override val maxSize: Int?,
@@ -99,17 +100,17 @@ abstract class SKInputViewProxyCommon<V : View>(
 
 
 class SKInputViewProxy(
-    maxSize: Int?,
-    onDone: Function1<String?, Unit>?,
-    onFocusChange: ((hasFocus:Boolean) -> Unit)?,
+    maxSize: Int? = null,
+    onDone: Function1<String?, Unit>? = null,
+    onFocusChange: ((hasFocus:Boolean) -> Unit)? = null,
     onInputText: Function1<String?, Unit>,
-    type: SKInputVC.Type?,
-    enabledInitial: Boolean?,
-    errorInitial: String?,
-    hiddenInitial: Boolean?,
-    hintInitial: String?,
-    textInitial: String?,
-    showPasswordInitial: Boolean?
+    type: SKInputVC.Type? = null,
+    enabledInitial: Boolean? = null,
+    errorInitial: String? = null,
+    hiddenInitial: Boolean? = null,
+    hintInitial: String? = null,
+    textInitial: String? = null,
+    showPasswordInitial: Boolean? = null
 ) : SKInputViewProxyCommon<TextInputLayout>(
     maxSize,
     onDone,
@@ -129,7 +130,7 @@ class SKInputViewProxy(
     }
 
     override val layoutId: Int?
-        get() = LAYOUT_ID
+        get() = LAYOUT_ID ?: R.layout.sk_input
 
     override fun createView(
         activity: SKActivity,
@@ -140,17 +141,17 @@ class SKInputViewProxy(
 
 
 class SKSimpleInputViewProxy(
-    maxSize: Int?,
-    onDone: Function1<String?, Unit>?,
-    onFocusChange: ((hasFocus:Boolean) -> Unit)?,
+    maxSize: Int? = null,
+    onDone: Function1<String?, Unit>? = null,
+    onFocusChange: ((hasFocus:Boolean) -> Unit)? = null,
     onInputText: Function1<String?, Unit>,
-    type: SKInputVC.Type?,
-    enabledInitial: Boolean?,
-    errorInitial: String?,
-    hiddenInitial: Boolean?,
-    hintInitial: String?,
-    textInitial: String?,
-    showPasswordInitial: Boolean?
+    type: SKInputVC.Type? = null,
+    enabledInitial: Boolean? = null,
+    errorInitial: String? = null,
+    hiddenInitial: Boolean? = null,
+    hintInitial: String? = null,
+    textInitial: String? = null,
+    showPasswordInitial: Boolean? = null
 ) : SKInputViewProxyCommon<EditText>(
     maxSize,
     onDone,
@@ -170,7 +171,7 @@ class SKSimpleInputViewProxy(
     }
 
     override val layoutId: Int?
-        get() = LAYOUT_ID
+        get() = LAYOUT_ID ?: R.layout.sk_simple_input
 
     override fun createView(
         activity: SKActivity,

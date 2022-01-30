@@ -35,8 +35,8 @@ android {
         getByName("main").java.srcDirs("src/androidMain/kotlin")
         getByName("main").java.srcDirs("generated/androidMain/kotlin")
         getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")
-        getByName("androidTest").java.srcDirs("src/ttest/kotlin")
-        getByName("androidTest").res.srcDirs("src/ttest/res")
+        getByName("androidTest").java.srcDirs("src/androidTest/kotlin")
+        getByName("androidTest").res.srcDirs("src/androidTest/res")
     }
 
     buildFeatures {

@@ -6,7 +6,7 @@ import tech.skot.view.live.MutableSKLiveData
 import tech.skot.viewlegacy.R
 
 class SKBoxViewProxy(
-    itemsInitial: List<SKComponentViewProxy<*>>, hiddenInitial: Boolean?,
+    itemsInitial: List<SKComponentViewProxy<*>>, hiddenInitial: Boolean? = false,
     override val asItemVertical: Boolean? = null
 ) :
     SKComponentViewProxy<ViewGroup>(), SKBoxVC {

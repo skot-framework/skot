@@ -9,6 +9,7 @@ import tech.skot.core.components.SKComponentViewProxy
 import tech.skot.core.components.SKListViewProxy
 import tech.skot.core.components.SKVisiblityListener
 import tech.skot.core.components.inputs.*
+import tech.skot.core.view.Icon
 import timber.log.Timber
 
 abstract class SKTestView {
@@ -45,6 +46,12 @@ abstract class SKTestView {
             hiddenInitial = null
         )
 
+    fun dummyImageButton(toast: String? = null, icon:Icon? = null): SKImageButtonViewProxy =
+        SKImageButtonViewProxy(
+            onTapInitial = toast?.let { toast(it) },
+            iconInitial = icon ?: Icon(android.R.drawable.btn_star),
+        )
+
     fun dummyCombo(selected: String = "choice"): SKComboViewProxy {
         val choice = SKComboVC.Choice(selected)
         return SKComboViewProxy(
@@ -59,9 +66,10 @@ abstract class SKTestView {
         )
     }
 
-    fun dummyBox(vararg component: SKComponentViewProxy<*>) = SKBoxViewProxy(
+    fun dummyBox(vararg component: SKComponentViewProxy<*>, asItemVertical:Boolean = false) = SKBoxViewProxy(
         itemsInitial = component.asList(),
         hiddenInitial = false,
+        asItemVertical = asItemVertical
     )
 
     fun dummyList(vararg component: SKComponentViewProxy<*>) = SKListViewProxy(
@@ -99,6 +107,8 @@ abstract class SKTestView {
         textInitial = text,
         showPasswordInitial = null
     )
+
+
 
 
     fun dummyShortText() =

@@ -1,12 +1,15 @@
 package tech.skot.core.components.inputs
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKComponentViewProxy
 import tech.skot.view.live.MutableSKLiveData
 import tech.skot.viewlegacy.R
 import tech.skot.viewlegacy.databinding.SkComboBinding
+import tech.skot.viewlegacy.databinding.SkInputWithSuggestionsBinding
 
 
 class SKComboViewProxy(
@@ -37,6 +40,14 @@ class SKComboViewProxy(
         binding: SkComboBinding
     ) = SKComboView(this, activity, fragment, binding).apply {
         bind()
+    }
+
+    override fun inflate(
+        layoutInflater: LayoutInflater,
+        parent: ViewGroup?,
+        attachToParent: Boolean
+    ): SkComboBinding  = SkComboBinding.inflate(layoutInflater, parent, attachToParent).also {
+        it.root.tag = this.hashCode()
     }
 }
 

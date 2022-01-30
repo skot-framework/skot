@@ -11,15 +11,22 @@ import tech.skot.viewlegacy.R
 
 class SKImageButtonViewProxy(
     onTapInitial: (() -> Unit)?,
-    inconInitial: Icon,
-    enabledInitial: Boolean?,
-    hiddenInitial: Boolean?
+    iconInitial: Icon,
+    enabledInitial: Boolean? = true,
+    hiddenInitial: Boolean? = false
 ) : SKComponentViewProxy<ImageButton>(), SKImageButtonVC {
+
+    companion object {
+        var LAYOUT_ID: Int? = null
+    }
+
+    override val layoutId: Int?
+        get() = LAYOUT_ID ?: R.layout.sk_image_button
 
     private val onTapLD = MutableSKLiveData(onTapInitial)
     override var onTap: (() -> Unit)? by onTapLD
 
-    private val iconLD = MutableSKLiveData(inconInitial)
+    private val iconLD = MutableSKLiveData(iconInitial)
     override var icon by iconLD
 
     private val enabledLD = MutableSKLiveData(enabledInitial)
@@ -27,8 +34,6 @@ class SKImageButtonViewProxy(
 
     private val hiddenLD = MutableSKLiveData(hiddenInitial)
     override var hidden by hiddenLD
-
-    override val layoutId: Int = R.layout.sk_image_button
 
     override fun bindTo(
         activity: SKActivity,

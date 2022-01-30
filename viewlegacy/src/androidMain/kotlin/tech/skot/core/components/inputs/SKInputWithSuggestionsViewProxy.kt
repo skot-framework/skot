@@ -13,14 +13,14 @@ import tech.skot.viewlegacy.databinding.SkInputWithSuggestionsBinding
 
 
 class SKInputWithSuggestionsViewProxy(
-    hint: String?,
-    errorInitial: String?,
-    onSelected: ((choice: Any?) -> Unit)?,
+    hint: String? = null,
+    errorInitial: String? = null,
+    onSelected: ((choice: Any?) -> Unit)? = null,
     choicesInitial: List<SKComboVC.Choice>,
-    selectedInitial: SKComboVC.Choice?,
-    enabledInitial: Boolean?,
-    hiddenInitial: Boolean?,
-    dropDownDisplayedInitial: Boolean,
+    selectedInitial: SKComboVC.Choice? = null,
+    enabledInitial: Boolean? = null,
+    hiddenInitial: Boolean? = null,
+    dropDownDisplayedInitial: Boolean = false,
     override val onInputText: (input: String?) -> Unit,
 ) : SKCommonComboViewProxy<SkInputWithSuggestionsBinding>(
     hint,

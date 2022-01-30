@@ -7,7 +7,13 @@ import tech.skot.view.live.MutableSKLiveData
 import tech.skot.view.live.SKMessage
 import tech.skot.viewlegacy.R
 
-class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean, private val nbColumns:Int?, private val animate:Boolean, private val animateItem:Boolean) : SKComponentViewProxy<RecyclerView>(), SKListVC {
+class SKListViewProxy(
+    private val vertical: Boolean = true,
+    private val reverse: Boolean = false,
+    private val nbColumns: Int? = null,
+    private val animate: Boolean = true,
+    private val animateItem: Boolean = false
+) : SKComponentViewProxy<RecyclerView>(), SKListVC {
 
     private val itemsLD: MutableSKLiveData<List<Triple<SKComponentViewProxy<*>, Any, (()->Unit)?>>> = MutableSKLiveData(emptyList())
 

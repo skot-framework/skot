@@ -1,4 +1,4 @@
-package tesck.skot.view.tests
+package tech.skot.view.tests
 
 import android.content.Context
 import android.widget.Toast

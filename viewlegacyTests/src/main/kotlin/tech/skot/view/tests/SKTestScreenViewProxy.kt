@@ -1,11 +1,11 @@
-package tesck.skot.view.tests
+package tech.skot.view.tests
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import tech.skot.core.components.*
 import tech.skot.viewlegacytests.databinding.TestScreenBinding
-import tesck.skot.view.tests.SKTestView.Companion.dummyVisiblityListener
+import tech.skot.view.tests.SKTestView.Companion.dummyVisiblityListener
 
 class SKTestScreenViewProxy(content: SKComponentViewProxy<*>) :
     SKScreenViewProxy<TestScreenBinding>() {

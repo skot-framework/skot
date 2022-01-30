@@ -20,7 +20,7 @@ object FrameworkClassNames {
 
     val skComponentViewMock = ClassName("tech.skot.core.components", "SKComponentViewMock")
     val skScreenViewMock = ClassName("tech.skot.core.components", "SKScreenViewMock")
-    val skTestView = ClassName("tesck.skot.view.tests", "SKTestView")
+    val skTestView = ClassName("tech.skot.view.tests", "SKTestView")
     val skTestViewModel = ClassName("tech.skot.core.test", "SKTestViewModel")
     val skTestModel = ClassName("tech.skot.model.test", "SKTestModel")
     val skViewModelTester = ClassName("tech.skot.core.test", "SKViewModelTester")

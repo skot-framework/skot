@@ -18,12 +18,16 @@ dependencies {
     api("com.google.android.material:material:${Versions.Android.appcompat}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
+    androidTestImplementation(project(":viewlegacyTests"))
 }
 
 
 android {
     defaultConfig {
         minSdk = Versions.Android.minSdk
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        compileSdk = Versions.Android.compileSdk
+        targetSdk = Versions.Android.targetSdk
     }
     compileSdk = Versions.Android.compileSdk
 
@@ -31,6 +35,8 @@ android {
         getByName("main").java.srcDirs("src/androidMain/kotlin")
         getByName("main").java.srcDirs("generated/androidMain/kotlin")
         getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")
+        getByName("androidTest").java.srcDirs("src/ttest/kotlin")
+        getByName("androidTest").res.srcDirs("src/ttest/res")
     }
 
     buildFeatures {

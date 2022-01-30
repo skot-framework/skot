@@ -37,14 +37,12 @@ class SKListViewProxy(private val vertical:Boolean, private val reverse:Boolean,
                     onItems(it)
                 }
                 saveSignal.observe {
-//                    SKLog.d("SKListViewProxy receive Save Signal")
                     _state = saveState()
                 }
                 srollToPositionMessage.observe {
                     scrollToPosition(it)
                 }
                 _state?.let {
-//                    SKLog.d("SKListViewProxy restoreState")
                     restoreState(it)
                 }
             }

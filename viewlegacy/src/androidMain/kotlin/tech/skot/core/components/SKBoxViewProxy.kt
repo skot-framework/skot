@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import tech.skot.view.live.MutableSKLiveData
 import tech.skot.viewlegacy.R
 
-class SKBoxViewProxy(itemsInitial: List<SKComponentViewProxy<*>>, hiddenInitial:Boolean?) :
+class SKBoxViewProxy(
+    itemsInitial: List<SKComponentViewProxy<*>>, hiddenInitial: Boolean?,
+    override val asItemVertical: Boolean? = null
+) :
     SKComponentViewProxy<ViewGroup>(), SKBoxVC {
 
     private val itemsLD: MutableSKLiveData<List<SKComponentViewProxy<*>>> =
@@ -17,7 +20,8 @@ class SKBoxViewProxy(itemsInitial: List<SKComponentViewProxy<*>>, hiddenInitial:
             itemsLD.postValue(newVal as List<SKComponentViewProxy<*>>)
         }
 
-    override val layoutId = R.layout.sk_box_horizontal
+    override val layoutId =
+        if (asItemVertical == true) R.layout.sk_box_vertical else R.layout.sk_box_horizontal
 
     private val hiddenLD: MutableSKLiveData<Boolean?> = MutableSKLiveData(hiddenInitial)
 

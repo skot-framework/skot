@@ -34,7 +34,7 @@ class SKInputWithSuggestionsViewProxy(
 ),
     SKInputWithSuggestionsVC {
 
-    override val layoutId: Int = R.layout.sk_input_with_suggestions
+    override val layoutId: Int =   R.layout.sk_input_with_suggestions
     override fun bindingOf(view: View): SkInputWithSuggestionsBinding {
         return SkInputWithSuggestionsBinding.bind(view)
     }
@@ -43,7 +43,9 @@ class SKInputWithSuggestionsViewProxy(
         layoutInflater: LayoutInflater,
         parent: ViewGroup?,
         attachToParent: Boolean
-    ): SkInputWithSuggestionsBinding = SkInputWithSuggestionsBinding.inflate(layoutInflater, parent, attachToParent)
+    ): SkInputWithSuggestionsBinding = SkInputWithSuggestionsBinding.inflate(layoutInflater, parent, attachToParent).also {
+        it.root.tag = this.hashCode()
+    }
 
     private val requestFocusMessage = SKMessage<Unit>()
     override fun requestFocus() {

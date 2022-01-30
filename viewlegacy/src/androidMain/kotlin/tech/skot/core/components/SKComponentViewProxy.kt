@@ -111,6 +111,7 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
             if (attachToParent) {
                 parent?.addView(b)
             }
+            b.tag = this.hashCode()
             b as B
         } ?: throw Exception("Vous devez implémenter layoutId ou bien la méthode inflate pour le composant ${this::class.simpleName}")
     }

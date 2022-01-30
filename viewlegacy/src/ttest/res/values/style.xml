@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+
+        <item name="android:windowBackground">#FFFFFF</item>
+
+        <item name="sk_combo_style_text_input_layout">@style/sk_combo_style_text_input_layout_default</item>
+        <item name="sk_combo_style_auto_complete_text_view">@style/sk_combo_style_auto_complete_text_view_default
+        </item>
+        <item name="sk_input_with_suggestions_style_text_input_layout">
+            @style/sk_input_with_suggestions_style_text_input_layout_default
+        </item>
+        <item name="sk_input_with_suggestions_style_auto_complete_text_view">
+            @style/sk_input_with_suggestions_style_auto_complete_text_view_default
+        </item>
+
+        <item name="sk_combo_choice_text_color">?colorPrimary</item>
+        <item name="sk_combo_choice_text_colored_color">?colorAccent</item>
+
+        <item name="sk_alert_input_style">@style/sk_alert_input_style_default</item>
+
+
+    </style>
+</resources>

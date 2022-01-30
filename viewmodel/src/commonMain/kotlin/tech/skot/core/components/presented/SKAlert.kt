@@ -3,10 +3,20 @@ package tech.skot.core.components.presented
 import tech.skot.core.components.SKComponent
 import tech.skot.core.di.coreViewInjector
 
+/**
+ *  # SKAlert
+ *  ## An alert dialog helper component
+ *
+ */
 class SKAlert : SKComponent<SKAlertVC>() {
 
     override val view = coreViewInjector.alert()
 
+    /**
+     * display an alert dialog
+     *
+     * @param title title of the alert dialog
+     */
     fun show(
         title: String? = null,
         message: String?,

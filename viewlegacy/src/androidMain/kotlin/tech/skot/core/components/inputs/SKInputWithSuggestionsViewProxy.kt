@@ -4,11 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import tech.skot.core.SKLog
 import tech.skot.core.components.SKActivity
 import tech.skot.view.live.SKMessage
 import tech.skot.viewlegacy.R
-import tech.skot.viewlegacy.databinding.SkAlertInputBinding
 import tech.skot.viewlegacy.databinding.SkInputWithSuggestionsBinding
 
 

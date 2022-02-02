@@ -134,7 +134,7 @@ fun StarterGenerator.view() {
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
-    <style name="SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="SplashTheme" parent="AppTheme">
         <!--Ici ajouter un background qui sera affiché dès le lancement de l'app, avant le calcul du premier écran-->
         <!--item name="android:windowBackground">@drawable/background_splash</item-->
     </style>

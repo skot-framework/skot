@@ -252,7 +252,9 @@ fun ComponentDef.buildProxy(
                     .addParameter("parent", viewGroup.nullable())
                     .addParameter("attachToParent", Boolean::class)
                     .returns(binding(viewModuleAndroidPackage))
-                    .addCode("return ${binding(viewModuleAndroidPackage).simpleName}.inflate(layoutInflater, parent, attachToParent)")
+                    .beginControlFlow("return ${binding(viewModuleAndroidPackage).simpleName}.inflate(layoutInflater, parent, attachToParent).also")
+                    .addStatement("it.root.tag = this.hashCode()")
+                    .endControlFlow()
                     .build()
             )
 

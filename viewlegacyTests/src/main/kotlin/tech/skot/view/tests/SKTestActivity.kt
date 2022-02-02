@@ -44,7 +44,8 @@ fun testScreen(
 fun testComponent(
     componentViewProxy: SKComponentViewProxy<*>,
     duration: Long = 5 * 60 * 1000L,
+    vertical:Boolean = true,
     block: (suspend CoroutineScope.(scenario: ActivityScenario<SKTestActivity>) -> Unit)? = null
 ) {
-    testScreen(SKTestScreenViewProxy(componentViewProxy), duration, block)
+    testScreen(SKTestScreenViewProxy(componentViewProxy, vertical), duration, block)
 }

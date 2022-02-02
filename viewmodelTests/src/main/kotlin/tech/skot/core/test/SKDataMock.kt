@@ -9,6 +9,8 @@ class SKDataMock<D:Any?>(val name:String): SKData<D> {
 
     private var internalManual:SKManualData<D>? = null
 
+    var error:Exception? = null
+
     fun setValue(newVal:D) {
         val currentInternal = internalManual
         if (currentInternal == null) {
@@ -28,13 +30,13 @@ class SKDataMock<D:Any?>(val name:String): SKData<D> {
     override val defaultValidity: Long
         get() = internalManual?.defaultValidity ?: throw errorNotSetMessage
     override val _current: DatedData<D>?
-        get() = internalManual?._current ?: throw errorNotSetMessage
+        get() =error?.let { throw it } ?:  internalManual?._current ?: throw errorNotSetMessage
 
     override suspend fun update(): D {
-        return internalManual?.update() ?: throw errorNotSetMessage
+        return error?.let { throw it } ?: internalManual?.update() ?: throw errorNotSetMessage
     }
 
     override suspend fun fallBackValue(): D? {
-        return internalManual?.fallBackValue() ?: throw errorNotSetMessage
+        return error?.let { throw it } ?: internalManual?.fallBackValue() ?: throw errorNotSetMessage
     }
 }

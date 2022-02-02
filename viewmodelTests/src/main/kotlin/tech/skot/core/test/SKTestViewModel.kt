@@ -2,9 +2,9 @@ package tech.skot.core.test
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -25,10 +25,11 @@ abstract class SKTestViewModel(vararg modules: Module<InjectorMock>) {
 
     val errorsTreated = mutableListOf<ErrorTreated>()
 
+    val scheduler = TestCoroutineScheduler()
 
     @Before
     fun setUp() {
-        Dispatchers.setMain(StandardTestDispatcher())
+        Dispatchers.setMain(StandardTestDispatcher(scheduler))
         injector = InjectorMock(_modules)
         SKComponent.errorTreatment = { comp, ex, errorMessage ->
             errorsTreated.add(ErrorTreated(comp = comp, ex = ex, errorMessage = errorMessage))
@@ -43,31 +44,28 @@ abstract class SKTestViewModel(vararg modules: Module<InjectorMock>) {
     }
 
 
-    fun SKScreen<*>.isRemoved():Boolean = (view as SKScreenViewMock).removed
-    fun SKScreenVC.isRemoved():Boolean = (this as SKScreenViewMock).removed
+    fun SKScreen<*>.isRemoved(): Boolean = (view as SKScreenViewMock).removed
+    fun SKScreenVC.isRemoved(): Boolean = (this as SKScreenViewMock).removed
 
 
-    val screenOnTop:SKScreen<*>?
+    val screenOnTop: SKScreen<*>?
         get() = SKRootStack.state.screens.lastOrNull()
 
-    fun CoroutineScope.step(
+    suspend fun step(
         model: (() -> Unit)? = null,
         user: (() -> Unit)? = null,
-        test: (suspend CoroutineScope.() -> Unit)? = null,
-        then: (CoroutineScope.() -> Unit)? = null
+        withAdvanceUntilIdle: Boolean = true,
+        test: (suspend () -> Unit)? = null,
     ) {
-        launch {
-            model?.invoke()
-            user?.invoke()
-            test?.let {
-                launch {
-                    it.invoke(this)
-                }
-            }
-            then?.invoke(this)
-        }
+        if (withAdvanceUntilIdle) scheduler.advanceUntilIdle()
+        model?.invoke()
+        if (withAdvanceUntilIdle) scheduler.advanceUntilIdle()
+        user?.invoke()
+        if (withAdvanceUntilIdle) scheduler.advanceUntilIdle()
+        test?.invoke()
     }
 
 }
 
-inline fun <reified C:Any>Any.assertAs():C = (this as? C) ?: fail("not a ${C::class.simpleName} (but ${this::class.simpleName})")
+inline fun <reified C : Any> Any.assertAs(): C =
+    (this as? C) ?: fail("not a ${C::class.simpleName} (but ${this::class.simpleName})")

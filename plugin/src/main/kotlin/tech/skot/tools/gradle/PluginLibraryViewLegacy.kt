@@ -40,14 +40,18 @@ class PluginLibraryViewLegacy: Plugin<Project> {
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
         }
 
-        defaultConfig {
-            minSdkVersion(Versions.android_minSdk)
+        sourceSets.getByName("androidTest") {
+            java.srcDirs("src/androidTest/kotlin")
+            res.srcDirs("src/androidTest/res")
         }
-        compileSdkVersion(Versions.android_compileSdk)
 
-        lintOptions {
-            isAbortOnError = false
+        defaultConfig {
+            minSdk = Versions.android_minSdk
+            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+            targetSdk = Versions.android_compileSdk
         }
+        compileSdk = Versions.android_compileSdk
+
 
         buildFeatures {
             viewBinding = true
@@ -72,6 +76,7 @@ class PluginLibraryViewLegacy: Plugin<Project> {
     private fun DependencyHandlerScope.dependencies() {
         add("implementation", "${Versions.group}:viewlegacy:${Versions.skot}")
         add("implementation", project(":viewmodel"))
+        add("androidTestImplementation", "${Versions.group}:viewlegacyTests:${Versions.skot}")
     }
 
 }

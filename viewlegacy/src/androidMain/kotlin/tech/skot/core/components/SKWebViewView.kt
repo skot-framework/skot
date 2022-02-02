@@ -140,6 +140,14 @@ class SKWebViewView(
 
     }
 
+    fun onRequestGoForward() {
+        webView.goForward()
+    }
+
+    fun onRequestReload() {
+        webView.reload()
+    }
+
     fun Uri.getMapQueryParameters(): Map<String, String> =
         try {
             queryParameterNames.map { it to getQueryParameter(it)!! }.toMap()

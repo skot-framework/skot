@@ -12,4 +12,12 @@ class SKWebView(config: SKWebViewVC.Config, openUrl: SKWebViewVC.OpenUrl?) :
     fun back(onCantBack: (() -> Unit)? = null) {
         view.goBack = SKWebViewVC.BackRequest(onCantBack)
     }
-}
+
+    fun forward() {
+        view.requestGoForward()
+    }
+
+    fun reload() {
+        view.requestReload()
+    }
+ }

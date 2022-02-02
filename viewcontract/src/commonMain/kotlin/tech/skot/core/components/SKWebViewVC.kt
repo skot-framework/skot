@@ -5,6 +5,8 @@ interface SKWebViewVC: SKComponentVC {
     val config:Config
     var openUrl:OpenUrl?
     var goBack:BackRequest?
+    fun requestGoForward()
+    fun requestReload()
 
     data class Config(val userAgent:String?, val redirect:List<RedirectParam> = emptyList())
     data class OpenUrl(val url:String, val onFinished:(()->Unit)? = null, val javascriptOnFinished:String? = null, val onError:(()->Unit)? = null, val post:Map<String,String>? = null)

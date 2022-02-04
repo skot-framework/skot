@@ -29,7 +29,7 @@ class SKAlertView(override val proxy: SKAlertViewProxy, activity: SKActivity, fr
                     .setTitle(state.title)
                     .setMessage(state.message)
                     .setOnDismissListener {
-                        if (state.cancelable) proxy.state = null
+                        proxy.state = null
                     }
                         .setCancelable(state.cancelable)
                         .apply {

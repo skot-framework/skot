@@ -17,8 +17,9 @@ dependencies {
     api("org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
 
-
     api("com.squareup:kotlinpoet:${Versions.kotlinpoet}")
+
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
 }
 
 configurations {

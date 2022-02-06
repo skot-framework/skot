@@ -46,11 +46,11 @@ class PluginApp: Plugin<Project> {
             }
         }
 
-        compileSdkVersion(tech.skot.Versions.android_compileSdk)
+        compileSdk =tech.skot.Versions.android_compileSdk
 
         defaultConfig {
-            minSdkVersion(tech.skot.Versions.android_minSdk)
-            targetSdkVersion(tech.skot.Versions.android_targetSdk)
+            minSdk =tech.skot.Versions.android_minSdk
+            targetSdk =tech.skot.Versions.android_targetSdk
         }
 
         packagingOptions {

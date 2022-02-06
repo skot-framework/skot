@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="15dp"
     android:background="@android:color/transparent"
-    app:colorControlActivated="?colorPrimary">
+    app:colorControlActivated="?colorAccent">
 
     <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"

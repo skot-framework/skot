@@ -17,15 +17,28 @@ kotlin {
             }
         }
     }
-    sourceSets["commonMain"].dependencies {
-        api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
+//    sourceSets["commonMain"].dependencies {
+//        api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
+//        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
+//    }
+
+    sourceSets {
+
+        val commonMain by getting {
+            dependencies {
+                api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
+            }
+        }
+
+        val jvmTest by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+            }
+        }
     }
 
-//    sourceSets {
-//        val iosMain by getting {
-//        }
-//    }
+
 
 
 }

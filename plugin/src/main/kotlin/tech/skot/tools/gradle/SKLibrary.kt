@@ -10,7 +10,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 
 
-data class SKLibrary(val group: String, val version: String) {
+data class SKLibrary(val group: String, val version: String, val viewModule:String) {
 
     companion object {
         fun getDeclaredLibraries(path: Path): List<SKLibrary> {
@@ -24,7 +24,8 @@ data class SKLibrary(val group: String, val version: String) {
                         line.substringBefore(",").split(":")
                                 .let {
                                     try {
-                                        SKLibrary(it[0], it[1])
+                                        val viewModule = if (it.getOrNull(2).isNullOrBlank()) "viewlegacy" else it[2]
+                                        SKLibrary(it[0], it[1], viewModule)
                                     } catch (ex: Exception) {
                                         throw IllegalArgumentException("The library declaration \"$line\" is not wel formated")
                                     }
@@ -54,7 +55,7 @@ data class SKLibrary(val group: String, val version: String) {
         }
 
 
-        fun DependencyHandlerScope.skApiViewLegacy(library: SKLibrary) = add("api", "${library.group}:viewlegacy:${library.version}")
+        fun DependencyHandlerScope.skApiViewLegacy(library: SKLibrary) = add("api", "${library.group}:${library.viewModule}:${library.version}")
 
     }
 

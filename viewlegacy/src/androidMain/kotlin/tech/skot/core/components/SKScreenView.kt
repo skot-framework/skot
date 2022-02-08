@@ -7,7 +7,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.viewbinding.ViewBinding
-import tech.skot.core.SKLog
 import tech.skot.view.extensions.systemBars
 import tech.skot.view.extensions.updatePadding
 

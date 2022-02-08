@@ -1,7 +1,6 @@
 package tech.skot.core.components.presented
 
 import androidx.fragment.app.Fragment
-import tech.skot.core.SKLog
 import tech.skot.core.components.*
 
 

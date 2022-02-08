@@ -1,6 +1,5 @@
 package tech.skot.core.components.presented
 
-import tech.skot.core.SKLog
 import tech.skot.core.components.SKComponentViewMock
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

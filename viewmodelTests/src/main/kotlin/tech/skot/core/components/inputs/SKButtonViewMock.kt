@@ -1,6 +1,5 @@
 package tech.skot.core.components.inputs
 
-import tech.skot.core.SKLog
 import tech.skot.core.components.SKComponentViewMock
 import tech.skot.core.view.Style
 

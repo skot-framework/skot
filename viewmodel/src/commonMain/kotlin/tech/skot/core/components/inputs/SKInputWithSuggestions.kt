@@ -31,7 +31,8 @@ class SKInputWithSuggestions<D : Any?>(
         enabledInitial = enabled,
         hiddenInitial = null,
         onInputText = onInputText,
-        dropDownDisplayedInitial = false
+        dropDownDisplayedInitial = false,
+        oldSchoolModeHint = false
     )
 
 

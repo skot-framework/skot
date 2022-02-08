@@ -56,19 +56,19 @@ class TestSKSpannedString : SKTestView() {
 
                         bold {
                             append(" rouge")
- *                         }
- *                         scale(1.4f) {
- *                             colored(Color(R.color.green)) {
- *                                 append(" vert ")
- *                             }
- *                             append("re-rouge")
- *                         }
- *                         append("lien encore")
- *                     }
- *
- *                     append("plus lien")
-  *                }
-  *            }
+                        }
+                        scale(1.4f) {
+                            colored(Color(R.color.green)) {
+                                append(" vert ")
+                            }
+                            append("re-rouge")
+                        }
+                        append("lien encore")
+                    }
+
+                    append("plus lien")
+                }
+            }
 
 
         val box = SKBoxViewProxy(

@@ -12,6 +12,8 @@ interface SKComboVC : SKComponentVC {
     var dropDownDisplayed: Boolean
     var error: String?
 
+    val oldSchoolModeHint: Boolean
+
     class Choice(
         val data: Any?,
         val text: String = data.toString(),

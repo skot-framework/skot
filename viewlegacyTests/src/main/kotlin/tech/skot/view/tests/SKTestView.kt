@@ -62,7 +62,8 @@ abstract class SKTestView {
             selectedInitial = choice,
             enabledInitial = null,
             hiddenInitial = null,
-            dropDownDisplayedInitial = false
+            dropDownDisplayedInitial = false,
+            oldSchoolModeHint = false
         )
     }
 

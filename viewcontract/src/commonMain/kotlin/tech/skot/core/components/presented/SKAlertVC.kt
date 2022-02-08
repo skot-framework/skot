@@ -7,13 +7,13 @@ import tech.skot.core.components.SKLayoutNo
 interface SKAlertVC:SKComponentVC {
 
     data class Shown(
-            val title:String?,
-            val message:String?,
+            val title:String? = null,
+            val message:String? = null,
 //            val onDismissRequest:(()->Unit)?,
-            val cancelable:Boolean,
-            val withInput:Boolean,
+            val cancelable:Boolean = false,
+            val withInput:Boolean = false,
             val mainButton:Button,
-            val secondaryButton:Button?
+            val secondaryButton:Button? = null
     )
 
     data class Button(val label:String, val action:(()->Unit)? = null)

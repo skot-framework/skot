@@ -20,6 +20,7 @@ class SKInputWithSuggestionsViewProxy(
     hiddenInitial: Boolean? = null,
     dropDownDisplayedInitial: Boolean = false,
     override val onInputText: (input: String?) -> Unit,
+    override val oldSchoolModeHint: Boolean = false
 ) : SKCommonComboViewProxy<SkInputWithSuggestionsBinding>(
     hint,
     errorInitial,
@@ -28,7 +29,8 @@ class SKInputWithSuggestionsViewProxy(
     selectedInitial,
     enabledInitial,
     hiddenInitial,
-    dropDownDisplayedInitial
+    dropDownDisplayedInitial,
+    oldSchoolModeHint
 ),
     SKInputWithSuggestionsVC {
 

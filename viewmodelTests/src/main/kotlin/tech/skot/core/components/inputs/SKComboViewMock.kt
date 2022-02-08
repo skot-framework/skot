@@ -10,7 +10,8 @@ class SKComboViewMock(
     selectedInitial: SKComboVC.Choice?,
     enabledInitial: Boolean?,
     hiddenInitial: Boolean?,
-    dropDownDisplayedInitial: Boolean
+    dropDownDisplayedInitial: Boolean,
+    override val oldSchoolModeHint: Boolean
 ) : SKComponentViewMock(), SKComboVC {
     override val hint: String? = hint
     override var error: String? = errorInitial

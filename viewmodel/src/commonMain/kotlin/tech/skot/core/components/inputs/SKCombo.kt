@@ -73,6 +73,7 @@ class SKCombo<D : Any?>(
         selectedInitial = null,
         enabledInitial = enabled,
         hiddenInitial = null,
-        dropDownDisplayedInitial = false
+        dropDownDisplayedInitial = false,
+        oldSchoolModeHint = false
     )
 }

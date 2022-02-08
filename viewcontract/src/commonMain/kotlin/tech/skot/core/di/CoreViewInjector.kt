@@ -57,7 +57,8 @@ interface CoreViewInjector {
         selectedInitial: SKComboVC.Choice?,
         enabledInitial: Boolean?,
         hiddenInitial: Boolean?,
-        dropDownDisplayedInitial:Boolean
+        dropDownDisplayedInitial:Boolean,
+        oldSchoolModeHint: Boolean
     ): SKComboVC
 
     fun inputWithSuggestions(
@@ -70,6 +71,7 @@ interface CoreViewInjector {
         hiddenInitial: Boolean?,
         dropDownDisplayedInitial:Boolean,
         onInputText:(input:String?) -> Unit,
+        oldSchoolModeHint: Boolean
     ): SKInputWithSuggestionsVC
 
 

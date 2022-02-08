@@ -1,5 +1,7 @@
 package tech.skot.core.components.presented
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import tech.skot.core.components.SKComponentViewProxy
 import tech.skot.core.components.SKActivity
@@ -14,6 +16,14 @@ class SKAlertViewProxy() : SKComponentViewProxy<Unit>(), SKAlertVC {
     private val inputTextLD =  MutableSKLiveData<String?>(null)
 
     override var inputText: String? by inputTextLD
+
+    override fun inflate(
+        layoutInflater: LayoutInflater,
+        parent: ViewGroup?,
+        attachToParent: Boolean
+    ) {
+//        super.inflate(layoutInflater, parent, attachToParent)
+    }
 
     override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: Unit) =
             SKAlertView(this, activity, fragment).apply {

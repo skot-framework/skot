@@ -140,7 +140,8 @@ class CoreViewInjectorMock : CoreViewInjector {
         selectedInitial: SKComboVC.Choice?,
         enabledInitial: Boolean?,
         hiddenInitial: Boolean?,
-        dropDownDisplayedInitial: Boolean
+        dropDownDisplayedInitial: Boolean,
+        oldSchoolModeHint: Boolean
     ): SKComboVC {
         return SKComboViewMock(
             hint,
@@ -150,7 +151,8 @@ class CoreViewInjectorMock : CoreViewInjector {
             selectedInitial,
             enabledInitial,
             hiddenInitial,
-            dropDownDisplayedInitial
+            dropDownDisplayedInitial,
+            oldSchoolModeHint
         )
     }
 
@@ -163,7 +165,8 @@ class CoreViewInjectorMock : CoreViewInjector {
         enabledInitial: Boolean?,
         hiddenInitial: Boolean?,
         dropDownDisplayedInitial: Boolean,
-        onInputText: (input: String?) -> Unit
+        onInputText: (input: String?) -> Unit,
+        oldSchoolModeHint: Boolean
     ): SKInputWithSuggestionsVC {
         return SKInputWithSuggestionsViewMock(
             hint,
@@ -174,7 +177,8 @@ class CoreViewInjectorMock : CoreViewInjector {
             enabledInitial,
             hiddenInitial,
             dropDownDisplayedInitial,
-            onInputText
+            onInputText,
+            oldSchoolModeHint
         )
     }
 

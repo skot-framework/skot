@@ -13,14 +13,15 @@ import tech.skot.viewlegacy.databinding.SkInputWithSuggestionsBinding
 
 
 class SKComboViewProxy(
-    hint: String?,
-    errorInitial: String?,
-    onSelected: ((choice: Any?) -> Unit)?,
+    hint: String? = null,
+    errorInitial: String? = null,
+    onSelected: ((choice: Any?) -> Unit)? = null,
     choicesInitial: List<SKComboVC.Choice>,
-    selectedInitial: SKComboVC.Choice?,
-    enabledInitial: Boolean?,
-    hiddenInitial: Boolean?,
-    dropDownDisplayedInitial: Boolean
+    selectedInitial: SKComboVC.Choice? = null,
+    enabledInitial: Boolean? = null,
+    hiddenInitial: Boolean? = null,
+    dropDownDisplayedInitial: Boolean = false,
+    oldSchoolModeHint: Boolean = false
 ) : SKCommonComboViewProxy<SkComboBinding>(
     hint = hint,
     errorInitial = errorInitial,
@@ -29,7 +30,8 @@ class SKComboViewProxy(
     selectedInitial = selectedInitial,
     enabledInitial = enabledInitial,
     hiddenInitial = hiddenInitial,
-    dropDownDisplayedInitial = dropDownDisplayedInitial
+    dropDownDisplayedInitial = dropDownDisplayedInitial,
+    oldSchoolModeHint = oldSchoolModeHint
 ) {
     override val layoutId: Int = R.layout.sk_combo
     override fun bindingOf(view: View) = SkComboBinding.bind(view)
@@ -60,6 +62,7 @@ abstract class SKCommonComboViewProxy<Binding : Any>(
     enabledInitial: Boolean?,
     hiddenInitial: Boolean?,
     dropDownDisplayedInitial: Boolean,
+    override val oldSchoolModeHint:Boolean
 ) : SKComponentViewProxy<Binding>(), SKComboVC {
 
 

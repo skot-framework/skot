@@ -100,7 +100,14 @@ abstract class SKCommonComboView<Binding : Any>(
 
 
     fun onHint(hint: String?) {
-        inputLayout.hint = hint
+        if (proxy.oldSchoolModeHint) {
+            autoComplete.hint = hint
+        }
+        else {
+            inputLayout.hint = hint
+        }
+
+
     }
 
     fun onError(error: String?) {

@@ -119,6 +119,7 @@ interface SKPersistor {
 
     suspend fun remove(name: String)
     suspend fun clear()
+    fun clearSync()
 
 }
 
@@ -302,15 +303,19 @@ abstract class CommonSKPersistor : SKPersistor {
 
     override suspend fun clear() {
         withContext(Dispatchers.Default) {
-            try {
-                db.persistedQueries.clear()
-                db.persistedQueries.vacuum()
-            } catch (ex: Exception) {
-                SKLog.e(
-                    ex,
-                    "SKPersistor: Problem clearing"
-                )
-            }
+            clearSync()
+        }
+    }
+
+    override fun clearSync() {
+        try {
+            db.persistedQueries.clear()
+            db.persistedQueries.vacuum()
+        } catch (ex: Exception) {
+            SKLog.e(
+                ex,
+                "SKPersistor: Problem clearing"
+            )
         }
     }
 

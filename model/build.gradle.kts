@@ -80,6 +80,13 @@ kotlin {
             }
         }
 
+        val jvmTest by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+            }
+
+        }
 
     }
 
@@ -102,7 +109,6 @@ android {
     sourceSets {
         getByName("main").java.srcDirs("src/androidMain/kotlin")
         getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")
-        getByName("test").java.srcDirs("src/javaTest/kotlin")
         getByName("androidTest").java.srcDir("src/androidTest/kotlin")
     }
 
@@ -124,9 +130,12 @@ android {
 }
 
 dependencies {
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
-//    androidTestImplementation(project(":androidTests"))
+
+    androidTestImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    androidTestImplementation("androidx.test:core-ktx:1.4.0")
+    androidTestImplementation("androidx.test.ext:junit-ktx:1.1.3")
 }
 
 sqldelight {

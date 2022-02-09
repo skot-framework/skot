@@ -26,6 +26,7 @@ abstract class SKActivity : AppCompatActivity() {
         var launchActivityClass: Class<out SKActivity>? = null
     }
 
+
     var screen: SKScreenView<*>? = null
 
     abstract val featureInitializer: SKFeatureInitializer
@@ -43,6 +44,11 @@ abstract class SKActivity : AppCompatActivity() {
             featureInitializer.initializeIfNeeded(intent?.data?.toSKUri())
 
             val viewKey = getKeyForThisActivity(savedInstanceState)
+
+            if (SKRootStackViewProxy.stateLD.value.state.screens.isEmpty()) {
+                featureInitializer.start()
+            }
+
             if (!oneActivityAlreadyLaunched && viewKey != -1L) {
                 oneActivityAlreadyLaunched = true
                 SKRootStackViewProxy.stateLD.value.state.screens.getOrNull(0)?.let {
@@ -53,6 +59,7 @@ abstract class SKActivity : AppCompatActivity() {
                 val screenProxy =
                     if (viewKey != -1L) {
                         ScreensManager.getInstance(viewKey)
+                            ?: SKRootStackViewProxy.stateLD.value.state.screens.getOrNull(0)
                     } else {
                         SKRootStackViewProxy.stateLD.value.state.screens.getOrNull(0)
                     } as? SKScreenViewProxy<*>

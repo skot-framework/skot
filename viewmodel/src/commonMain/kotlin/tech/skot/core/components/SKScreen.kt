@@ -60,7 +60,9 @@ abstract class SKScreen<V : SKScreenVC>: SKComponent<SKScreenVC>(), SKVisiblityL
         presenterDialog?.dismiss()
     }
 
-
+    fun kill() {
+        SKRootStack.state = SKStack.State(emptyList())
+    }
 
 
 }

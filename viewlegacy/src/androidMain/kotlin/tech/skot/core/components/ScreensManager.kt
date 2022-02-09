@@ -17,6 +17,10 @@ object ScreensManager {
         return key
     }
 
+    fun removeScreen(screen: SKScreenViewProxy<*>) {
+        instances.remove(screen.key)
+    }
+
 
     val backPressed = SKMessage<Unit>(true)
     val permissionsResults = SKMessage<SKPermissionsRequestResultAndroid>()

@@ -62,7 +62,6 @@ private fun Project.skComputeVersionCodeAndReleaseNote(branch:String, nbMaxCommi
 private fun Project.skSaveUploadedInfos(branch:String) {
     task("save_uploaded_versions_infos") {
         doFirst {
-            val versionCode = skVersionCode()
             val lastCommitHash = commandLine("git", "show", "-s", "--format=%h", branch).substringBefore("\n")
             commandLine("scripts/versions/saveLastUploadedInfos.sh", lastCommitHash)
         }

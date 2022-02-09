@@ -14,6 +14,10 @@ abstract class SKScreenViewProxy<B : ViewBinding> : SKComponentViewProxy<B>(), S
 
     val key = ScreensManager.addScreen(this)
 
+    override fun onRemove() {
+        super.onRemove()
+        ScreensManager.removeScreen(this)
+    }
     private val onBackPressedLD = MutableSKLiveData<(() -> Unit)?>(null)
     override var onBackPressed by onBackPressedLD
 

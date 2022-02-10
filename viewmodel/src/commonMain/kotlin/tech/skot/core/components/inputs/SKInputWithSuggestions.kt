@@ -13,6 +13,7 @@ class SKInputWithSuggestions<D : Any?>(
     inputText: ((data: D) -> String)? = null,
     colored: ((data: D) -> Boolean)? = null,
     striked: ((data: D) -> Boolean)? = null,
+    oldSchoolModeHint: Boolean = false,
     onInputText: (input: String?) -> Unit
 
 ) : SKBaseCombo<D, SKInputWithSuggestionsVC>(
@@ -32,7 +33,7 @@ class SKInputWithSuggestions<D : Any?>(
         hiddenInitial = null,
         onInputText = onInputText,
         dropDownDisplayedInitial = false,
-        oldSchoolModeHint = false
+        oldSchoolModeHint = oldSchoolModeHint
     )
 
 

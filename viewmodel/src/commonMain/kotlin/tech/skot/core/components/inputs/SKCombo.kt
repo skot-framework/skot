@@ -57,6 +57,7 @@ class SKCombo<D : Any?>(
     inputText: ((data: D) -> String)? = null,
     colored: ((data: D) -> Boolean)? = null,
     striked: ((data: D) -> Boolean)? = null,
+    oldSchoolModeHint: Boolean = false,
     onSelected: ((data: D) -> Unit)? = null
 ) : SKBaseCombo<D, SKComboVC>(
     onSelected = onSelected,
@@ -74,6 +75,6 @@ class SKCombo<D : Any?>(
         enabledInitial = enabled,
         hiddenInitial = null,
         dropDownDisplayedInitial = false,
-        oldSchoolModeHint = false
+        oldSchoolModeHint = oldSchoolModeHint
     )
 }

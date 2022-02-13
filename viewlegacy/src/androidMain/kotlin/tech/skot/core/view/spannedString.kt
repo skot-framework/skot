@@ -70,6 +70,13 @@ fun List<SKSpan>.toCharSequence(context: Context): CharSequence {
 
                 }, spanIndex, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
+            if (span.underline) {
+                setSpan(UnderlineSpan(), spanIndex, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+
+            if (span.striked) {
+                setSpan(StrikethroughSpan(), spanIndex, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
 
 
         }

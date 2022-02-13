@@ -8,7 +8,7 @@ import tech.skot.view.live.MutableSKLiveData
 import tech.skot.viewlegacy.R
 
 class SKButtonViewProxy(
-    onTapInitial:(()->Unit)?,
+    onTapInitial:(()->Unit)? = null,
     labelInitial:String?,
     enabledInitial:Boolean?,
     hiddenInitial:Boolean?

@@ -6,6 +6,8 @@ data class SKSpan(
     val typeface: SKSpanFormat.TypeFace? = null,
     val colored: SKSpanFormat.Colored? = null,
     val sized: SKSpanFormat.Sized? = null,
+    val underline:Boolean = false,
+    val striked:Boolean = false,
     val clickable: SKSpanFormat.Clickable? = null
 )
 

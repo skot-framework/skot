@@ -11,17 +11,21 @@ class SKSpannedStringBuilder {
     inner class Context(val typeface: SKSpanFormat.TypeFace? = null,
                         val colored: SKSpanFormat.Colored? = null,
                         val sized: SKSpanFormat.Sized? = null,
+                        val underline: Boolean = false,
+                        val striked: Boolean = false,
                         val clickable: SKSpanFormat.Clickable? = null) {
 
         private fun copy(typeface: SKSpanFormat.TypeFace? = null,
                          colored: SKSpanFormat.Colored? = null,
                          sized: SKSpanFormat.Sized? = null,
+                         underline: Boolean? = null,
+                         striked: Boolean? = null,
                          clickable: SKSpanFormat.Clickable? = null): Context {
-            return Context(typeface = typeface ?: this.typeface, colored = colored ?: this.colored, sized = sized ?: this.sized, clickable = clickable ?: this.clickable)
+            return Context(typeface = typeface ?: this.typeface, colored = colored ?: this.colored, sized = sized ?: this.sized, underline = underline ?: this.underline, striked = striked ?: this.striked, clickable = clickable ?: this.clickable)
         }
 
         fun append(text:String) {
-            spans.add(SKSpan(text, typeface, colored, sized, clickable))
+            spans.add(SKSpan(text, typeface, colored, sized, underline, striked, clickable))
         }
 
         fun bold(block: Context.()->Unit) {
@@ -42,6 +46,14 @@ class SKSpannedStringBuilder {
 
         fun clickable(onTap:()->Unit, block: Context.()->Unit) {
             copy(clickable = SKSpanFormat.Clickable(onTap)).apply(block)
+        }
+
+        fun underline(block: Context.()->Unit) {
+            copy(underline = true).apply(block)
+        }
+
+        fun striked(block: Context.()->Unit) {
+            copy(striked = true).apply(block)
         }
 
     }

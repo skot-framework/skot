@@ -9,34 +9,79 @@ import tech.skot.viewlegacy.test.R
 class TestSKSpannedString : SKTestView() {
 
 
+    fun spans(underline: Boolean, striked: Boolean): List<SKSpan> {
+        return listOf(
+            SKSpan(
+                "début",
+                typeface = SKSpanFormat.Bold,
+                colored = SKSpanFormat.Colored(Color(R.color.red)),
+                underline = underline,
+                striked = striked
+            ),
+            SKSpan(
+                "milieu",
+                colored = SKSpanFormat.Colored(Color(R.color.green)),
+                underline = underline,
+                striked = striked
+            ),
+            SKSpan(
+                "fin",
+                typeface = SKSpanFormat.Bold,
+                sized = SKSpanFormat.Sized(2f),
+                underline = underline,
+                striked = striked
+            ),
+            SKSpan(
+                "lien",
+                sized = SKSpanFormat.Sized(1.4f),
+                clickable = SKSpanFormat.Clickable(toast("tap sur lien")),
+                underline = underline,
+                striked = striked
+            ),
+            SKSpan(
+                "\navec font spéciale",
+                typeface = SKSpanFormat.WithFont(Font(R.font.dancing_script_regular)),
+                underline = underline,
+                striked = striked
+            )
+        )
+    }
+
     @Test
     fun testViewPart() {
 
-        val skSpan1 = SKSpannedStringViewProxy(
-            listOf(
-                SKSpan(
-                    "début",
-                    typeface = SKSpanFormat.Bold,
-                    colored = SKSpanFormat.Colored(Color(R.color.red))
-                ),
-                SKSpan("milieu", colored = SKSpanFormat.Colored(Color(R.color.green))),
-                SKSpan("fin", typeface = SKSpanFormat.Bold, sized = SKSpanFormat.Sized(2f)),
-                SKSpan(
-                    "lien",
-                    sized = SKSpanFormat.Sized(1.4f),
-                    clickable = SKSpanFormat.Clickable(toast("tap sur lien"))
-                ),
-                SKSpan(
-                    "\navec font spéciale",
-                    typeface = SKSpanFormat.WithFont(Font(R.font.dancing_script_regular))
-                )
-            )
+
+        val skSpan = SKSpannedStringViewProxy(
+            spans(false, false)
+        )
+
+        val skSpanUnderline = SKSpannedStringViewProxy(
+            spans(true, false)
+        )
+
+        val skSpanStriked = SKSpannedStringViewProxy(
+            spans(false, true)
+        )
+
+        val skSpanBoth = SKSpannedStringViewProxy(
+            spans(true, true)
+        )
+
+        val skSpanAllInOne = SKSpannedStringViewProxy(
+            spans(false, false) +
+                    spans(true, false) +
+                    spans(false, true) +
+                    spans(true, true)
         )
 
         val box = SKBoxViewProxy(
             asItemVertical = true,
             itemsInitial = listOf(
-                skSpan1
+                skSpan,
+                skSpanUnderline,
+                skSpanStriked,
+                skSpanBoth,
+                skSpanAllInOne
             )
         )
 

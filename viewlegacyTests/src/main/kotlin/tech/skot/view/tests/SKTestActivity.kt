@@ -44,8 +44,22 @@ fun testScreen(
 fun testComponent(
     componentViewProxy: SKComponentViewProxy<*>,
     duration: Long = 5 * 60 * 1000L,
-    vertical:Boolean = true,
+    vertical: Boolean = true,
     block: (suspend CoroutineScope.(scenario: ActivityScenario<SKTestActivity>) -> Unit)? = null
 ) {
-    testScreen(SKTestScreenViewProxy(componentViewProxy, vertical), duration, block)
+    testScreen(SKTestScreenViewProxy(listOf(componentViewProxy), vertical), duration, block)
+}
+
+
+fun testComponents(
+    vararg componentsViewProxy: SKComponentViewProxy<*>,
+    duration: Long = 5 * 60 * 1000L,
+    vertical: Boolean = true,
+    block: (suspend CoroutineScope.(scenario: ActivityScenario<SKTestActivity>) -> Unit)? = null
+) {
+    testScreen(
+        SKTestScreenViewProxy(
+            componentsViewProxy.toList(), vertical
+        ), duration, block
+    )
 }

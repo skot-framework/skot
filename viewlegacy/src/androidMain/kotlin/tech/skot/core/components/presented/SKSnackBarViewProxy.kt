@@ -1,6 +1,8 @@
 package tech.skot.core.components.presented
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import tech.skot.core.components.SKComponentViewProxy
 import tech.skot.core.components.SKActivity
@@ -18,5 +20,13 @@ class SKSnackBarViewProxy() : SKComponentViewProxy<View>(), SKSnackBarVC {
                     onState(it)
                 }
             }
+
+    override fun inflate(
+        layoutInflater: LayoutInflater,
+        parent: ViewGroup?,
+        attachToParent: Boolean
+    ): View {
+        return parent!!
+    }
 
 }

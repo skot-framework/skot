@@ -8,12 +8,12 @@ import tech.skot.core.components.*
 import tech.skot.view.tests.SKTestView.Companion.dummyVisiblityListener
 import tech.skot.viewlegacytests.databinding.TestScreenBinding
 
-class SKTestScreenViewProxy(content: SKComponentViewProxy<*>, private val vertical: Boolean = true) :
+class SKTestScreenViewProxy(content: List<SKComponentViewProxy<*>>, private val vertical: Boolean = true) :
     SKScreenViewProxy<TestScreenBinding>() {
     override val visibilityListener = dummyVisiblityListener()
 
     private val box = SKBoxViewProxy(
-        itemsInitial = listOf(content),
+        itemsInitial = content,
         hiddenInitial = false,
     )
 

@@ -9,9 +9,9 @@ import tech.skot.viewlegacy.R
 
 class SKButtonViewProxy(
     onTapInitial:(()->Unit)? = null,
-    labelInitial:String?,
-    enabledInitial:Boolean?,
-    hiddenInitial:Boolean?
+    labelInitial:String? = null,
+    enabledInitial:Boolean? = null,
+    hiddenInitial:Boolean? = null
 ): SKComponentViewProxy<Button>(), SKButtonVC {
 
     companion object {

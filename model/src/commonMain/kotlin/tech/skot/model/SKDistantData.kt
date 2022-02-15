@@ -16,10 +16,11 @@ open class SKDistantData<D : Any>(validity: Long? = null, private val fetchData:
 abstract class SKDistantDataWithCache<D : Any>(
         private val name: String,
         private val serializer: KSerializer<D>,
-        private val key: String?,
+        protected open val key: String?,
         private val cache: SKPersistor = globalCache,
         validity: Long? = null,
         private val fetchData: suspend () -> D) : SKDistantData<D>(validity, fetchData) {
+
 
 
     override suspend fun newDatedData(): DatedData<D> {
@@ -28,10 +29,12 @@ abstract class SKDistantDataWithCache<D : Any>(
         return fetchedData
     }
 
+    protected open val completeKey:String? = key
+
     private fun saveInCache(newData:DatedData<D>) {
         CoroutineScope(Dispatchers.Default).launch {
             try {
-                cache.putData(serializer, name, newData.data, key, newData.timestamp)
+                cache.putData(serializer, name, newData.data, completeKey, newData.timestamp)
             }
             catch (ex:Exception) {
                 SKLog.e(ex, "SKDistantDataWithCache Problème à la mise en cache de la donnée $name $key")
@@ -78,4 +81,50 @@ abstract class SKDistantDataWithCache<D : Any>(
         saveInCache(newDatedData)
     }
 
+}
+
+abstract class SKDistantDataWithCacheAndLiveKey<D:Any>(
+    name: String,
+    serializer: KSerializer<D>,
+    private val cache: SKPersistor = globalCache,
+    validity: Long? = null,
+    private val fixKey:String?,
+    private val liveKey: () -> String,
+    fetchData: suspend () -> D
+):SKDistantDataWithCache<D>(
+    name = name,
+    serializer = serializer,
+    key = "${fixKey}_${liveKey()}",
+    cache = cache,
+    validity = validity,
+    fetchData = fetchData
+) {
+
+    override suspend fun get(validity: Long?): D {
+        if (_current != null && liveKeyOfCurrentValue != liveKey()) {
+            update()
+        }
+        return super.get(validity)
+    }
+
+    override val completeKey: String?
+        get() = "${fixKey}_${liveKey()}"
+
+    private var liveKeyOfCurrentValue: String? = null
+    override fun setDatedData(newDatedData: DatedData<D>) {
+        liveKeyOfCurrentValue = liveKey()
+        super.setDatedData(newDatedData)
+    }
+
+    override suspend fun newDatedData(): DatedData<D> {
+        return super.newDatedData().also { liveKeyOfCurrentValue = liveKey() }
+    }
+
+    override suspend fun fallBackValue(): D? {
+        if (liveKeyOfCurrentValue == liveKey()) {
+            return super.fallBackValue()
+        } else {
+            return null
+        }
+    }
 }

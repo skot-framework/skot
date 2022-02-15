@@ -56,6 +56,19 @@ fun Generator.generateColors() {
     }
             .writeTo(generatedAndroidSources(feature ?: modules.app))
 
+    println("generate Colors fot View Android Test .........")
+    colorsImpl.fileClassBuilder(listOf(viewR)) {
+        addSuperinterface(colorsInterface)
+        addProperties(
+            colors.map {
+                PropertySpec.builder(it.toColorsPropertyName(), tech.skot.core.view.Color::class, KModifier.OVERRIDE)
+                    .initializer("Color(R.color.${it.toAndroidResourcePropertyName()})")
+                    .build()
+            }
+        )
+    }
+        .writeTo(generatedAndroidTestSources(modules.view))
+
     println("generate Colors jvm mock .........")
     colorsMock.fileClassBuilder() {
         addSuperinterface(colorsInterface)

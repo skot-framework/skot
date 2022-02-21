@@ -214,6 +214,12 @@ fun Generator.generateViewModel() {
         )
         .addProperty(
             PropertySpec
+                .builder(fontsInstance.simpleName, fontsInterface)
+                .initializer("get()")
+                .build()
+        )
+        .addProperty(
+            PropertySpec
                 .builder(stylesInstance.simpleName, stylesInterface)
                 .initializer("get()")
                 .build()

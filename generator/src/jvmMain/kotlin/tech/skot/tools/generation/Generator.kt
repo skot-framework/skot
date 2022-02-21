@@ -147,6 +147,11 @@ class Generator(
     val colorsImpl = ClassName(appPackage, "ColorsImpl")
     val colorsMock = ClassName(appPackage, "ColorsMock")
 
+    val fontsInstance = ClassName(appPackage, "fonts")
+    val fontsInterface = ClassName(appPackage, "Fonts")
+    val fontsImpl = ClassName(appPackage, "FontsImpl")
+    val fontsMock = ClassName(appPackage, "FontsMock")
+
 
     val stylesInstance = ClassName(appPackage, "styles")
     val stylesInterface = ClassName(appPackage, "Styles")
@@ -208,6 +213,7 @@ class Generator(
         generateIcons()
         generateColors()
         generateStyles()
+        generateFonts()
         generateApp()
         generateCodeMap()
 
@@ -461,6 +467,7 @@ class Generator(
                         .addStatement("single<${pluralsInterface.simpleName}> { ${pluralsImpl.simpleName}(androidApplication)}")
                         .addStatement("single<${iconsInterface.simpleName}> { ${iconsImpl.simpleName}()}")
                         .addStatement("single<${colorsInterface.simpleName}> { ${colorsImpl.simpleName}()}")
+                        .addStatement("single<${fontsInterface.simpleName}> { ${fontsImpl.simpleName}()}")
                         .addStatement("single<${stylesInterface.simpleName}> { ${stylesImpl.simpleName}()}")
                         .addStatement("single<${viewInjectorInterface.simpleName}> { ${viewInjectorImpl.simpleName}()}")
                         .addStatement("single<${modelInjectorInterface.simpleName}> { ${modelInjectorImpl.simpleName}()}")
@@ -520,6 +527,8 @@ class Generator(
             .addImportClassName(iconsInterface)
             .addImportClassName(colorsInterface)
             .addImportClassName(colorsImpl)
+            .addImportClassName(fontsInterface)
+            .addImportClassName(fontsImpl)
             .addImportClassName(stylesInterface)
             .addImportClassName(stylesImpl)
             .addImportClassName(appFeatureInitializer)

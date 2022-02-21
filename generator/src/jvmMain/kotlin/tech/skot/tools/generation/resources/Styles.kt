@@ -1,7 +1,11 @@
-package tech.skot.tools.generation
+package tech.skot.tools.generation.resources
 
 import com.squareup.kotlinpoet.*
 import org.jetbrains.kotlin.util.capitalizeDecapitalize.decapitalizeAsciiOnly
+import tech.skot.tools.generation.Generator
+import tech.skot.tools.generation.childElements
+import tech.skot.tools.generation.fileClassBuilder
+import tech.skot.tools.generation.getDocumentElement
 import java.nio.file.Files
 import java.util.stream.Collectors
 

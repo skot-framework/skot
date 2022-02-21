@@ -5,9 +5,22 @@ import tech.skot.core.components.SKLayoutNo
 import tech.skot.core.components.SKScreenVC
 
 @SKLayoutNo
-interface SKBottomSheetVC:SKComponentVC {
+interface SKBottomSheetVC : SKComponentVC {
 
-    data class Shown(val screen:SKScreenVC, val onDismiss:(()->Unit)? = null, val expanded:Boolean = true)
+    sealed class PeekHeight(val value : Int)
+    object PeekHeightAuto : PeekHeight(-1)
+    class PeekHeightSize(size: Int) : PeekHeight(size)
 
-    var state :Shown?
+    data class Shown(
+        val screen: SKScreenVC,
+        val onDismiss: (() -> Unit)? = null,
+        val expanded: Boolean = true,
+        val skipCollapsed: Boolean = true,
+        val hideable : Boolean = true,
+        val peekHeight: PeekHeight = PeekHeightAuto
+    )
+
+    var state: Shown?
+
+
 }

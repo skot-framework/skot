@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import tech.skot.core.components.presented.SKBottomSheetVC
 import tech.skot.view.live.MutableSKLiveData
 
 abstract class SKScreenViewProxy<B : ViewBinding> : SKComponentViewProxy<B>(), SKScreenVC {
@@ -65,11 +66,14 @@ abstract class SKScreenViewProxy<B : ViewBinding> : SKComponentViewProxy<B>(), S
             }
         }
 
-    fun createBottomSheetFragment(expanded: Boolean): SKBottomSheetDialogFragment =
+    fun createBottomSheetFragment(expanded: Boolean, skipCollapsed : Boolean, hideable : Boolean, peekHeight: SKBottomSheetVC.PeekHeight): SKBottomSheetDialogFragment =
         SKBottomSheetDialogFragment().apply {
             arguments = Bundle().apply {
                 putLong(ScreensManager.SK_ARGUMENT_VIEW_KEY, key)
                 putBoolean(SK_BOTTOM_SHEET_DIALOG_EXPANDED, expanded)
+                putBoolean(SK_BOTTOM_SHEET_DIALOG_SKIP_COLLAPSED, skipCollapsed)
+                putBoolean(SK_BOTTOM_SHEET_DIALOG_HIDEABLE, hideable)
+                putInt(SK_BOTTOM_SHEET_DIALOG_PEEK_HEIGHT, peekHeight.value)
             }
         }
 

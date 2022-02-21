@@ -10,9 +10,24 @@ class SKBottomSheet : SKComponent<SKBottomSheetVC>() {
 
     var shownScreen: SKScreen<*>? = null
 
-    fun show(screen: SKScreen<*>, onDismiss: (() -> Unit)? = null, expanded:Boolean = true) {
+    fun show(
+        screen: SKScreen<*>,
+        onDismiss: (() -> Unit)? = null,
+        expanded: Boolean = true,
+        skipCollapsed: Boolean = true,
+        hideable: Boolean = true,
+        peekHeight: SKBottomSheetVC.PeekHeight = SKBottomSheetVC.PeekHeightAuto
+    ) {
         shownScreen?.presenterBottomSheet = null
-        view.state = SKBottomSheetVC.Shown(screen = screen.view, onDismiss = onDismiss, expanded = expanded)
+        view.state =
+            SKBottomSheetVC.Shown(
+                screen = screen.view,
+                onDismiss = onDismiss,
+                expanded = expanded,
+                skipCollapsed = skipCollapsed,
+                hideable = hideable,
+                peekHeight = peekHeight
+            )
         screen.presenterBottomSheet = this
         shownScreen = screen
     }

@@ -29,6 +29,8 @@ fun Generator.generateAndroidTestAbstractTestView() {
                 .initializer("IconsImpl()").build())
             addProperty(PropertySpec.builder("colors",colorsImpl )
                 .initializer("ColorsImpl()").build())
+            addProperty(PropertySpec.builder("fonts",fontsImpl )
+                .initializer("FontsImpl()").build())
 
             addFunction(FunSpec.builder("initialize")
                 .addAnnotation(AndroidClassNames.Annotations.before)

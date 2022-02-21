@@ -71,7 +71,7 @@ class HttpMocker() {
     }
 
     suspend fun assertCalled(encodedPath:String, body:String? = null, rule:String = "") {
-        assertTrue("$rule-> le dernier appel http doit être à $encodedPath") {
+        assertTrue("$rule-> un appel à $encodedPath doit avoir été fait") {
             calls.any {
                 it.url.encodedPath == encodedPath
             }

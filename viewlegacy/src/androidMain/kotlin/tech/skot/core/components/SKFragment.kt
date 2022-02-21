@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import tech.skot.core.SKLog
 
 open class SKFragment : Fragment() {
 
@@ -28,10 +29,11 @@ open class SKFragment : Fragment() {
     }
 
     override fun onPause() {
-        super.onPause()
-        if (isAdded) {
+        if (isAdded || isRemoving) {
             screen?.onPause()
         }
+        super.onPause()
+
     }
 
     override fun onResume() {

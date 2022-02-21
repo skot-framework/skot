@@ -14,8 +14,12 @@ class SKBottomSheetView(override val proxy: SKBottomSheetViewProxy, activity: SK
 
         if (state != current?.state) {
             if (state != null) {
-                (state.screen as SKScreenViewProxy<*>).createBottomSheetFragment(state.expanded).apply {
+                (state.screen as SKScreenViewProxy<*>).createBottomSheetFragment(
+                    expanded = state.expanded,
+                    skipCollapsed = state.skipCollapsed
+                ).apply {
                     show(this@SKBottomSheetView.fragmentManager, "SkBottomSheet")
+
                     setOnDismissListener {
                         proxy.state = null
                         state.onDismiss?.invoke()

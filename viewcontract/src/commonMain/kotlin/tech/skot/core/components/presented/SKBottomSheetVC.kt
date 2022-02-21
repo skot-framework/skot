@@ -5,9 +5,16 @@ import tech.skot.core.components.SKLayoutNo
 import tech.skot.core.components.SKScreenVC
 
 @SKLayoutNo
-interface SKBottomSheetVC:SKComponentVC {
+interface SKBottomSheetVC : SKComponentVC {
 
-    data class Shown(val screen:SKScreenVC, val onDismiss:(()->Unit)? = null, val expanded:Boolean = true)
+    data class Shown(
+        val screen: SKScreenVC,
+        val onDismiss: (() -> Unit)? = null,
+        val expanded: Boolean = true,
+        val skipCollapsed: Boolean = true
+    )
 
-    var state :Shown?
+    var state: Shown?
+
+
 }

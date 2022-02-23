@@ -2,11 +2,13 @@ package tech.skot.core.components
 
 import android.view.View
 import androidx.annotation.CallSuper
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.viewbinding.ViewBinding
+import tech.skot.core.view.Color
 import tech.skot.view.extensions.systemBars
 import tech.skot.view.extensions.updatePadding
 
@@ -42,6 +44,7 @@ abstract class SKScreenView<B : ViewBinding>(
                 } else null)
             )
         }
+        onStatusBarColor(proxy.statusBarColor)
         proxy.onResume()
 
     }
@@ -54,6 +57,10 @@ abstract class SKScreenView<B : ViewBinding>(
 
     open val fullScreen: Boolean = false
     open val lightStatusBar: Boolean = true
+
+    fun onStatusBarColor(color:Color?) {
+        activity.window.statusBarColor = color?.let { ContextCompat.getColor(activity, it.res) } ?: 0
+    }
 
     protected open val withWindowsInsetsPaddingTop: Boolean = false
 

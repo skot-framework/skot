@@ -23,7 +23,7 @@ open class SKFragment : Fragment() {
                     screenKey = viewKey
                     screen = it
                 }?.view
-                ?: View(context).also { screenKey == null }
+                ?: View(context).also { screenKey = null }
 
         }
     }

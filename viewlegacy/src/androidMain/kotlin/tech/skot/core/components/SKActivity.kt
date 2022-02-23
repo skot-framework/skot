@@ -105,6 +105,7 @@ abstract class SKActivity : AppCompatActivity() {
                     ).bottom else 0
                 )
                 onWindowInsets?.invoke(loadedInsets)
+                it.requestApplyInsets()
             } else {
                 val loadingIndex = loadingInsetsCounter
                 ViewCompat.setOnApplyWindowInsetsListener(it) { view, windowInsets ->
@@ -116,9 +117,9 @@ abstract class SKActivity : AppCompatActivity() {
                         )
                     }
                     onWindowInsets?.invoke(windowInsets)
+                    it.requestApplyInsets()
                     windowInsets
                 }
-
             }
         }
 

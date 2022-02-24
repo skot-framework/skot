@@ -22,7 +22,7 @@ import platform.Foundation.NSDate
 
 //private val mapFromatter = mutableMapOf<String, NumberFormatter>()
 
-actual fun Double.asPrice(isoCurrency: String) = ""
+actual fun Double.asPrice(isoCurrency: String, maximumFractionDigits : Int, minimumFractionDigits : Int) = ""
 
 //private fun getFormatter(isoCurrency: String, locale:NSLocale): NumberFormatter {
 //    val key = "${isoCurrency}_${locale}"

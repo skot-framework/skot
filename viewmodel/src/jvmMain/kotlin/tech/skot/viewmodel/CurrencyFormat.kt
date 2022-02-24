@@ -4,20 +4,34 @@ import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
 
-private val mapFromatter = mutableMapOf<String, NumberFormat>()
+private val mapFormatter = mutableMapOf<String, NumberFormat>()
 
-actual fun Double.asPrice(isoCurrency: String) = getFormatter(isoCurrency, Locale.getDefault()).format(this)
+actual fun Double.asPrice(
+    isoCurrency: String,
+    maximumFractionDigits: Int,
+    minimumFractionDigits: Int
+) = getFormatter(
+    isoCurrency,
+    Locale.getDefault(),
+    maximumFractionDigits,
+    minimumFractionDigits
+).format(this)
 
-private fun getFormatter(isoCurrency: String, locale:Locale): NumberFormat {
-    val key = "${isoCurrency}_${locale.country}"
-    return mapFromatter[key] ?: DecimalFormat.getCurrencyInstance(locale).apply {
-        maximumFractionDigits = 2
-        minimumFractionDigits = 0
+private fun getFormatter(
+    isoCurrency: String,
+    locale: Locale,
+    maximumFractionDigits: Int,
+    minimumFractionDigits: Int
+): NumberFormat {
+    val key = "${isoCurrency}_${locale.country}_${maximumFractionDigits}_${minimumFractionDigits}"
+    return mapFormatter[key] ?: DecimalFormat.getCurrencyInstance(locale).apply {
+        this.maximumFractionDigits = maximumFractionDigits
+        this.minimumFractionDigits = minimumFractionDigits
         currency = Currency.getInstance(isoCurrency)
-        mapFromatter[key] = this
+        mapFormatter[key] = this
     }
 }
 
 fun skResetCurrencyFormatters() {
-    mapFromatter.clear()
+    mapFormatter.clear()
 }

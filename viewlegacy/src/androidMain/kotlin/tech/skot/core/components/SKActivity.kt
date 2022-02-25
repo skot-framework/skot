@@ -31,12 +31,6 @@ abstract class SKActivity : AppCompatActivity() {
 
     abstract val featureInitializer: SKFeatureInitializer
 
-
-//    override fun onNewIntent(intent: Intent?) {
-//        super.onNewIntent(intent)
-//        intent?.data?.toSKUri()?.let { featureInitializer.onDeepLink?.invoke(it) }
-//    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
@@ -110,6 +104,7 @@ abstract class SKActivity : AppCompatActivity() {
                 val loadingIndex = loadingInsetsCounter
                 ViewCompat.setOnApplyWindowInsetsListener(it) { view, windowInsets ->
                     if (loadingInsetsCounter == loadingIndex) {
+                        ViewCompat.setOnApplyWindowInsetsListener(it, null)
                         it.updatePadding(
                             bottom = if (fullScreen) windowInsets.getInsets(
                                 WindowInsetsCompat.Type.systemBars()

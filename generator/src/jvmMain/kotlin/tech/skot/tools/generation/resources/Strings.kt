@@ -18,7 +18,7 @@ fun Generator.generateStrings() {
     val regex = Regex("(%[a-zA-Z])")
     fun String.patterns() = regex.findAll(this).map {
         it.groupValues[1]
-    }.map { "%"+it }.joinToString(separator = " ")
+    }.map { "%"+it }.joinToString(separator = "_")
 
     val pairsStringsPatterns =
             if (!Files.exists(values)) {

@@ -1,7 +1,7 @@
 object Versions {
 
     const val group = "tech.skot"
-    const val version = "1.1.16"
+    const val version = "1.1.17"
 
     const val kotlin = "1.6.10"
     const val kotlinCoroutines = "1.6.0"
@@ -11,7 +11,7 @@ object Versions {
 
     const val sqldelight = "1.5.3"
 
-    const val kotlinpoet = "1.4.0"
+    const val kotlinpoet = "1.10.2"
 
     object Android {
 

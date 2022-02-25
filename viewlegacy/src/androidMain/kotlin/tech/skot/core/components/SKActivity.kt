@@ -31,8 +31,14 @@ abstract class SKActivity : AppCompatActivity() {
 
     abstract val featureInitializer: SKFeatureInitializer
 
+    var statusBarColor: Int = 0
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+
         lifecycleScope.launch {
 
             featureInitializer.initializeIfNeeded(intent?.data?.toSKUri())
@@ -77,6 +83,8 @@ abstract class SKActivity : AppCompatActivity() {
                     }
             }
         }
+
+        statusBarColor = window.statusBarColor
     }
 
     private var loadingInsetsCounter: Long = 0L

@@ -58,8 +58,9 @@ abstract class SKScreenView<B : ViewBinding>(
     open val fullScreen: Boolean = false
     open val lightStatusBar: Boolean = true
 
-    fun onStatusBarColor(color:Color?) {
-        activity.window.statusBarColor = color?.let { ContextCompat.getColor(activity, it.res) } ?: 0
+    fun onStatusBarColor(color: Color?) {
+        activity.window.statusBarColor =
+            color?.let { ContextCompat.getColor(activity, it.res) } ?: activity.statusBarColor
     }
 
     protected open val withWindowsInsetsPaddingTop: Boolean = false

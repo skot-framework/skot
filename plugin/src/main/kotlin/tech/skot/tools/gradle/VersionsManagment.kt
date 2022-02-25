@@ -70,7 +70,7 @@ private fun Project.skSaveUploadedInfos(branch:String) {
 }
 
 fun Project.skVersionsTasks(branchEnvVariable:String, defaultBranch:String, nbMaxCommitsInReleaseNote:Int) {
-    val branch = System.getenv(branchEnvVariable) ?: defaultBranch
+    val branch = System.getenv(branchEnvVariable)?.let { "origin/$it" } ?: "origin/$defaultBranch"
     skComputeVersionCodeAndReleaseNote(branch, nbMaxCommitsInReleaseNote)
     skSaveUploadedInfos(branch)
 }

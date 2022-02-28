@@ -25,7 +25,8 @@ data class App(
     val baseActivityVar: String? = null,
     val initializationPlans:List<String> = emptyList(),
     val iOs:Boolean = false,
-    val referenceIconsByVariant: Boolean = false
+    val referenceIconsByVariant: Boolean = false,
+    val ktlintOnGeneratedFiles:Boolean = true
 )
 
 data class FeatureModule(val packageName: String, val startScreen: String)
@@ -125,16 +126,21 @@ class PluginTools : Plugin<Project> {
                             app.referenceIconsByVariant.toString()
                         )
                     }
+
+                    if (app.ktlintOnGeneratedFiles) {
+                        println("ktLint ......")
+                        val srcs = "**/generated/**/*.kt"
+                        project.javaexec {
+                            workingDir = project.rootDir
+                            main = "com.pinterest.ktlint.Main"
+                            classpath = sourceSet.runtimeClasspath
+                            args = listOf("-F", srcs, "--disabled_rules=parameter-list-wrapping")
+                        }
+                    }
                 }
 
-                println("ktLint ......")
-                val srcs = "**/generated/**/*.kt"
-                project.javaexec {
-                    workingDir = project.rootDir
-                    main = "com.pinterest.ktlint.Main"
-                    classpath = sourceSet.runtimeClasspath
-                    args = listOf("-F", srcs)
-                }
+
+
             }
             dependsOn(project.tasks.getByName("compileKotlin"))
             group = "Skot"
@@ -151,7 +157,7 @@ class PluginTools : Plugin<Project> {
         this.add("implementation", project("$parentProjectPath:viewcontract"))
         this.add("implementation", project("$parentProjectPath:modelcontract"))
         this.add("api", "${Versions.group}:generator:${Versions.skot}")
-        this.add("implementation", "com.pinterest:ktlint:0.44.0")
+        this.add("implementation", "com.pinterest:ktlint:0.43.2")
     }
 
 }

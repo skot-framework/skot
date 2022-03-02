@@ -8,36 +8,39 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.KSerializer
 import tech.skot.core.SKLog
 
-open class SKDistantData<D : Any>(validity: Long? = null, private val fetchData: suspend () -> D) : SimpleSKData<D>() {
+open class SKDistantData<D : Any>(validity: Long? = null, private val fetchData: suspend () -> D) :
+    SimpleSKData<D>() {
     override suspend fun newDatedData() = DatedData(fetchData(), currentTimeMillis())
     override val defaultValidity = validity ?: super.defaultValidity
 }
 
 abstract class SKDistantDataWithCache<D : Any>(
-        private val name: String,
-        private val serializer: KSerializer<D>,
-        protected open val key: String?,
-        private val cache: SKPersistor = globalCache,
-        validity: Long? = null,
-        private val fetchData: suspend () -> D) : SKDistantData<D>(validity, fetchData) {
-
+    protected val name: String,
+    private val serializer: KSerializer<D>,
+    protected open val key: String?,
+    private val cache: SKPersistor = globalCache,
+    validity: Long? = null,
+    private val fetchData: suspend () -> D
+) : SKDistantData<D>(validity, fetchData) {
 
 
     override suspend fun newDatedData(): DatedData<D> {
         val fetchedData = DatedData(fetchData(), currentTimeMillis())
-       saveInCache(fetchedData)
+        saveInCache(fetchedData)
         return fetchedData
     }
 
-    protected open val completeKey:String? = key
+    protected open val completeKey: String? = key
 
-    private fun saveInCache(newData:DatedData<D>) {
+    private fun saveInCache(newData: DatedData<D>) {
         CoroutineScope(Dispatchers.Default).launch {
             try {
                 cache.putData(serializer, name, newData.data, completeKey, newData.timestamp)
-            }
-            catch (ex:Exception) {
-                SKLog.e(ex, "SKDistantDataWithCache Problème à la mise en cache de la donnée $name $key")
+            } catch (ex: Exception) {
+                SKLog.e(
+                    ex,
+                    "SKDistantDataWithCache Problème à la mise en cache de la donnée $name $key"
+                )
             }
         }
     }
@@ -47,13 +50,18 @@ abstract class SKDistantDataWithCache<D : Any>(
     private suspend fun initWithCache() {
         initMutex.withLock {
             if (flow.value == null) {
-                val cacheDate = cache.getDateOfData(name, key)
+                val cacheDate = cache.getDateOfData(name, completeKey)
+
                 if (cacheDate != null) {
                     try {
-                        flow.value = cache.getData(serializer, name, key)?.let { DatedData(it, cacheDate) }
-                    }
-                    catch (ex:Exception) {
-                        SKLog.e(ex, "SKDistantDataWithCache Problème à la récupération du cache de la donnée $name $key")
+                        flow.value = cache.getData(serializer, name, completeKey)?.let {
+                            DatedData(it, cacheDate)
+                        }
+                    } catch (ex: Exception) {
+                        SKLog.e(
+                            ex,
+                            "SKDistantDataWithCache Problème à la récupération du cache de la donnée $name $key"
+                        )
                     }
 
                 }
@@ -83,15 +91,15 @@ abstract class SKDistantDataWithCache<D : Any>(
 
 }
 
-abstract class SKDistantDataWithCacheAndLiveKey<D:Any>(
+abstract class SKDistantDataWithCacheAndLiveKey<D : Any>(
     name: String,
     serializer: KSerializer<D>,
     private val cache: SKPersistor = globalCache,
     validity: Long? = null,
-    private val fixKey:String?,
+    private val fixKey: String?,
     private val liveKey: () -> String,
     fetchData: suspend () -> D
-):SKDistantDataWithCache<D>(
+) : SKDistantDataWithCache<D>(
     name = name,
     serializer = serializer,
     key = "${fixKey}_${liveKey()}",

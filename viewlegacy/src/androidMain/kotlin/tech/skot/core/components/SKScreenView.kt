@@ -59,6 +59,7 @@ abstract class SKScreenView<B : ViewBinding>(
     open val lightStatusBar: Boolean = true
 
     fun onStatusBarColor(color: Color?) {
+        activity.requestedStatusBarColor = color?.let { ContextCompat.getColor(activity, it.res) }
         activity.window.statusBarColor =
             color?.let { ContextCompat.getColor(activity, it.res) } ?: activity.statusBarColor
     }

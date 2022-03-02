@@ -32,7 +32,7 @@ abstract class SKActivity : AppCompatActivity() {
     abstract val featureInitializer: SKFeatureInitializer
 
     var statusBarColor: Int = 0
-
+    var requestedStatusBarColor: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

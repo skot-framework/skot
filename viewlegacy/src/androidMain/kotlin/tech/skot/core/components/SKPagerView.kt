@@ -8,7 +8,7 @@ import androidx.viewpager2.widget.ViewPager2
 class SKPagerView(override val proxy:SKPagerViewProxy, activity: SKActivity, fragment: Fragment?, private val viewPager2: ViewPager2) : SKComponentView<ViewPager2>(proxy, activity, fragment, viewPager2) {
 
     fun onScreens(screens: List<SKScreenViewProxy<*>>) {
-        viewPager2.adapter = object : FragmentStateAdapter(fragmentManager, lifecycle) {
+        viewPager2.adapter = object : FragmentStateAdapter(fragmentManager, lifecycleOwner.lifecycle) {
             override fun getItemCount() = screens.size
 
             override fun createFragment(position: Int): Fragment {

@@ -138,8 +138,6 @@ fun Generator.generateStates(rootState: StateDef) {
                                 ).map {
                                 "\${$it}"
                             }.joinToString(separator = "_", prefix = "\"", postfix = "\"")
-//                        keyProperties.map { "\${infos.${it.name}}" }
-//                            .joinToString(separator = "_", prefix = "\"", postfix = "\"")
                     }
                     addProperty(
                         PropertySpec.builder("key", String::class)

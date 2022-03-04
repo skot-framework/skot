@@ -31,7 +31,7 @@ class SKSnackBarView(
     var anchor: View? = null
 
     init {
-        lifecycle.addObserver(object : DefaultLifecycleObserver {
+        lifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onPause(owner: LifecycleOwner) {
                 super.onPause(owner)
                 current?.snack?.dismiss()

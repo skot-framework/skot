@@ -70,8 +70,8 @@ abstract class SKScreenView<B : ViewBinding>(
 
 
     init {
-        ScreensManager.backPressed.observe(this) {
-            if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+        ScreensManager.backPressed.observe(lifecycleOwner = lifecycleOwner) {
+            if (lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
                 onBackPressed?.invoke()
             }
         }

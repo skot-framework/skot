@@ -1,3 +1,3 @@
 package tech.skot.core.view
 
-expect class Icon : Resource
+expect open class Resource

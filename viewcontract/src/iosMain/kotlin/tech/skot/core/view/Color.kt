@@ -1,3 +1,3 @@
 package tech.skot.core.view
 
-actual class Color(val name:String)
+actual class Color(name:String) : Resource(name)

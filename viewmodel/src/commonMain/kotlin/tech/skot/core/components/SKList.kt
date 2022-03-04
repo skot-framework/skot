@@ -1,8 +1,15 @@
 package tech.skot.core.components
 
-import tech.skot.core.SKLog
 import tech.skot.core.di.coreViewInjector
 
+/**
+ * [SKComponent] used to show a list or a grid
+ * @param vertical [Boolean] specify if the list should scroll vertically or horizontally, vertical by default
+ * @param reverse [Boolean] direction of the list
+ * @param animate [Boolean]
+ * @param animateItem [Boolean]
+ *
+ */
 open class SKList(
     vertical: Boolean = true,
     reverse: Boolean = false,
@@ -23,7 +30,7 @@ open class SKList(
         view.scrollToPosition(position)
     }
 
-    fun showAll(item:SKComponent<*>) {
+    fun showAll(item: SKComponent<*>) {
         view.scrollToPosition(items.indexOf(item))
     }
 

@@ -5,7 +5,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import tech.skot.core.SKLog
 
-abstract class SimpleSKData<D : Any> : SKData<D> {
+abstract class SimpleSKData<D : Any?> : SKData<D> {
 
     override val flow = MutableStateFlow<DatedData<D>?>(null)
     override val defaultValidity = 5 * 60 * 1000L

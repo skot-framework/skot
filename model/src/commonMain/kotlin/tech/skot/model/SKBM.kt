@@ -20,6 +20,21 @@ abstract class SKBM(val key: String?) {
         fetchData = fetchData
     )
 
+    open inner class NullableDistantData<D : Any>(
+        name: String,
+        serializer: KSerializer<D>,
+        cache: SKPersistor = globalCache,
+        validity: Long? = null,
+        fetchData: suspend () -> D
+    ) : SKNullableDistantDataWithCache<D>(
+        name = name,
+        dataSerializer = serializer,
+        key = key,
+        cache = cache,
+        validity = validity,
+        fetchData = fetchData
+    )
+
     open inner class DistantDataWithLiveKey<D : Any>(
         name: String,
         serializer: KSerializer<D>,

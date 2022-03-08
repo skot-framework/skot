@@ -157,23 +157,6 @@ fun Generator.generateStates(rootState: StateDef) {
             }
 
 
-            bmS.forEach {
-                addProperty(
-                    PropertySpec.builder(
-                        it.simpleName.decapitalize(),
-                        it
-                    ).initializer(
-                        (listOf("key") + (parentsList.map {
-                            it.name.decapitalizeAsciiOnly()
-                        }) + "this").joinToString(
-                            separator = ", ",
-                            prefix = "${it.simpleName}Impl(",
-                            postfix = ")"
-                        )
-                    )
-                        .build()
-                )
-            }
 
             if (!isCompositeState) {
                 properties.forEach {
@@ -232,6 +215,24 @@ fun Generator.generateStates(rootState: StateDef) {
                 }
             }
 
+
+            bmS.forEach {
+                addProperty(
+                    PropertySpec.builder(
+                        it.simpleName.decapitalize(),
+                        it
+                    ).initializer(
+                        (listOf("key") + (parentsList.map {
+                            it.name.decapitalizeAsciiOnly()
+                        }) + "this").joinToString(
+                            separator = ", ",
+                            prefix = "${it.simpleName}Impl(",
+                            postfix = ")"
+                        )
+                    )
+                        .build()
+                )
+            }
 
             val subStateConstructorParams =
                 (parentsList.map { it.name.decapitalizeAsciiOnly() } + "this" + "it")

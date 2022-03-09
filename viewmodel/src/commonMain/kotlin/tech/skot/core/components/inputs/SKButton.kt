@@ -7,8 +7,8 @@ open class SKButton(
     label: String? = null,
     enabled: Boolean? = null,
     hidden: Boolean? = null,
+    debounce:Long? = 500,
     onTap: (() -> Unit)? = null,
-    debounce:Long? = 500
 ) : SKComponent<SKButtonVC>() {
 
     override val view = coreViewInjector.button(

@@ -323,13 +323,31 @@ abstract class CommonSKPersistor : SKPersistor {
 
 
 interface PersistorFactory {
-    fun getPersistor(dbFileName: String): SKPersistor
+    fun getPersistor(dbFileName: String, cache:Boolean = false): SKPersistor
 }
 
-val globalCache by lazy {
+val globalPersistor by lazy {
     get<PersistorFactory>().getPersistor("global")
 }
 
-val userCache by lazy {
+//@Deprecated("replaced by globalPersistor")
+//val globalCache by lazy {
+//    globalPersistor
+//}
+
+val userPersistor by lazy {
     get<PersistorFactory>().getPersistor("user")
+}
+
+//@Deprecated("replaced by userPersistor")
+//val userCache by lazy {
+//    userPersistor
+//}
+
+val globalCachePersistor by lazy {
+    get<PersistorFactory>().getPersistor("globalCache", cache = true)
+}
+
+val userCachePersistor by lazy {
+    get<PersistorFactory>().getPersistor("userCache", cache = true)
 }

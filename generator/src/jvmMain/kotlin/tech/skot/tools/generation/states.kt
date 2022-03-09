@@ -400,7 +400,7 @@ fun Generator.generateStates(rootState: StateDef) {
             .addFunction(
                 FunSpec.builder(saveStateFunction.simpleName)
                     .beginControlFlow("CoroutineScope(Dispatchers.Default).launch")
-                    .addStatement("${FrameworkClassNames.globalCache.simpleName}.putData(")
+                    .addStatement("${FrameworkClassNames.globalPersistor.simpleName}.putData(")
 //                    .beginControlFlow("${rootState.nameAsProperty}.let")
                     .addStatement("serializer = ${rootState.infosClassName.simpleName}.serializer(),")
                     .addStatement("name = $keyName,")
@@ -412,7 +412,7 @@ fun Generator.generateStates(rootState: StateDef) {
             .addFunction(
                 FunSpec.builder(restoreStateFunction.simpleName)
                     .addModifiers(KModifier.SUSPEND)
-                    .addCode("return ${FrameworkClassNames.globalCache.simpleName}.getData(\n")
+                    .addCode("return ${FrameworkClassNames.globalPersistor.simpleName}.getData(\n")
                     .addStatement("serializer = ${rootState.infosClassName.simpleName}.serializer(),")
                     .addStatement("name = $keyName")
                     .addCode(")?.\n")
@@ -427,7 +427,7 @@ fun Generator.generateStates(rootState: StateDef) {
                     .returns(rootState.modelClassName)
                     .build()
             )
-            .addImportClassName(FrameworkClassNames.globalCache)
+            .addImportClassName(FrameworkClassNames.globalPersistor)
             .addImportClassName(FrameworkClassNames.coroutineScope)
             .addImportClassName(FrameworkClassNames.dispatchers)
             .addImportClassName(FrameworkClassNames.launch)

@@ -13,8 +13,9 @@ actual val modelFrameworkModule = module<BaseInjector> {
 
     factory {
         object : PersistorFactory {
-            override fun getPersistor(dbFileName: String) =
-                    AndroidSKPersistor(androidApplication, dbFileName)
+            override fun getPersistor(dbFileName: String, cache: Boolean): SKPersistor =
+                AndroidSKPersistor(androidApplication, dbFileName, cache)
+
         } as PersistorFactory
     }
 

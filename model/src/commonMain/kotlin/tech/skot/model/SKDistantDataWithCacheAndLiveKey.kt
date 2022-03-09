@@ -5,7 +5,7 @@ import kotlinx.serialization.KSerializer
 abstract class SKDistantDataWithCacheAndLiveKey<D : Any>(
     name: String,
     serializer: KSerializer<D>,
-    private val cache: SKPersistor = globalCache,
+    private val cache: SKPersistor = globalPersistor,
     validity: Long? = null,
     private val fixKey: String?,
     private val liveKey: () -> String,

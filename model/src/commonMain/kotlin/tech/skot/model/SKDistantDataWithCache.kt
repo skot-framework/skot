@@ -12,7 +12,7 @@ abstract class SKDistantDataWithCache<D : Any>(
     protected val name: String,
     private val serializer: KSerializer<D>,
     protected open val key: String?,
-    private val cache: SKPersistor = globalCache,
+    private val cache: SKPersistor = globalPersistor,
     validity: Long? = null,
     private val fetchData: suspend () -> D
 ) : SKDistantData<D>(validity, fetchData) {

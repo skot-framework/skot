@@ -14,7 +14,7 @@ abstract class SKManualDataWithCache<D : Any>(
     private val name: String,
     private val serializer: KSerializer<D>,
     private val key: String? = null,
-    private val cache: SKPersistor = globalCache,
+    private val cache: SKPersistor = globalPersistor,
     private val initialDefaultValue: D
 ) : SKData<D> {
 

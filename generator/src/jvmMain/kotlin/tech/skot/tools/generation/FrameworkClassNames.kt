@@ -33,7 +33,7 @@ object FrameworkClassNames {
 
     val skManualData = ClassName("tech.skot.model","SKManualData")
     val skData = ClassName("tech.skot.model","SKData")
-    val globalCache = ClassName("tech.skot.model","globalCache")
+    val globalPersistor = ClassName("tech.skot.model","globalPersistor")
     val skActivity = ClassName("tech.skot.core.components","SKActivity")
     val get = ClassName("tech.skot.core.di","get")
     val toSKUri = ClassName("tech.skot.core","toSKUri")

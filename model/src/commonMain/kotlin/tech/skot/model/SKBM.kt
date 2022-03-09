@@ -8,7 +8,7 @@ abstract class SKBM(val key: String?) {
     open inner class DistantData<D : Any>(
         name: String,
         serializer: KSerializer<D>,
-        cache: SKPersistor = globalCache,
+        cache: SKPersistor = globalPersistor,
         validity: Long? = null,
         fetchData: suspend () -> D
     ) : SKDistantDataWithCache<D>(
@@ -23,7 +23,7 @@ abstract class SKBM(val key: String?) {
     open inner class NullableDistantData<D : Any>(
         name: String,
         serializer: KSerializer<D>,
-        cache: SKPersistor = globalCache,
+        cache: SKPersistor = globalPersistor,
         validity: Long? = null,
         fetchData: suspend () -> D
     ) : SKNullableDistantDataWithCache<D>(
@@ -38,7 +38,7 @@ abstract class SKBM(val key: String?) {
     open inner class DistantDataWithLiveKey<D : Any>(
         name: String,
         serializer: KSerializer<D>,
-        cache: SKPersistor = globalCache,
+        cache: SKPersistor = globalPersistor,
         validity: Long? = null,
         private val liveKey: () -> String,
         fetchData: suspend () -> D
@@ -55,7 +55,7 @@ abstract class SKBM(val key: String?) {
     open inner class ManualData<D : Any>(
         name: String,
         serializer: KSerializer<D>,
-        cache: SKPersistor = globalCache,
+        cache: SKPersistor = globalPersistor,
         initialDefaultValue: D
     ) : SKManualDataWithCache<D>(
         name = name,
@@ -68,7 +68,7 @@ abstract class SKBM(val key: String?) {
     open inner class NullableManualData<D : Any>(
         name: String,
         serializer: KSerializer<D>,
-        cache: SKPersistor = globalCache,
+        cache: SKPersistor = globalPersistor,
         initialDefaultValue: D?
     ) : SKNullableManualDataWithCache<D>(
         name = name,

@@ -4,8 +4,9 @@ import org.junit.Before
 import tech.skot.core.di.BaseInjector
 import tech.skot.core.di.Module
 import tech.skot.core.di.injector
-import tech.skot.model.globalCache
-import tech.skot.model.userCache
+import tech.skot.model.globalCachePersistor
+import tech.skot.model.globalPersistor
+import tech.skot.model.userCachePersistor
 
 abstract class SKTestModel(vararg modules: Module<BaseInjector>) {
 
@@ -14,8 +15,10 @@ abstract class SKTestModel(vararg modules: Module<BaseInjector>) {
     @Before
     fun setUp() {
         injector = BaseInjector(_modules)
-        globalCache.clearSync()
-        userCache.clearSync()
+        globalPersistor.clearSync()
+        userCachePersistor.clearSync()
+        globalCachePersistor.clearSync()
+        userCachePersistor.clearSync()
     }
 
 

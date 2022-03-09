@@ -25,7 +25,7 @@ abstract class SKBM(val key: String?) {
         serializer: KSerializer<D>,
         cache: SKPersistor = globalPersistor,
         validity: Long? = null,
-        fetchData: suspend () -> D
+        fetchData: suspend () -> D?
     ) : SKNullableDistantDataWithCache<D>(
         name = name,
         dataSerializer = serializer,

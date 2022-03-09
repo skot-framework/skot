@@ -186,17 +186,19 @@ class CoreViewInjectorMock : CoreViewInjector {
         onTapInitial: (() -> Unit)?,
         labelInitial: String?,
         enabledInitial: Boolean?,
-        hiddenInitial: Boolean?
+        hiddenInitial: Boolean?,
+        debounce:Long?
     ): SKButtonVC {
-        return SKButtonViewMock(onTapInitial, labelInitial, enabledInitial, hiddenInitial)
+        return SKButtonViewMock(onTapInitial, labelInitial, enabledInitial, hiddenInitial, debounce)
     }
 
     override fun imageButton(
         onTapInitial: (() -> Unit)?,
         iconInitial: Icon,
         enabledInitial: Boolean?,
-        hiddenInitial: Boolean?
+        hiddenInitial: Boolean?,
+        debounce:Long?
     ): SKImageButtonVC {
-        return SKImageButtonViewMock(onTapInitial, iconInitial, enabledInitial, hiddenInitial)
+        return SKImageButtonViewMock(onTapInitial, iconInitial, enabledInitial, hiddenInitial, debounce)
     }
 }

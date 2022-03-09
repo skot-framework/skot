@@ -9,4 +9,8 @@ interface SKButtonVC: SKComponentVC {
     var label:String?
     var enabled:Boolean?
     var hidden:Boolean?
+    /**
+     * null signifie pas de debounce
+     */
+    val debounce:Long?
 }

@@ -19,8 +19,7 @@ class TestSKSnackBarView : SKTestView() {
             labelInitial = "show simple",
             onTapInitial = {
                 snack.state = SKSnackBarVC.Shown(
-                    message = "message assez long l lksdjflkj slkdfj lkjsqdf lkj",
-                    onTop = true,
+                    message = "message assez long l lksdjflkj slkdfj lkjsqdf lkj"
                 )
 
             }
@@ -31,7 +30,6 @@ class TestSKSnackBarView : SKTestView() {
             onTapInitial = {
                 snack.state = SKSnackBarVC.Shown(
                     message = "message assez long l lksdjflkj slkdfj lkjsqdf lkj",
-                    onTop = true,
                     leftIcon = Icon(R.drawable.ic_delete)
                 )
 
@@ -43,7 +41,6 @@ class TestSKSnackBarView : SKTestView() {
             onTapInitial = {
                 snack.state = SKSnackBarVC.Shown(
                     message = "message assez long l lksdjflkj slkdfj lkjsqdf lkj",
-                    onTop = true,
                     rightIcon = Icon(R.drawable.ic_delete)
                 )
 
@@ -55,7 +52,6 @@ class TestSKSnackBarView : SKTestView() {
             onTapInitial = {
                 snack.state = SKSnackBarVC.Shown(
                     message = "message assez long l lksdjflkj slkdfj lkjsqdf lkj",
-                    onTop = true,
                     rightIcon = Icon(R.drawable.ic_delete),
                     leftIcon = Icon(R.drawable.ic_dialog_info)
                 )
@@ -68,8 +64,7 @@ class TestSKSnackBarView : SKTestView() {
             onTapInitial = {
                 snack.state = SKSnackBarVC.Shown(
                     message = "message assez long l lksdjflkj slkdfj lkjsqdf lkj",
-                    onTop = true,
-                    backgroundColor = Color(android.R.color.holo_red_dark),
+                    background = Color(android.R.color.holo_red_dark),
                     leftIcon = Icon(R.drawable.ic_dialog_info)
                 )
 

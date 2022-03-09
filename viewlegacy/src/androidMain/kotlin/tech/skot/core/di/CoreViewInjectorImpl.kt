@@ -165,15 +165,19 @@ class CoreViewInjectorImpl : CoreViewInjector {
         onTapInitial: (() -> Unit)?,
         labelInitial: String?,
         enabledInitial: Boolean?,
-        hiddenInitial: Boolean?
-    ) = SKButtonViewProxy(onTapInitial, labelInitial, enabledInitial, hiddenInitial)
+        hiddenInitial: Boolean?,
+        debounce: Long?
+    ) = SKButtonViewProxy(onTapInitial, labelInitial, enabledInitial, hiddenInitial, debounce)
 
     override fun imageButton(
         onTapInitial: (() -> Unit)?,
         iconInitial: Icon,
         enabledInitial: Boolean?,
-        hiddenInitial: Boolean?
-    ) = SKImageButtonViewProxy(onTapInitial, iconInitial, enabledInitial, hiddenInitial)
+        hiddenInitial: Boolean?,
+        debounce: Long?
+    ) = SKImageButtonViewProxy(onTapInitial, iconInitial, enabledInitial, hiddenInitial, debounce)
+
+
 
 
 }

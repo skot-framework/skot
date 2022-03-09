@@ -9,6 +9,7 @@ open class SKImageButton(
     enabled:Boolean? = null,
     hidden:Boolean? = null,
     onTap:(()->Unit)? = null,
+    debounce:Long? = 500
     ): SKComponent<SKImageButtonVC>() {
 
     override val view = coreViewInjector.imageButton(
@@ -16,6 +17,7 @@ open class SKImageButton(
         iconInitial = icon,
         enabledInitial = enabled,
         hiddenInitial = hidden,
+        debounce = debounce
     )
 
 

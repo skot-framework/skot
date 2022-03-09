@@ -79,13 +79,15 @@ interface CoreViewInjector {
         onTapInitial: (() -> Unit)?,
         labelInitial: String?,
         enabledInitial: Boolean?,
-        hiddenInitial: Boolean?
+        hiddenInitial: Boolean?,
+        debounce:Long?
     ):SKButtonVC
 
     fun imageButton(
         onTapInitial: (() -> Unit)?,
         iconInitial: Icon,
         enabledInitial: Boolean?,
-        hiddenInitial: Boolean?
+        hiddenInitial: Boolean?,
+        debounce:Long?
     ):SKImageButtonVC
 }

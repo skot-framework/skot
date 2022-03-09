@@ -17,7 +17,7 @@ class SKImageButtonView(
 ) : SKComponentView<ImageButton>(proxy, activity, fragment, button) {
 
     fun onOnTap(onTap: (() -> Unit)?) {
-        binding.setOnClick(onTap)
+        binding.setOnClick(onTap, single = proxy.debounce != null, delay = proxy.debounce ?: 500)
     }
 
     fun onIcon(icon: Icon) {

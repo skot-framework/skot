@@ -13,7 +13,8 @@ class SKImageButtonViewProxy(
     onTapInitial: (() -> Unit)?,
     iconInitial: Icon,
     enabledInitial: Boolean? = true,
-    hiddenInitial: Boolean? = false
+    hiddenInitial: Boolean? = false,
+    override val debounce: Long? = 500
 ) : SKComponentViewProxy<ImageButton>(), SKImageButtonVC {
 
     companion object {

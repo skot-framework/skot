@@ -2,6 +2,7 @@ package tech.skot.core.components.inputs
 
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import tech.skot.core.SKLog
 import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKComponentView
 import tech.skot.view.extensions.setOnClick
@@ -15,7 +16,7 @@ class SKButtonView(
 ) : SKComponentView<Button>(proxy, activity, fragment, button) {
 
     fun onOnTap(onTap: (() -> Unit)?) {
-        binding.setOnClick(onTap)
+        binding.setOnClick(onTap, single = proxy.debounce != null, delay = proxy.debounce ?: 500)
     }
 
     fun onLabel(label: String?) {

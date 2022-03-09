@@ -11,4 +11,5 @@ interface SKImageButtonVC: SKComponentVC {
     var onTap:(()->Unit)?
     var enabled:Boolean?
     var hidden:Boolean?
+    val debounce:Long?
 }

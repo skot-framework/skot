@@ -11,11 +11,9 @@ import androidx.annotation.CallSuper
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import tech.skot.core.SKLog
+import tech.skot.core.toColor
 import tech.skot.core.view.Color
 import tech.skot.view.SKPermissionAndroid
 import tech.skot.view.live.SKLifecycle
@@ -63,7 +61,7 @@ abstract class SKComponentView<B : Any>(
     }
 
     fun TextView.setTextColor(color: Color) {
-        setTextColor(ContextCompat.getColor(context, color.res))
+        setTextColor(color.toColor(context))
     }
 
     fun displayError(message: String) {

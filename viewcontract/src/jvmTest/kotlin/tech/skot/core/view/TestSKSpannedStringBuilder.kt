@@ -10,10 +10,10 @@ class TestSKSpannedStringBuilder {
     fun testSimple() {
 
         val res = skSpannedString {
-            colored(Color(1)) {
+            colored(ColorRef(1)) {
                 append("coucou")
                 underline {
-                    colored(Color(2)) {
+                    colored(ColorHex("#123456")) {
                         append("jaune")
                     }
                     striked {

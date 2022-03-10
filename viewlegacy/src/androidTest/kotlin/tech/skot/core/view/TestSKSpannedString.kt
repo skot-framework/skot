@@ -14,13 +14,13 @@ class TestSKSpannedString : SKTestView() {
             SKSpan(
                 "début",
                 typeface = SKSpanFormat.Bold,
-                colored = SKSpanFormat.Colored(Color(R.color.red)),
+                colored = SKSpanFormat.Colored(ColorRef(R.color.red)),
                 underline = underline,
                 striked = striked
             ),
             SKSpan(
                 "milieu",
-                colored = SKSpanFormat.Colored(Color(R.color.green)),
+                colored = SKSpanFormat.Colored(ColorRef(R.color.green)),
                 underline = underline,
                 striked = striked
             ),
@@ -94,7 +94,7 @@ class TestSKSpannedString : SKTestView() {
 
         val skSpan1 =
             skSpannedString {
-                colored(Color(R.color.red)) {
+                colored(ColorRef(R.color.red)) {
 
                     clickable(toast("lien")) {
                         append("coucoulien")
@@ -103,7 +103,7 @@ class TestSKSpannedString : SKTestView() {
                             append(" rouge")
                         }
                         scale(1.4f) {
-                            colored(Color(R.color.green)) {
+                            colored(ColorRef(R.color.green)) {
                                 append(" vert ")
                             }
                             append("re-rouge")

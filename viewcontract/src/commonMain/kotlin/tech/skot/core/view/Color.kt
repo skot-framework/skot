@@ -1,3 +1,3 @@
 package tech.skot.core.view
 
-expect class Color : Resource
+interface Color : Resource

@@ -158,6 +158,11 @@ class Generator(
     val stylesImpl = ClassName(appPackage, "StylesImpl")
     val stylesMock = ClassName(appPackage, "StylesMock")
 
+    val dimensInstance = ClassName(appPackage, "dimens")
+    val dimensInterface = ClassName(appPackage, "Dimens")
+    val dimensImpl = ClassName(appPackage, "DimensImpl")
+    val dimensMock = ClassName(appPackage, "DimensMock")
+
     val initializeView = ClassName("${appPackage}.di", "initializeView")
 
     val skBuild = ClassName(appPackage, "SKBuild")
@@ -214,6 +219,7 @@ class Generator(
         generateColors()
         generateStyles()
         generateFonts()
+        generateDimens()
         generateApp()
         generateCodeMap()
 
@@ -465,10 +471,11 @@ class Generator(
                         .beginControlFlow("listOf(module")
                         .addStatement("single<${stringsInterface.simpleName}> { ${stringsImpl.simpleName}(androidApplication)}")
                         .addStatement("single<${pluralsInterface.simpleName}> { ${pluralsImpl.simpleName}(androidApplication)}")
-                        .addStatement("single<${iconsInterface.simpleName}> { ${iconsImpl.simpleName}()}")
-                        .addStatement("single<${colorsInterface.simpleName}> { ${colorsImpl.simpleName}()}")
+                        .addStatement("single<${iconsInterface.simpleName}> { ${iconsImpl.simpleName}(androidApplication)}")
+                        .addStatement("single<${colorsInterface.simpleName}> { ${colorsImpl.simpleName}(androidApplication)}")
                         .addStatement("single<${fontsInterface.simpleName}> { ${fontsImpl.simpleName}()}")
                         .addStatement("single<${stylesInterface.simpleName}> { ${stylesImpl.simpleName}()}")
+                        .addStatement("single<${dimensInterface.simpleName}> { ${dimensImpl.simpleName}()}")
                         .addStatement("single<${viewInjectorInterface.simpleName}> { ${viewInjectorImpl.simpleName}()}")
                         .addStatement("single<${modelInjectorInterface.simpleName}> { ${modelInjectorImpl.simpleName}()}")
                         .addStatement("single<${transitionsInterface.simpleName}> { ${transitionsImpl.simpleName}()}")
@@ -531,6 +538,8 @@ class Generator(
             .addImportClassName(fontsImpl)
             .addImportClassName(stylesInterface)
             .addImportClassName(stylesImpl)
+            .addImportClassName(dimensInterface)
+            .addImportClassName(dimensImpl)
             .addImportClassName(appFeatureInitializer)
             .addImportClassName(transitionsInterface)
             .addImportClassName(transitionsImpl)

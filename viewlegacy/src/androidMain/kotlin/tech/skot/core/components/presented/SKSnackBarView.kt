@@ -7,7 +7,6 @@ import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -15,6 +14,8 @@ import com.google.android.material.snackbar.Snackbar
 import tech.skot.core.SKLog
 import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKComponentView
+import tech.skot.core.setBackground
+import tech.skot.core.toColor
 import tech.skot.viewlegacy.R
 
 class SKSnackBarView(
@@ -81,11 +82,11 @@ class SKSnackBarView(
                         }
 
                         state.background?.let { bg ->
-                            view.setBackgroundResource(bg.res)
+                            view.setBackground(bg)
                         }
 
-                        state.textColor?.res?.let {
-                            this.setTextColor(ContextCompat.getColor(context, it))
+                        state.textColor?.let {
+                            this.setTextColor(it.toColor(context))
                         }
 
 

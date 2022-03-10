@@ -2,12 +2,12 @@ package tech.skot.core.components
 
 import android.view.View
 import androidx.annotation.CallSuper
-import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.viewbinding.ViewBinding
+import tech.skot.core.toColor
 import tech.skot.core.view.Color
 import tech.skot.view.extensions.systemBars
 import tech.skot.view.extensions.updatePadding
@@ -59,9 +59,9 @@ abstract class SKScreenView<B : ViewBinding>(
     open val lightStatusBar: Boolean? = null
 
     fun onStatusBarColor(color: Color?) {
-        activity.requestedStatusBarColor = color?.let { ContextCompat.getColor(activity, it.res) }
+        activity.requestedStatusBarColor = color?.toColor(context)
         activity.window.statusBarColor =
-            color?.let { ContextCompat.getColor(activity, it.res) } ?: activity.statusBarColor
+            color?.toColor(context) ?: activity.statusBarColor
     }
 
     protected open val withWindowsInsetsPaddingTop: Boolean = false

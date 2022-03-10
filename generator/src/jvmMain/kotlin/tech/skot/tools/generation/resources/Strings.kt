@@ -18,64 +18,104 @@ fun Generator.generateStrings() {
     val regex = Regex("(%[a-zA-Z])")
     fun String.patterns() = regex.findAll(this).map {
         it.groupValues[1]
-    }.map { "%"+it }.joinToString(separator = "_")
+    }.map { "%" + it }.joinToString(separator = "_")
 
     val pairsStringsPatterns =
-            if (!Files.exists(values)) {
-                emptyList()
-            } else {
+        if (!Files.exists(values)) {
+            emptyList()
+        } else {
 
-                Files.list(values).flatMap {
-                    it.getDocumentElement().childElements().stream().filter { it.tagName == "string" }
-                            .map {
-                                Pair(it.getAttribute("name"),it.textContent.patterns()) }
-                }.collect(Collectors.toList())
-            }
+            Files.list(values).flatMap {
+                it.getDocumentElement().childElements().stream().filter { it.tagName == "string" }
+                    .map {
+                        Pair(it.getAttribute("name"), it.textContent.patterns())
+                    }
+            }.collect(Collectors.toList())
+        }
 
     val strings = pairsStringsPatterns.map { it.first }
 
-    fun String.toStringsPropertyName() = decapitalizeAsciiOnly().replace('.','_')
+    fun String.toStringsPropertyName() = decapitalizeAsciiOnly().replace('.', '_')
 
 
     FileSpec.builder(
-            stringsInterface.packageName,
-            stringsInterface.simpleName
+        stringsInterface.packageName,
+        stringsInterface.simpleName
     ).addType(TypeSpec.interfaceBuilder(stringsInterface.simpleName)
-            .addProperties(
-                    strings.map {
-                        PropertySpec.builder(it.toStringsPropertyName(), String::class)
-                                .build()
-                    }
-            )
-            .build())
-            .build()
-            .writeTo(generatedCommonSources(modules.modelcontract))
+        .addProperties(
+            strings.map {
+                PropertySpec.builder(it.toStringsPropertyName(), String::class)
+                    .build()
+            }
+        )
+        .addFunction(
+            FunSpec.builder("get")
+                .addParameter("key", String::class)
+                .returns(String::class.asTypeName().copy(nullable = true))
+                .addModifiers(KModifier.ABSTRACT)
+                .build()
+        )
+        .build())
+        .build()
+        .writeTo(generatedCommonSources(modules.modelcontract))
 
+    val funGetSpec = FunSpec.builder("get")
+        .addParameter("key", String::class)
+        .returns(String::class.asTypeName().copy(nullable = true))
+        .addStatement("val id = applicationContext.resources.getIdentifier(key,\"string\",applicationContext.packageName)")
+        .beginControlFlow("return if(id > 0)")
+        .addStatement("get(id)")
+        .endControlFlow()
+        .beginControlFlow("else")
+        .addStatement("null")
+        .endControlFlow()
+        .addModifiers(KModifier.OVERRIDE)
+        .build()
 
     stringsImpl.fileClassBuilder(listOf(viewR)) {
         addSuperinterface(stringsInterface)
-        addPrimaryConstructorWithParams(listOf(ParamInfos("applicationContext", AndroidClassNames.context, listOf(KModifier.PRIVATE))))
-        addFunction(
-                FunSpec.builder("get")
-                        .addModifiers(KModifier.PRIVATE)
-                        .addParameter("strId", Int::class)
-                        .returns(String::class)
-                        .addStatement("return applicationContext.getString(strId)")
-                        .build()
+        addPrimaryConstructorWithParams(
+            listOf(
+                ParamInfos(
+                    "applicationContext",
+                    AndroidClassNames.context,
+                    listOf(KModifier.PRIVATE)
+                )
+            )
         )
+        addFunction(
+            FunSpec.builder("get")
+                .addModifiers(KModifier.PRIVATE)
+                .addParameter("strId", Int::class)
+                .returns(String::class)
+                .addStatement("return applicationContext.getString(strId)")
+                .build()
+        )
+        addFunction(funGetSpec)
         addProperties(
-                strings.map {
-                    PropertySpec.builder(it.toStringsPropertyName(), String::class, KModifier.OVERRIDE)
-                            .getter(FunSpec.getterBuilder().addStatement("return get(R.string.${it.replace('.', '_')})").build())
-                            .build()
-                }
+            strings.map {
+                PropertySpec.builder(it.toStringsPropertyName(), String::class, KModifier.OVERRIDE)
+                    .getter(
+                        FunSpec.getterBuilder()
+                            .addStatement("return get(R.string.${it.replace('.', '_')})").build()
+                    )
+                    .build()
+            }
         )
     }
-            .writeTo(generatedAndroidSources(feature ?: modules.app))
+        .writeTo(generatedAndroidSources(feature ?: modules.app))
 
     println("generate Strings for view androidTest")
     stringsImpl.fileClassBuilder(listOf(viewR)) {
-        addPrimaryConstructorWithParams(listOf(ParamInfos("applicationContext", AndroidClassNames.context, listOf(KModifier.PRIVATE))))
+        addPrimaryConstructorWithParams(
+            listOf(
+                ParamInfos(
+                    "applicationContext",
+                    AndroidClassNames.context,
+                    listOf(KModifier.PRIVATE)
+                )
+            )
+        )
         addFunction(
             FunSpec.builder("get")
                 .addModifiers(KModifier.PRIVATE)
@@ -87,7 +127,10 @@ fun Generator.generateStrings() {
         addProperties(
             strings.map {
                 PropertySpec.builder(it.toStringsPropertyName(), String::class)
-                    .getter(FunSpec.getterBuilder().addStatement("return get(R.string.${it.replace('.', '_')})").build())
+                    .getter(
+                        FunSpec.getterBuilder()
+                            .addStatement("return get(R.string.${it.replace('.', '_')})").build()
+                    )
                     .build()
             }
         )
@@ -100,7 +143,11 @@ fun Generator.generateStrings() {
         addSuperinterface(stringsInterface)
         addProperties(
             pairsStringsPatterns.map {
-                PropertySpec.builder(it.first.toStringsPropertyName(), String::class, KModifier.OVERRIDE)
+                PropertySpec.builder(
+                    it.first.toStringsPropertyName(),
+                    String::class,
+                    KModifier.OVERRIDE
+                )
                     .initializer("\"${it.first}_${it.second}\"")
                     .build()
             }

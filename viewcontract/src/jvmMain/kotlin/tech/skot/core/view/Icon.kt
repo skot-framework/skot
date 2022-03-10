@@ -1,3 +1,3 @@
 package tech.skot.core.view
 
-actual class Icon(res:Int) : Resource(res)
+actual data class Icon(val res:Int) : Resource

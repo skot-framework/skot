@@ -1,8 +1,8 @@
 package tech.skot.tools.generation.resources
 
 import com.squareup.kotlinpoet.*
-import tech.skot.tools.generation.Generator
-import tech.skot.tools.generation.fileClassBuilder
+import tech.skot.core.view.Icon
+import tech.skot.tools.generation.*
 import java.nio.file.Files
 import java.nio.file.Path
 import java.util.stream.Collectors
@@ -54,14 +54,47 @@ fun Generator.generateIcons() {
                     .build()
             }
         )
+        .addFunction(
+            FunSpec.builder("get")
+                .addParameter("key", String::class)
+                .returns(Icon::class.asTypeName().copy(nullable = true))
+                .addModifiers(KModifier.ABSTRACT)
+                .build()
+        )
         .build())
         .build()
-        .writeTo(generatedCommonSources(modules.viewcontract, if (referenceIconsByVariant) mainVariant else null))
+        .writeTo(
+            generatedCommonSources(
+                modules.viewcontract,
+                if (referenceIconsByVariant) mainVariant else null
+            )
+        )
 
+    val funGetSpec = FunSpec.builder("get")
+        .addParameter("key", String::class)
+        .returns(Icon::class.asTypeName().copy(nullable = true))
+        .addStatement("val id = applicationContext.resources.getIdentifier(key,\"drawable\",applicationContext.packageName)")
+        .beginControlFlow("return if(id > 0)")
+        .addStatement("Icon(id)")
+        .endControlFlow()
+        .beginControlFlow("else")
+        .addStatement("null")
+        .endControlFlow()
+        .addModifiers(KModifier.OVERRIDE)
+        .build()
 
     println("generate Icons android implementation .........")
     iconsImpl.fileClassBuilder(listOf(viewR)) {
         addSuperinterface(iconsInterface)
+        addPrimaryConstructorWithParams(
+            listOf(
+                ParamInfos(
+                    "applicationContext",
+                    AndroidClassNames.context,
+                    listOf(KModifier.PRIVATE)
+                )
+            )
+        )
         addProperties(
             icons.map {
                 PropertySpec.builder(
@@ -73,8 +106,14 @@ fun Generator.generateIcons() {
                     .build()
             }
         )
+            .addFunction(funGetSpec)
     }
-        .writeTo(generatedAndroidSources(feature ?: modules.app, if (referenceIconsByVariant) mainVariant else null))
+        .writeTo(
+            generatedAndroidSources(
+                feature ?: modules.app,
+                if (referenceIconsByVariant) mainVariant else null
+            )
+        )
 
     println("generate Icons android for view androidTests .........")
     iconsImpl.fileClassBuilder(listOf(viewR)) {
@@ -88,8 +127,14 @@ fun Generator.generateIcons() {
                     .build()
             }
         )
+            .addFunction(funGetSpec)
     }
-        .writeTo(generatedAndroidTestSources(modules.view, if (referenceIconsByVariant) mainVariant else null))
+        .writeTo(
+            generatedAndroidTestSources(
+                modules.view,
+                if (referenceIconsByVariant) mainVariant else null
+            )
+        )
 
 
     println("generate Icons mock  .........")
@@ -106,7 +151,14 @@ fun Generator.generateIcons() {
                     .build()
             }
         )
+            .addFunction(funGetSpec)
+
     }
-        .writeTo(generatedJvmTestSources(feature ?: modules.viewmodel, if (referenceIconsByVariant) mainVariant else null))
+        .writeTo(
+            generatedJvmTestSources(
+                feature ?: modules.viewmodel,
+                if (referenceIconsByVariant) mainVariant else null
+            )
+        )
 
 }

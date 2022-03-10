@@ -25,4 +25,3 @@ sealed class SKSpanFormat {
 
     data class Clickable(val onTap:()->Unit): SKSpanFormat()
 }
-

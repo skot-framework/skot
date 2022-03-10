@@ -5,10 +5,16 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import tech.skot.core.components.*
+import tech.skot.core.toColor
+import tech.skot.core.view.Color
 import tech.skot.view.tests.SKTestView.Companion.dummyVisiblityListener
 import tech.skot.viewlegacytests.databinding.TestScreenBinding
 
-class SKTestScreenViewProxy(content: List<SKComponentViewProxy<*>>, private val vertical: Boolean = true) :
+class SKTestScreenViewProxy(
+    content: List<SKComponentViewProxy<*>>,
+    private val vertical: Boolean = true,
+    private val color: Color? = null
+) :
     SKScreenViewProxy<TestScreenBinding>() {
     override val visibilityListener = dummyVisiblityListener()
 
@@ -26,6 +32,9 @@ class SKTestScreenViewProxy(content: List<SKComponentViewProxy<*>>, private val 
         if (!vertical) {
             binding.box.orientation = LinearLayout.HORIZONTAL
         }
+
+        color?.let { binding.box.setBackgroundColor(it.toColor(context)) }
+
         box._bindTo(activity, fragment, binding.box)
     }
 

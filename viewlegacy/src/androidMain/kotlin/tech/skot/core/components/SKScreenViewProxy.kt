@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import tech.skot.core.components.presented.SKBottomSheetVC
 import tech.skot.core.view.Color
 import tech.skot.view.live.MutableSKLiveData
 
@@ -20,6 +19,7 @@ abstract class SKScreenViewProxy<B : ViewBinding> : SKComponentViewProxy<B>(), S
         super.onRemove()
         ScreensManager.removeScreen(this)
     }
+
     private val onBackPressedLD = MutableSKLiveData<(() -> Unit)?>(null)
     override var onBackPressed by onBackPressedLD
 
@@ -73,7 +73,10 @@ abstract class SKScreenViewProxy<B : ViewBinding> : SKComponentViewProxy<B>(), S
             }
         }
 
-    fun createBottomSheetFragment(expanded: Boolean, skipCollapsed : Boolean): SKBottomSheetDialogFragment =
+    fun createBottomSheetFragment(
+        expanded: Boolean,
+        skipCollapsed: Boolean
+    ): SKBottomSheetDialogFragment =
         SKBottomSheetDialogFragment().apply {
             arguments = Bundle().apply {
                 putLong(ScreensManager.SK_ARGUMENT_VIEW_KEY, key)

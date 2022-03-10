@@ -11,8 +11,8 @@ import android.text.method.LinkMovementMethod
 import android.text.style.*
 import android.view.View
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import tech.skot.core.toColor
 
 fun List<SKSpan>.toCharSequence(context: Context): CharSequence {
     return SpannableStringBuilder().apply {
@@ -44,7 +44,7 @@ fun List<SKSpan>.toCharSequence(context: Context): CharSequence {
             }
             span.colored?.color?.let { color ->
                 setSpan(
-                    ForegroundColorSpan(ContextCompat.getColor(context, color.res)),
+                    ForegroundColorSpan(color.toColor(context)),
                     spanIndex,
                     length,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE

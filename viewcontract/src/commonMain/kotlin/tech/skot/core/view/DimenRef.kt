@@ -1,3 +1,3 @@
 package tech.skot.core.view
 
-interface Resource
+expect class DimenRef : Dimen

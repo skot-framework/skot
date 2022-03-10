@@ -1,3 +1,3 @@
 package tech.skot.core.view
 
-actual class Style(val res:Int)
+actual data class Style(val res:Int)

@@ -9,7 +9,10 @@ import tech.skot.tools.generation.*
 fun Generator.generateViewModel() {
     components.forEach {
         val initilizations =
-            initializationPlans.mapNotNull { initializationPlan -> initializationPlan.map[it.vc] ?: (if (it.isScreen) initializationPlan.screenDefault else null) }
+            initializationPlans.mapNotNull { initializationPlan ->
+                initializationPlan.map[it.vc]
+                    ?: (if (it.isScreen) initializationPlan.screenDefault else null)
+            }
         it.viewModelGen().fileClassBuilder(
             listOf(modelInjectorIntance) + initilizations.flatMap { it.getImportsList() }
         ) {
@@ -226,6 +229,12 @@ fun Generator.generateViewModel() {
         )
         .addProperty(
             PropertySpec
+                .builder(dimensInstance.simpleName, dimensInterface)
+                .initializer("get()")
+                .build()
+        )
+        .addProperty(
+            PropertySpec
                 .builder("transitions", transitionsInterface)
                 .initializer("get()")
                 .build()
@@ -255,6 +264,7 @@ fun Generator.generateViewModel() {
         .addImportClassName(stringsInterface)
         .addImportClassName(pluralsInterface)
         .addImportClassName(colorsInterface)
+        .addImportClassName(dimensInterface)
         .addImportClassName(viewInjectorInterface)
 
         .build()

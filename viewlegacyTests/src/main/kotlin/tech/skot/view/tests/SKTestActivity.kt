@@ -7,6 +7,8 @@ import androidx.test.core.app.launchActivity
 import kotlinx.coroutines.*
 import tech.skot.core.SKFeatureInitializer
 import tech.skot.core.components.*
+import tech.skot.core.view.Color
+import tech.skot.core.view.ColorRef
 
 class SKTestActivity : SKActivity() {
 
@@ -45,9 +47,14 @@ fun testComponent(
     componentViewProxy: SKComponentViewProxy<*>,
     duration: Long = 5 * 60 * 1000L,
     vertical: Boolean = true,
+    backgroundColor: Color? = null,
     block: (suspend CoroutineScope.(scenario: ActivityScenario<SKTestActivity>) -> Unit)? = null
 ) {
-    testScreen(SKTestScreenViewProxy(listOf(componentViewProxy), vertical), duration, block)
+    testScreen(
+        SKTestScreenViewProxy(listOf(componentViewProxy), vertical, backgroundColor),
+        duration,
+        block
+    )
 }
 
 
@@ -55,11 +62,12 @@ fun testComponents(
     vararg componentsViewProxy: SKComponentViewProxy<*>,
     duration: Long = 5 * 60 * 1000L,
     vertical: Boolean = true,
+    backgroundColor: ColorRef? = null,
     block: (suspend CoroutineScope.(scenario: ActivityScenario<SKTestActivity>) -> Unit)? = null
 ) {
     testScreen(
         SKTestScreenViewProxy(
-            componentsViewProxy.toList(), vertical
+            componentsViewProxy.toList(), vertical, backgroundColor
         ), duration, block
     )
 }

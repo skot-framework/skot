@@ -24,6 +24,7 @@ abstract class SKActivity : AppCompatActivity() {
     companion object {
         private var oneActivityAlreadyLaunched = false
         var launchActivityClass: Class<out SKActivity>? = null
+        var bindedActivities = 0
     }
 
 
@@ -37,21 +38,19 @@ abstract class SKActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-
         lifecycleScope.launch {
 
             featureInitializer.initializeIfNeeded(intent?.data?.toSKUri())
 
             val viewKey = getKeyForThisActivity(savedInstanceState)
 
-            if (SKRootStackViewProxy.stateLD.value.state.screens.isEmpty()) {
+            if (SKRootStackViewProxy.stateLD.value.screens.isEmpty()) {
                 featureInitializer.start()
             }
 
             if (!oneActivityAlreadyLaunched && viewKey != -1L) {
                 oneActivityAlreadyLaunched = true
-                SKRootStackViewProxy.stateLD.value.state.screens.getOrNull(0)?.let {
+                SKRootStackViewProxy.stateLD.value.screens.getOrNull(0)?.let {
                     startActivityForProxy(it)
                 }
                 finish()
@@ -59,9 +58,9 @@ abstract class SKActivity : AppCompatActivity() {
                 val screenProxy =
                     if (viewKey != -1L) {
                         ScreensManager.getInstance(viewKey)
-                            ?: SKRootStackViewProxy.stateLD.value.state.screens.getOrNull(0)
+                            ?: SKRootStackViewProxy.stateLD.value.screens.getOrNull(0)
                     } else {
-                        SKRootStackViewProxy.stateLD.value.state.screens.getOrNull(0)
+                        SKRootStackViewProxy.stateLD.value.screens.getOrNull(0)
                     } as? SKScreenViewProxy<*>
 
                 oneActivityAlreadyLaunched = true
@@ -69,6 +68,7 @@ abstract class SKActivity : AppCompatActivity() {
 
                 screenProxy?.run {
                     screenKey = key
+                    bindedActivities++
                     bindTo(this@SKActivity, null, layoutInflater)
                 }
                     ?.run {
@@ -180,32 +180,45 @@ abstract class SKActivity : AppCompatActivity() {
         screenKey?.let { outState.putLong(ScreensManager.SK_EXTRA_VIEW_KEY, it) }
     }
 
+    private var finishedAsked = false
+
     private fun linkToRootStack() {
 
-        SKRootStackViewProxy.stateLD.observe(this) { (state, screenKeyNeedToOpenRoot) ->
-            val thisScreenPosition = state.screens.indexOfFirst {
-                it.key == screenKey
-            }
-
-
-            if (thisScreenPosition == -1) {
-                finish()
-                state.transition?.let { overridePendingTransition(it.enterAnim, it.exitAnim) }
-            } else {
-                if (state.screens.size > thisScreenPosition + 1) {
-                    startActivityForProxy(state.screens.get(thisScreenPosition + 1))
+        SKRootStackViewProxy.stateLD.observe(this) { state ->
+            if (!finishedAsked) {
+                val thisScreenPosition = state.screens.indexOfFirst {
+                    it.key == screenKey
+                }
+                if (thisScreenPosition == -1) {
+                    finishedAsked = true
+                    bindedActivities--
+                    finish()
                     state.transition?.let { overridePendingTransition(it.enterAnim, it.exitAnim) }
+                } else {
+                    if (state.screens.size > thisScreenPosition + 1) {
+                        startActivityForProxy(state.screens.get(thisScreenPosition + 1))
+                        state.transition?.let {
+                            overridePendingTransition(
+                                it.enterAnim,
+                                it.exitAnim
+                            )
+                        }
+                    }
                 }
-            }
-            if (screenKeyNeedToOpenRoot != null && screenKeyNeedToOpenRoot == screenKey) {
-                state.screens.firstOrNull()?.let { newScreen ->
-                    val launchClass = launchActivityClass
-                        ?: throw IllegalStateException("You have to set SKActivity.launchActivityClass to be allowed to change root Screen. New root screen will be loaded in this activity even if you have redefined getActivityClas method")
-                    startActivity(Intent(this, launchClass).apply {
-                        putExtra(ScreensManager.SK_EXTRA_VIEW_KEY, newScreen.key)
-                    })
+
+                if (bindedActivities == 0) {
+                    state.screens.firstOrNull()?.let { newScreen ->
+                        val launchClass = launchActivityClass
+                            ?: throw IllegalStateException("You have to set SKActivity.launchActivityClass to be allowed to change root Screen. New root screen will be loaded in this activity even if you have redefined getActivityClas method")
+                        startActivity(Intent(this, launchClass).apply {
+                            putExtra(ScreensManager.SK_EXTRA_VIEW_KEY, newScreen.key)
+                        })
+                    }
                 }
+
+
             }
+
 
         }
 

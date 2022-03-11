@@ -89,14 +89,17 @@ abstract class SKActivity : AppCompatActivity() {
 
     private var loadingInsetsCounter: Long = 0L
 
+
     fun setFullScreen(
         fullScreen: Boolean,
-        lightStatusBar: Boolean,
+        lightStatusBar: Boolean?,
         onWindowInsets: ((windowInsets: WindowInsetsCompat) -> Unit)? = null
     ) {
 
         screen?.view?.let {
-            WindowInsetsControllerCompat(window, it).isAppearanceLightStatusBars = lightStatusBar
+            lightStatusBar?.let { light ->
+                WindowInsetsControllerCompat(window, it).isAppearanceLightStatusBars = light
+            }
             WindowCompat.setDecorFitsSystemWindows(window, !fullScreen)
             loadingInsetsCounter++
             val loadedInsets = ViewCompat.getRootWindowInsets(it)

@@ -66,6 +66,18 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
         }
     }
 
+    fun doWithPermissions(vararg permissions:SKPermission, onKo:(()->Unit)? = null, onOk:()->Unit) {
+        val permissionsList = permissions.asList()
+        requestPermissions(permissionsList) { grantedPermissions->
+            if (grantedPermissions.containsAll(permissionsList)) {
+                onOk()
+            }
+            else {
+                onKo?.invoke()
+            }
+        }
+    }
+
     fun hasPermission(vararg permission:SKPermission): Boolean {
         return view.hasPermission(*permission)
     }

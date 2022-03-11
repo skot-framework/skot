@@ -152,6 +152,16 @@ fun Generator.generateStrings() {
                     .build()
             }
         )
+        addProperty(PropertySpec.builder(name = "getReturnsNull", type = Boolean::class)
+            .mutable(true)
+            .initializer("false")
+            .build())
+        addFunction(FunSpec.builder("get")
+            .addParameter("key", String::class)
+            .returns(String::class.asTypeName().copy(nullable = true))
+            .addStatement("return if (getReturnsNull) null else key")
+            .addModifiers(KModifier.OVERRIDE)
+            .build())
     }
         .apply {
             writeTo(generatedJvmTestSources(feature ?: modules.viewmodel))

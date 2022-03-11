@@ -26,9 +26,9 @@ fun Generator.generateAndroidTestAbstractTestView() {
             addProperty(PropertySpec.builder("strings",stringsImpl )
                 .initializer("StringsImpl(ApplicationProvider.getApplicationContext())").build())
             addProperty(PropertySpec.builder("icons",iconsImpl )
-                .initializer("IconsImpl()").build())
+                .initializer("IconsImpl(ApplicationProvider.getApplicationContext())").build())
             addProperty(PropertySpec.builder("colors",colorsImpl )
-                .initializer("ColorsImpl()").build())
+                .initializer("ColorsImpl(ApplicationProvider.getApplicationContext())").build())
             addProperty(PropertySpec.builder("fonts",fontsImpl )
                 .initializer("FontsImpl()").build())
 

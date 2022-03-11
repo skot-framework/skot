@@ -102,6 +102,15 @@ fun Generator.generateColors() {
     println("generate Colors fot View Android Test .........")
     colorsImpl.fileClassBuilder(listOf(viewR)) {
         addSuperinterface(colorsInterface)
+        addPrimaryConstructorWithParams(
+            listOf(
+                ParamInfos(
+                    "applicationContext",
+                    AndroidClassNames.context,
+                    listOf(KModifier.PRIVATE)
+                )
+            )
+        )
         addProperties(
             colors.map {
                 PropertySpec.builder(
@@ -131,7 +140,21 @@ fun Generator.generateColors() {
                     .build()
             }
         )
-            .addFunction(funGetSpec)
+
+        addProperty(
+            PropertySpec.builder(name = "getReturnsNull", type = Boolean::class)
+                .mutable(true)
+                .initializer("false")
+                .build()
+        )
+        addFunction(
+            FunSpec.builder("get")
+                .addParameter("key", String::class)
+                .returns(ColorRef::class.asTypeName().copy(nullable = true))
+                .addStatement("return if (getReturnsNull) null else ColorRef(key.hashCode())")
+                .addModifiers(KModifier.OVERRIDE)
+                .build()
+        )
 
     }
         .writeTo(generatedJvmTestSources(feature ?: modules.viewmodel))

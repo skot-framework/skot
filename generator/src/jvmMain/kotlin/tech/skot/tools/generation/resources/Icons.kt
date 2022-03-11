@@ -117,11 +117,22 @@ fun Generator.generateIcons() {
 
     println("generate Icons android for view androidTests .........")
     iconsImpl.fileClassBuilder(listOf(viewR)) {
+        addSuperinterface(iconsInterface)
+        addPrimaryConstructorWithParams(
+            listOf(
+                ParamInfos(
+                    "applicationContext",
+                    AndroidClassNames.context,
+                    listOf(KModifier.PRIVATE)
+                )
+            )
+        )
         addProperties(
             icons.map {
                 PropertySpec.builder(
                     it.toIconsPropertyName(),
-                    tech.skot.core.view.Icon::class
+                    tech.skot.core.view.Icon::class,
+                    KModifier.OVERRIDE
                 )
                     .initializer("Icon(R.drawable.$it)")
                     .build()
@@ -151,7 +162,21 @@ fun Generator.generateIcons() {
                     .build()
             }
         )
-            .addFunction(funGetSpec)
+        addProperty(
+            PropertySpec.builder(name = "getReturnsNull", type = Boolean::class)
+                .mutable(true)
+                .initializer("false")
+                .build()
+        )
+
+        addFunction(
+            FunSpec.builder("get")
+                .addParameter("key", String::class)
+                .returns(Icon::class.asTypeName().copy(nullable = true))
+                .addStatement("return if (getReturnsNull) null else Icon(key.hashCode())")
+                .addModifiers(KModifier.OVERRIDE)
+                .build()
+        )
 
     }
         .writeTo(

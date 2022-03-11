@@ -42,7 +42,7 @@ fun Generator.generateDimens() {
                 tech.skot.core.view.DimenRef::class,
                 KModifier.OVERRIDE
             )
-                .delegate("DimenRef(R.dimen.${it.toAndroidResourcePropertyName()})")
+                .initializer("DimenRef(R.dimen.${it.toAndroidResourcePropertyName()})")
                 .build()
         )
         dimensJVmMock.add(

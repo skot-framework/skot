@@ -2,8 +2,10 @@ package tech.skot.core.components
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.util.TypedValue
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -38,6 +40,11 @@ abstract class SKActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val typedValue = TypedValue()
+            theme.resolveAttribute(android.R.attr.windowLightStatusBar, typedValue, true)
+            themeWindowLightStatusBar = typedValue.data != 0
+        }
 
         lifecycleScope.launch {
 
@@ -85,7 +92,6 @@ abstract class SKActivity : AppCompatActivity() {
             }
         }
 
-        themeWindowLightStatusBar = WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars
         statusBarColor = window.statusBarColor
     }
 

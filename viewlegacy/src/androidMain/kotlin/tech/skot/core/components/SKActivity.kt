@@ -33,6 +33,7 @@ abstract class SKActivity : AppCompatActivity() {
     abstract val featureInitializer: SKFeatureInitializer
 
     var statusBarColor: Int = 0
+    var themeWindowLightStatusBar:Boolean = true
     var requestedStatusBarColor: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,6 +85,7 @@ abstract class SKActivity : AppCompatActivity() {
             }
         }
 
+        themeWindowLightStatusBar = WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars
         statusBarColor = window.statusBarColor
     }
 
@@ -97,9 +99,7 @@ abstract class SKActivity : AppCompatActivity() {
     ) {
 
         screen?.view?.let {
-            lightStatusBar?.let { light ->
-                WindowInsetsControllerCompat(window, it).isAppearanceLightStatusBars = light
-            }
+            WindowInsetsControllerCompat(window, it).isAppearanceLightStatusBars = lightStatusBar ?: themeWindowLightStatusBar
             WindowCompat.setDecorFitsSystemWindows(window, !fullScreen)
             loadingInsetsCounter++
             val loadedInsets = ViewCompat.getRootWindowInsets(it)

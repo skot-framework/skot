@@ -155,10 +155,10 @@ fun Generator.generateIcons() {
             icons.map {
                 PropertySpec.builder(
                     it.toIconsPropertyName(),
-                    tech.skot.core.view.Icon::class,
+                    FrameworkClassNames.iconMock,
                     KModifier.OVERRIDE
                 )
-                    .initializer("Icon(\"${it.toIconsPropertyName()}\".hashCode())")
+                    .initializer("IconMock(\"${it.toIconsPropertyName()}\")")
                     .build()
             }
         )
@@ -173,7 +173,7 @@ fun Generator.generateIcons() {
             FunSpec.builder("get")
                 .addParameter("key", String::class)
                 .returns(Icon::class.asTypeName().copy(nullable = true))
-                .addStatement("return if (getReturnsNull) null else Icon(key.hashCode())")
+                .addStatement("return if (getReturnsNull) null else IconMock(key)")
                 .addModifiers(KModifier.OVERRIDE)
                 .build()
         )

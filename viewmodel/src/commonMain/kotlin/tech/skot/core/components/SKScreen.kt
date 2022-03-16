@@ -10,11 +10,21 @@ abstract class SKScreen<V : SKScreenVC>: SKComponent<SKScreenVC>(), SKVisiblityL
     var presenterBottomSheet: SKBottomSheet? = null
     var presenterDialog: SKDialog? = null
 
+    private var resumedOnce:Boolean = false
+
     //CallSuper!!
     override fun onResume(){
+        if (!resumedOnce) {
+            resumedOnce = true
+            onStart()
+        }
     }
     //CallSuper!!
     override fun onPause(){
+    }
+
+    open fun onStart() {
+
     }
 
 

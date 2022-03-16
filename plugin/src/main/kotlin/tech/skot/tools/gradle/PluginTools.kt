@@ -130,11 +130,17 @@ class PluginTools : Plugin<Project> {
                     if (app.ktlintOnGeneratedFiles) {
                         println("ktLint ......")
                         val srcs = "**/generated/**/*.kt"
-                        project.javaexec {
-                            workingDir = project.rootDir
-                            main = "com.pinterest.ktlint.Main"
-                            classpath = sourceSet.runtimeClasspath
-                            args = listOf("-F", srcs, "--disabled_rules=parameter-list-wrapping")
+                        try {
+                            project.javaexec {
+                                workingDir = project.rootDir
+                                main = "com.pinterest.ktlint.Main"
+                                classpath = sourceSet.runtimeClasspath
+                                args = listOf("-F", srcs, "--disabled_rules=parameter-list-wrapping")
+                            }
+                        }
+                        catch (ex:Exception) {
+                            println("@@@@@@@@@@@   erreur ktlint")
+                            ex.printStackTrace()
                         }
                     }
                 }

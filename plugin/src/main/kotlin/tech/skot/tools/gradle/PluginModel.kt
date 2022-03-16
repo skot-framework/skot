@@ -28,18 +28,8 @@ class PluginModel: Plugin<Project> {
 
     private fun LibraryExtension.conf(project:Project) {
 
-        defaultConfig {
-            minSdkVersion(Versions.android_minSdk)
+        androidBaseConfig(project)
 
-            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-            testInstrumentationRunnerArguments["clearPackageData"] = "true"
-
-            testOptions {
-                execution = "ANDROIDX_TEST_ORCHESTRATOR"
-            }
-        }
-
-        compileSdkVersion(Versions.android_compileSdk)
 
         sourceSets {
             getByName("main"){
@@ -102,21 +92,6 @@ class PluginModel: Plugin<Project> {
             sourceSets["androidMain"].kotlin.srcDir("src/androidMain/kotlin$it")
         }
 
-//        sourceSets["commonTest"].kotlin.srcDir("src/commonTest/kotlin")
-//
-//        sourceSets["commonTest"].dependencies {
-//            implementation("org.jetbrains.kotlin:kotlin-test-common:${Versions.kotlin}")
-//            implementation("org.jetbrains.kotlin:kotlin-test-annotations-common:${Versions.kotlin}")
-//        }
-
-//        sourceSets["jvmMain"].dependencies {
-//            implementation("io.ktor:ktor-client-mock-jvm:${Versions.ktor}")
-//        }
-
-//        sourceSets["jvmTest"].dependencies {
-//            implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
-//            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
-//        }
 
         sourceSets["jvmTest"].kotlin.srcDir("generated/jvmTest")
 

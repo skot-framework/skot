@@ -46,21 +46,14 @@ class PluginApp: Plugin<Project> {
             }
         }
 
-        compileSdk =tech.skot.Versions.android_compileSdk
-
-        defaultConfig {
-            minSdk =tech.skot.Versions.android_minSdk
-            targetSdk =tech.skot.Versions.android_targetSdk
-        }
+        androidBaseConfig(project)
 
         packagingOptions {
             exclude("META-INF/*.kotlin_module")
             exclude("META-INF/*")
         }
 
-        lintOptions {
-            isAbortOnError = false
-        }
+
 
         compileOptions {
             isCoreLibraryDesugaringEnabled = true

@@ -22,30 +22,17 @@ class PluginViewContract : Plugin<Project> {
         project.plugins.apply("maven-publish")
         project.plugins.apply("kotlinx-serialization")
 
-        project.extensions.findByType(LibraryExtension::class)?.conf()
+        project.extensions.findByType(LibraryExtension::class)?.conf(project)
 
         project.extensions.findByType(KotlinMultiplatformExtension::class)?.conf(project)
 
 
-//        project.task("TestGen") {
-//            classpat
-//            doLast {
-//                println("----------###SK###--------- coucou")
-//                Class.forName("tech.skot.essai.SplashVC")
-//                val classss = Class.forName("tech.skot.essai.SplashVC")
-//                println(classss)
-//            }
-//            group = "skot"
-//        }
     }
 
 
-    private fun LibraryExtension.conf() {
+    private fun LibraryExtension.conf(project:Project) {
 
-        defaultConfig {
-            minSdkVersion(Versions.android_minSdk)
-        }
-        compileSdkVersion(Versions.android_compileSdk)
+        androidBaseConfig(project)
 
         sourceSets {
             getByName("main").java.srcDirs("generated/androidMain/kotlin")
@@ -54,9 +41,7 @@ class PluginViewContract : Plugin<Project> {
             getByName("main").res.srcDir("src/androidMain/res")
         }
 
-        lintOptions {
-            isAbortOnError = false
-        }
+
 
     }
 

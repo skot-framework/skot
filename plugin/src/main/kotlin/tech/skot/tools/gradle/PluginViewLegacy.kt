@@ -54,25 +54,17 @@ class PluginViewLegacy: Plugin<Project> {
             }
         }
 
-        defaultConfig {
-            minSdk = Versions.android_minSdk
-            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-            targetSdk = Versions.android_compileSdk
-        }
-        compileSdk = Versions.android_compileSdk
+        androidBaseConfig(project)
 
-        lintOptions {
-            isAbortOnError = false
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
         }
 
         buildFeatures {
             viewBinding = true
         }
 
-        compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
-        }
 
 
 

@@ -58,10 +58,7 @@ class PluginModelContract : Plugin<Project> {
 
     private fun LibraryExtension.conf(project:Project, extension: SKPluginModelContractExtension) {
 
-        defaultConfig {
-            minSdkVersion(Versions.android_minSdk)
-        }
-        compileSdkVersion(Versions.android_compileSdk)
+        androidBaseConfig(project)
 
 
         sourceSets {
@@ -73,9 +70,6 @@ class PluginModelContract : Plugin<Project> {
         }
 
 
-        lintOptions {
-            isAbortOnError = false
-        }
 
     }
 

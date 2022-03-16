@@ -21,19 +21,16 @@ class PluginViewModel: Plugin<Project> {
         project.plugins.apply("com.android.library")
         project.plugins.apply("kotlinx-serialization")
 
-        project.extensions.findByType(LibraryExtension::class)?.conf()
+        project.extensions.findByType(LibraryExtension::class)?.conf(project)
 
         project.extensions.findByType(KotlinMultiplatformExtension::class)?.conf(project)
 
     }
 
 
-    private fun LibraryExtension.conf() {
+    private fun LibraryExtension.conf(project:Project) {
 
-        defaultConfig {
-            minSdk = Versions.android_minSdk
-        }
-        compileSdk = Versions.android_compileSdk
+        androidBaseConfig(project)
 
         sourceSets {
             getByName("main").java.srcDirs("src/androidMain/kotlin")

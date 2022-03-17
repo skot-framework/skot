@@ -36,10 +36,6 @@ fun TestedExtension.androidBaseConfig(androidProperties: SKAndroidProperties?) {
     defaultConfig {
         minSdk = androidProperties?.minSdk ?: Versions.android_minSdk
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments["clearPackageData"] = "true"
-        testOptions {
-            execution = "ANDROIDX_TEST_ORCHESTRATOR"
-        }
         targetSdk = Versions.android_compileSdk
     }
 

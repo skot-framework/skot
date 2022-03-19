@@ -1,6 +1,7 @@
 package tech.skot.core.components.inputs
 
 import tech.skot.core.components.SKComponentVC
+import tech.skot.core.view.Color
 
 interface SKComboVC : SKComponentVC {
     val hint: String?
@@ -18,7 +19,7 @@ interface SKComboVC : SKComponentVC {
         val data: Any?,
         val text: String = data.toString(),
         val strikethrough: Boolean = false,
-        val colored: Boolean = false,
+        val textColor: Color? = null,
         val inputText: String = text,
     )
 }

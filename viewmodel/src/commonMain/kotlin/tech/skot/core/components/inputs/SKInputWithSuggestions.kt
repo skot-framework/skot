@@ -1,6 +1,7 @@
 package tech.skot.core.components.inputs
 
 import tech.skot.core.di.coreViewInjector
+import tech.skot.core.view.Color
 
 
 class SKInputWithSuggestions<D : Any?>(
@@ -11,7 +12,7 @@ class SKInputWithSuggestions<D : Any?>(
     onSelected: ((data: D) -> Unit)? = null,
     label: ((data: D) -> String)? = null,
     inputText: ((data: D) -> String)? = null,
-    colored: ((data: D) -> Boolean)? = null,
+    textColor: ((data: D) -> Color)? = null,
     striked: ((data: D) -> Boolean)? = null,
     oldSchoolModeHint: Boolean = false,
     onInputText: (input: String?) -> Unit
@@ -20,7 +21,7 @@ class SKInputWithSuggestions<D : Any?>(
     onSelected = onSelected,
     label = label,
     inputText = inputText,
-    colored = colored,
+    textColor = textColor,
     striked = striked
 ) {
     override val view = coreViewInjector.inputWithSuggestions(

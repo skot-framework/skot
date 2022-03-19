@@ -9,11 +9,12 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
 import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKComponentView
-import tech.skot.view.extensions.getColorFromAttr
+import tech.skot.core.toColor
 import tech.skot.view.extensions.setVisible
 import tech.skot.view.extensions.strike
 import tech.skot.viewlegacy.R
 import tech.skot.viewlegacy.databinding.SkComboBinding
+
 
 class SKComboView(
     override val proxy: SKComboViewProxy,
@@ -26,7 +27,8 @@ class SKComboView(
     fragment,
     binding,
     binding.root,
-    binding.autoComplete
+    binding.autoComplete,
+    R.layout.sk_combo_choice_item
 ) {
     init {
         autoComplete.apply {
@@ -42,29 +44,31 @@ abstract class SKCommonComboView<Binding : Any>(
     fragment: Fragment?,
     binding: Binding,
     protected val inputLayout: TextInputLayout,
-    protected val autoComplete: AutoCompleteTextView
+    protected val autoComplete: AutoCompleteTextView,
+    private val choiceItemLayoutID: Int
 ) : SKComponentView<Binding>(proxy, activity, fragment, binding) {
 
     private var _adapter: BaseAdapter? = null
     protected var _choices: List<SKComboVC.Choice> = emptyList()
 
-
     init {
+
+
         autoComplete.apply {
 
             object : BaseAdapter(), Filterable {
                 override fun getView(position: Int, p1: View?, viewGroup: ViewGroup?): View {
-                    val tv = LayoutInflater.from(context)
-                        .inflate(R.layout.sk_combo_choice_item, viewGroup, false)
+                    val tv = p1 ?: LayoutInflater.from(context)
+                        .inflate(choiceItemLayoutID, viewGroup, false)
                     val choice = _choices[position]
+
                     (tv as? TextView)?.let { textView ->
                         textView.text = choice.text
                         textView.strike(choice.strikethrough)
-                        textView.setTextColor(
-                            activity.getColorFromAttr(
-                                if (choice.colored) R.attr.sk_combo_choice_text_colored_color else R.attr.sk_combo_choice_text_color
-                            )
-                        )
+                        choice.textColor?.toColor(context)?.let {
+                            textView.setTextColor(it)
+                        }
+
                     }
                     return tv
                 }
@@ -102,8 +106,7 @@ abstract class SKCommonComboView<Binding : Any>(
     fun onHint(hint: String?) {
         if (proxy.oldSchoolModeHint) {
             autoComplete.hint = hint
-        }
-        else {
+        } else {
             inputLayout.hint = hint
         }
 
@@ -144,11 +147,9 @@ abstract class SKCommonComboView<Binding : Any>(
         lockSelectedReaction = true
         autoComplete.setText(selected?.inputText, false)
         autoComplete.strike(selected?.strikethrough == true)
-        autoComplete.setTextColor(
-            activity.getColorFromAttr(
-                if (selected?.colored == true) R.attr.sk_combo_choice_text_colored_color else R.attr.sk_combo_choice_text_color
-            )
-        )
+        selected?.textColor?.toColor(context)?.let {
+            autoComplete.setTextColor(it)
+        }
         lockSelectedReaction = false
     }
 

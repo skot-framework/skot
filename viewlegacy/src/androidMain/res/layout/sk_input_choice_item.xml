@@ -4,4 +4,4 @@
     android:ellipsize="end"
     android:maxLines="1"
     android:padding="16dp"
-    android:theme="?attr/sk_combo_style_choice_view" />
+    android:theme="?attr/sk_input_style_choice_view" />

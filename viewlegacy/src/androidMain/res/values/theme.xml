@@ -2,12 +2,11 @@
 <resources>
     <attr name="sk_combo_style_text_input_layout" format="reference" />
     <attr name="sk_combo_style_auto_complete_text_view" format="reference" />
+    <attr name="sk_combo_style_choice_view" format="reference" />
 
     <attr name="sk_input_with_suggestions_style_text_input_layout" format="reference" />
     <attr name="sk_input_with_suggestions_style_auto_complete_text_view" format="reference" />
-
-    <attr name="sk_combo_choice_text_color" format="reference" />
-    <attr name="sk_combo_choice_text_colored_color" format="reference" />
+    <attr name="sk_input_style_choice_view" format="reference" />
 
     <attr name="sk_alert_input_style" format="reference" />
 

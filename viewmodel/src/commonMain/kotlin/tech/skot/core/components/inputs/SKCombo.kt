@@ -2,11 +2,12 @@ package tech.skot.core.components.inputs
 
 import tech.skot.core.components.SKComponent
 import tech.skot.core.di.coreViewInjector
+import tech.skot.core.view.Color
 
 abstract class SKBaseCombo<D : Any?, V : SKComboVC>(
     private val label: ((data: D) -> String)?,
     private val inputText: ((data: D) -> String)?,
-    private val colored: ((data: D) -> Boolean)?,
+    private val textColor: ((data: D) -> Color)?,
     private val striked: ((data: D) -> Boolean)?,
     private val onSelected: ((data: D) -> Unit)?,
 ) : SKComponent<V>() {
@@ -23,7 +24,7 @@ abstract class SKBaseCombo<D : Any?, V : SKComboVC>(
             data = this,
             text = label,
             strikethrough = striked?.invoke(this) ?: false,
-            colored = colored?.invoke(this) ?: false,
+            textColor = textColor?.invoke(this),
             inputText = inputText?.invoke(this) ?: label
         )
     }
@@ -43,7 +44,6 @@ abstract class SKBaseCombo<D : Any?, V : SKComboVC>(
                 value = it
                 onSelected?.invoke(it)
             }
-
         }
 }
 
@@ -55,7 +55,7 @@ class SKCombo<D : Any?>(
     enabled: Boolean = true,
     label: ((data: D) -> String)? = null,
     inputText: ((data: D) -> String)? = null,
-    colored: ((data: D) -> Boolean)? = null,
+    textColor: ((data: D) -> Color)? = null,
     striked: ((data: D) -> Boolean)? = null,
     oldSchoolModeHint: Boolean = false,
     onSelected: ((data: D) -> Unit)? = null
@@ -63,7 +63,7 @@ class SKCombo<D : Any?>(
     onSelected = onSelected,
     label = label,
     inputText = inputText,
-    colored = colored,
+    textColor = textColor,
     striked = striked
 ) {
     override val view = coreViewInjector.combo(

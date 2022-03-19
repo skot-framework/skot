@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.widget.ImageViewCompat
 import tech.skot.core.view.*
 import android.graphics.Color as AndroidColor
 
@@ -27,12 +28,12 @@ fun View.setBackground(resource: Resource) {
     }
 }
 
-fun View.setBackgroundTint(color: Color) {
-    this.backgroundTintList = ColorStateList.valueOf(color.toColor(this.context))
+fun View.setBackgroundTint(color: Color?) {
+    this.backgroundTintList = color?.let { ColorStateList.valueOf(color.toColor(this.context)) }
 }
 
-fun ImageView.setImageTint(color: Color) {
-    this.imageTintList = ColorStateList.valueOf(color.toColor(this.context))
+fun ImageView.setImageTint(color: Color?) {
+    ImageViewCompat.setImageTintList(this, color?.let { ColorStateList.valueOf(color.toColor(this.context)) })
 }
 
 fun Drawable.setTint(context: Context, color: Color): Drawable {

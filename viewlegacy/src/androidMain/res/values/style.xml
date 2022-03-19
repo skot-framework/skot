@@ -5,9 +5,14 @@
 
     <style name="sk_combo_style_auto_complete_text_view_default" parent="@style/Widget.MaterialComponents.TextInputEditText.FilledBox" />
 
+    <style name="sk_combo_style_choice_view_default" parent="@style/Widget.AppCompat.TextView.SpinnerItem" />
+
     <style name="sk_input_with_suggestions_style_text_input_layout_default" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu" />
 
     <style name="sk_input_with_suggestions_style_auto_complete_text_view_default" parent="sk_combo_style_auto_complete_text_view_default" />
+
+    <style name="sk_input_style_choice_view_default" parent="@style/Widget.AppCompat.TextView.SpinnerItem" />
+
 
     <style name="sk_alert_input_style_default">
         <item name="android:layout_marginLeft">16dp</item>

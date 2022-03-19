@@ -4,6 +4,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import tech.skot.core.components.SKActivity
+import tech.skot.viewlegacy.R
 import tech.skot.viewlegacy.databinding.SkInputWithSuggestionsBinding
 
 class SKInputWithSuggestionsView(
@@ -17,7 +18,8 @@ class SKInputWithSuggestionsView(
     fragment,
     binding,
     binding.root,
-    binding.autoComplete
+    binding.autoComplete,
+    R.layout.sk_input_choice_item
 ) {
 
     private var firstChangeDoneFor = false

@@ -22,4 +22,8 @@
     </style>
 
     <dimen name="sk_snackbar_icon_padding">6dp</dimen>
+
+    <style name="sk_fullScreen_dialog" parent="@style/Theme.MaterialComponents.Dialog">
+        <item name="android:windowIsFloating">false</item>
+    </style>
 </resources>

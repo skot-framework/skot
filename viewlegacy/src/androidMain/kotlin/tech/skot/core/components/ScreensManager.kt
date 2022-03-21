@@ -27,4 +27,5 @@ object ScreensManager {
 
     const val SK_EXTRA_VIEW_KEY = "SK_EXTRA_VIEW_KEY"
     const val SK_ARGUMENT_VIEW_KEY = "SK_ARGUMENT_VIEW_KEY"
+    const val SK_ARGUMENT_DIALOG_STYLE = "SK_ARGUMENT_DIALOG_STYLE"
 }

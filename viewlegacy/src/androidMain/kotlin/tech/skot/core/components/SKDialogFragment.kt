@@ -15,9 +15,13 @@ class SKDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val style = arguments?.getInt(
+            ScreensManager.SK_ARGUMENT_DIALOG_STYLE,
+            android.R.style.Theme_Material_Dialog_NoActionBar_MinWidth
+        ) ?: android.R.style.Theme_Material_Dialog_NoActionBar_MinWidth
         setStyle(
             STYLE_NO_TITLE,
-            android.R.style.Theme_Material_Dialog_NoActionBar_MinWidth
+            style
         )
     }
 

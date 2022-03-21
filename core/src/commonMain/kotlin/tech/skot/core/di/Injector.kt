@@ -59,7 +59,7 @@ abstract class Injector<C:Any>(modules: List<Module<in C>>) {
 
 
     fun <E : Any> getByName(key:String): E{
-        return (byName.get(key) as E?) ?: throw IllegalStateException("Injector, nothing injected for key \"$key\" please use injectForName")
+        return (byName.get(key) as E?) ?: throw IllegalStateException("Injector, nothing injected for key \"$key\" please use byName[\"$key\"]=...")
     }
 
 

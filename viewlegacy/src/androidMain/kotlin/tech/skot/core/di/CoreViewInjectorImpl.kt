@@ -4,6 +4,8 @@ import tech.skot.core.components.*
 import tech.skot.core.components.inputs.*
 import tech.skot.core.components.presented.*
 import tech.skot.core.view.Icon
+import tech.skot.core.view.Style
+import tech.skot.viewlegacy.R
 
 
 class CoreViewInjectorImpl : CoreViewInjector {
@@ -184,4 +186,6 @@ class CoreViewInjectorImpl : CoreViewInjector {
 
 val coreViewModule = module<BaseInjector> {
     single { CoreViewInjectorImpl() as CoreViewInjector }
+    byName["skFullScreenDialogStyle"] = Style(R.style.sk_fullScreen_dialog)
+
 }

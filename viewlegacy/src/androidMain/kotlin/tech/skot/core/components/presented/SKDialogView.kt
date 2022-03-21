@@ -22,7 +22,7 @@ class SKDialogView(
         if (state != current?.state) {
             if (state != null) {
                 val oldStatusBarColor = activity.requestedStatusBarColor ?: activity.window.statusBarColor
-                (state.screen as SKScreenViewProxy<*>).createDialogFragment().apply {
+                (state.screen as SKScreenViewProxy<*>).createDialogFragment(state.style).apply {
                     isCancelable = state.cancelable
                     show(this@SKDialogView.fragmentManager, "SKDialog")
                     setOnDismissListener {

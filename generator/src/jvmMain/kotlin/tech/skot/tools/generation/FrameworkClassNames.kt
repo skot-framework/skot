@@ -10,6 +10,8 @@ import java.lang.reflect.WildcardType
 object FrameworkClassNames {
 //    val icon = ClassName("")
 
+    val style =  ClassName("tech.skot.core.view", "Style")
+
     val skComponentVC = ClassName("tech.skot.core.components", "SKComponentVC")
     val skUri = ClassName("tech.skot.core", "SKUri")
     val skVisiblityListener = ClassName("tech.skot.core.components", "SKVisiblityListener")
@@ -48,6 +50,7 @@ object FrameworkClassNames {
     val combineSKData = ClassName("tech.skot.model", "combineSKData")
 
     val bm = ClassName("tech.skot.model", "SKBM")
+
 
     val transistionAndroidLegacy = ClassName("tech.skot.view", "SKTransitionAndroidLegacy")
     val permissionAndroidLegacy = ClassName("tech.skot.view", "SKPermissionAndroid")

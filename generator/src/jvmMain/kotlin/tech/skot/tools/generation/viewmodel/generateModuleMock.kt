@@ -6,6 +6,7 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import tech.skot.tools.generation.FrameworkClassNames.coreViewInjector
 import tech.skot.tools.generation.FrameworkClassNames.coreViewInjectorMock
+import tech.skot.tools.generation.FrameworkClassNames.style
 import tech.skot.tools.generation.Generator
 import tech.skot.tools.generation.addImportClassName
 
@@ -31,6 +32,7 @@ fun Generator.generateModuleMock() {
                         .addStatement("single<${modelInjectorInterface.simpleName}> { ${modelInjectorMock.simpleName}()}")
                         .addStatement("single<${transitionsInterface.simpleName}> { ${transitionsMock.simpleName}()}")
                         .addStatement("single<${permissionsInterface.simpleName}> { ${permissionsMock.simpleName}()}")
+                        .addStatement("byName[\"skFullScreenDialogStyle\"] = ${style.simpleName}(\"sk_fullScreen_dialog\".hashCode())\n")
                         .endControlFlow()
                         .build()
                 )
@@ -59,6 +61,7 @@ fun Generator.generateModuleMock() {
         .addImportClassName(transitionsMock)
         .addImportClassName(permissionsInterface)
         .addImportClassName(permissionsMock)
+        .addImportClassName(style)
         .build()
         .writeTo(generatedJvmTestSources(modules.viewmodel))
 }

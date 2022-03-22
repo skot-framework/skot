@@ -13,36 +13,46 @@ class TestSKSpannedString : SKTestView() {
         return listOf(
             SKSpan(
                 "début",
-                typeface = SKSpanFormat.Bold,
-                colored = SKSpanFormat.Colored(ColorRef(R.color.red)),
-                underline = underline,
-                striked = striked
+                format = SKSpan.Format(
+                    typeface = SKSpan.Bold,
+                    color = ColorRef(R.color.red),
+                    underline = underline,
+                    striked = striked
+                )
             ),
             SKSpan(
                 "milieu",
-                colored = SKSpanFormat.Colored(ColorRef(R.color.green)),
-                underline = underline,
-                striked = striked
+                format = SKSpan.Format(
+                    color = ColorRef(R.color.green),
+                    underline = underline,
+                    striked = striked
+                )
             ),
             SKSpan(
                 "fin",
-                typeface = SKSpanFormat.Bold,
-                sized = SKSpanFormat.Sized(2f),
-                underline = underline,
-                striked = striked
+                format = SKSpan.Format(
+                    typeface = SKSpan.Bold,
+                    scale = 2f,
+                    underline = underline,
+                    striked = striked
+                )
             ),
             SKSpan(
                 "lien",
-                sized = SKSpanFormat.Sized(1.4f),
-                clickable = SKSpanFormat.Clickable(toast("tap sur lien")),
-                underline = underline,
-                striked = striked
+                format = SKSpan.Format(
+                    scale = 1.4f,
+                    onTap = toast("tap sur lien"),
+                    underline = underline,
+                    striked = striked
+                )
             ),
             SKSpan(
                 "\navec font spéciale",
-                typeface = SKSpanFormat.WithFont(Font(R.font.dancing_script_regular)),
-                underline = underline,
-                striked = striked
+                format = SKSpan.Format(
+                    typeface = SKSpan.WithFont(Font(R.font.dancing_script_regular)),
+                    underline = underline,
+                    striked = striked
+                )
             )
         )
     }

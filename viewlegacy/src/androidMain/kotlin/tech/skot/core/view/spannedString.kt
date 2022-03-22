@@ -19,9 +19,9 @@ fun List<SKSpan>.toCharSequence(context: Context): CharSequence {
         this@toCharSequence.forEach { span ->
             val spanIndex = length
             append(span.text)
-
-            when (val typeFace = span.typeface) {
-                SKSpanFormat.Bold -> {
+            val format = span.format
+            when (val typeFace = format.typeface) {
+                SKSpan.Bold -> {
                     setSpan(
                         StyleSpan(Typeface.BOLD),
                         spanIndex,
@@ -29,7 +29,7 @@ fun List<SKSpan>.toCharSequence(context: Context): CharSequence {
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                 }
-                is SKSpanFormat.WithFont -> {
+                is SKSpan.WithFont -> {
                     ResourcesCompat.getFont(context, typeFace.font.res)?.let { fontsTypeFace ->
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                             setSpan(
@@ -42,7 +42,7 @@ fun List<SKSpan>.toCharSequence(context: Context): CharSequence {
                     }
                 }
             }
-            span.colored?.color?.let { color ->
+            format.color?.let { color ->
                 setSpan(
                     ForegroundColorSpan(color.toColor(context)),
                     spanIndex,
@@ -50,7 +50,7 @@ fun List<SKSpan>.toCharSequence(context: Context): CharSequence {
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
             }
-            span.sized?.scale?.let { scale ->
+            format.scale?.let { scale ->
                 setSpan(
                     RelativeSizeSpan(scale),
                     spanIndex,
@@ -58,7 +58,7 @@ fun List<SKSpan>.toCharSequence(context: Context): CharSequence {
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
             }
-            span.clickable?.onTap?.let { onTap ->
+            format.onTap?.let { onTap ->
                 setSpan(object : ClickableSpan() {
                     override fun onClick(p0: View) {
                         onTap()
@@ -70,11 +70,11 @@ fun List<SKSpan>.toCharSequence(context: Context): CharSequence {
 
                 }, spanIndex, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
-            if (span.underline) {
+            if (format.underline) {
                 setSpan(UnderlineSpan(), spanIndex, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
 
-            if (span.striked) {
+            if (format.striked) {
                 setSpan(StrikethroughSpan(), spanIndex, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
 
@@ -86,7 +86,7 @@ fun List<SKSpan>.toCharSequence(context: Context): CharSequence {
 
 fun TextView.setSpannedString(skSpannedString: List<SKSpan>) {
     text = skSpannedString.toCharSequence(context)
-    if (skSpannedString.any { it.clickable != null }) {
+    if (skSpannedString.any { it.format.onTap != null }) {
         movementMethod = LinkMovementMethod.getInstance()
         highlightColor = Color.TRANSPARENT
     }

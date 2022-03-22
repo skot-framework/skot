@@ -22,9 +22,15 @@ class TestSKSpannedStringBuilder {
                 }
 
             }
-
         }
-        println(res)
+        assertEquals(
+            actual = res,
+            expected = listOf(
+                SKSpan(text = "coucou", format = SKSpan.Format(color = ColorRef(1))),
+                SKSpan(text = "jaune", format = SKSpan.Format(underline = true, color = ColorHex("#123456"))),
+                SKSpan(text = "rouge encore", format = SKSpan.Format(underline = true, striked = true, color = ColorRef(1))),
+            )
+        )
 
     }
 
@@ -32,7 +38,7 @@ class TestSKSpannedStringBuilder {
     fun testUnderline() {
 
         assertEquals(
-            expected = listOf(SKSpan(text = "test1", underline = true)),
+            expected = listOf(SKSpan(text = "test1", SKSpan.Format(underline = true))),
             actual = skSpannedString {
                 underline {
                     append("test1")
@@ -45,7 +51,7 @@ class TestSKSpannedStringBuilder {
     fun testStriked() {
 
         assertEquals(
-            expected = listOf(SKSpan(text = "test1", striked = true)),
+            expected = listOf(SKSpan(text = "test1", SKSpan.Format(striked = true))),
             actual = skSpannedString {
                 striked {
                     append("test1")

@@ -5,6 +5,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import tech.skot.core.components.*
+import tech.skot.core.components.presented.SKBottomSheetViewProxy
+import tech.skot.core.components.presented.SKDialogView
+import tech.skot.core.components.presented.SKDialogViewProxy
 import tech.skot.core.toColor
 import tech.skot.core.view.Color
 import tech.skot.view.tests.SKTestView.Companion.dummyVisiblityListener
@@ -23,12 +26,16 @@ class SKTestScreenViewProxy(
         hiddenInitial = false,
     )
 
+    val dialog: SKDialogViewProxy = SKDialogViewProxy()
+    val bottomSheet: SKBottomSheetViewProxy = SKBottomSheetViewProxy()
 
     override fun bindTo(
         activity: SKActivity,
         fragment: Fragment?,
-        binding: TestScreenBinding
+        binding: TestScreenBinding,
     ): SKScreenView<TestScreenBinding> = SKTestScreenView(this, activity, fragment, binding).apply {
+        dialog._bindTo(activity, fragment, Unit).also { subViews.add(it) }
+        bottomSheet._bindTo(activity, fragment, Unit).also { subViews.add(it) }
         if (!vertical) {
             binding.box.orientation = LinearLayout.HORIZONTAL
         }

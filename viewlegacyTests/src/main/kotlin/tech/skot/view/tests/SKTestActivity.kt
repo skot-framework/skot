@@ -7,6 +7,8 @@ import androidx.test.core.app.launchActivity
 import kotlinx.coroutines.*
 import tech.skot.core.SKFeatureInitializer
 import tech.skot.core.components.*
+import tech.skot.core.components.inputs.SKButtonViewProxy
+import tech.skot.core.components.presented.SKDialogVC
 import tech.skot.core.view.Color
 import tech.skot.core.view.ColorRef
 
@@ -70,4 +72,24 @@ fun testComponents(
             componentsViewProxy.toList(), vertical, backgroundColor
         ), duration, block
     )
+}
+
+
+fun testDialog(
+    screen: SKScreenViewProxy<*>,
+    duration: Long = 5 * 60 * 1000L,
+    vertical: Boolean = true,
+    backgroundColor: ColorRef? = null,
+    block: (suspend CoroutineScope.(scenario: ActivityScenario<SKTestActivity>) -> Unit)? = null
+) {
+    val button = SKButtonViewProxy(labelInitial = "open dialog")
+    val skScreenTest = SKTestScreenViewProxy(listOf(button), vertical, backgroundColor)
+    button.onTap = {
+        skScreenTest.dialog.state = SKDialogVC.Shown(
+            screen = screen,
+            cancelable = false
+        )
+    }
+
+    testScreen(skScreenTest, duration, block)
 }

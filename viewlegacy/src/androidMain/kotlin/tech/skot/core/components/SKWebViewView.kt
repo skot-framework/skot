@@ -23,12 +23,18 @@ class SKWebViewView(
             javaScriptEnabled = true
         }
 
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             webView.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(
                     view: android.webkit.WebView?,
                     request: WebResourceRequest?
                 ): Boolean {
+                    request?.let {
+                        if (it.isForMainFrame && it.isRedirect) {
+                            oneRedirectionAskedForCurrentOpenUrl = true
+                        }
+                    }
                     request?.url?.toString()?.let { url ->
                         config.redirect.forEach {
                             if (it.matches(url)) {
@@ -60,6 +66,7 @@ class SKWebViewView(
         } else {
             webView.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                    oneRedirectionAskedForCurrentOpenUrl = true
                     Uri.parse(url)?.let { uri ->
                         val strUrl = uri.toString()
                         config.redirect.forEach {
@@ -91,13 +98,16 @@ class SKWebViewView(
 
     private var openingUrl: SKWebViewVC.OpenUrl? = null
 
+    private var oneRedirectionAskedForCurrentOpenUrl = false
+
     private fun SKWebViewVC.OpenUrl.finished(finishedUrl: String?) {
-        if (finishedUrl == url) {
-            onFinished?.invoke()
+        if (finishedUrl == url || oneRedirectionAskedForCurrentOpenUrl) {
             openingUrl = null
+            onFinished?.invoke()
             javascriptOnFinished?.let {
                 webView.evaluateJavascript(it, null)
             }
+
         }
 
     }
@@ -112,6 +122,7 @@ class SKWebViewView(
     }
 
     fun onOpenUrl(openUrl: SKWebViewVC.OpenUrl?) {
+        oneRedirectionAskedForCurrentOpenUrl = false
         openingUrl = openUrl
         if (openUrl != null) {
             val posts = openUrl.post

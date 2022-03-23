@@ -4,11 +4,19 @@ import android.webkit.WebView
 import androidx.fragment.app.Fragment
 import tech.skot.view.live.MutableSKLiveData
 import tech.skot.view.live.SKMessage
+import tech.skot.viewlegacy.R
 
 class SKWebViewViewProxy(
-        override val config: SKWebViewVC.Config,
-        openUrlInitial: SKWebViewVC.OpenUrl?
+    override val config: SKWebViewVC.Config = SKWebViewVC.Config(null, emptyList()),
+    openUrlInitial: SKWebViewVC.OpenUrl? = null
 ) : SKComponentViewProxy<WebView>(), SKWebViewVC {
+
+    companion object {
+        var LAYOUT_ID: Int? = null
+    }
+
+    override val layoutId: Int?
+        get() = LAYOUT_ID ?: R.layout.sk_webview
 
     private val openUrlLD = MutableSKLiveData<SKWebViewVC.OpenUrl?>(openUrlInitial)
     override var openUrl: SKWebViewVC.OpenUrl? by openUrlLD

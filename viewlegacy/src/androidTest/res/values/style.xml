@@ -17,9 +17,6 @@
             @style/sk_input_with_suggestions_style_auto_complete_text_view_default
         </item>
 
-        <item name="sk_combo_choice_text_color">?colorPrimary</item>
-        <item name="sk_combo_choice_text_colored_color">?colorAccent</item>
-
         <item name="sk_alert_input_style">@style/sk_alert_input_style_default</item>
 
 

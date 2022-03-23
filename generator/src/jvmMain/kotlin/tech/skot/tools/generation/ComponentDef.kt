@@ -1,17 +1,9 @@
 package tech.skot.tools.generation
 
 import com.squareup.kotlinpoet.*
-import org.jetbrains.kotlin.util.prefixIfNot
 import tech.skot.core.components.*
-import tech.skot.core.components.SKLayoutIsRoot
-import tech.skot.core.components.SKLayoutNo
-import tech.skot.core.components.SKOpens
-import tech.skot.core.components.SKPassToParentView
-import tech.skot.core.components.SKScreenVC
-import tech.skot.core.components.SKUIState
-import tech.skot.core.components.SKUses
-import tech.skot.core.components.SKActivityClass
 import tech.skot.model.SKStateDef
+import tech.skot.tools.generation.viewlegacy.kClass
 import tech.skot.tools.generation.viewmodel.toVM
 import kotlin.reflect.*
 import kotlin.reflect.full.*
@@ -52,7 +44,11 @@ data class ComponentDef(
 
     fun toFillVCparams() =
         (subComponents.toFillParams(init = { "${name.toVM()}.view" }) + fixProperties.toFillParams() + mutableProperties.map { it.initial() }
-            .toFillParams()).joinToString(separator = ",")
+            .toFillParams()).joinToString(separator = ",\n")
+    fun hasParams() =
+        subComponents.isNotEmpty() ||
+                fixProperties.isNotEmpty() ||
+                mutableProperties.isNotEmpty()
 
     val superVM = vc.supertypes.find { it.isComponent() }.let { it!!.vmClassName() }
     val isScreen = vc.isSubclassOf(SKScreenVC::class)
@@ -113,6 +109,7 @@ data class PropertyDef(
             type.isNullable -> "null"
             (type as? ClassName)?.simpleName == "String" -> "\"???\""
             isLambda -> "{ ${name}() }"
+            (type as? ParameterizedTypeName)?.rawType?.simpleName == "List"-> "emptyList()"
             else -> ((type as? ClassName)?.simpleName ?: "") + "??"
         }
 
@@ -249,6 +246,9 @@ val collectionType = Collection::class.createType(
 
 fun KType.isComponent() = componentViewType.isSupertypeOf(this)
 fun KClass<*>.isComponent() = this.isSubclassOf(SKComponentVC::class)
+
+fun KType.isList() = List::class.createType().isSupertypeOf(this)
+fun KClass<*>.isList() = this.isSubclassOf(List::class)
 
 val stringType = String::class.createType()
 fun KType.isString() = this == stringType

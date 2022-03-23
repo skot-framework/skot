@@ -161,7 +161,7 @@ fun Generator.generateViewModel() {
                         PropertySpec.builder(
                             "view", it.vc.asTypeName(), KModifier.OVERRIDE, KModifier.FINAL
                         )
-                            .initializer("viewInjector.${it.name.decapitalizeAsciiOnly()}(${if (it.isScreen) "this, " else ""}${it.toFillVCparams()})")
+                            .initializer("viewInjector.${it.name.decapitalizeAsciiOnly()}(${if (it.isScreen) "\nvisibilityListener = this,\n" else if (it.hasParams()) "\n" else ""}${it.toFillVCparams()})")
                             .build()
                     )
                     (it.fixProperties + it.mutableProperties).filter {

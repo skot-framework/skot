@@ -62,6 +62,53 @@ fun <D : Any?, O : Any?> SKData<D>.map(transform: (d: D) -> O): SKData<O> {
     }
 }
 
+fun <D : Any?, O : Any?> SKData<D>.mapSuspend(transform: suspend (d: D) -> O): SKData<O> {
+    return object : SKData<O> {
+        override val defaultValidity = this@mapSuspend.defaultValidity
+        override val flow = this@mapSuspend.flow.map {
+            it?.let { transformDatedData(it) }
+        }
+
+        private var trueCurrent: DatedData<O>? = null
+        private var transformedCurrent: DatedData<D>? = null
+        override val _current:DatedData<O>?
+            get() {
+                return if (transformedCurrent == this@mapSuspend._current) {
+                    trueCurrent
+                } else {
+                    null
+                }
+            }
+
+
+        private suspend fun transformDatedData(datedData: DatedData<D>) =
+            transform(datedData.data).let { transformedValue ->
+                DatedData(
+                    data = transformedValue,
+                    timestamp = datedData.timestamp
+                ).also {
+                    trueCurrent = it
+                    transformedCurrent = datedData
+                }
+            }
+
+        override suspend fun update(): O {
+            val originUpdate = this@mapSuspend.update()
+            return transform(originUpdate).also {
+                trueCurrent = DatedData(it)
+                transformedCurrent = DatedData(originUpdate, this@mapSuspend._current?.timestamp ?: currentTimeMillis())
+            }
+        }
+
+        override suspend fun fallBackValue(): O? {
+            return this@mapSuspend.fallBackValue()?.let {
+                transform(it)
+            }
+        }
+    }
+}
+
+
 fun <D1 : Any?, D2 : Any?> SKData<D1>.combine(other: SKData<D2>) = combineSKData(this, other)
 
 fun <D1 : Any?, D2 : Any?> combineSKData(

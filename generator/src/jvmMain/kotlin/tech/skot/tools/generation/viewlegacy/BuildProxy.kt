@@ -289,8 +289,9 @@ fun ComponentDef.buildProxy(
                                 it.bindToSubComponent(
                                     generator,
                                     includesIds
-                                )+".also { subViews.add(it) }"
+                                )
                             )
+                            addStatement(".also { subViews.add(it) }")
                         }
 
                         if (fixProperties.isNotEmpty() || mutableProperties.isNotEmpty() || state != null || ownFunctions.isNotEmpty()) {

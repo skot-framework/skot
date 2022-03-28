@@ -35,7 +35,7 @@ abstract class SKActivity : AppCompatActivity() {
     abstract val featureInitializer: SKFeatureInitializer
 
     var statusBarColor: Int = 0
-    var themeWindowLightStatusBar:Boolean = true
+    var themeWindowLightStatusBar: Boolean = true
     var requestedStatusBarColor: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,7 +105,8 @@ abstract class SKActivity : AppCompatActivity() {
     ) {
 
         screen?.view?.let {
-            WindowInsetsControllerCompat(window, it).isAppearanceLightStatusBars = lightStatusBar ?: themeWindowLightStatusBar
+            WindowInsetsControllerCompat(window, it).isAppearanceLightStatusBars =
+                lightStatusBar ?: themeWindowLightStatusBar
             WindowCompat.setDecorFitsSystemWindows(window, !fullScreen)
             loadingInsetsCounter++
             val loadedInsets = ViewCompat.getRootWindowInsets(it)
@@ -216,12 +217,12 @@ abstract class SKActivity : AppCompatActivity() {
                     state.screens.firstOrNull()?.let { newScreen ->
                         val launchClass = launchActivityClass
                             ?: throw IllegalStateException("You have to set SKActivity.launchActivityClass to be allowed to change root Screen. New root screen will be loaded in this activity even if you have redefined getActivityClas method")
-                        startActivity(Intent(this, launchClass).apply {
+                        startActivity(Intent(this@SKActivity, launchClass).apply {
+                            flags = flags.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                             putExtra(ScreensManager.SK_EXTRA_VIEW_KEY, newScreen.key)
                         })
                     }
                 }
-
 
             }
 

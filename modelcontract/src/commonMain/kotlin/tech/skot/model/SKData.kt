@@ -71,7 +71,7 @@ fun <D : Any?, O : Any?> SKData<D>.mapSuspend(transform: suspend (d: D) -> O): S
 
         private var trueCurrent: DatedData<O>? = null
         private var transformedCurrent: DatedData<D>? = null
-        override val _current:DatedData<O>?
+        override val _current: DatedData<O>?
             get() {
                 return if (transformedCurrent == this@mapSuspend._current) {
                     trueCurrent
@@ -96,7 +96,10 @@ fun <D : Any?, O : Any?> SKData<D>.mapSuspend(transform: suspend (d: D) -> O): S
             val originUpdate = this@mapSuspend.update()
             return transform(originUpdate).also {
                 trueCurrent = DatedData(it)
-                transformedCurrent = DatedData(originUpdate, this@mapSuspend._current?.timestamp ?: currentTimeMillis())
+                transformedCurrent = DatedData(
+                    originUpdate,
+                    this@mapSuspend._current?.timestamp ?: currentTimeMillis()
+                )
             }
         }
 
@@ -117,7 +120,9 @@ fun <D1 : Any?, D2 : Any?> combineSKData(
 ): SKData<Pair<D1, D2>> {
     return object : SKData<Pair<D1, D2>> {
 
-        override val defaultValidity = min(data1.defaultValidity, data2.defaultValidity)
+        override val defaultValidity: Long by lazy {
+            min(data1.defaultValidity, data2.defaultValidity)
+        }
         override val _current: DatedData<Pair<D1, D2>>?
             get() = buildPair(data1._current, data2._current)
 
@@ -135,12 +140,13 @@ fun <D1 : Any?, D2 : Any?> combineSKData(
                 null
             }
 
-        override val flow: Flow<DatedData<Pair<D1, D2>>?> = combineTransform(
-            data1.flow,
-            data2.flow
-        ) { datedDataFlow1, datedDataFlow2 ->
-            buildPair(datedDataFlow1, datedDataFlow2)?.let { emit(it) }
-
+        override val flow: Flow<DatedData<Pair<D1, D2>>?> by lazy {
+            combineTransform(
+                data1.flow,
+                data2.flow
+            ) { datedDataFlow1, datedDataFlow2 ->
+                buildPair(datedDataFlow1, datedDataFlow2)?.let { emit(it) }
+            }
         }
 
         override suspend fun update(): Pair<D1, D2> {
@@ -180,17 +186,18 @@ fun <D1 : Any?, D2 : Any?> combineSKData(
             }
         }
     }
-
 }
 
-fun <D1 : Any?, D2 : Any?, D3: Any?> combineSKData(
+
+fun <D1 : Any?, D2 : Any?, D3 : Any?> combineSKData(
     data1: SKData<D1>,
     data2: SKData<D2>,
     data3: SKData<D3>
 ): SKData<Triple<D1, D2, D3>> {
     return object : SKData<Triple<D1, D2, D3>> {
 
-        override val defaultValidity = min(min(data1.defaultValidity, data2.defaultValidity), data3.defaultValidity)
+        override val defaultValidity =
+            min(min(data1.defaultValidity, data2.defaultValidity), data3.defaultValidity)
         override val _current: DatedData<Triple<D1, D2, D3>>?
             get() = buildTriple(data1._current, data2._current, data3._current)
 
@@ -203,7 +210,10 @@ fun <D1 : Any?, D2 : Any?, D3: Any?> combineSKData(
             if (datedData1 != null && datedData2 != null && datedData3 != null) {
                 DatedData(
                     data = Triple(datedData1.data, datedData2.data, datedData3.data),
-                    timestamp = min(min(datedData1.timestamp, datedData2.timestamp), datedData3.timestamp)
+                    timestamp = min(
+                        min(datedData1.timestamp, datedData2.timestamp),
+                        datedData3.timestamp
+                    )
                 )
             } else {
                 null

@@ -57,6 +57,8 @@ open class SKStack : SKComponent<SKStackVC>() {
         state.screens.forEach { it.onRemove() }
     }
 
+    val screenOnTop: SKScreen<*>?
+        get() = SKRootStack.state.screens.lastOrNull()
 
 }
 

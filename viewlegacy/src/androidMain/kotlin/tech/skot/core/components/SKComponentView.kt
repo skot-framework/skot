@@ -64,8 +64,8 @@ abstract class SKComponentView<B : Any>(
         setTextColor(color.toColor(context))
     }
 
-    fun displayError(message: String) {
-        displayError?.invoke(this, message)
+    fun displayMessage(message: SKComponentVC.Message) {
+        displayMessage?.invoke(this, message)
             ?: throw IllegalAccessException("You have to define SKComponentView.displayError")
     }
 
@@ -148,6 +148,6 @@ abstract class SKComponentView<B : Any>(
 
 
     companion object {
-        var displayError: (SKComponentView<*>.(message: String) -> Unit)? = null
+        var displayMessage: (SKComponentView<*>.(message: SKComponentVC.Message) -> Unit)? = null
     }
 }

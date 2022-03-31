@@ -33,7 +33,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
         SKLog.i("launchNoCrash ${e.message}")
     }
 
-    protected fun launchNoCrash(
+    fun launchNoCrash(
         start: CoroutineStart = CoroutineStart.DEFAULT,
         block: suspend CoroutineScope.() -> Unit
     ): Job =
@@ -80,6 +80,22 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
 
     fun hasPermission(vararg permission:SKPermission): Boolean {
         return view.hasPermission(*permission)
+    }
+
+    fun displayMessageDebug(message:String) {
+        view.displayMessage(SKComponentVC.Message.Debug(message))
+    }
+
+    fun displayMessageInfo(message:String) {
+        view.displayMessage(SKComponentVC.Message.Info(message))
+    }
+
+    fun displayMessageWarning(message:String) {
+        view.displayMessage(SKComponentVC.Message.Warning(message))
+    }
+
+    fun displayMessageError(message:String) {
+        view.displayMessage(SKComponentVC.Message.Error(message))
     }
 
     fun launchWithOptions(

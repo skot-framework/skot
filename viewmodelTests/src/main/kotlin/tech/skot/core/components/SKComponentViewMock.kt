@@ -12,9 +12,17 @@ abstract class SKComponentViewMock : SKComponentVC {
         closeKeyBoardCounter++
     }
 
-    val displayErrorMessages: MutableList<String> = mutableListOf()
+    val displayMessageMessages: MutableList<SKComponentVC.Message> = mutableListOf()
+    override fun displayMessage(message: SKComponentVC.Message) {
+        displayMessageMessages.add(message)
+    }
+
+    @Deprecated("Use displayMessageMessages and filter on type SKComponentVC.Message.Error")
+    val displayErrorMessages: List<String>
+        get() = displayMessageMessages.filterIsInstance<SKComponentVC.Message.Error>().map { it.content }
+
     override fun displayErrorMessage(message: String) {
-        displayErrorMessages.add(message)
+        displayMessageMessages.add(SKComponentVC.Message.Error(message))
     }
 
     var permissionsOk = emptyList<SKPermission>()

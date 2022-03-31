@@ -19,10 +19,14 @@ import java.util.concurrent.atomic.AtomicInteger
 
 abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
 
-    protected val displayErrorMessage = SKMessage<String>()
+    protected val displayMessageMessage = SKMessage<SKComponentVC.Message>()
+
+    override fun displayMessage(message: SKComponentVC.Message) {
+        displayMessageMessage.post(message)
+    }
 
     override fun displayErrorMessage(message: String) {
-        displayErrorMessage.post(message)
+        displayMessage(SKComponentVC.Message.Error(message))
     }
 
     protected val closeKeyboardMessage = SKMessage<Unit>()
@@ -79,8 +83,8 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
         binding: B
     ) =
         bindTo(activity, fragment, binding).apply {
-            displayErrorMessage.observe {
-                displayError(it)
+            displayMessageMessage.observe {
+                displayMessage(it)
             }
             closeKeyboardMessage.observe {
                 closeKeyboard()

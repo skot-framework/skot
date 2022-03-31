@@ -44,8 +44,8 @@ abstract class SKScreenViewProxy<B : ViewBinding> : SKComponentViewProxy<B>(), S
             onBackPressedLD.observe {
                 setOnBackPressed(it)
             }
-            displayErrorMessage.observe {
-                displayError(it)
+            displayMessageMessage.observe {
+                displayMessage(it)
             }
             closeKeyboardMessage.observe {
                 closeKeyboard()

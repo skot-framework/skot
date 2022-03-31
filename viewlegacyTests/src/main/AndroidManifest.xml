@@ -7,7 +7,6 @@
             android:name="tech.skot.view.tests.SKTestActivity"
             android:allowTaskReparenting="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
             />
 
     </application>

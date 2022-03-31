@@ -4,9 +4,9 @@ import kotlin.Int
 import kotlin.String
 
 public object Versions {
-  public const val skot: String = "1.2.10"
+  public const val skot: String = "1.2.10-ua"
 
-  public const val group: String = "tech.skot"
+  public const val group: String = "com.github.useradgents.skot"
 
   public const val serialization: String = "1.4.1"
 

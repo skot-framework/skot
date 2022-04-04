@@ -323,9 +323,13 @@ class Generator(
                                         ParameterSpec.builder(
                                             name = "uri",
                                             type = FrameworkClassNames.skUri
+                                        ).build(),
+                                        ParameterSpec.builder(
+                                            name = "fromWebView",
+                                            type = Boolean::class.asTypeName()
                                         ).build()
                                     ),
-                                    returnType = Unit::class.asTypeName()
+                                    returnType = Boolean::class.asTypeName()
                                 )
                             )
                                 .build()
@@ -460,6 +464,7 @@ class Generator(
     @ExperimentalStdlibApi
     fun generateAppModule() {
         FileSpec.builder(generatedAppModules.packageName, generatedAppModules.simpleName)
+            .addImportClassName(FrameworkClassNames.skRootStack)
             .addProperty(
                 PropertySpec.builder(
                     generatedAppModules.simpleName,
@@ -495,8 +500,11 @@ class Generator(
                         .addStatement("initializeView()")
                         .endControlFlow()
                         .addStatement(",")
-                        .beginControlFlow("onDeepLink = ")
-                        .addStatement("onDeeplink(it)")
+                        .beginControlFlow("onDeepLink = { uri, fromWebView ->")
+                        .beginControlFlow("if (!fromWebView)")
+                        .addStatement("SKRootStack.state.screens.firstOrNull()?.removeAllScreensOnTop()")
+                        .endControlFlow()
+                        .addStatement("onDeeplink(uri, fromWebView)")
                         .endControlFlow()
                         .addStatement(",")
 

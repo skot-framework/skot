@@ -26,9 +26,9 @@ fun Generator.generateViewLegacy() {
         }.writeTo(androidSources(modules.view))
     }
 
-    val splashActivity = ClassName(packageName = baseActivity.packageName, "SplashActivity")
-    if (!splashActivity.existsAndroidInModule(modules.view)) {
-        splashActivity.fileClassBuilder(
+    val rootActivity = ClassName(packageName = baseActivity.packageName, "RootActivity")
+    if (!rootActivity.existsAndroidInModule(modules.view)) {
+        rootActivity.fileClassBuilder(
             listOf(FrameworkClassNames.toSKUri)
         ) {
             superclass(baseActivity)
@@ -36,7 +36,7 @@ fun Generator.generateViewLegacy() {
                 .addModifiers(KModifier.OVERRIDE)
                 .addParameter("intent", AndroidClassNames.intent.nullable())
                 .addStatement("super.onNewIntent(intent)")
-                .addStatement("intent?.data?.toSKUri()?.let { featureInitializer.onDeepLink?.invoke(it) }")
+                .addStatement("intent?.data?.toSKUri()?.let { featureInitializer.onDeepLink?.invoke(it, false) }")
                 .build())
         }.writeTo(androidSources(modules.view))
     }

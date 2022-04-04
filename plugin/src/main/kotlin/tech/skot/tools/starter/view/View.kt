@@ -20,12 +20,12 @@ fun StarterGenerator.view() {
 
 
         val baseActivityClassName = ClassName(configuration.appPackage + ".android", "BaseActivity")
-        val splashActivityClassName =
-            ClassName(configuration.appPackage + ".android", "SplashActivity")
+        val rootActivityClassName =
+            ClassName(configuration.appPackage + ".android", "RootActivity")
 
         androidActivities = listOf(
             ModuleGenerator.Activity(
-                className = splashActivityClassName,
+                className = rootActivityClassName,
                 template = ModuleGenerator.activityTemplateRoot,
                 theme = "SplashTheme"
             ),
@@ -62,27 +62,6 @@ fun StarterGenerator.view() {
             .writeTo(rootDir.resolve("$name/src/androidMain/kotlin"))
 
 
-        FileSpec.builder(splashActivityClassName.packageName, splashActivityClassName.simpleName)
-            .addType(
-                TypeSpec.classBuilder(splashActivityClassName.simpleName)
-                    .superclass(baseActivityClassName)
-                    .addFunction(
-                        FunSpec.builder("onNewIntent")
-                            .addModifiers(KModifier.OVERRIDE)
-                            .addParameter(
-                                "intent",
-                                ClassName("android.content", "Intent").copy(true)
-                            )
-                            .addStatement("super.onNewIntent(intent)")
-                            .addStatement("intent?.data?.toSKUri()?.let { featureInitializer.onDeepLink?.invoke(it) }")
-                            .build()
-                    )
-                    .build()
-            )
-            .addImport("tech.skot.core", "toSKUri")
-            .build()
-            .writeTo(rootDir.resolve("$name/src/androidMain/kotlin"))
-
 
         val initializeView = ClassName("${configuration.appPackage}.di", "initializeView")
             FileSpec.builder(initializeView.packageName, initializeView.simpleName)
@@ -92,11 +71,12 @@ fun StarterGenerator.view() {
                 .addImport("com.google.android.material.snackbar", "Snackbar")
                 .addImport("android.os", "Build")
                 .addImport("tech.skot.core.components", "SKActivity")
-                .addImport(splashActivityClassName.packageName, splashActivityClassName.simpleName)
+
+                .addImport(rootActivityClassName.packageName, rootActivityClassName.simpleName)
                 .addFunction(
                     FunSpec.builder(initializeView.simpleName)
                         .addModifiers(KModifier.SUSPEND)
-                        .addStatement("SKActivity.launchActivityClass = SplashActivity::class.java")
+                        .addStatement("SKActivity.launchActivityClass = RootActivity::class.java")
                         .addCode(
                             CodeBlock.of(
                                 """SKComponentView.displayError = { message ->

@@ -20,6 +20,7 @@ object FrameworkClassNames {
     val coroutineScope = ClassName("kotlinx.coroutines", "CoroutineScope")
     val coroutineContext = ClassName("kotlin.coroutines", "CoroutineContext")
 
+    val skRootStack = ClassName("tech.skot.core.components", "SKRootStack")
     val skComponentViewMock = ClassName("tech.skot.core.components", "SKComponentViewMock")
     val skScreenViewMock = ClassName("tech.skot.core.components", "SKScreenViewMock")
     val skTestView = ClassName("tech.skot.view.tests", "SKTestView")

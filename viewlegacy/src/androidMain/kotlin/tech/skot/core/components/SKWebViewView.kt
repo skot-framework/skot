@@ -8,6 +8,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import tech.skot.core.SKLog
+import tech.skot.core.toSKUri
 import java.net.URLEncoder
 
 class SKWebViewView(
@@ -23,13 +24,37 @@ class SKWebViewView(
             javaScriptEnabled = true
         }
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             webView.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(
                     view: android.webkit.WebView?,
                     request: WebResourceRequest?
                 ): Boolean {
+
+                    try {
+                        request?.url?.let { uri ->
+                            try {
+                                if (activity.featureInitializer.onDeepLink?.invoke(
+                                        uri.toSKUri(),
+                                        true
+                                    ) == true
+                                ) {
+                                    return true
+                                }
+                            } catch (ex: Exception) {
+                                SKLog.e(
+                                    ex,
+                                    "Erreur dans l'invocatio de onDeepLink depuis SKWebViewView"
+                                )
+                            }
+                        }
+                    } catch (ex: Exception) {
+                        SKLog.e(
+                            ex,
+                            "Erreur dans l'invocatio de onDeepLink depuis SKWebViewView englobe"
+                        )
+                    }
+
                     request?.let {
                         if (it.isForMainFrame && it.isRedirect) {
                             oneRedirectionAskedForCurrentOpenUrl = true
@@ -66,6 +91,15 @@ class SKWebViewView(
         } else {
             webView.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+
+                    if (activity.featureInitializer.onDeepLink?.invoke(
+                            Uri.parse(url).toSKUri(),
+                            true
+                        ) == true
+                    ) {
+                        return true
+                    }
+
                     oneRedirectionAskedForCurrentOpenUrl = true
                     Uri.parse(url)?.let { uri ->
                         val strUrl = uri.toString()
@@ -101,7 +135,7 @@ class SKWebViewView(
     private var oneRedirectionAskedForCurrentOpenUrl = false
 
     private fun SKWebViewVC.OpenUrl.finished(finishedUrl: String?) {
-        if (finishedUrl == url || oneRedirectionAskedForCurrentOpenUrl) {
+        if (finishedUrl == url || finishedUrl == "$url/" || oneRedirectionAskedForCurrentOpenUrl) {
             openingUrl = null
             onFinished?.invoke()
             javascriptOnFinished?.let {

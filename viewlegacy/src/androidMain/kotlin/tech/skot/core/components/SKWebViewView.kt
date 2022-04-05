@@ -2,10 +2,7 @@ package tech.skot.core.components
 
 import android.net.Uri
 import android.os.Build
-import android.webkit.WebResourceError
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import androidx.fragment.app.Fragment
 import tech.skot.core.SKLog
 import tech.skot.core.toSKUri
@@ -30,44 +27,33 @@ class SKWebViewView(
                     view: android.webkit.WebView?,
                     request: WebResourceRequest?
                 ): Boolean {
-
-                    try {
-                        request?.url?.let { uri ->
-                            try {
-                                if (activity.featureInitializer.onDeepLink?.invoke(
-                                        uri.toSKUri(),
-                                        true
-                                    ) == true
-                                ) {
-                                    return true
-                                }
-                            } catch (ex: Exception) {
-                                SKLog.e(
-                                    ex,
-                                    "Erreur dans l'invocatio de onDeepLink depuis SKWebViewView"
-                                )
+                    request?.url?.toSKUri()?.let { skUri ->
+                        try {
+                            if (config.shouldOverrideUrlLoading?.invoke(skUri) == true) {
+                                return true
                             }
+                        } catch (ex: Exception) {
+                            SKLog.e(
+                                ex,
+                                "Erreur dans l'invocation de shouldOverrideUrlLoading depuis SKWebViewView"
+                            )
                         }
-                    } catch (ex: Exception) {
-                        SKLog.e(
-                            ex,
-                            "Erreur dans l'invocatio de onDeepLink depuis SKWebViewView englobe"
-                        )
-                    }
 
+                        try {
+                            if (activity.featureInitializer.onDeepLink?.invoke(skUri, true) == true
+                            ) {
+                                return true
+                            }
+                        } catch (ex: Exception) {
+                            SKLog.e(
+                                ex,
+                                "Erreur dans l'invocation de onDeepLink depuis SKWebViewView"
+                            )
+                        }
+                    }
                     request?.let {
                         if (it.isForMainFrame && it.isRedirect) {
                             oneRedirectionAskedForCurrentOpenUrl = true
-                        }
-                    }
-                    request?.url?.toString()?.let { url ->
-                        config.redirect.forEach {
-                            if (it.matches(url)) {
-                                return it.onRedirect(
-                                    url, request.url?.getMapQueryParameters()
-                                        ?: emptyMap()
-                                )
-                            }
                         }
                     }
                     return super.shouldOverrideUrlLoading(view, request)
@@ -86,30 +72,77 @@ class SKWebViewView(
                     openingUrl?.error(request?.url)
                     super.onReceivedError(view, request, error)
                 }
+
+                override fun shouldInterceptRequest(
+                    view: WebView?,
+                    request: WebResourceRequest?
+                ): WebResourceResponse? {
+                    request?.url?.toSKUri()?.let { skUri ->
+                        try {
+                           config.onRequest?.invoke(skUri)
+                        } catch (ex: Exception) {
+                            SKLog.e(
+                                ex,
+                                "Erreur dans l'invocation de shouldInterceptRequest depuis SKWebViewView"
+                            )
+                        }
+                    }
+                    return super.shouldInterceptRequest(view, request)
+                }
             }
 
         } else {
             webView.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
 
-                    if (activity.featureInitializer.onDeepLink?.invoke(
-                            Uri.parse(url).toSKUri(),
-                            true
-                        ) == true
-                    ) {
-                        return true
+                    url?.let { Uri.parse(url).toSKUri() }?.let { skUri ->
+                        try {
+                            if (config.shouldOverrideUrlLoading?.invoke(skUri) == true) {
+                                return true
+                            }
+                        } catch (ex: Exception) {
+                            SKLog.e(
+                                ex,
+                                "Erreur dans l'invocation de shouldOverrideUrlLoading depuis SKWebViewView"
+                            )
+                        }
+
+                        try {
+                            if (activity.featureInitializer.onDeepLink?.invoke(
+                                    Uri.parse(url).toSKUri(),
+                                    true
+                                ) == true
+                            ) {
+                                return true
+                            }
+                        } catch (ex: Exception) {
+                            SKLog.e(
+                                ex,
+                                "Erreur dans l'invocation de onDeepLink depuis SKWebViewView"
+                            )
+                        }
                     }
 
                     oneRedirectionAskedForCurrentOpenUrl = true
-                    Uri.parse(url)?.let { uri ->
-                        val strUrl = uri.toString()
-                        config.redirect.forEach {
-                            if (it.matches(strUrl)) {
-                                return it.onRedirect(strUrl, uri.getMapQueryParameters())
-                            }
+
+                    return super.shouldOverrideUrlLoading(view, url)
+                }
+
+                override fun shouldInterceptRequest(
+                    view: WebView?,
+                    request: WebResourceRequest?
+                ): WebResourceResponse? {
+                    request?.url?.toSKUri()?.let { skUri ->
+                        try {
+                            config.onRequest?.invoke(skUri)
+                        } catch (ex: Exception) {
+                            SKLog.e(
+                                ex,
+                                "Erreur dans l'invocation de shouldInterceptRequest depuis SKWebViewView"
+                            )
                         }
                     }
-                    return super.shouldOverrideUrlLoading(view, url)
+                    return super.shouldInterceptRequest(view, request)
                 }
 
                 override fun onPageFinished(view: WebView?, url: String?) {

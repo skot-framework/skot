@@ -7,7 +7,7 @@ import tech.skot.view.live.SKMessage
 import tech.skot.viewlegacy.R
 
 class SKWebViewViewProxy(
-    override val config: SKWebViewVC.Config = SKWebViewVC.Config(null, emptyList()),
+    override val config: SKWebViewVC.Config = SKWebViewVC.Config(null, null, null),
     openUrlInitial: SKWebViewVC.OpenUrl? = null
 ) : SKComponentViewProxy<WebView>(), SKWebViewVC {
 

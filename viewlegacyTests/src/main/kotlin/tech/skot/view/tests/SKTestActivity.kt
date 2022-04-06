@@ -17,7 +17,9 @@ class SKTestActivity : SKActivity() {
     override val featureInitializer = object : SKFeatureInitializer(
         initialize = {},
         onDeepLink = null,
-        start = {}
+        start = {},
+        resetToRoot = {
+        }
     ) {}
 
 }

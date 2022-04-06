@@ -7,6 +7,7 @@ abstract class SKFeatureInitializer(
     val initialize: suspend () -> Unit,
     val onDeepLink: ((uri: SKUri, fromWebView:Boolean) -> Boolean)?,
     val start: suspend () -> Unit,
+    val resetToRoot:()->Unit
 ) {
 
     private var done = false

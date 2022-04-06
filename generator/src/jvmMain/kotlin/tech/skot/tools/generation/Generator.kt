@@ -342,10 +342,17 @@ class Generator(
                             )
                                 .build()
                         )
+                        .addParameter(
+                            ParameterSpec.builder(
+                                "resetToRoot",
+                                LambdaTypeName.get(returnType = Unit::class.asTypeName())
+                            )
+                                .build()
+                        )
                         .build()
                 )
                 superclass(ClassName("tech.skot.core", "SKFeatureInitializer"))
-                superclassConstructorParameters.add(CodeBlock.of("initialize, onDeepLink, start"))
+                superclassConstructorParameters.add(CodeBlock.of("initialize, onDeepLink, start, resetToRoot"))
             }.writeTo(generatedCommonSources(modules.viewcontract))
         }
 
@@ -464,7 +471,6 @@ class Generator(
     @ExperimentalStdlibApi
     fun generateAppModule() {
         FileSpec.builder(generatedAppModules.packageName, generatedAppModules.simpleName)
-            .addImportClassName(FrameworkClassNames.skRootStack)
             .addProperty(
                 PropertySpec.builder(
                     generatedAppModules.simpleName,
@@ -501,9 +507,6 @@ class Generator(
                         .endControlFlow()
                         .addStatement(",")
                         .beginControlFlow("onDeepLink = { uri, fromWebView ->")
-                        .beginControlFlow("if (!fromWebView)")
-                        .addStatement("SKRootStack.state.screens.firstOrNull()?.removeAllScreensOnTop()")
-                        .endControlFlow()
                         .addStatement("onDeeplink(uri, fromWebView)")
                         .endControlFlow()
                         .addStatement(",")
@@ -511,6 +514,12 @@ class Generator(
                         .beginControlFlow("start = ")
                         .addStatement("start(startModel())")
                         .endControlFlow()
+                        .addStatement(",")
+
+                        .beginControlFlow("resetToRoot = ")
+                        .addStatement("SKRootStack.resetToRoot()")
+                        .endControlFlow()
+
                         .addStatement(")")
 
                         .endControlFlow()
@@ -532,6 +541,7 @@ class Generator(
 
             )
 //                .addImportClassName(getFun)
+            .addImportClassName(FrameworkClassNames.skRootStack)
             .addImportClassName(moduleFun)
             .addImportClassName(baseInjector)
             .addImportClassName(stringsImpl)

@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import tech.skot.core.SKFeatureInitializer
+import tech.skot.core.SKLog
 import tech.skot.core.toSKUri
 import tech.skot.view.SKPermissionAndroid
 import tech.skot.view.SKPermissionsRequestResultAndroid
@@ -26,9 +27,16 @@ abstract class SKActivity : AppCompatActivity() {
     companion object {
         private var oneActivityAlreadyLaunched = false
         var launchActivityClass: Class<out SKActivity>? = null
-        var bindedActivities = 0
     }
 
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        if (launchActivityClass?.isInstance(this) == true) {
+            featureInitializer.resetToRoot()
+            intent?.data?.toSKUri()?.let { featureInitializer.onDeepLink?.invoke(it, false) }
+        }
+    }
 
     var screen: SKScreenView<*>? = null
 
@@ -76,7 +84,6 @@ abstract class SKActivity : AppCompatActivity() {
 
                 screenProxy?.run {
                     screenKey = key
-                    bindedActivities++
                     bindTo(this@SKActivity, null, layoutInflater)
                 }
                     ?.run {
@@ -196,9 +203,9 @@ abstract class SKActivity : AppCompatActivity() {
                 val thisScreenPosition = state.screens.indexOfFirst {
                     it.key == screenKey
                 }
+                val isTaskRootBeforeFinish = isTaskRoot
                 if (thisScreenPosition == -1) {
                     finishedAsked = true
-                    bindedActivities--
                     finish()
                     state.transition?.let { overridePendingTransition(it.enterAnim, it.exitAnim) }
                 } else {
@@ -213,7 +220,7 @@ abstract class SKActivity : AppCompatActivity() {
                     }
                 }
 
-                if (bindedActivities == 0) {
+                if (finishedAsked && isTaskRootBeforeFinish) {
                     state.screens.firstOrNull()?.let { newScreen ->
                         val launchClass = launchActivityClass
                             ?: throw IllegalStateException("You have to set SKActivity.launchActivityClass to be allowed to change root Screen. New root screen will be loaded in this activity even if you have redefined getActivityClas method")

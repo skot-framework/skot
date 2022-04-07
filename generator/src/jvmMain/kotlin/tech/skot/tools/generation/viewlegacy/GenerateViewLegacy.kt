@@ -32,12 +32,6 @@ fun Generator.generateViewLegacy() {
             listOf(FrameworkClassNames.toSKUri)
         ) {
             superclass(baseActivity)
-            addFunction(FunSpec.builder("onNewIntent")
-                .addModifiers(KModifier.OVERRIDE)
-                .addParameter("intent", AndroidClassNames.intent.nullable())
-                .addStatement("super.onNewIntent(intent)")
-                .addStatement("intent?.data?.toSKUri()?.let { featureInitializer.onDeepLink?.invoke(it, false) }")
-                .build())
         }.writeTo(androidSources(modules.view))
     }
 

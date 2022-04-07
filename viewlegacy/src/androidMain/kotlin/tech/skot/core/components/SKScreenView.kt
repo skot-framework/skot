@@ -69,9 +69,11 @@ abstract class SKScreenView<B : ViewBinding>(
     open val secured:Boolean = false
 
     fun onStatusBarColor(color: Color?) {
-        activity.requestedStatusBarColor = color?.toColor(context)
-        activity.window.statusBarColor =
-            color?.toColor(context) ?: activity.statusBarColor
+        if (fragment !is DialogFragment) {
+            activity.requestedStatusBarColor = color?.toColor(context)
+            activity.window.statusBarColor =
+                color?.toColor(context) ?: activity.statusBarColor
+        }
     }
 
     protected open val withWindowsInsetsPaddingTop: Boolean = false

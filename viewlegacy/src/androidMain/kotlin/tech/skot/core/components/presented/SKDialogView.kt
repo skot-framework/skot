@@ -1,6 +1,7 @@
 package tech.skot.core.components.presented
 
 import androidx.fragment.app.Fragment
+import tech.skot.core.SKLog
 import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKComponentView
 import tech.skot.core.components.SKDialogFragment
@@ -21,12 +22,10 @@ class SKDialogView(
 
         if (state != current?.state) {
             if (state != null) {
-                val oldStatusBarColor = activity.requestedStatusBarColor ?: activity.window.statusBarColor
                 (state.screen as SKScreenViewProxy<*>).createDialogFragment(state.style).apply {
                     isCancelable = state.cancelable
                     show(this@SKDialogView.fragmentManager, "SKDialog")
                     setOnDismissListener {
-                        this@SKDialogView.activity.window.statusBarColor = oldStatusBarColor
                         proxy.state = null
                         state.onDismiss?.invoke()
                     }

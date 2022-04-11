@@ -35,10 +35,16 @@ class CoreViewInjectorImpl : CoreViewInjector {
         swipable = swipable
     )
 
-    override fun pagerWithTabs(pager: SKPagerVC, labels: List<String>) =
+
+    override fun pagerWithTabs(
+        pager: SKPagerVC,
+        tabConfigs: List<SKPagerWithTabsVC.TabConfig>,
+        tabsVisibility: SKPagerWithTabsVC.Visibility
+    ) =
         SKPagerWithTabsViewProxy(
             pager = pager as SKPagerViewProxy,
-            initialLabels = labels
+            initialTabConfigs = tabConfigs,
+            initialTabsVisibility = tabsVisibility
         )
 
 
@@ -136,7 +142,7 @@ class CoreViewInjectorImpl : CoreViewInjector {
         enabledInitial = enabledInitial,
         hiddenInitial = hiddenInitial,
         dropDownDisplayedInitial = dropDownDisplayedInitial,
-        oldSchoolModeHint  = oldSchoolModeHint
+        oldSchoolModeHint = oldSchoolModeHint
     )
 
     override fun inputWithSuggestions(
@@ -160,7 +166,7 @@ class CoreViewInjectorImpl : CoreViewInjector {
         hiddenInitial = hiddenInitial,
         dropDownDisplayedInitial = dropDownDisplayedInitial,
         onInputText = onInputText,
-        oldSchoolModeHint  = oldSchoolModeHint
+        oldSchoolModeHint = oldSchoolModeHint
     )
 
     override fun button(
@@ -178,8 +184,6 @@ class CoreViewInjectorImpl : CoreViewInjector {
         hiddenInitial: Boolean?,
         debounce: Long?
     ) = SKImageButtonViewProxy(onTapInitial, iconInitial, enabledInitial, hiddenInitial, debounce)
-
-
 
 
 }

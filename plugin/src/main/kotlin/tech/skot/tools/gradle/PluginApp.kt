@@ -1,19 +1,18 @@
 package tech.skot.tools.gradle
 
-import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
-import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.*
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import tech.skot.Versions
+import org.gradle.kotlin.dsl.DependencyHandlerScope
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.findByType
+import org.gradle.kotlin.dsl.project
 
 //open class SKPluginAppExtension {
 //    var message: String? = null
 //}
 
-class PluginApp: Plugin<Project> {
+class PluginApp : Plugin<Project> {
 
     override fun apply(project: Project) {
 //        val extension = project.extensions.create<SKPluginAppExtension>("skot")
@@ -70,7 +69,7 @@ class PluginApp: Plugin<Project> {
         add("implementation", project(":model"))
         add("implementation", project(":view"))
 
-        add("debugImplementation","com.squareup.leakcanary:leakcanary-android:2.7")
+        add("debugImplementation", "com.squareup.leakcanary:leakcanary-android:2.7")
 
         add("coreLibraryDesugaring", "com.android.tools:desugar_jdk_libs:1.1.5")
 

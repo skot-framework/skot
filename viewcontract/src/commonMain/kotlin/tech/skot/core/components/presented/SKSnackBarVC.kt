@@ -5,12 +5,13 @@ import tech.skot.core.components.SKLayoutIsRoot
 import tech.skot.core.view.Color
 import tech.skot.core.view.Icon
 import tech.skot.core.view.Resource
+import tech.skot.core.view.SKSpannedString
 
 @SKLayoutIsRoot
 interface SKSnackBarVC : SKComponentVC {
 
     data class Shown(
-        val message: String,
+        val message: SKSpannedString,
         val action: Action? = null,
         val position: Position = Position.TopWithInsetMargin,
         val background: Resource? = null,

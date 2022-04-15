@@ -5,9 +5,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import tech.skot.core.components.SKComponent
 import tech.skot.core.di.coreViewInjector
-import tech.skot.core.view.Color
-import tech.skot.core.view.Icon
-import tech.skot.core.view.Resource
+import tech.skot.core.view.*
 
 class SKSnackBar : SKComponent<SKSnackBarVC>() {
 
@@ -16,8 +14,34 @@ class SKSnackBar : SKComponent<SKSnackBarVC>() {
     data class Action(val label: String, val action: () -> Unit)
 
     private var disappearJob: Job? = null
+
     fun show(
         message: String,
+        action: Action? = null,
+        position: SKSnackBarVC.Position = SKSnackBarVC.Position.TopWithInsetMargin,
+        duration: Long = 3000,
+        leftIcon: Icon? = null,
+        rightIcon: Icon? = null,
+        background: Resource? = null,
+        textColor: Color? = null,
+        infiniteLines: Boolean = false
+
+    ) {
+        show(
+            skSpannedString { append(message) },
+            action,
+            position,
+            duration,
+            leftIcon,
+            rightIcon,
+            background,
+            textColor,
+            infiniteLines
+        )
+    }
+
+    fun show(
+        message: SKSpannedString,
         action: Action? = null,
         position: SKSnackBarVC.Position = SKSnackBarVC.Position.TopWithInsetMargin,
         duration: Long = 3000,

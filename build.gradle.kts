@@ -56,7 +56,3 @@ if (!localPublication) {
         }
     }
 }
-
-
-
-

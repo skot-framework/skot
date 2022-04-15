@@ -1,7 +1,9 @@
 package tech.skot.core.components.presented
 
 import android.content.res.Resources
+import android.graphics.Color
 import android.os.Build
+import android.text.method.LinkMovementMethod
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -16,6 +18,7 @@ import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKComponentView
 import tech.skot.core.setBackground
 import tech.skot.core.toColor
+import tech.skot.core.view.toCharSequence
 import tech.skot.viewlegacy.R
 
 class SKSnackBarView(
@@ -48,13 +51,18 @@ class SKSnackBarView(
 
         if (state != current?.state) {
             if (state != null) {
-                Snackbar.make(activity.window.decorView, state.message, Snackbar.LENGTH_INDEFINITE)
+
+                Snackbar.make(activity.window.decorView,  state.message.toCharSequence(context), Snackbar.LENGTH_INDEFINITE)
                     .apply {
                         if (state.leftIcon != null || state.rightIcon != null || state.infiniteLines) {
                             try {
 
                                 view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
                                     .apply {
+                                        if (state.message.any { it.format.onTap != null }) {
+                                            movementMethod = LinkMovementMethod.getInstance()
+                                            highlightColor = Color.TRANSPARENT
+                                        }
                                         if (state.infiniteLines) {
                                             this.isSingleLine = false
                                         }
@@ -65,10 +73,8 @@ class SKSnackBarView(
                                                 state.rightIcon?.res ?: 0,
                                                 0
                                             )
-                                            setCompoundDrawablePadding(
-                                                getResources().getDimensionPixelOffset(
-                                                    R.dimen.sk_snackbar_icon_padding
-                                                )
+                                            compoundDrawablePadding = resources.getDimensionPixelOffset(
+                                                R.dimen.sk_snackbar_icon_padding
                                             )
 
 

@@ -28,6 +28,7 @@ class HttpResponse(
 
 
 class HttpMocker() {
+    var pathPrefix: String? = null
     var nextResponse: HttpResponse? = null
     val responsesForUrl: MutableMap<String, HttpResponse> = mutableMapOf()
 
@@ -35,19 +36,21 @@ class HttpMocker() {
         responsesForUrl[encodedPath] = HttpResponse(content = content)
     }
 
-    fun setResponse400(encodedPath: String, content:String = "") {
-        responsesForUrl[encodedPath] = HttpResponse(status = HttpStatusCode.BadRequest,content = content)
+    fun setResponse400(encodedPath: String, content: String = "") {
+        responsesForUrl[encodedPath] =
+            HttpResponse(status = HttpStatusCode.BadRequest, content = content)
     }
 
     fun setResponse404(encodedPath: String) {
         responsesForUrl[encodedPath] = _404
     }
 
-    fun setResponse500(encodedPath: String, content:String = "") {
-        responsesForUrl[encodedPath] = HttpResponse(status = HttpStatusCode.InternalServerError,content = content)
+    fun setResponse500(encodedPath: String, content: String = "") {
+        responsesForUrl[encodedPath] =
+            HttpResponse(status = HttpStatusCode.InternalServerError, content = content)
     }
 
-    val calls: MutableList<HttpRequestData> = mutableListOf()
+    private val calls: MutableList<HttpRequestData> = mutableListOf()
 
     fun init() {
         nextResponse = null
@@ -57,7 +60,7 @@ class HttpMocker() {
 
     suspend fun assertJustCalled(encodedPath: String, body: String? = null, rule: String = "") {
         assertTrue("$rule-> le dernier appel http doit être à $encodedPath") {
-            calls.lastOrNull()?.url?.encodedPath == encodedPath
+            calls.lastOrNull()?.pathEqualTo(encodedPath) == true
         }
 
         body?.let {
@@ -70,10 +73,30 @@ class HttpMocker() {
 
     }
 
-    suspend fun assertCalled(encodedPath:String, body:String? = null, rule:String = "") {
+    fun assertNotCalled(encodedPath: String) {
+        assertTrue(calls.none {
+            it.url.encodedPath == encodedPath
+        })
+    }
+
+    fun assertCallWithParameter(encodedPath: String) {
+        val call = calls.find { it.url.encodedPath == encodedPath }
+    }
+
+    private fun HttpRequestData.pathEqualTo(path:String):Boolean {
+        return url.encodedPath == path || pathPrefix?.let { url.encodedPath.substringAfter(it) == path } == true
+    }
+
+    fun findCall(encodedPath: String): HttpRequestData? =
+        calls.find { it.pathEqualTo(encodedPath) }
+
+    val nbCalls:Int
+        get() = calls.size
+
+    suspend fun assertCalled(encodedPath: String, body: String? = null, rule: String = "") {
         assertTrue("$rule-> un appel à $encodedPath doit avoir été fait") {
             calls.any {
-                it.url.encodedPath == encodedPath
+                it.pathEqualTo(encodedPath)
             }
         }
 
@@ -81,23 +104,31 @@ class HttpMocker() {
             assertEquals(
                 message = "$rule-> l'appel à $encodedPath doit avoir le body demandé",
                 expected = it,
-                actual = calls.find { it.url.encodedPath == encodedPath }?.body?.toByteReadPacket()?.readText()
+                actual = calls.find { it.pathEqualTo(encodedPath) }?.body?.toByteReadPacket()
+                    ?.readText()
             )
         }
     }
 
 
+    fun request(request: HttpRequestData, scope: MockRequestHandleScope): HttpResponseData {
+        calls.add(request)
+        val requestPath = request.url.encodedPath
+        val response = mockHttp.nextResponse ?: mockHttp.responsesForUrl[requestPath]
+        ?: pathPrefix?.let {
+            mockHttp.responsesForUrl[requestPath.substringAfter(it)]
+        }
+        ?: throw Exception("Pas de réponse mockée définie pour ${request.url.encodedPath}")
+        return response.let {
+            it.then?.invoke(mockHttp)
+            it.toRespondData(scope)
+        }
+    }
 }
 
 val mockHttp: HttpMocker = HttpMocker()
 
 val mockHttpEngine: MockEngine = MockEngine { request ->
 
-    mockHttp.calls.add(request)
-    val response = mockHttp.nextResponse ?: mockHttp.responsesForUrl[request.url.encodedPath]
-    ?: throw Exception("Pas de réponse mockée définie pour ${request.url.encodedPath}")
-    response?.let {
-        it.then?.invoke(mockHttp)
-        it.toRespondData(this)
-    }
+    mockHttp.request(request, this)
 }

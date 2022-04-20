@@ -41,7 +41,8 @@ kotlin {
                 api("com.squareup.sqldelight:runtime:${Versions.sqldelight}")
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
                 api("io.ktor:ktor-client-core:${Versions.ktor}")
-                api("io.ktor:ktor-client-serialization:${Versions.ktor}")
+                api("io.ktor:ktor-client-content-negotiation:${Versions.ktor}")
+                api("io.ktor:ktor-serialization-kotlinx-json:${Versions.ktor}")
                 api("io.ktor:ktor-client-auth:${Versions.ktor}")
                 api("io.ktor:ktor-client-logging:${Versions.ktor}")
             }
@@ -76,14 +77,14 @@ kotlin {
                 api("io.ktor:ktor-client-okhttp:${Versions.ktor}")
                 api("io.ktor:ktor-client-mock-jvm:${Versions.ktor}")
                 api("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}")
             }
         }
 
         val jvmTest by getting {
             dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}")
             }
 
         }
@@ -132,7 +133,7 @@ android {
 dependencies {
 
     androidTestImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
-    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation("androidx.test:core-ktx:1.4.0")
     androidTestImplementation("androidx.test.ext:junit-ktx:1.1.3")

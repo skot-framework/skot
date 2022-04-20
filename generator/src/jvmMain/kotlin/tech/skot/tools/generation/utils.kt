@@ -26,7 +26,7 @@ fun TypeSpec.Builder.addPrimaryConstructorWithParams(vals: List<ParamInfos>): Ty
                 vals
                     .forEach {
                         addParameter(
-                            ParameterSpec.builder(it.name, it.typeName, it.modifiers)
+                            ParameterSpec.builder(it.name, it.typeName, it.modifiers.filter { it == KModifier.VARARG || it == KModifier.NOINLINE || it == KModifier.CROSSINLINE })
                                 .apply {
                                     if (it.default != null) {
                                         defaultValue(it.default)

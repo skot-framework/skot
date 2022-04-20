@@ -48,11 +48,7 @@ kotlin {
 
         val iosMain by getting {
             dependencies {
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}") {
-                    version {
-                        strictly(Versions.kotlinCoroutines)
-                    }
-                }
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
             }
         }
 

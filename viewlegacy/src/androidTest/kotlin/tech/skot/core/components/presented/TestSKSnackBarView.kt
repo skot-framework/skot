@@ -5,6 +5,7 @@ import org.junit.Test
 import tech.skot.core.components.inputs.SKButtonViewProxy
 import tech.skot.core.view.ColorRef
 import tech.skot.core.view.Icon
+import tech.skot.core.view.skSpannedString
 import tech.skot.view.tests.SKTestView
 import tech.skot.view.tests.testComponents
 
@@ -19,7 +20,7 @@ class TestSKSnackBarView : SKTestView() {
             labelInitial = "show simple",
             onTapInitial = {
                 snack.state = SKSnackBarVC.Shown(
-                    message = "message assez long l lksdjflkj slkdfj lkjsqdf lkj"
+                    message = skSpannedString { append("message assez long l lksdjflkj slkdfj lkjsqdf lkj") }
                 )
 
             }
@@ -29,7 +30,7 @@ class TestSKSnackBarView : SKTestView() {
             labelInitial = "show left icon",
             onTapInitial = {
                 snack.state = SKSnackBarVC.Shown(
-                    message = "message assez long l lksdjflkj slkdfj lkjsqdf lkj",
+                    message = skSpannedString { append("message assez long l lksdjflkj slkdfj lkjsqdf lkj") },
                     leftIcon = Icon(R.drawable.ic_delete)
                 )
 
@@ -40,7 +41,7 @@ class TestSKSnackBarView : SKTestView() {
             labelInitial = "show right icon",
             onTapInitial = {
                 snack.state = SKSnackBarVC.Shown(
-                    message = "message assez long l lksdjflkj slkdfj lkjsqdf lkj",
+                    message = skSpannedString { append("message assez long l lksdjflkj slkdfj lkjsqdf lkj") },
                     rightIcon = Icon(R.drawable.ic_delete)
                 )
 
@@ -51,7 +52,7 @@ class TestSKSnackBarView : SKTestView() {
             labelInitial = "show left and right icon",
             onTapInitial = {
                 snack.state = SKSnackBarVC.Shown(
-                    message = "message assez long l lksdjflkj slkdfj lkjsqdf lkj",
+                    message = skSpannedString { append("message assez long l lksdjflkj slkdfj lkjsqdf lkj")},
                     rightIcon = Icon(R.drawable.ic_delete),
                     leftIcon = Icon(R.drawable.ic_dialog_info)
                 )
@@ -63,7 +64,7 @@ class TestSKSnackBarView : SKTestView() {
             labelInitial = "show left icon and backgroundcolor",
             onTapInitial = {
                 snack.state = SKSnackBarVC.Shown(
-                    message = "message assez long l lksdjflkj slkdfj lkjsqdf lkj",
+                    message = skSpannedString { append("message assez long l lksdjflkj slkdfj lkjsqdf lkj") },
                     background = ColorRef(R.color.holo_red_dark),
                     leftIcon = Icon(R.drawable.ic_dialog_info)
                 )

@@ -12,6 +12,8 @@ interface SKWebViewVC : SKComponentVC {
 
     data class Config(
         val userAgent: String?,
+        val javascriptEnabled: Boolean = true,
+        val domStorageEnabled: Boolean = true,
         val shouldOverrideUrlLoading: ((skUri: SKUri) -> Boolean)? = null,
         val onRequest: ((skUri: SKUri) -> Unit)? = null
     )

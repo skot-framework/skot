@@ -5,7 +5,7 @@ import tech.skot.core.di.coreViewInjector
 class SKWebView(config: SKWebViewVC.Config, openUrl: SKWebViewVC.OpenUrl?) :
     SKComponent<SKWebViewVC>() {
 
-    constructor(url: String) : this(SKWebViewVC.Config(null, null, null), SKWebViewVC.OpenUrl(url))
+    constructor(url: String) : this(SKWebViewVC.Config(null), SKWebViewVC.OpenUrl(url))
 
     override val view = coreViewInjector.webView(config, openUrl)
 

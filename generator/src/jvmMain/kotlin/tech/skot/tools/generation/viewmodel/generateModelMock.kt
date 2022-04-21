@@ -108,7 +108,6 @@ fun Generator.generateModelMock() {
                             Unit::class.asTypeName()
                         }
                         if (withParams) {
-                            println("@@@@@@@@@@ -> ${it.name}    ${it.parameters.map { it.name }}")
                             addType(
                                 TypeSpec.classBuilder(callClassName)
                                     .addModifiers(KModifier.DATA)

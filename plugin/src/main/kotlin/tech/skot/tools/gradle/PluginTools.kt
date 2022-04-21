@@ -47,7 +47,7 @@ class PluginTools : Plugin<Project> {
 
 
         val trueProjectDir = project.parent?.projectDir ?: project.rootDir
-        val clearGenerated = project.task("skClearGenerated", type = Delete::class) {
+        project.task("skClearGenerated", type = Delete::class) {
             doLast {
                 println("####### clearGenerated  $trueProjectDir ")
                 println("####### clearGenerated  feature ${extension.app?.feature} ")
@@ -146,13 +146,13 @@ class PluginTools : Plugin<Project> {
                 }
 
 
-
             }
-            dependsOn(project.tasks.getByName("compileKotlin"))
+            val compileTask = project.tasks.getByName("compileKotlin")
+            dependsOn(compileTask)
+
             group = "Skot"
 
-        }.dependsOn(clearGenerated)
-
+        }
 
     }
 

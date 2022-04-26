@@ -13,7 +13,7 @@ class TestSKNullableManualDataWithCache {
     @Test
     fun testNullableSerialization() {
         val name = "NAME"
-        val persistor = AndroidSKPersistor(InstrumentationRegistry.getInstrumentation().context, "testpersistor")
+        val persistor = AndroidSKPersistor(InstrumentationRegistry.getInstrumentation().context, "testpersistor", false)
 
         runBlocking {
             val manual1 = object: SKManualDataWithCache<Nullable<String>>(
@@ -53,7 +53,7 @@ class TestSKNullableManualDataWithCache {
     @Test
     fun testSKNullableManualDataWithCache() {
         val name = "NAME"
-        val persistor = AndroidSKPersistor(InstrumentationRegistry.getInstrumentation().context, "testpersistor")
+        val persistor = AndroidSKPersistor(InstrumentationRegistry.getInstrumentation().context, "testpersistor", false)
 
         runBlocking {
             val manual1 = object: SKNullableManualDataWithCache<String>(

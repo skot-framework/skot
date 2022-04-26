@@ -14,7 +14,7 @@ class TestManualSKDataWithCache {
     @Test
     fun testCacheValueUsed() {
         val name = "NAME"
-        val persistor = AndroidSKPersistor(InstrumentationRegistry.getInstrumentation().context, "testpersistor")
+        val persistor = AndroidSKPersistor(InstrumentationRegistry.getInstrumentation().context, "testpersistor", false)
 
 
 

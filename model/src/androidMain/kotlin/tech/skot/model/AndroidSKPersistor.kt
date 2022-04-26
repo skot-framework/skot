@@ -4,7 +4,7 @@ import android.content.Context
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import tech.skot.model.persist.PersistDb
 
-class AndroidSKPersistor(context: Context, dbFilename: String, cache:Boolean) : CommonSKPersistor() {
+class AndroidSKPersistor(context: Context, dbFilename: String, cache:Boolean = false) : CommonSKPersistor() {
 
     private val dbName = if (cache) {
         context.cacheDir.resolve("$dbFilename.db").absolutePath

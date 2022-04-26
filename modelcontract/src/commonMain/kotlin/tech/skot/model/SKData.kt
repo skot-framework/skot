@@ -196,8 +196,10 @@ fun <D1 : Any?, D2 : Any?, D3 : Any?> combineSKData(
 ): SKData<Triple<D1, D2, D3>> {
     return object : SKData<Triple<D1, D2, D3>> {
 
-        override val defaultValidity =
+        override val defaultValidity by lazy {
             min(min(data1.defaultValidity, data2.defaultValidity), data3.defaultValidity)
+        }
+
         override val _current: DatedData<Triple<D1, D2, D3>>?
             get() = buildTriple(data1._current, data2._current, data3._current)
 
@@ -219,13 +221,15 @@ fun <D1 : Any?, D2 : Any?, D3 : Any?> combineSKData(
                 null
             }
 
-        override val flow: Flow<DatedData<Triple<D1, D2, D3>>?> = combineTransform(
-            data1.flow,
-            data2.flow,
-            data3.flow
-        ) { datedDataFlow1, datedDataFlow2, datedDataFlow3 ->
-            buildTriple(datedDataFlow1, datedDataFlow2, datedDataFlow3)?.let { emit(it) }
+        override val flow: Flow<DatedData<Triple<D1, D2, D3>>?> by lazy {
+            combineTransform(
+                data1.flow,
+                data2.flow,
+                data3.flow
+            ) { datedDataFlow1, datedDataFlow2, datedDataFlow3 ->
+                buildTriple(datedDataFlow1, datedDataFlow2, datedDataFlow3)?.let { emit(it) }
 
+            }
         }
 
         override suspend fun update(): Triple<D1, D2, D3> {

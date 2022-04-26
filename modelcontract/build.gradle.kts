@@ -25,6 +25,7 @@ kotlin {
         }
         val commonMain by getting {
             dependencies {
+                api(project(":core"))
                 api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
                 api("org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}")

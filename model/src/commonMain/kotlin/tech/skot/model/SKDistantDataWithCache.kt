@@ -17,7 +17,6 @@ abstract class SKDistantDataWithCache<D : Any>(
     private val fetchData: suspend () -> D
 ) : SKDistantData<D>(validity, fetchData) {
 
-
     override suspend fun newDatedData(): DatedData<D> {
         val fetchedData = DatedData(fetchData(), currentTimeMillis())
         saveInCache(fetchedData)

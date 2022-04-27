@@ -22,6 +22,12 @@ class SKPagerViewProxy(
             screensLD.postValue(value as List<SKScreenViewProxy<*>>)
         }
 
+    override fun saveState() {
+        for (screenViewProxy in screensLD.value) {
+            screenViewProxy.saveState()
+        }
+    }
+
     override fun bindTo(
         activity: SKActivity,
         fragment: Fragment?,

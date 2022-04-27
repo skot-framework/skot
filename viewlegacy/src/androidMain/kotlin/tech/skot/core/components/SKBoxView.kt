@@ -15,26 +15,37 @@ class SKBoxView(
 
 
     private var currentViews:List<View>? = null
+
+    private var firstItems = true
     fun onItems(items: List<SKComponentViewProxy<*>>) {
-        binding.removeAllViews()
-        subViews.clear()
-        binding.post {
-            items.forEach { newItemProxy ->
-                val existingView = currentViews?.find { it.tag == newItemProxy.hashCode() }
-                if (existingView != null) {
-                    binding.addView(existingView)
-                }
-                else {
-                    newItemProxy.inflateInParentAndBind(activity = activity, fragment = fragment, parent = binding)
-                }
+        if (!firstItems) {
+            binding.removeAllViews()
+            subViews.clear()
+            binding.post {
+                setItems(items)
             }
-            val newCurrentViews = mutableListOf<View>()
-            (0 until binding.childCount).forEach {
-                newCurrentViews.add(binding.getChildAt(it))
-            }
-            currentViews = newCurrentViews
+        }
+        else {
+            setItems(items)
         }
 
+    }
+
+    private fun setItems(items: List<SKComponentViewProxy<*>>) {
+        items.forEach { newItemProxy ->
+            val existingView = currentViews?.find { it.tag == newItemProxy.hashCode() }
+            if (existingView != null) {
+                binding.addView(existingView)
+            }
+            else {
+                newItemProxy.inflateInParentAndBind(activity = activity, fragment = fragment, parent = binding)
+            }
+        }
+        val newCurrentViews = mutableListOf<View>()
+        (0 until binding.childCount).forEach {
+            newCurrentViews.add(binding.getChildAt(it))
+        }
+        currentViews = newCurrentViews
     }
 
     fun onHidden(hidden: Boolean?) {

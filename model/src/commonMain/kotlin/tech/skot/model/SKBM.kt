@@ -52,6 +52,23 @@ abstract class SKBM(val key: String?) {
         fetchData = fetchData
     )
 
+    open inner class PaginatedData<D: Any>(
+        name: String,
+        serializer: KSerializer<D>,
+        cache: SKPersistor = globalPersistor,
+        validity: Long? = null,
+        nbItemsInPage: Int,
+        fetchPage: suspend (index: Int, nbItemsInPage: Int) -> List<D>
+    ) : SKPaginatedDataWithCache<D>(
+        name = name,
+        serializer = serializer,
+        key = key,
+        cache = cache,
+        validity = validity,
+        nbItemsInPage = nbItemsInPage,
+        fetchPage = fetchPage
+    )
+
     open inner class ManualData<D : Any>(
         name: String,
         serializer: KSerializer<D>,
@@ -77,4 +94,7 @@ abstract class SKBM(val key: String?) {
         cache = cache,
         initialDefaultValue = initialDefaultValue
     )
+
+
+
 }

@@ -31,6 +31,11 @@ interface SKData<D : Any?> {
 
 }
 
+interface SKPaginatedData<D: Any>:SKData<List<D>> {
+    suspend fun oneMorePage()
+    val mayHaveAnotherPage:Boolean
+}
+
 fun <D : Any?, O : Any?> SKData<D>.map(transform: (d: D) -> O): SKData<O> {
     return object : SKData<O> {
         override val defaultValidity = this@map.defaultValidity

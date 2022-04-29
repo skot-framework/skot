@@ -257,11 +257,20 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
                 }
             }
             launchNoCrash {
-                flow.collect {
-                    it?.let {
-                        it.data.let { treatData(it) }
+                try {
+                    flow.collect {
+                        it?.let {
+                            it.data.let { treatData(it) }
+                        }
                     }
                 }
+                catch (ex:Exception) {
+                    if (ex !is CancellationException) {
+                        SKLog.e(ex,"Error in collect of an SKComponent.onData may be un treatment or in a map")
+                    }
+
+                }
+
             }
         }
 

@@ -12,7 +12,7 @@ class SKFrameViewProxy(
     private val screenLD = MutableSKLiveData(screenInitial)
     override var screen: SKScreenVC?
         get() = screenLD.value
-        set(value) = screenLD.postValue(value as SKScreenViewProxy<*>)
+        set(value) = screenLD.postValue(value as SKScreenViewProxy<*>?)
 
 
 

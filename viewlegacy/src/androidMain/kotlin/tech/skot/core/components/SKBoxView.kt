@@ -18,9 +18,9 @@ class SKBoxView(
 
     private var firstItems = true
     fun onItems(items: List<SKComponentViewProxy<*>>) {
+        binding.removeAllViews()
+        subViews.clear()
         if (!firstItems) {
-            binding.removeAllViews()
-            subViews.clear()
             binding.post {
                 setItems(items)
             }

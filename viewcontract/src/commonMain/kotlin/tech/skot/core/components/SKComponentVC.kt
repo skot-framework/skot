@@ -1,6 +1,7 @@
 package tech.skot.core.components
 
 import tech.skot.core.components.inputs.SKInputVC
+import tech.skot.core.components.presented.SKAlertVC
 import tech.skot.core.view.SKPermission
 import tech.skot.core.view.Style
 
@@ -30,5 +31,13 @@ interface SKComponentVC {
         class Info(content:String):Message(content)
         class Warning(content:String):Message(content)
         class Error(content:String):Message(content)
+        class Alert(
+            val title:String? = null,
+            val message:String? = null,
+            val cancelable:Boolean = false,
+            val withInput:Boolean = false,
+            val mainButton: SKAlertVC.Button,
+            val secondaryButton: SKAlertVC.Button? = null
+        ): Message(title ?: message ?: "")
     }
 }

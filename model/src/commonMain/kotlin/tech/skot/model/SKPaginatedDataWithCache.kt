@@ -36,7 +36,8 @@ abstract class SKPaginatedDataWithCache<D : Any>(
         get() = if (lastPageFetched) {
             false
         } else {
-            (_current?.data?.size ?: 0) % nbItemsInPage == 0
+            val dataSize = _current?.data?.size
+            dataSize == null || (dataSize != 0 && dataSize % nbItemsInPage == 0)
         }
 
 

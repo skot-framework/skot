@@ -1,6 +1,6 @@
 import org.gradle.api.Project
 
-var localPublication = true
+var localPublication = false
 
 data class Publication(
     val signingKeyId: String,

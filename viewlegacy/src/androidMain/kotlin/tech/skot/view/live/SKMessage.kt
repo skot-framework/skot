@@ -4,6 +4,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
+import tech.skot.core.SKLog
 
 class SKMessage<D>(multiReceiver:Boolean = false) : SKMessageCommon<D>(multiReceiver) {
 
@@ -42,8 +43,12 @@ class SKMessage<D>(multiReceiver:Boolean = false) : SKMessageCommon<D>(multiRece
                         onDestroy()
                         lifecycleOwner.lifecycle.removeObserver(this)
                     }
-                    newState.isAtLeast(Lifecycle.State.STARTED) -> onBecomeActive()
-                    else -> onBecomeInactive()
+                    newState.isAtLeast(Lifecycle.State.STARTED) -> {
+                        onBecomeActive()
+                    }
+                    else -> {
+                        onBecomeInactive()
+                    }
                 }
             }
         }

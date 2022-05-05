@@ -12,11 +12,25 @@ class SKStackView(
 ) : SKComponentView<FrameLayout>(proxy, activity, fragment, frameLayout) {
 
 
+    fun onLastScreen(lastScreen: SKScreenViewProxy<*>?) {
+        fragmentManager.apply {
+            beginTransaction().apply {
+                if (lastScreen != null) {
+                    replace(frameLayout.id, lastScreen.createFragment())
+                } else {
+                    findFragmentById(frameLayout.id)?.let { fragmentToRemove ->
+                        remove(fragmentToRemove)
+                    }
+                }
+                commit()
+            }
+        }
+    }
+
     fun onState(state: StateProxy) {
         val lastScreen = state.screens.lastOrNull()
         if (lastScreen != null) {
             fragmentManager.apply {
-                val oldFrag = findFragmentById(frameLayout.id)
                 beginTransaction().apply {
                     replace(frameLayout.id, lastScreen.createFragment())
                     commit()

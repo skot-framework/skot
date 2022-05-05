@@ -13,6 +13,8 @@ import java.util.*
 
 
 const val SKOT_ANDROID_PROPERIES_FILE_NAME = "skot_android.properties"
+const val SKOT_IMPORTS_PROPERIES_FILE_NAME = "skot_imports.properties"
+
 
 fun skReadAndroidProperties(path: Path): SKAndroidProperties? {
     val propertiesPath = path.resolve(SKOT_ANDROID_PROPERIES_FILE_NAME)
@@ -31,6 +33,26 @@ class SKAndroidProperties(private val properties: Properties) {
 }
 
 fun Project.skReadAndroidProperties(): SKAndroidProperties? = skReadAndroidProperties(rootProject.rootDir.toPath())
+
+fun skReadImportsProperties(path: Path): SKImportsProperties? {
+    val propertiesPath = path.resolve(SKOT_IMPORTS_PROPERIES_FILE_NAME)
+    return if (Files.exists(propertiesPath)) {
+        val properties = Properties()
+        properties.load(FileInputStream(propertiesPath.toFile()))
+        SKImportsProperties(properties)
+    } else {
+        null
+    }
+}
+
+class SKImportsProperties(private val properties: Properties) {
+    val ktor2:Boolean?
+        get() {
+            return (properties.get("ktor2") as? String?)?.toBoolean()
+        }
+}
+
+fun Project.skReadImportsProperties(): SKImportsProperties? = skReadImportsProperties(rootProject.rootDir.toPath())
 
 fun TestedExtension.androidBaseConfig(androidProperties: SKAndroidProperties?) {
     defaultConfig {

@@ -41,8 +41,6 @@ kotlin {
                 api("com.squareup.sqldelight:runtime:${Versions.sqldelight}")
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
                 api("io.ktor:ktor-client-core:${Versions.ktor}")
-                api("io.ktor:ktor-client-content-negotiation:${Versions.ktor}")
-                api("io.ktor:ktor-serialization-kotlinx-json:${Versions.ktor}")
                 api("io.ktor:ktor-client-auth:${Versions.ktor}")
                 api("io.ktor:ktor-client-logging:${Versions.ktor}")
             }

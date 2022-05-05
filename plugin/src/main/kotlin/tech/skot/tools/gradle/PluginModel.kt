@@ -85,6 +85,13 @@ class PluginModel: Plugin<Project> {
             api("org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}")
 
 
+            if (project.skReadImportsProperties()?.ktor2 != false) {
+                api("io.ktor:ktor-client-content-negotiation:${Versions.ktor}")
+                api("io.ktor:ktor-serialization-kotlinx-json:${Versions.ktor}")
+            }
+            else {
+                api("io.ktor:ktor-client-serialization:${Versions.ktor}")
+            }
         }
 
         skVariantsCombinaison(project.rootProject.rootDir.toPath()).forEach {

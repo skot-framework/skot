@@ -1,9 +1,8 @@
 package tech.skot.core.components
 
 class SKListViewMock(
-    vertical: Boolean,
+    layoutMode: SKListVC.LayoutMode,
     reverse: Boolean,
-    nbColumns: Int?,
     animate: Boolean,
     animateItem: Boolean
 ): SKComponentViewMock(), SKListVC {

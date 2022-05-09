@@ -50,14 +50,14 @@ class CoreViewInjectorMock : CoreViewInjector {
         return SKPagerWithTabsViewMock(pager, tabConfigs, visibility)
     }
 
+
     override fun skList(
-        vertical: Boolean,
+        layoutMode: SKListVC.LayoutMode,
         reverse: Boolean,
-        nbColumns: Int?,
         animate: Boolean,
         animateItem: Boolean
     ): SKListVC {
-        return SKListViewMock(vertical, reverse, nbColumns, animate, animateItem)
+        return SKListViewMock(layoutMode, reverse, animate, animateItem)
     }
 
     override fun skBox(itemsInitial: List<SKComponentVC>, hiddenInitial: Boolean?): SKBoxVC {

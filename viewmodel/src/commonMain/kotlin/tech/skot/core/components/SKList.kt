@@ -11,13 +11,15 @@ import tech.skot.core.di.coreViewInjector
  *
  */
 open class SKList(
-    vertical: Boolean = true,
+    layoutMode: SKListVC.LayoutMode = SKListVC.LayoutMode.Linear(true),
     reverse: Boolean = false,
-    nbColumns: Int? = null,
     animate: Boolean = true,
     animateItem: Boolean = false
 ) : SKComponent<SKListVC>() {
-    override val view = coreViewInjector.skList(vertical, reverse, nbColumns, animate, animateItem)
+
+
+
+    override val view = coreViewInjector.skList(layoutMode, reverse, animate, animateItem)
 
     var items: List<SKComponent<*>> = emptyList()
         set(value) {

@@ -4,10 +4,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.test.core.app.ApplicationProvider
 import org.junit.Before
-import tech.skot.core.components.SKBoxViewProxy
-import tech.skot.core.components.SKComponentViewProxy
-import tech.skot.core.components.SKListViewProxy
-import tech.skot.core.components.SKVisiblityListener
+import tech.skot.core.components.*
 import tech.skot.core.components.inputs.*
 import tech.skot.core.view.Icon
 import timber.log.Timber
@@ -74,9 +71,8 @@ abstract class SKTestView {
     )
 
     fun dummyList(vararg component: SKComponentViewProxy<*>) = SKListViewProxy(
-        vertical = true,
+        layoutMode = SKListVC.LayoutMode.Linear(vertical = true),
         reverse = false,
-        nbColumns = null,
         animate = true,
         animateItem = false
     ).apply { setItems(*component) }

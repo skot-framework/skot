@@ -8,9 +8,8 @@ import tech.skot.view.live.SKMessage
 import tech.skot.viewlegacy.R
 
 class SKListViewProxy(
-    private val vertical: Boolean = true,
+    private val layoutMode: SKListVC.LayoutMode = SKListVC.LayoutMode.Linear(true),
     private val reverse: Boolean = false,
-    private val nbColumns: Int? = null,
     private val animate: Boolean = true,
     private val animateItem: Boolean = false
 ) : SKComponentViewProxy<RecyclerView>(), SKListVC {
@@ -38,7 +37,7 @@ class SKListViewProxy(
     override val layoutId = R.layout.sk_list
 
     override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: RecyclerView) =
-            SKListView(vertical, reverse, nbColumns, animate, animateItem, this, activity, fragment, binding).apply {
+            SKListView(layoutMode, reverse, animate, animateItem, this, activity, fragment, binding).apply {
                 itemsLD.observe {
                     onItems(it)
                 }

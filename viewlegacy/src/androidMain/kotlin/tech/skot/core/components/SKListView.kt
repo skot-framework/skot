@@ -8,9 +8,8 @@ import androidx.recyclerview.widget.*
 import tech.skot.core.SKLog
 
 class SKListView(
-    vertical: Boolean,
+    layoutMode: SKListVC.LayoutMode,
     reverse: Boolean,
-    nbColumns: Int?,
     animate: Boolean,
     animateItem: Boolean,
     proxy: SKListViewProxy,
@@ -80,21 +79,29 @@ class SKListView(
 
 
     init {
-        recyclerView.layoutManager =
-            if (nbColumns != null) {
-                GridLayoutManager(
+        when (layoutMode) {
+            is SKListVC.LayoutMode.Linear -> {
+                recyclerView.layoutManager = LinearLayoutManager(
                     context,
-                    nbColumns,
-                    if (vertical) RecyclerView.VERTICAL else RecyclerView.HORIZONTAL,
-                    reverse
-                )
-            } else {
-                LinearLayoutManager(
-                    context,
-                    if (vertical) LinearLayoutManager.VERTICAL else LinearLayoutManager.HORIZONTAL,
+                    if (layoutMode.vertical) LinearLayoutManager.VERTICAL else LinearLayoutManager.HORIZONTAL,
                     reverse
                 )
             }
+            is SKListVC.LayoutMode.Grid -> {
+                recyclerView.layoutManager = GridLayoutManager(
+                    context,
+                    layoutMode.nbComumns,
+                    if (layoutMode.vertical) RecyclerView.VERTICAL else RecyclerView.HORIZONTAL,
+                    reverse
+                )
+            }
+            SKListVC.LayoutMode.Manual -> {
+
+            }
+            else -> {
+
+            }
+        }
 
         when {
             !animate -> {

@@ -49,12 +49,11 @@ class CoreViewInjectorImpl : CoreViewInjector {
 
 
     override fun skList(
-        vertical: Boolean,
+        layoutMode: SKListVC.LayoutMode,
         reverse: Boolean,
-        nbColumns: Int?,
         animate: Boolean,
         animateItem: Boolean
-    ) = SKListViewProxy(vertical, reverse, nbColumns, animate, animateItem)
+    ) = SKListViewProxy(layoutMode, reverse, animate, animateItem)
 
     override fun skBox(itemsInitial: List<SKComponentVC>, hiddenInitial: Boolean?) =
         SKBoxViewProxy(itemsInitial as List<SKComponentViewProxy<*>>, hiddenInitial)

@@ -7,7 +7,7 @@ import tech.skot.view.live.MutableSKLiveData
 import tech.skot.view.live.SKMessage
 import tech.skot.viewlegacy.R
 
-class SKListViewProxy(
+open class SKListViewProxy(
     private val layoutMode: SKListVC.LayoutMode = SKListVC.LayoutMode.Linear(true),
     private val reverse: Boolean = false,
     private val animate: Boolean = true,

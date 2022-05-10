@@ -17,7 +17,7 @@ open class SKList(
     animateItem: Boolean = false
 ) : SKComponent<SKListVC>() {
 
-
+    constructor(vertical: Boolean) : this(layoutMode = SKListVC.LayoutMode.Linear(vertical = vertical))
 
     override val view = coreViewInjector.skList(layoutMode, reverse, animate, animateItem)
 

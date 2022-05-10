@@ -90,7 +90,7 @@ class SKListView(
             is SKListVC.LayoutMode.Grid -> {
                 recyclerView.layoutManager = GridLayoutManager(
                     context,
-                    layoutMode.nbComumns,
+                    layoutMode.nbColumns,
                     if (layoutMode.vertical) RecyclerView.VERTICAL else RecyclerView.HORIZONTAL,
                     reverse
                 )

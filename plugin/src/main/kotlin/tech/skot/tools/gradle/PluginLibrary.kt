@@ -48,10 +48,7 @@ class PluginLibrary: Plugin<Project> {
 
         jvm("jvm")
 
-        android("android") {
-            publishLibraryVariants("release", "debug")
-            publishLibraryVariantsGroupedByFlavor = true
-        }
+        android("android")
 
         sourceSets["commonMain"].kotlin.srcDir("src/contract/kotlin")
         sourceSets["commonMain"].dependencies {

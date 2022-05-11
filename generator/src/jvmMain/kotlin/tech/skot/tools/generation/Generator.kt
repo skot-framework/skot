@@ -192,6 +192,11 @@ class Generator(
     fun generate() {
 
         deleteModuleGenerated(modules.app)
+        deleteModuleGenerated(modules.viewcontract)
+        deleteModuleGenerated(modules.modelcontract)
+        deleteModuleGenerated(modules.model)
+        deleteModuleGenerated(modules.view)
+        deleteModuleGenerated(modules.viewmodel)
 
         rootState?.let { generateStates(it) }
         rootState?.let { generateStatesMocks(it) }

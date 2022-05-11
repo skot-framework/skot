@@ -26,18 +26,21 @@ interface SKComponentVC {
      */
     var style: Style?
 
-    sealed class Message(val content:String) {
-        class Debug(content:String): Message(content)
-        class Info(content:String):Message(content)
-        class Warning(content:String):Message(content)
-        class Error(content:String):Message(content)
-        class Alert(
+    sealed class Message() {
+        abstract val content:String
+        data class Debug(override val content:String): Message()
+        data class Info(override val content:String):Message()
+        data class Warning(override val content:String):Message()
+        data class Error(override val content:String):Message()
+        data class Alert(
             val title:String? = null,
             val message:String? = null,
             val cancelable:Boolean = false,
             val withInput:Boolean = false,
             val mainButton: SKAlertVC.Button,
             val secondaryButton: SKAlertVC.Button? = null
-        ): Message(title ?: message ?: "")
+        ): Message() {
+            override val content: String = title ?: message ?: ""
+        }
     }
 }

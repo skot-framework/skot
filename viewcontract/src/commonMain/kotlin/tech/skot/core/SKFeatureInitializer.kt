@@ -13,15 +13,15 @@ abstract class SKFeatureInitializer(
     private var done = false
     private val initializeMutex = Mutex()
     suspend fun initializeIfNeeded(uri: SKUri?) {
-        if (!done && onDeepLink != null) {
+        if (!done) {
             initializeMutex.withLock {
                 if (!done) {
-                    done = true
                     initialize()
                     start()
                     uri?.let {
-                        onDeepLink.invoke(uri, false)
+                        onDeepLink?.invoke(uri, false)
                     }
+                    done = true
                 }
             }
         }

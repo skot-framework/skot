@@ -11,6 +11,10 @@ actual object SKLogPrinter {
         Timber.tag(tag).i(message)
     }
 
+    actual fun v(tag: String, message: String) {
+        Timber.tag(tag).v(message)
+    }
+
     actual fun w(tag: String, message: String) {
         Timber.tag(tag).w(message)
     }

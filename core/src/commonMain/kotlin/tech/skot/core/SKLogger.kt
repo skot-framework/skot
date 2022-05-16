@@ -14,6 +14,11 @@ open class SKLogger(val tag:String) {
             SKLogPrinter.i(tag, message)
         }
     }
+    fun v(message:String) {
+        if (enabled) {
+            SKLogPrinter.v(tag, message)
+        }
+    }
     fun w(message:String) {
         if (enabled) {
             SKLogPrinter.w(tag, message)

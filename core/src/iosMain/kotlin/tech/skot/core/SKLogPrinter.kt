@@ -9,6 +9,10 @@ actual object SKLogPrinter {
         println("$tag i ---$message")
     }
 
+    actual fun v(tag:String, message: String) {
+        println("$tag v ---$message")
+    }
+
     actual fun w(tag:String, message: String) {
         println("$tag w ---$message")
     }

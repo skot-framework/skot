@@ -1,4 +1,4 @@
-package tech.skot.viewmodel
+package tech.skot.core
 
 import java.text.DecimalFormat
 import java.text.NumberFormat

@@ -1,4 +1,4 @@
-package tech.skot.viewmodel
+package tech.skot.core
 
 import platform.Foundation.NSDate
 

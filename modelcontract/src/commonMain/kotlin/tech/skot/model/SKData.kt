@@ -31,46 +31,21 @@ interface SKData<D : Any?> {
 
 }
 
-interface SKPaginatedData<D: Any>:SKData<List<D>> {
+interface SKPaginatedData<D : Any> : SKData<List<D>> {
     suspend fun oneMorePage()
-    val mayHaveAnotherPage:Boolean
+    val mayHaveAnotherPage: Boolean
 }
 
-fun <D : Any?, O : Any?> SKData<D>.map(transform: (d: D) -> O): SKData<O> {
+
+@Deprecated("map is the new masSuspend", ReplaceWith("map(transform)"))
+fun <D : Any?, O : Any?> SKData<D>.mapSuspend(transform: suspend (d: D) -> O): SKData<O> {
+    return map(transform)
+}
+
+fun <D : Any?, O : Any?> SKData<D>.map(transform: suspend (d: D) -> O): SKData<O> {
     return object : SKData<O> {
         override val defaultValidity = this@map.defaultValidity
         override val flow = this@map.flow.map {
-            it?.let { transformDatedData(it) }
-        }
-        override val _current
-            get() = this@map._current?.let { transformDatedData(it) }
-
-        private fun transformDatedData(datedData: DatedData<D>) =
-            transform(datedData.data).let { transformedValue ->
-                DatedData(
-                    data = transformedValue,
-                    timestamp = datedData.timestamp
-                )
-            }
-
-        override suspend fun update(): O {
-            return transform(this@map.update())
-        }
-
-        override suspend fun get(validity: Long?): O {
-            return transform(this@map.get(validity))
-        }
-
-        override suspend fun fallBackValue(): O? {
-            return this@map.fallBackValue()?.let(transform)
-        }
-    }
-}
-
-fun <D : Any?, O : Any?> SKData<D>.mapSuspend(transform: suspend (d: D) -> O): SKData<O> {
-    return object : SKData<O> {
-        override val defaultValidity = this@mapSuspend.defaultValidity
-        override val flow = this@mapSuspend.flow.map {
             it?.let { transformDatedData(it) }
         }
 
@@ -78,7 +53,7 @@ fun <D : Any?, O : Any?> SKData<D>.mapSuspend(transform: suspend (d: D) -> O): S
         private var transformedCurrent: DatedData<D>? = null
         override val _current: DatedData<O>?
             get() {
-                return if (transformedCurrent == this@mapSuspend._current) {
+                return if (transformedCurrent == this@map._current) {
                     trueCurrent
                 } else {
                     null
@@ -98,20 +73,24 @@ fun <D : Any?, O : Any?> SKData<D>.mapSuspend(transform: suspend (d: D) -> O): S
             }
 
         override suspend fun update(): O {
-            val originUpdate = this@mapSuspend.update()
+            val originUpdate = this@map.update()
             return transform(originUpdate).also {
                 trueCurrent = DatedData(it)
                 transformedCurrent = DatedData(
                     originUpdate,
-                    this@mapSuspend._current?.timestamp ?: currentTimeMillis()
+                    this@map._current?.timestamp ?: currentTimeMillis()
                 )
             }
         }
 
         override suspend fun fallBackValue(): O? {
-            return this@mapSuspend.fallBackValue()?.let {
+            return this@map.fallBackValue()?.let {
                 transform(it)
             }
+        }
+
+        override suspend fun get(validity: Long?): O {
+            return transform(this@map.get(validity))
         }
     }
 }

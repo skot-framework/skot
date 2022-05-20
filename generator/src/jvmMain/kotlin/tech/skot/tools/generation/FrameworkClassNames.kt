@@ -60,4 +60,5 @@ object FrameworkClassNames {
     val skFunMock = ClassName("tech.skot.core.test", "SKFunMock")
     val skFunUnitMock = ClassName("tech.skot.core.test", "SKFunUnitMock")
     val skDataMock = ClassName("tech.skot.core.test", "SKDataMock")
+    val skPaginatedDataMock = ClassName("tech.skot.core.test", "SKPaginatedDataMock")
 }

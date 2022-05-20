@@ -129,7 +129,7 @@ fun Generator.generateModel() {
         addSuperinterface(modelInjectorInterface)
         addFunctions(
             componentsWithModel.map {
-                FunSpec.builder(it.name.decapitalize())
+                FunSpec.builder(it.name.decapitalizeAsciiOnly())
                     .addModifiers(KModifier.OVERRIDE)
                     .addParameter(
                         ParameterSpec.builder(

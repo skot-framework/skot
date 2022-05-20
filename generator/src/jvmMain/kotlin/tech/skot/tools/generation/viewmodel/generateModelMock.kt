@@ -3,6 +3,7 @@ package tech.skot.tools.generation.viewmodel
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import tech.skot.model.SKData
+import tech.skot.model.SKPaginatedData
 import tech.skot.tools.generation.*
 import tech.skot.tools.generation.viewlegacy.callClassName
 import kotlin.reflect.KFunction
@@ -49,6 +50,17 @@ fun Generator.generateModelMock() {
                                         .addModifiers(KModifier.OVERRIDE)
                                         .mutable(true)
                                         .initializer("\"${it.name}\"")
+                                        .build()
+                                )
+                            }
+                            it.returnType.isSubtypeOf(typeOf<SKPaginatedData<*>>()) -> {
+                                addProperty(
+                                    PropertySpec.builder(
+                                        it.name,
+                                        FrameworkClassNames.skPaginatedDataMock.parameterizedBy(it.returnType.arguments.first().type!!.asTypeName())
+                                    )
+                                        .addModifiers(KModifier.OVERRIDE)
+                                        .initializer("${FrameworkClassNames.skPaginatedDataMock.simpleName}(\"${it.name}\")")
                                         .build()
                                 )
                             }

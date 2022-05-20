@@ -4,12 +4,12 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import tech.skot.core.currentTimeMillis
 
-interface SKLruCache<K : Any, D : Any> {
+interface SKLruCache<K : Any, D : Any?> {
     suspend fun get(key: K): D
     suspend fun clear()
 }
 
-open class SKLruMemoryCache<K : Any, D : Any>(size: Int, private val dataValidity: Long? = null, private val getFresh: suspend (key: K) -> D) : SKLruCache<K, D> {
+open class SKLruMemoryCache<K : Any, D : Any?>(size: Int, private val dataValidity: Long? = null, private val getFresh: suspend (key: K) -> D) : SKLruCache<K, D> {
 
     inner class Data(val key: K, var dataDate: Long, var lastAccess: Long, var data: D) {
         override fun toString(): String {

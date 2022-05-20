@@ -1,8 +1,10 @@
 package tech.skot.model
 
+import io.ktor.util.*
 import kotlinx.coroutines.*
 import kotlin.system.measureTimeMillis
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class TestSKLruMemoryCache {
@@ -125,6 +127,57 @@ class TestSKLruMemoryCache {
                 cache.get("1")
                 assertTrue { nbLoad == 2 }
             }
+        }
+    }
+
+
+    @Test
+    fun `test ok with nullable data`() {
+        var nbLoad = 0
+        val cache = SKLruMemoryCache<Int, String?>(4, 500) {
+            nbLoad++
+            delay(100)
+            if (it%2 == 0) {
+                null
+            }
+            else {
+                it.toString()
+            }
+
+        }
+        runBlocking {
+            assertEquals(
+                actual = cache.get(1),
+                expected = "1"
+            )
+            assertEquals(
+                actual = cache.get(2),
+                expected = null
+            )
+            assertEquals(
+                actual = cache.get(3),
+                expected = "3"
+            )
+            assertEquals(
+                actual = nbLoad,
+                expected = 3
+            )
+            cache.get(1)
+            assertEquals(
+                actual = nbLoad,
+                expected = 3
+            )
+            cache.get(4)
+            cache.get(5)
+            assertEquals(
+                actual = nbLoad,
+                expected = 5
+            )
+            cache.get(1)
+            assertEquals(
+                actual = nbLoad,
+                expected = 6
+            )
         }
     }
 

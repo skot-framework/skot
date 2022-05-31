@@ -19,14 +19,6 @@ kotlin {
         publishLibraryVariantsGroupedByFlavor = true
     }
 
-    ios {
-        binaries {
-            framework {
-                baseName = "skCore"
-            }
-        }
-    }
-
 
     sourceSets {
         val commonMain by getting {
@@ -46,11 +38,6 @@ kotlin {
             }
         }
 
-        val iosMain by getting {
-            dependencies {
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
-            }
-        }
 
         val jvmTest by getting {
             dependencies {

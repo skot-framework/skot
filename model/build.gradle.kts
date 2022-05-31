@@ -21,17 +21,6 @@ kotlin {
         publishLibraryVariantsGroupedByFlavor = true
     }
 
-    ios {
-        binaries {
-            framework {
-                baseName = "skModel"
-            }
-        }
-    }
-
-
-
-
 
     sourceSets {
         val commonMain by getting {
@@ -59,13 +48,6 @@ kotlin {
             dependencies {
                 api("com.squareup.sqldelight:android-driver:${Versions.sqldelight}")
                 api("io.ktor:ktor-client-okhttp:${Versions.ktor}")
-            }
-        }
-
-        val iosMain by getting {
-            dependencies {
-                api("com.squareup.sqldelight:native-driver:${Versions.sqldelight}")
-                api("io.ktor:ktor-client-ios:${Versions.ktor}")
             }
         }
 

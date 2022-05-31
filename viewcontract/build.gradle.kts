@@ -10,17 +10,6 @@ version = Versions.version
 
 kotlin {
     jvm("jvm")
-    ios {
-        binaries {
-            framework {
-                baseName = "skViewContract"
-            }
-        }
-    }
-//    sourceSets["commonMain"].dependencies {
-//        api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
-//        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
-//    }
 
     sourceSets {
 
@@ -32,6 +21,7 @@ kotlin {
             }
         }
 
+
         val jvmTest by getting {
             dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
@@ -39,10 +29,8 @@ kotlin {
         }
     }
 
-
-
-
 }
+
 
 
 if (!localPublication) {

@@ -12,7 +12,7 @@ plugins {
 dependencies {
     api("androidx.core:core:1.7.0")
     api("androidx.appcompat:appcompat:${Versions.Android.appcompat}")
-    api("androidx.constraintlayout:constraintlayout:2.1.3")
+    api("androidx.constraintlayout:constraintlayout:2.1.4")
     api("androidx.viewpager2:viewpager2:1.0.0")
     api("androidx.recyclerview:recyclerview:1.2.1")
     api("com.google.android.material:material:1.6.0")

@@ -109,8 +109,9 @@ class SKWebViewView(
                         }
 
                         try {
-                            if (activity.featureInitializer.onDeepLink?.invoke(
-                                    Uri.parse(url).toSKUri(),
+                            val skUri = Uri.parse(url).toSKUri()
+                            if (skUri != null && activity.featureInitializer.onDeepLink?.invoke(
+                                    skUri,
                                     true
                                 ) == true
                             ) {

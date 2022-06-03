@@ -30,6 +30,9 @@ fun skReadAndroidProperties(path: Path): SKAndroidProperties? {
 class SKAndroidProperties(private val properties: Properties) {
     val minSdk:Int?
         get() = (properties.get("minSdk") as? String)?.toInt()
+
+    val leakCanary:Boolean?
+        get() = (properties.get("leakCanary") as? String)?.toBoolean()
 }
 
 fun Project.skReadAndroidProperties(): SKAndroidProperties? = skReadAndroidProperties(rootProject.rootDir.toPath())

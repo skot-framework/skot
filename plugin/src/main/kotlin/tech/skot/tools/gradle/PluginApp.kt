@@ -7,6 +7,7 @@ import org.gradle.kotlin.dsl.DependencyHandlerScope
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.project
+import tech.skot.Versions
 
 //open class SKPluginAppExtension {
 //    var message: String? = null
@@ -21,7 +22,7 @@ class PluginApp : Plugin<Project> {
         project.extensions.findByType(BaseAppModuleExtension::class)?.conf(project)
 
         project.dependencies {
-            dependencies()
+            dependencies(project)
         }
     }
 
@@ -64,14 +65,18 @@ class PluginApp : Plugin<Project> {
     }
 
 
-    private fun DependencyHandlerScope.dependencies() {
+    private fun DependencyHandlerScope.dependencies(project: Project) {
         add("implementation", project(":viewmodel"))
         add("implementation", project(":model"))
         add("implementation", project(":view"))
 
-        add("debugImplementation", "com.squareup.leakcanary:leakcanary-android:2.9.1")
+        val androidProperties = project.skReadAndroidProperties()
+        if (androidProperties?.leakCanary != false) {
+            add("debugImplementation", "com.squareup.leakcanary:leakcanary-android:2.9.1")
+        }
 
         add("coreLibraryDesugaring", "com.android.tools:desugar_jdk_libs:1.1.5")
+
 
     }
 

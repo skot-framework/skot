@@ -57,5 +57,19 @@ class TestSKDecimalFormat {
         )
     }
 
+    @Test
+    fun testAsPrice() {
+
+        println(22.0.asPrice("EUR"))
+        println(22.2.asPrice("EUR"))
+        println(22.23.asPrice("EUR"))
+        println(1464.0.asPrice("EUR"))
+
+        println(22.0.asPriceTwoOrNoDigits("EUR"))
+        println(22.2.asPriceTwoOrNoDigits("EUR"))
+        println(22.23.asPriceTwoOrNoDigits("EUR"))
+        println(1464.0.asPriceTwoOrNoDigits("EUR"))
+    }
+
 
 }

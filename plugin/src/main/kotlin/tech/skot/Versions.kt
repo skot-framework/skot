@@ -4,7 +4,7 @@ import kotlin.Int
 import kotlin.String
 
 public object Versions {
-  public const val skot: String = "1.1.52"
+  public const val skot: String = "1.1.53"
 
   public const val group: String = "tech.skot"
 

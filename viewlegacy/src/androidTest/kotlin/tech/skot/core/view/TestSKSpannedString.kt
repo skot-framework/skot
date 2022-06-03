@@ -136,4 +136,27 @@ class TestSKSpannedString : SKTestView() {
         testComponent(box)
 
     }
+
+
+
+    @Test
+    fun testBold() {
+
+        val skSpan = skSpannedString {
+            append("coucou ")
+            bold {
+                append("bold ")
+            }
+            append("normal")
+        }
+
+        val box = SKBoxViewProxy(
+            asItemVertical = true,
+            itemsInitial = listOf(
+                SKSpannedStringViewProxy(skSpan)
+            )
+        )
+
+        testComponent(box)
+    }
 }

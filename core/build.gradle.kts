@@ -45,6 +45,15 @@ kotlin {
             }
         }
 
+        val androidTest by getting {
+            dependencies {
+                implementation("androidx.test.espresso:espresso-core:3.4.0")
+                implementation("androidx.test:core-ktx:1.4.0")
+                implementation("androidx.test.ext:junit-ktx:1.1.3")
+                implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+            }
+        }
+
     }
 
 }
@@ -54,6 +63,7 @@ kotlin {
 android {
     defaultConfig {
         minSdk = Versions.Android.minSdk
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileSdk = Versions.Android.compileSdk
 
@@ -67,6 +77,7 @@ android {
 
     sourceSets {
         getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")
+        getByName("androidTest").java.srcDirs("src/androidTest/kotlin")
     }
 
 }

@@ -14,6 +14,14 @@ kotlin {
 
     jvm("jvm")
 
+    ios {
+        binaries {
+            framework {
+                baseName = "skCore"
+            }
+        }
+    }
+
     android("android") {
         publishLibraryVariants("release", "debug")
         publishLibraryVariantsGroupedByFlavor = true

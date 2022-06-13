@@ -11,6 +11,14 @@ version = Versions.version
 kotlin {
     jvm("jvm")
 
+    ios {
+        binaries {
+            framework {
+                baseName = "skViewContract"
+            }
+        }
+    }
+
     sourceSets {
 
         val commonMain by getting {

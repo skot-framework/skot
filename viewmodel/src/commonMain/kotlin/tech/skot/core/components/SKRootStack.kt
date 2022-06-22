@@ -8,4 +8,7 @@ object SKRootStack:SKStack() {
     fun resetToRoot() {
         state.screens.firstOrNull()?.removeAllScreensOnTop()
     }
+
+    val screenOnTop: SKScreen<*>?
+        get() = state.screens.lastOrNull()
 }

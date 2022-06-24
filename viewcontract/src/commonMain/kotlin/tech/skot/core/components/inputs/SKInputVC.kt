@@ -15,6 +15,7 @@ interface SKInputVC: SKComponentVC {
         object LongText : Type()
         object EMail: Type()
         object TextCapSentences: Type()
+        object AllCaps: Type()
     }
 
     val onInputText: (newText: String?) -> Unit

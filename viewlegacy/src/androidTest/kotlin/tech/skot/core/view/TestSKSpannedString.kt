@@ -197,10 +197,18 @@ class TestSKSpannedString : SKTestView() {
     @Test
     fun testImageWithBuilder() {
 
-        val spans = skSpannedString {
+        val spans1 = skSpannedString {
             append("coucou ")
             bold {
-                append("bold ", Icon(R.drawable.ic_android_black_24dp))
+                append("bold ", Icon(R.drawable.ic_baseline_add_a_photo_24))
+            }
+            append("normal")
+        }
+
+        val spans2 = skSpannedString {
+            append("coucou avec des ps")
+            bold {
+                append("bolppd ", Icon(R.drawable.ic_baseline_add_a_photo_24))
             }
             append("normal")
         }
@@ -208,7 +216,8 @@ class TestSKSpannedString : SKTestView() {
         val box = SKBoxViewProxy(
             asItemVertical = true,
             itemsInitial = listOf(
-                SKSpannedStringViewProxy(spans)
+                SKSpannedStringViewProxy(spans1),
+                SKSpannedStringViewProxy(spans2)
             )
         )
 

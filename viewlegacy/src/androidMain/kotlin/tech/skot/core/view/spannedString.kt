@@ -17,6 +17,16 @@ import tech.skot.core.toColor
 fun List<SKSpan>.toCharSequence(context: Context): CharSequence {
     return SpannableStringBuilder().apply {
         this@toCharSequence.forEach { span ->
+            span.startIcon?.let { icon ->
+                append(" ")
+                setSpan(
+                    ImageSpan(context, icon.res),
+                    length-1,
+                    length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+
             val spanIndex = length
             append(span.text)
             val format = span.format
@@ -77,6 +87,8 @@ fun List<SKSpan>.toCharSequence(context: Context): CharSequence {
             if (format.striked) {
                 setSpan(StrikethroughSpan(), spanIndex, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
+
+
 
 
         }

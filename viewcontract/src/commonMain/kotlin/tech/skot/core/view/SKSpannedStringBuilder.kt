@@ -9,8 +9,8 @@ class SKSpannedStringBuilder {
 
     inner class Context(val format: SKSpan.Format) {
 
-        fun append(text: String) {
-            spans.add(SKSpan(text, format))
+        fun append(text: String, startIcon: Icon? = null) {
+            spans.add(SKSpan(text = text, format = format, startIcon = startIcon))
         }
 
         fun bold(block: Context.() -> Unit) {
@@ -40,6 +40,7 @@ class SKSpannedStringBuilder {
         fun striked(block: Context.() -> Unit) {
             Context(format = format.copy(striked = true)).apply(block)
         }
+
 
     }
 

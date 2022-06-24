@@ -7,6 +7,11 @@ data class SKSpan(
     val startIcon: Icon? = null
 ) {
 
+    data class Icon(
+        val icon: tech.skot.core.view.Icon,
+        val scale: Float = 1f
+    )
+
     data class Format(
         val typeface: TypeFace? = null,
         val color: Color? = null,

@@ -9,8 +9,16 @@ class SKSpannedStringBuilder {
 
     inner class Context(val format: SKSpan.Format) {
 
-        fun append(text: String, startIcon: Icon? = null) {
-            spans.add(SKSpan(text = text, format = format, startIcon = startIcon))
+        fun append(text: String) {
+            spans.add(SKSpan(text = text, format = format))
+        }
+
+        fun appendIcon(icon: Icon, scale: Float = 1f) {
+            spans.add(
+                SKSpan(
+                    text = "",
+                    startIcon = SKSpan.Icon(icon = icon, scale = scale),
+                    format = format))
         }
 
         fun bold(block: Context.() -> Unit) {

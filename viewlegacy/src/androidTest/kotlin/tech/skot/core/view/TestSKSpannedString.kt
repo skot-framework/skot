@@ -173,7 +173,7 @@ class TestSKSpannedString : SKTestView() {
             ),
             SKSpan(
                 "fin",
-                startIcon = Icon(R.drawable.ic_android_black_24dp),
+                startIcon = SKSpan.Icon(icon = Icon(R.drawable.ic_android_black_24dp)),
                 format = SKSpan.Format(
                     typeface = SKSpan.Bold,
                     scale = 2f,
@@ -200,7 +200,8 @@ class TestSKSpannedString : SKTestView() {
         val spans1 = skSpannedString {
             append("coucou ")
             bold {
-                append("bold ", Icon(R.drawable.ic_baseline_add_a_photo_24))
+                append("bold ")
+                appendIcon(Icon(R.drawable.ic_baseline_add_a_photo_24))
             }
             append("normal")
         }
@@ -208,7 +209,26 @@ class TestSKSpannedString : SKTestView() {
         val spans2 = skSpannedString {
             append("coucou avec des ps")
             bold {
-                append("bolppd ", Icon(R.drawable.ic_baseline_add_a_photo_24))
+                append("bolppd ")
+                appendIcon(Icon(R.drawable.ic_baseline_add_a_photo_24))
+            }
+            append("normal")
+        }
+
+        val spans3 = skSpannedString {
+            append("coucou avec des ps")
+            bold {
+                append("bolppd ")
+                appendIcon(icon = Icon(R.drawable.ic_baseline_add_a_photo_24), scale = 0.3f)
+            }
+            append("normal")
+        }
+
+        val spans4 = skSpannedString {
+            append("coucou avec des ps")
+            bold {
+                append("bolppd ")
+                appendIcon(icon = Icon(R.drawable.ic_baseline_add_a_photo_24), scale = 4f)
             }
             append("normal")
         }
@@ -217,7 +237,9 @@ class TestSKSpannedString : SKTestView() {
             asItemVertical = true,
             itemsInitial = listOf(
                 SKSpannedStringViewProxy(spans1),
-                SKSpannedStringViewProxy(spans2)
+                SKSpannedStringViewProxy(spans2),
+                SKSpannedStringViewProxy(spans3),
+                SKSpannedStringViewProxy(spans4),
             )
         )
 

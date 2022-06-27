@@ -1,15 +1,14 @@
 package tech.skot.core.components.presented
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import tech.skot.core.components.SKComponentView
 import tech.skot.core.components.SKActivity
+import tech.skot.core.components.SKComponentView
 import tech.skot.core.components.SKComponentViewProxy
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 
 class SKWindowPopupView(
     override val proxy: SKWindowPopupViewProxy,
@@ -47,7 +46,7 @@ class SKWindowPopupView(
                     heightSize
                 )
 
-                when (val comportement = state.behavior){
+                when (val comportement = state.behavior) {
                     is SKWindowPopupVC.Cancelable -> {
                         popupWindow.isOutsideTouchable = true
                         popupWindow.isFocusable = true
@@ -60,8 +59,11 @@ class SKWindowPopupView(
                         popupWindow.isFocusable = false
                     }
                 }
-                popupWindow.showAsDropDown(anchor)
-                current = State(state,popupWindow)
+                if (fragment?.isAdded != false && !activity.isDestroyed) {
+                    popupWindow.showAsDropDown(anchor)
+                    current = State(state, popupWindow)
+                }
+
 
             } else {
                 current?.popup?.dismiss()

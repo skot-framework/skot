@@ -1,12 +1,8 @@
 package tech.skot.tools.generation.viewmodel
 
-import com.squareup.kotlinpoet.FunSpec
-import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.ParameterSpec
+import com.squareup.kotlinpoet.*
 import org.jetbrains.kotlin.util.capitalizeDecapitalize.decapitalizeAsciiOnly
-import tech.skot.tools.generation.FrameworkClassNames
-import tech.skot.tools.generation.Generator
-import tech.skot.tools.generation.fileClassBuilder
+import tech.skot.tools.generation.*
 
 @ExperimentalStdlibApi
 fun Generator.generateModelInjectorMock() {
@@ -19,8 +15,20 @@ fun Generator.generateModelInjectorMock() {
         })
     {
         addSuperinterface(modelInjectorInterface)
-        addFunctions(
-            componentsWithModel.map {
+
+        componentsWithModel.forEach {
+            val initName = it.name.decapitalizeAsciiOnly().suffix("Init")
+            addProperty(
+                PropertySpec.builder(
+                    initName,
+                    type = LambdaTypeName.get(
+                        receiver = it.modelMock(),
+                        returnType = UNIT).nullable(),
+                ).mutable(true)
+                    .initializer("null")
+                    .build()
+            )
+            addFunction(
                 FunSpec.builder(it.name.decapitalizeAsciiOnly())
                     .addModifiers(KModifier.OVERRIDE)
                     .addParameter(
@@ -37,16 +45,18 @@ fun Generator.generateModelInjectorMock() {
                         }
                     )
                     .returns(it.modelContract())
-                    .addCode(
+                    .beginControlFlow(
                         "return ${it.modelMock().simpleName}(${
                             (listOf("coroutineContext") + it.states.map {
                                 "${it.name} as ${it.stateDef()!!.mockClassName.simpleName}"
                             }).joinToString(separator = ", ")
-                        })"
+                        }).apply"
                     )
-                    .build()
-            }
-        )
+                    .addStatement("$initName?.invoke(this)")
+                    .endControlFlow()
+                    .build())
+        }
+
 
     }.writeTo(generatedJvmTestSources(modules.viewmodel))
 }

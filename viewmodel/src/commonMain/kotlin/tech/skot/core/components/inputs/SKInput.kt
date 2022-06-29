@@ -53,7 +53,7 @@ open class SKInput(
 
 
     protected fun onNewValue(str: String?) {
-        if (_value != str && !(str == "" && _value == null)) {
+        if (_value != str) {
             val formated = format(str)
             view.text = formated
             _value = formated

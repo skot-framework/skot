@@ -11,6 +11,7 @@ import tech.skot.core.components.inputs.SKButtonViewProxy
 import tech.skot.core.components.presented.SKDialogVC
 import tech.skot.core.view.Color
 import tech.skot.core.view.ColorRef
+import tech.skot.core.view.Style
 
 class SKTestActivity : SKActivity() {
 
@@ -82,6 +83,7 @@ fun testDialog(
     duration: Long = 5 * 60 * 1000L,
     vertical: Boolean = true,
     backgroundColor: ColorRef? = null,
+    style: Style? = null,
     block: (suspend CoroutineScope.(scenario: ActivityScenario<SKTestActivity>) -> Unit)? = null
 ) {
     val button = SKButtonViewProxy(labelInitial = "open dialog")
@@ -89,7 +91,8 @@ fun testDialog(
     button.onTap = {
         skScreenTest.dialog.state = SKDialogVC.Shown(
             screen = screen,
-            cancelable = false
+            cancelable = false,
+            style = style
         )
     }
 

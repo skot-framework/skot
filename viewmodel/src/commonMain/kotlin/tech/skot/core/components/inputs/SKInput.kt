@@ -40,7 +40,7 @@ open class SKInput(
     }
 
     protected open fun validate(str: String?): Validity {
-        return if ((nullable && str == null)
+        return if ((nullable && str.isNullOrEmpty())
             || (str != null && str.isNotBlank() && (maxSize == null || str.length <= maxSize) && (regex == null || regex.matches(str)))) {
             Validity.Valid
         } else {

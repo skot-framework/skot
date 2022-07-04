@@ -287,6 +287,9 @@ fun Generator.generateViewModel() {
                     .addParameter(
                         "uri", FrameworkClassNames.skUri
                     )
+                    .addParameter("fromWebView", Boolean::class)
+                    .returns(Boolean::class)
+                    .addCode("return false")
                     .build()
             )
             .addImport("tech.skot.core.components", "SKRootStack")

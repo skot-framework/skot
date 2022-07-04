@@ -79,8 +79,8 @@ fun StarterGenerator.view() {
                         .addStatement("SKActivity.launchActivityClass = RootActivity::class.java")
                         .addCode(
                             CodeBlock.of(
-                                """SKComponentView.displayError = { message ->
-        Snackbar.make(activity.window.decorView, message, Snackbar.LENGTH_LONG)
+                                """SKComponentView.displayMessage = { message ->
+        Snackbar.make(activity.window.decorView, message.content, Snackbar.LENGTH_LONG)
             .apply {
                 view.apply {
                     (layoutParams as? FrameLayout.LayoutParams)?.let {

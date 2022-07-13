@@ -1,11 +1,11 @@
 package tech.skot.core.components.presented
 
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import tech.skot.core.SKLog
 import tech.skot.core.components.SKActivity
 import tech.skot.core.components.SKComponentView
 import tech.skot.core.components.SKComponentViewProxy
@@ -60,8 +60,17 @@ class SKWindowPopupView(
                     }
                 }
                 if (fragment?.isAdded != false && !activity.isDestroyed) {
-                    popupWindow.showAsDropDown(anchor)
-                    current = State(state, popupWindow)
+                    try {
+                        anchor?.let {
+                            it.post {
+                                popupWindow.showAsDropDown(it)
+                                current = State(state, popupWindow)
+                            }
+                        }
+                    } catch (e : Exception){
+                        SKLog.e(e)
+                        //maybe crash if showAsDropDown is called too early
+                    }
                 }
 
 

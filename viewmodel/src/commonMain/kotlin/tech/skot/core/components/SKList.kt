@@ -29,12 +29,21 @@ open class SKList(
         }
 
     fun scrollToPosition(position: Int) {
-        view.scrollToPosition(position)
+        view.scrollToPosition(position, mode = SKListVC.ScrollMode.Visible)
+    }
+
+    fun scrollToLeft(item: SKComponent<*>) {
+        view.scrollToPosition(items.indexOf(item), mode = SKListVC.ScrollMode.LeftToLeftLeft)
     }
 
     fun showAll(item: SKComponent<*>) {
-        view.scrollToPosition(items.indexOf(item))
+        view.scrollToPosition(items.indexOf(item), mode = SKListVC.ScrollMode.Visible)
     }
+
+    fun center(item: SKComponent<*>) {
+        view.scrollToPosition(items.indexOf(item), mode = SKListVC.ScrollMode.Center)
+    }
+
 
     override fun onRemove() {
         super.onRemove()

@@ -22,9 +22,10 @@ open class SKListViewProxy(
             itemsLD.postValue(newVal as List<Triple<SKComponentViewProxy<*>, Any, (()->Unit)?>>)
         }
 
-    private val srollToPositionMessage = SKMessage<Int>()
-    override fun scrollToPosition(position: Int) {
-        srollToPositionMessage.post(position)
+    data class ScrollRequest(val position:Int, val mode:SKListVC.ScrollMode)
+    private val srollToPositionMessage = SKMessage<ScrollRequest>()
+    override fun scrollToPosition(position: Int, mode:SKListVC.ScrollMode) {
+        srollToPositionMessage.post(ScrollRequest(position, mode))
     }
 
     private val saveSignal: SKMessage<Unit> = SKMessage()

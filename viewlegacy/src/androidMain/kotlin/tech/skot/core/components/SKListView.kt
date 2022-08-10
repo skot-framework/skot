@@ -1,5 +1,6 @@
 package tech.skot.core.components
 
+import android.content.Context
 import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -128,8 +129,32 @@ class SKListView(
         recyclerView.layoutManager?.onRestoreInstanceState(state)
     }
 
-    fun scrollToPosition(position: Int) {
-        (binding.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(position, 0)
+
+    private val centerSmotthScroller:CenterSmoothScroller  by lazy{
+        CenterSmoothScroller(recyclerView.context)
+    }
+    private class CenterSmoothScroller(context: Context) : LinearSmoothScroller(context) {
+        override fun calculateDtToFit(viewStart: Int, viewEnd: Int, boxStart: Int, boxEnd: Int, snapPreference: Int): Int = (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)
+    }
+
+    fun scrollToPosition(scrollRequest: SKListViewProxy.ScrollRequest) {
+        when (scrollRequest.mode) {
+            SKListVC.ScrollMode.LeftToLeftLeft -> {
+                (binding.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(scrollRequest.position, 0)
+            }
+            SKListVC.ScrollMode.Visible -> {
+                if (adapter.itemCount > scrollRequest.position) {
+                    binding.smoothScrollToPosition(scrollRequest.position)
+                }
+            }
+            SKListVC.ScrollMode.Center -> {
+                (binding.layoutManager as? LinearLayoutManager)?.apply {
+                    centerSmotthScroller.targetPosition = scrollRequest.position
+                    startSmoothScroll(centerSmotthScroller)
+                }
+            }
+        }
+
     }
 
 

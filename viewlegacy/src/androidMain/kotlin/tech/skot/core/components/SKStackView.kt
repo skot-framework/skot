@@ -2,6 +2,7 @@ package tech.skot.core.components
 
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
+import tech.skot.view.SKTransitionAndroidLegacy
 
 
 class SKStackView(
@@ -12,29 +13,20 @@ class SKStackView(
 ) : SKComponentView<FrameLayout>(proxy, activity, fragment, frameLayout) {
 
 
-    fun onLastScreen(lastScreen: SKScreenViewProxy<*>?) {
+    fun onLastScreen(lastScreen: Pair<SKScreenViewProxy<*>, SKTransitionAndroidLegacy?>?) {
         fragmentManager.apply {
             beginTransaction().apply {
+                lastScreen?.second?.let {
+                    setCustomAnimations(it.enterAnim, it.exitAnim)
+                }
                 if (lastScreen != null) {
-                    replace(frameLayout.id, lastScreen.createFragment())
+                    replace(frameLayout.id, lastScreen.first.createFragment())
                 } else {
                     findFragmentById(frameLayout.id)?.let { fragmentToRemove ->
                         remove(fragmentToRemove)
                     }
                 }
                 commit()
-            }
-        }
-    }
-
-    fun onState(state: StateProxy) {
-        val lastScreen = state.screens.lastOrNull()
-        if (lastScreen != null) {
-            fragmentManager.apply {
-                beginTransaction().apply {
-                    replace(frameLayout.id, lastScreen.createFragment())
-                    commit()
-                }
             }
         }
     }

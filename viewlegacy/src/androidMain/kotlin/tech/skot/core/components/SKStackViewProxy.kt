@@ -9,21 +9,21 @@ data class StateProxy(override val screens:List<SKScreenViewProxy<*>>, override 
 
 class SKStackViewProxy() : SKComponentViewProxy<FrameLayout>(), SKStackVC {
 
-    private val lastScreenLD: MutableSKLiveData<SKScreenViewProxy<*>?> = MutableSKLiveData(null)
+    private val lastScreenLD: MutableSKLiveData<Pair<SKScreenViewProxy<*>, SKTransitionAndroidLegacy?>?> = MutableSKLiveData(null)
     override var state: SKStackVC.State = StateProxy(emptyList(),null)
         set(newVal) {
             val newProxyList = newVal.screens as List<SKScreenViewProxy<*>>
             lastScreenLD.value?.let {
-                if (newProxyList.lastOrNull() != it && newProxyList.contains(it)) {
-                    it.saveState()
+                if (newProxyList.lastOrNull() != it && newProxyList.contains(it.first)) {
+                    it.first.saveState()
                 }
             }
-            lastScreenLD.postValue(newProxyList.lastOrNull())
+            lastScreenLD.postValue(newProxyList.lastOrNull()?.let { Pair(it, newVal?.transition as? SKTransitionAndroidLegacy) })
             field = state
         }
 
     override fun saveState() {
-        lastScreenLD.value?.saveState()
+        lastScreenLD.value?.first?.saveState()
     }
 
     override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: FrameLayout) =

@@ -8,11 +8,25 @@ open class SKStack : SKComponent<SKStackVC>() {
 
     class State(val screens: List<SKScreen<*>>, val transition: SKTransition? = null)
 
+    var defaultPushTransition: SKTransition? = null
+    var defaultPopTransition: SKTransition? = null
+
     var state: State = State(emptyList(), null)
         set(value) {
+            val transition = value.transition ?: when {
+                defaultPushTransition != null && value.screens.dropLast(1) == field.screens -> {
+                    defaultPushTransition
+                }
+                defaultPopTransition != null && field.screens.dropLast(1) == value.screens -> {
+                    defaultPopTransition
+                }
+                else -> {
+                    null
+                }
+            }
             view.state = SKStackVC.State(
                 screens = value.screens.map { it.view },
-                transition = value.transition
+                transition = transition
             )
             field.screens.forEach { if (!value.screens.contains(it)) it.onRemove() }
             value.screens.forEach { it.parent = this }

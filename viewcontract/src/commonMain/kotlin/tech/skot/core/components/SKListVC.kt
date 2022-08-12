@@ -10,9 +10,9 @@ interface SKListVC : SKComponentVC {
     }
 
     var items: List<Triple<SKComponentVC, Any, (() -> Unit)?>>
-    fun scrollToPosition(position: Int, mode:ScrollMode = ScrollMode.LeftToLeftLeft)
+    fun scrollToPosition(position: Int, mode:ScrollMode = ScrollMode.StartToStart)
     sealed class ScrollMode {
-        object LeftToLeftLeft:ScrollMode()
+        object StartToStart:ScrollMode()
         object Visible:ScrollMode()
         object Center:ScrollMode()
     }

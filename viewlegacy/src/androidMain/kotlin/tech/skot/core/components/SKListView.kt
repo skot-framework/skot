@@ -139,8 +139,10 @@ class SKListView(
 
     fun scrollToPosition(scrollRequest: SKListViewProxy.ScrollRequest) {
         when (scrollRequest.mode) {
-            SKListVC.ScrollMode.LeftToLeftLeft -> {
-                (binding.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(scrollRequest.position, 0)
+            SKListVC.ScrollMode.StartToStart -> {
+                binding.post {
+                    (binding.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(scrollRequest.position, 0)
+                }
             }
             SKListVC.ScrollMode.Visible -> {
                 if (adapter.itemCount > scrollRequest.position) {

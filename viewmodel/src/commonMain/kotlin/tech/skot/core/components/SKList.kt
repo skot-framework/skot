@@ -29,11 +29,11 @@ open class SKList(
         }
 
     fun scrollToPosition(position: Int) {
-        view.scrollToPosition(position, mode = SKListVC.ScrollMode.Visible)
+        view.scrollToPosition(position, mode = SKListVC.ScrollMode.StartToStart)
     }
 
-    fun scrollToLeft(item: SKComponent<*>) {
-        view.scrollToPosition(items.indexOf(item), mode = SKListVC.ScrollMode.LeftToLeftLeft)
+    fun scrollToStart(item: SKComponent<*>) {
+        view.scrollToPosition(items.indexOf(item), mode = SKListVC.ScrollMode.StartToStart)
     }
 
     fun showAll(item: SKComponent<*>) {

@@ -9,6 +9,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -51,8 +52,8 @@ class SKSnackBarView(
 
         if (state != current?.state) {
             if (state != null) {
-
-                Snackbar.make(activity.window.decorView,  state.message.toCharSequence(context), Snackbar.LENGTH_INDEFINITE)
+                val baseView = (fragment as? DialogFragment)?.dialog?.window?.decorView ?: activity.window.decorView
+                Snackbar.make(baseView,  state.message.toCharSequence(context), Snackbar.LENGTH_INDEFINITE)
                     .apply {
                         if (state.leftIcon != null || state.rightIcon != null || state.infiniteLines) {
                             try {
@@ -121,7 +122,7 @@ class SKSnackBarView(
                                         it.gravity = Gravity.TOP
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                             it.topMargin =
-                                                activity.window?.decorView?.rootWindowInsets?.systemWindowInsetTop
+                                                baseView.rootWindowInsets?.systemWindowInsetTop
                                                     ?: 0
                                         }
                                         layoutParams = it
@@ -135,7 +136,7 @@ class SKSnackBarView(
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                             view.setPadding(
                                                 view.paddingLeft,
-                                                view.paddingTop + (activity.window?.decorView?.rootWindowInsets?.systemWindowInsetTop
+                                                view.paddingTop + (baseView.rootWindowInsets?.systemWindowInsetTop
                                                     ?: 0),
                                                 view.paddingRight,
                                                 view.paddingBottom

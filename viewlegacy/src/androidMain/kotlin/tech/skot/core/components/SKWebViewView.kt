@@ -62,6 +62,9 @@ class SKWebViewView(
 
                 override fun onPageFinished(view: WebView?, url: String?) {
                     openingUrl?.finished(url)
+                    config.javascriptOnFinished?.let {
+                        webView.evaluateJavascript(it, null)
+                    }
                     super.onPageFinished(view, url)
                 }
 

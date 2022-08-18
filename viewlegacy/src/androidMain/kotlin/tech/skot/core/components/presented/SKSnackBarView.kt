@@ -7,6 +7,7 @@ import android.text.method.LinkMovementMethod
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
@@ -55,7 +56,7 @@ class SKSnackBarView(
                 val baseView = (fragment as? DialogFragment)?.dialog?.window?.decorView ?: activity.window.decorView
                 Snackbar.make(baseView,  state.message.toCharSequence(context), Snackbar.LENGTH_INDEFINITE)
                     .apply {
-                        if (state.leftIcon != null || state.rightIcon != null || state.infiniteLines) {
+                        if (state.leftIcon != null || state.rightIcon != null || state.infiniteLines || state.centerText) {
                             try {
 
                                 view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
@@ -77,8 +78,9 @@ class SKSnackBarView(
                                             compoundDrawablePadding = resources.getDimensionPixelOffset(
                                                 R.dimen.sk_snackbar_icon_padding
                                             )
-
-
+                                        }
+                                        if (state.centerText) {
+                                            gravity = Gravity.CENTER_HORIZONTAL
                                         }
                                     }
 

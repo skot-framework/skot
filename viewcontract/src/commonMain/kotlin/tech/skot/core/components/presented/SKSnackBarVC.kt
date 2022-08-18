@@ -19,6 +19,7 @@ interface SKSnackBarVC : SKComponentVC {
         val leftIcon: Icon? = null,
         val rightIcon: Icon? = null,
         val infiniteLines: Boolean = false,
+        val centerText:Boolean = false
     )
 
     data class Action(val label: String, val action: () -> Unit)

@@ -4,7 +4,11 @@ import androidx.fragment.app.Fragment
 import tech.skot.core.components.*
 
 
-class SKBottomSheetView(override val proxy: SKBottomSheetViewProxy, activity: SKActivity, fragment: Fragment?) : SKComponentView<Unit>(proxy, activity, fragment, Unit) {
+class SKBottomSheetView(
+    override val proxy: SKBottomSheetViewProxy,
+    activity: SKActivity,
+    fragment: Fragment?,
+) : SKComponentView<Unit>(proxy, activity, fragment, Unit) {
 
     data class State(val state: SKBottomSheetVC.Shown, val bottomSheet: SKBottomSheetDialogFragment)
 
@@ -13,6 +17,7 @@ class SKBottomSheetView(override val proxy: SKBottomSheetViewProxy, activity: SK
     fun onState(state: SKBottomSheetVC.Shown?) {
 
         if (state != current?.state) {
+            current?.bottomSheet?.dismiss()
             if (state != null) {
                 (state.screen as SKScreenViewProxy<*>).createBottomSheetFragment(
                     expanded = state.expanded,
@@ -21,14 +26,16 @@ class SKBottomSheetView(override val proxy: SKBottomSheetViewProxy, activity: SK
                     show(this@SKBottomSheetView.fragmentManager, "SkBottomSheet")
 
                     setOnDismissListener {
-                        proxy.state = null
+                        if (proxy.state == state) {
+                            proxy.state = null
+                        }
                         state.onDismiss?.invoke()
                     }
                     current = State(state, this)
                 }
 
             } else {
-                current?.bottomSheet?.dismiss()
+
                 current = null
             }
 

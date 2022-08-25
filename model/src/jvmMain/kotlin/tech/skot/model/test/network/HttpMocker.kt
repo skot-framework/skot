@@ -45,6 +45,11 @@ class HttpMocker() {
         responsesForUrl[encodedPath] = _404
     }
 
+    fun setResponse409(encodedPath: String, content: String = "") {
+        responsesForUrl[encodedPath] =
+            HttpResponse(status = HttpStatusCode.Conflict, content = content)
+    }
+
     fun setResponse500(encodedPath: String, content: String = "") {
         responsesForUrl[encodedPath] =
             HttpResponse(status = HttpStatusCode.InternalServerError, content = content)
@@ -83,14 +88,14 @@ class HttpMocker() {
         val call = calls.find { it.url.encodedPath == encodedPath }
     }
 
-    private fun HttpRequestData.pathEqualTo(path:String):Boolean {
+    private fun HttpRequestData.pathEqualTo(path: String): Boolean {
         return url.encodedPath == path || pathPrefix?.let { url.encodedPath.substringAfter(it) == path } == true
     }
 
     fun findCall(encodedPath: String): HttpRequestData? =
         calls.find { it.pathEqualTo(encodedPath) }
 
-    val nbCalls:Int
+    val nbCalls: Int
         get() = calls.size
 
     suspend fun assertCalled(encodedPath: String, body: String? = null, rule: String = "") {

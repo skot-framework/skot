@@ -189,6 +189,10 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
         }
     }
 
+    fun cancelOnData(message:String? = null) {
+        throw CancellationException(message)
+    }
+
     fun <D : Any?> SKData<D>.onData(
         validity: Long? = null,
         withLoaderForFirstData: Boolean = true,
@@ -254,6 +258,9 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
                     if (treatErrors) {
                         treatError(ex, defaultErrorMessage)
                     }
+                }
+                else {
+                    throw ex
                 }
             }
             launchNoCrash {

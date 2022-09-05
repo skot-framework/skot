@@ -24,3 +24,12 @@ fun SKDialogVC.assertDisplay(rule: String = "", screenClass: KClass<out SKScreen
     }
 
 }
+
+fun SKDialogVC.userDismiss() {
+    (this as SKDialogViewMock).apply {
+        if (state?.cancelable == true) {
+            state?.onDismiss?.invoke()
+            state = null
+        }
+    }
+}

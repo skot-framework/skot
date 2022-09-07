@@ -109,7 +109,7 @@ fun testBottomSheet(
     skipCollapsed: Boolean = true,
     block: (suspend CoroutineScope.(scenario: ActivityScenario<SKTestActivity>) -> Unit)? = null
 ) {
-    val button = SKButtonViewProxy(labelInitial = "open dialog")
+    val button = SKButtonViewProxy(labelInitial = "open bottomSheet")
     val skScreenTest = SKTestScreenViewProxy(listOf(button), vertical, backgroundColor)
     button.onTap = {
         skScreenTest.bottomSheet.state = SKBottomSheetVC.Shown(

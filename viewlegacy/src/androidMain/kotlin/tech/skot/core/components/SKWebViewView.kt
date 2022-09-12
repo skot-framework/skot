@@ -205,7 +205,11 @@ class SKWebViewView(
                     .joinToString(separator = "&")
                 binding.postUrl(openUrl.url, params.toByteArray())
             } else {
-                binding.loadUrl(openUrl.url)
+                openUrl.headers?.let {
+                    binding.loadUrl(openUrl.url,it)
+                } ?: run {
+                    binding.loadUrl(openUrl.url)
+                }
             }
         }
 

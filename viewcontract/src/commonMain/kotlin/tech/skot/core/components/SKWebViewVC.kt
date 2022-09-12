@@ -25,7 +25,8 @@ interface SKWebViewVC : SKComponentVC {
         val onFinished: (() -> Unit)? = null,
         val javascriptOnFinished: String? = null,
         val onError: (() -> Unit)? = null,
-        val post: Map<String, String>? = null
+        val post: Map<String, String>? = null,
+        val headers: Map<String,String>? = null
     )
 
     abstract class RedirectParam {

@@ -13,7 +13,7 @@ open class SKInput(
     private val maxSize: Int? = null,
     private val regex: Regex? = null,
     private val modeErrorOnTap: Boolean = false,
-    private val afterValidation: ((validity:SKInput.Validity) -> Unit)? = null,
+    private val afterValidation: ((validity: SKInput.Validity) -> Unit)? = null,
 ) : SKComponent<SKInputVC>() {
 
     sealed class Validity(val errorMessage: String?) {
@@ -28,6 +28,15 @@ open class SKInput(
         }
     }
 
+    public var setErrorLambda: ((error: String?) -> Unit)? = null
+
+    protected open fun setError(error: String?) {
+        setErrorLambda?.invoke(error) ?: run {
+            view.error = error
+        }
+    }
+
+
     private var _value: String? = null
     var value: String?
         get() = _value
@@ -41,7 +50,9 @@ open class SKInput(
 
     protected open fun validate(str: String?): Validity {
         return if ((nullable && str.isNullOrEmpty())
-            || (str != null && str.isNotBlank() && (maxSize == null || str.length <= maxSize) && (regex == null || regex.matches(str)))) {
+            || (str != null && str.isNotBlank() && (maxSize == null || str.length <= maxSize) && (regex == null || regex.matches(
+                str)))
+        ) {
             Validity.Valid
         } else {
             Validity.Error(defaultErrorMessage)
@@ -60,9 +71,9 @@ open class SKInput(
             validate(formated).let { newValidity ->
                 validity = newValidity
                 if (modeErrorOnTap) {
-                    view.error = validity.errorMessage
+                    setError(validity.errorMessage)
                 } else {
-                    view.error = null
+                    setError(null)
                 }
                 afterValidation?.invoke(newValidity)
             }
@@ -78,12 +89,12 @@ open class SKInput(
     }
 
     protected open fun onFocusLost() {
-        view.error = validity.errorMessage
+        setError(validity.errorMessage)
     }
 
     fun resetWithoutValidate() {
         view.text = null
-        view.error = null
+        setError(null)
         _value = null
     }
 
@@ -123,7 +134,7 @@ open class SKInputRegExp(
     maxSize: Int? = null,
     regex: Regex? = null,
     modeErrorOnTap: Boolean = false,
-    afterValidation: ((validity:SKInput.Validity) -> Unit)? = null
+    afterValidation: ((validity: SKInput.Validity) -> Unit)? = null,
 ) : SKInput(
     hint,
     nullable,
@@ -147,7 +158,7 @@ open class SKSimpleInput(
     maxSize: Int? = null,
     regex: Regex? = null,
     modeErrorOnTap: Boolean = false,
-    afterValidation: ((validity:SKInput.Validity) -> Unit)? = null
+    afterValidation: ((validity: SKInput.Validity) -> Unit)? = null,
 ) : SKInput(
     hint,
     nullable,

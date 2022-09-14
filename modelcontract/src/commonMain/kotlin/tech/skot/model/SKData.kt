@@ -90,7 +90,14 @@ fun <D : Any?, O : Any?> SKData<D>.map(transform: suspend (d: D) -> O): SKData<O
         }
 
         override suspend fun get(validity: Long?): O {
-            return transform(this@map.get(validity))
+            val toBeTransformedData = this@map.get(validity)
+            return transform(toBeTransformedData).also {
+                trueCurrent = DatedData(it)
+                transformedCurrent = DatedData(
+                    toBeTransformedData,
+                    this@map._current?.timestamp ?: currentTimeMillis()
+                )
+            }
         }
     }
 }
@@ -100,7 +107,7 @@ fun <D1 : Any?, D2 : Any?> SKData<D1>.combine(other: SKData<D2>) = combineSKData
 
 fun <D1 : Any?, D2 : Any?> combineSKData(
     data1: SKData<D1>,
-    data2: SKData<D2>
+    data2: SKData<D2>,
 ): SKData<Pair<D1, D2>> {
     return object : SKData<Pair<D1, D2>> {
 
@@ -113,7 +120,7 @@ fun <D1 : Any?, D2 : Any?> combineSKData(
 
         private fun buildPair(
             datedData1: DatedData<D1>?,
-            datedData2: DatedData<D2>?
+            datedData2: DatedData<D2>?,
         ): DatedData<Pair<D1, D2>>? =
             if (datedData1 != null && datedData2 != null) {
                 DatedData(
@@ -176,7 +183,7 @@ fun <D1 : Any?, D2 : Any?> combineSKData(
 fun <D1 : Any?, D2 : Any?, D3 : Any?> combineSKData(
     data1: SKData<D1>,
     data2: SKData<D2>,
-    data3: SKData<D3>
+    data3: SKData<D3>,
 ): SKData<Triple<D1, D2, D3>> {
     return object : SKData<Triple<D1, D2, D3>> {
 
@@ -191,7 +198,7 @@ fun <D1 : Any?, D2 : Any?, D3 : Any?> combineSKData(
         private fun buildTriple(
             datedData1: DatedData<D1>?,
             datedData2: DatedData<D2>?,
-            datedData3: DatedData<D3>?
+            datedData3: DatedData<D3>?,
         ): DatedData<Triple<D1, D2, D3>>? =
             if (datedData1 != null && datedData2 != null && datedData3 != null) {
                 DatedData(

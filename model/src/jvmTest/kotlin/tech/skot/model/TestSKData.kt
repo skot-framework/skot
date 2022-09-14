@@ -3,6 +3,7 @@ package tech.skot.model
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import kotlin.system.measureTimeMillis
 import kotlin.test.assertEquals
@@ -304,4 +305,20 @@ class TestSKData {
 
     }
 
+    @Test
+    fun `_current value is updated when call get on a mapped SKData`() {
+
+        val mere = TestWrapSKData.PorteurDeSKData().also { it.increment()
+            it.increment()}
+
+        runTest {
+            val mapped = mere.skdata.map { it }
+            mapped.get(Long.MAX_VALUE)
+            assertEquals(
+                expected = 2,
+                actual = mapped._current?.data
+            )
+        }
+
+    }
 }

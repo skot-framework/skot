@@ -5,7 +5,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -16,7 +15,7 @@ class SKDataWrapper<D : Any?>(
     private val defaultValue: D,
     private val getSKData: suspend () -> SKData<D>?,
     private val newSKDataFlow: Flow<*>,
-    private val scope: CoroutineScope
+    private val scope: CoroutineScope,
 ) : SKData<D> {
 
     override val flow =
@@ -31,27 +30,24 @@ class SKDataWrapper<D : Any?>(
     private var _currentWrappedSKData: SKData<D>? = null
     private var currentCollectJob: Job? = null
 
-    private suspend fun subscribeToWrapped(throwError:Boolean) {
+    private suspend fun subscribeToWrapped(throwError: Boolean) {
         getSKData().let { newSKToBeWrapped ->
             _currentWrappedSKData = newSKToBeWrapped
             currentCollectJob?.cancel()
 
             if (newSKToBeWrapped != null) {
-                val errorToThrow:Exception? = try {
+                val errorToThrow: Exception? = try {
                     newSKToBeWrapped.get(validity = Long.MAX_VALUE)
                     flow.value = newSKToBeWrapped._current ?: DatedData(defaultValue)
                     null
-                }
-                catch (ex:Exception) {
+                } catch (ex: Exception) {
                     if (ex !is CancellationException) {
                         flow.value = DatedData(defaultValue)
                         ex
-                    }
-                    else {
+                    } else {
                         null
                     }
-                }
-                finally {
+                } finally {
                     currentCollectJob = scope.launch {
                         newSKToBeWrapped.flow.collect {
                             it?.let {
@@ -91,6 +87,7 @@ class SKDataWrapper<D : Any?>(
     //pour arrêter manuellement le wrapper, pricuipalement utilisé pour les tests, si on ne maîtrise pas le scope
     fun cancel() {
         wrappedSkChangedJob?.cancel()
+        currentCollectJob?.cancel()
     }
 
     override suspend fun update(): D {
@@ -113,12 +110,10 @@ class SKDataWrapper<D : Any?>(
 }
 
 
-
-
 fun <D : Any?, R : Any?> CoroutineScope.wrap(
     stepData: SKData<D>,
     defaultValue: R,
-    targetSKData: suspend D.() -> SKData<R>?
+    targetSKData: suspend D.() -> SKData<R>?,
 ): SKDataWrapper<R> {
     return SKDataWrapper<R>(
         defaultValue = defaultValue,
@@ -134,7 +129,7 @@ fun <D : Any?, R : Any?> CoroutineScope.wrap(
 fun <D : Any?, R : Any?> SKData<D>.wrap(
     scope: CoroutineScope,
     defaultValue: R,
-    targetSKData: suspend D.() -> SKData<R>?
+    targetSKData: suspend D.() -> SKData<R>?,
 ): SKDataWrapper<R> {
     return scope.wrap(this, defaultValue, targetSKData)
 }

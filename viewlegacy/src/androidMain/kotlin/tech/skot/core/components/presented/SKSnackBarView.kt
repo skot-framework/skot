@@ -53,7 +53,6 @@ class SKSnackBarView(
 
         if (state != current?.state) {
             if (state != null) {
-                val baseView = (fragment as? DialogFragment)?.dialog?.window?.decorView ?: activity.window.decorView
                 Snackbar.make(baseView,  state.message.toCharSequence(context), Snackbar.LENGTH_INDEFINITE)
                     .apply {
                         if (state.leftIcon != null || state.rightIcon != null || state.infiniteLines || state.centerText) {

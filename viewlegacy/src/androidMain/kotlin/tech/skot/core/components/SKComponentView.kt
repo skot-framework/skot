@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.annotation.CallSuper
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.viewbinding.ViewBinding
@@ -24,11 +25,15 @@ import tech.skot.view.live.SKMessage
 abstract class SKComponentView<B : Any>(
     open val proxy: SKComponentViewProxy<B>,
     val activity: SKActivity,
-    protected val fragment: Fragment?,
+    val fragment: Fragment?,
     val binding: B
 )  {
 
     val context = fragment?.context ?: activity
+
+    val baseView:View by lazy {
+        (fragment as? DialogFragment)?.dialog?.window?.decorView ?: activity.window.decorView
+    }
 
     protected val fragmentManager: FragmentManager
         get() = fragment?.childFragmentManager ?: activity.supportFragmentManager
@@ -36,6 +41,7 @@ abstract class SKComponentView<B : Any>(
     private val baseLifecycle = fragment?.viewLifecycleOwner?.lifecycle ?: activity.lifecycle
 
     var lifecycleOwner: SKLifecycleOwner = SKLifecycleOwner(SKLifecycle(baseLifecycle))
+
 
     val subViews: MutableList<SKComponentView<*>> by lazy {
         mutableListOf()

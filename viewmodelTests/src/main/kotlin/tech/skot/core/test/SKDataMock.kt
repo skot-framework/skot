@@ -1,22 +1,22 @@
 package tech.skot.core.test
 
 import kotlinx.coroutines.flow.Flow
+import tech.skot.core.SKLog
 import tech.skot.model.DatedData
 import tech.skot.model.SKData
 import tech.skot.model.SKManualData
 
-class SKDataMock<D:Any?>(val name:String): SKData<D> {
+class SKDataMock<D : Any?>(val name: String) : SKData<D> {
 
-    private var internalManual:SKManualData<D>? = null
+    private var internalManual: SKManualData<D>? = null
 
-    var error:Exception? = null
+    var error: Exception? = null
 
-    fun setValue(newVal:D) {
+    fun setValue(newVal: D) {
         val currentInternal = internalManual
         if (currentInternal == null) {
             internalManual = SKManualData<D>(newVal)
-        }
-        else {
+        } else {
             currentInternal.value = newVal
         }
     }
@@ -30,13 +30,30 @@ class SKDataMock<D:Any?>(val name:String): SKData<D> {
     override val defaultValidity: Long
         get() = internalManual?.defaultValidity ?: throw errorNotSetMessage
     override val _current: DatedData<D>?
-        get() =error?.let { throw it } ?:  internalManual?._current ?: throw errorNotSetMessage
+        get() {
+            val currentInternalManual = internalManual
+            return error?.let { throw it } ?: if (currentInternalManual == null) {
+                throw errorNotSetMessage
+            } else {
+                currentInternalManual._current
+            }
+        }
 
     override suspend fun update(): D {
-        return error?.let { throw it } ?: internalManual?.update() ?: throw errorNotSetMessage
+        val currentInternalManual = internalManual
+        return error?.let { throw it } ?: if (currentInternalManual == null) {
+            throw errorNotSetMessage
+        } else {
+            currentInternalManual.update()
+        }
     }
 
     override suspend fun fallBackValue(): D? {
-        return error?.let { throw it } ?: internalManual?.fallBackValue() ?: throw errorNotSetMessage
+        val currentInternalManual = internalManual
+        return error?.let { throw it } ?: if (currentInternalManual == null) {
+            throw errorNotSetMessage
+        } else {
+            currentInternalManual.fallBackValue()
+        }
     }
 }

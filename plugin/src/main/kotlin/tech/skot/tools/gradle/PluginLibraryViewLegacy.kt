@@ -26,7 +26,7 @@ class PluginLibraryViewLegacy: Plugin<Project> {
         project.extensions.findByType(KotlinMultiplatformExtension::class)?.conf()
 
         project.dependencies {
-            dependencies()
+            dependencies(project)
         }
 
     }
@@ -41,7 +41,7 @@ class PluginLibraryViewLegacy: Plugin<Project> {
         }
 
         sourceSets.getByName("androidTest") {
-            java.srcDirs("src/androidTest/kotlin")
+            kotlin.srcDirs("src/androidTest/kotlin")
             res.srcDirs("src/androidTest/res")
         }
 
@@ -73,9 +73,12 @@ class PluginLibraryViewLegacy: Plugin<Project> {
     }
 
 
-    private fun DependencyHandlerScope.dependencies() {
+    private fun DependencyHandlerScope.dependencies(project: Project) {
         add("implementation", "${Versions.group}:viewlegacy:${Versions.skot}")
-        add("implementation", project(":viewmodel"))
+        if (project.findProject(":viewcontract") != null) {
+            add("implementation", project(":viewcontract"))
+        }
+
         add("androidTestImplementation", "${Versions.group}:viewlegacyTests:${Versions.skot}")
     }
 

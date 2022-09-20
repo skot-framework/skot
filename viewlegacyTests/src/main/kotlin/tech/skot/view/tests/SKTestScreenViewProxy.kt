@@ -21,7 +21,7 @@ class SKTestScreenViewProxy(
     SKScreenViewProxy<TestScreenBinding>() {
     override val visibilityListener = dummyVisiblityListener()
 
-    private val box = SKBoxViewProxy(
+    val box = SKBoxViewProxy(
         itemsInitial = content,
         hiddenInitial = false,
     )

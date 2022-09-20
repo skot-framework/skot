@@ -50,7 +50,7 @@ class PluginLibrary: Plugin<Project> {
 
         android("android")
 
-        sourceSets["commonMain"].kotlin.srcDir("src/contract/kotlin")
+//        sourceSets["commonMain"].kotlin.srcDir("src/contract/kotlin")
         sourceSets["commonMain"].dependencies {
             api(project(":viewcontract"))
         }

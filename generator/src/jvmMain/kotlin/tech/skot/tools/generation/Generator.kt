@@ -642,10 +642,10 @@ class Generator(
     fun getUsedSKLibrariesModules(): List<String> {
         return Files.readAllLines(rootPath.resolve("skot_librairies.properties"))
             .filterNot { it.startsWith("//") }
-            .map {
+            .mapNotNull {
                 val split = it.split(",")
                 if (split.size > 1) {
-                    split[1]
+                    split[1].let { if (it.isNotBlank()) it else null }
                 } else {
                     "${it}.di.${it.substringAfterLast(".")}Module"
                 }

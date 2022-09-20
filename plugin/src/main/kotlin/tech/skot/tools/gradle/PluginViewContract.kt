@@ -35,8 +35,8 @@ class PluginViewContract : Plugin<Project> {
         androidBaseConfig(project)
 
         sourceSets {
-            getByName("main").java.srcDirs("generated/androidMain/kotlin")
-            getByName("main").java.srcDirs("src/androidMain/kotlin")
+            getByName("main").kotlin.srcDirs("generated/androidMain/kotlin")
+            getByName("main").kotlin.srcDirs("src/androidMain/kotlin")
             getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")
             getByName("main").res.srcDir("src/androidMain/res")
         }
@@ -74,6 +74,9 @@ class PluginViewContract : Plugin<Project> {
                 "commonMain",
             "viewcontract"
         )
+
+        sourceSets["androidMain"].kotlin.srcDir("src/androidMain/kotlin")
+
 
         skVariantsCombinaison(project.rootProject.rootDir.toPath()).forEach {
             sourceSets["commonMain"].kotlin.srcDir("src/commonMain/kotlin$it")

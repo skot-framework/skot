@@ -4,7 +4,7 @@ import kotlin.Int
 import kotlin.String
 
 public object Versions {
-  public const val skot: String = "1.1.72"
+  public const val skot: String = "1.1.73"
 
   public const val group: String = "tech.skot"
 
@@ -22,9 +22,9 @@ public object Versions {
 
   public const val android_minSdk: Int = 21
 
-  public const val android_compileSdk: Int = 31
+  public const val android_compileSdk: Int = 32
 
-  public const val android_targetSdk: Int = 31
+  public const val android_targetSdk: Int = 32
 
   public const val android_app_compat: String = "1.4.1"
 

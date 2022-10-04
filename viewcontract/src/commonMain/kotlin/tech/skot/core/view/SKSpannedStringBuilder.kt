@@ -102,3 +102,6 @@ fun String.skFormatDelemitedString(
     split(delimiter).filterNot { it.isNullOrBlank() }.mapIndexed { index: Int, text: String ->
         parameter.getOrNull(index)?.span(text) ?: SKSpan(text = text, format = SKSpan.Format())
     }
+
+
+fun String.asSKSpannedString():SKSpannedString = listOf(SKSpan(text = this, format = SKSpan.Format()))

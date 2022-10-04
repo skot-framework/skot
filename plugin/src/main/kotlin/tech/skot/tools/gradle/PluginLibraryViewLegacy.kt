@@ -21,7 +21,7 @@ class PluginLibraryViewLegacy: Plugin<Project> {
 
 //        project.plugins.apply("com.github.ben-manes.versions")
 
-        project.extensions.findByType(LibraryExtension::class)?.android()
+        project.extensions.findByType(LibraryExtension::class)?.android(project)
 
         project.extensions.findByType(KotlinMultiplatformExtension::class)?.conf()
 
@@ -32,7 +32,7 @@ class PluginLibraryViewLegacy: Plugin<Project> {
     }
 
 
-    private fun LibraryExtension.android() {
+    private fun LibraryExtension.android(project: Project) {
 
         sourceSets.getByName("main") {
             java.srcDir("src/androidMain/kotlin")
@@ -41,17 +41,11 @@ class PluginLibraryViewLegacy: Plugin<Project> {
         }
 
         sourceSets.getByName("androidTest") {
-            kotlin.srcDirs("src/androidTest/kotlin")
             res.srcDirs("src/androidTest/res")
         }
 
-        defaultConfig {
-            minSdk = Versions.android_minSdk
-            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-            targetSdk = Versions.android_compileSdk
-        }
-        compileSdk = Versions.android_compileSdk
-
+        androidBaseConfig(project)
+        
 
         buildFeatures {
             viewBinding = true

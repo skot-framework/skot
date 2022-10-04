@@ -34,6 +34,7 @@ class PluginModel: Plugin<Project> {
         sourceSets {
             getByName("main"){
                 java.srcDirs("src/androidMain/kotlin")
+                res.srcDir("src/androidMain/res")
                 manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
                 skVariantsCombinaison(project.rootProject.rootDir.toPath()).forEach {

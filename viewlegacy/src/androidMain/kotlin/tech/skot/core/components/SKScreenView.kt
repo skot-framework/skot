@@ -43,15 +43,17 @@ abstract class SKScreenView<B : ViewBinding>(
                 activity.window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
             }
 
-            activity.setFullScreen(
-                fullScreen,
-                lightStatusBar,
-                onWindowInset ?: (if (withWindowsInsetsPaddingTop) {
-                    {
-                        view.updatePadding(top = originalPaddingTop + it.systemBars().top)
-                    }
-                } else null)
-            )
+            if (fragment?.arguments?.getBoolean(ScreensManager.SK_ARGUMENT_CAN_SET_FULL_SCREEN) != false) {
+                activity.setFullScreen(
+                    fullScreen,
+                    lightStatusBar,
+                    onWindowInset ?: (if (withWindowsInsetsPaddingTop) {
+                        {
+                            view.updatePadding(top = originalPaddingTop + it.systemBars().top)
+                        }
+                    } else null)
+                )
+            }
         }
         onStatusBarColor(proxy.statusBarColor)
         proxy.onResume()

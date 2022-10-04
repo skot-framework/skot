@@ -67,10 +67,11 @@ abstract class SKScreenViewProxy<B : ViewBinding> : SKComponentViewProxy<B>(), S
     ): B
 
 
-    fun createFragment(): SKFragment =
+    fun createFragment(canSetFullScreen:Boolean = true): SKFragment =
         SKFragment().apply {
             arguments = Bundle().apply {
                 putLong(ScreensManager.SK_ARGUMENT_VIEW_KEY, key)
+                putBoolean(ScreensManager.SK_ARGUMENT_CAN_SET_FULL_SCREEN, canSetFullScreen)
             }
         }
 

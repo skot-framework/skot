@@ -55,7 +55,7 @@ fun Generator.generateViewModelTests() {
                 addSuperclassConstructorParameter("component")
             }.writeTo(generatedJvmTestSources(modules.viewmodel))
         }
-        if (!it.testViewModel().existsJvmTestInModule(modules.viewmodel)) {
+        if (!it.vc.hasAnnotation<SKNoVM>() && !it.testViewModel().existsJvmTestInModule(modules.viewmodel)) {
             it.testViewModel().fileClassBuilder {
                 superclass(abstractTestScreen)
                 val componentVarName = if (it.isScreen) "screen" else "component"

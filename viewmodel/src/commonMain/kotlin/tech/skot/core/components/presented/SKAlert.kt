@@ -23,7 +23,8 @@ class SKAlert : SKComponent<SKAlertVC>() {
         cancelable: Boolean = false,
         withInput: Boolean = false,
         mainButton: SKAlertVC.Button = SKAlertVC.Button(label = "Ok", action = null),
-        secondaryButton: SKAlertVC.Button? = null
+        secondaryButton: SKAlertVC.Button? = null,
+        neutralButton: SKAlertVC.Button? = null
     ) {
         view.state = SKAlertVC.Shown(
             title = title,
@@ -31,7 +32,8 @@ class SKAlert : SKComponent<SKAlertVC>() {
             cancelable = cancelable,
             withInput = withInput,
             mainButton = mainButton,
-            secondaryButton = secondaryButton
+            secondaryButton = secondaryButton,
+            neutralButton = neutralButton
         )
     }
 

@@ -1,5 +1,7 @@
 package tech.skot.core.view
 
+import android.os.Build
+import android.text.Html
 import org.junit.Test
 import tech.skot.core.components.SKBoxViewProxy
 import tech.skot.view.tests.SKTestView
@@ -138,7 +140,6 @@ class TestSKSpannedString : SKTestView() {
     }
 
 
-
     @Test
     fun testBold() {
 
@@ -245,4 +246,21 @@ class TestSKSpannedString : SKTestView() {
 
         testComponent(box)
     }
+
+
+    @Test
+    fun testGravity() {
+        val span = skSpannedString {
+            colored(color = ColorHex("#123456")) {
+                append("grand")
+                scale(0.5f) {
+                    append("petit")
+                }
+            }
+
+        }
+
+        testComponent(SKSpannedStringViewProxy(span))
+    }
 }
+

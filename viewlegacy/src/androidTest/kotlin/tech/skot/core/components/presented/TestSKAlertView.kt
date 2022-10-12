@@ -28,7 +28,6 @@ class TestSKAlertView: SKTestView() {
                     },
                     cancelable = true
                 )
-
             }
         )
 
@@ -43,4 +42,27 @@ class TestSKAlertView: SKTestView() {
         }
     }
 
+
+
+    @Test
+    fun testAlert3Bouttons() {
+        val alert = SKAlertViewProxy()
+        val buttonShow = SKButtonViewProxy(
+            labelInitial = "show",
+            onTapInitial = {
+                alert.state = SKAlertVC.Shown(
+                    message = "1",
+                    mainButton = SKAlertVC.Button(label ="Main label très très long", action = toast("Main")),
+                    secondaryButton = SKAlertVC.Button(label ="Secondary  label très très long", action = toast("Secondary")),
+                    neutralButton = SKAlertVC.Button(label ="Neutral  label très très long", action = toast("Neutral")),
+                    cancelable = true
+                )
+            }
+        )
+
+        testComponents(
+            alert,
+            buttonShow
+        )
+    }
 }

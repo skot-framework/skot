@@ -18,13 +18,13 @@ fun Generator.generateFonts() {
         rootPath.resolve(modules.view).resolve("src/androidMain/res_referenced/font")
 
 
-    val colors =
+    val fonts =
         if (!Files.exists(fontsDirectory)) {
             emptyList()
         } else {
             Files.list(fontsDirectory).map {
                 it.nameWithoutExtension
-            }.collect(Collectors.toList())
+            }.collect(Collectors.toList()).filter { it.isNotBlank() }
         }
 
 
@@ -36,7 +36,7 @@ fun Generator.generateFonts() {
         fontsInterface.simpleName
     ).addType(TypeSpec.interfaceBuilder(fontsInterface.simpleName)
         .addProperties(
-            colors.map {
+            fonts.map {
                 PropertySpec.builder(it.toFontsPropertyName(), tech.skot.core.view.Font::class)
                     .build()
             }
@@ -50,7 +50,7 @@ fun Generator.generateFonts() {
     fontsImpl.fileClassBuilder(listOf(viewR)) {
         addSuperinterface(fontsInterface)
         addProperties(
-            colors.map {
+            fonts.map {
                 PropertySpec.builder(
                     it.toFontsPropertyName(),
                     tech.skot.core.view.Font::class,
@@ -67,7 +67,7 @@ fun Generator.generateFonts() {
     fontsImpl.fileClassBuilder(listOf(viewR)) {
         addSuperinterface(fontsInterface)
         addProperties(
-            colors.map {
+            fonts.map {
                 PropertySpec.builder(
                     it.toFontsPropertyName(),
                     tech.skot.core.view.Font::class,
@@ -84,7 +84,7 @@ fun Generator.generateFonts() {
     fontsMock.fileClassBuilder() {
         addSuperinterface(fontsInterface)
         addProperties(
-            colors.map {
+            fonts.map {
                 PropertySpec.builder(
                     it.toFontsPropertyName(),
                     tech.skot.core.view.Font::class,

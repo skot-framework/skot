@@ -10,6 +10,7 @@ plugins {
 
 
 dependencies {
+    implementation(project(":viewcontract"))
     api("androidx.core:core:1.8.0")
     api("androidx.appcompat:appcompat:${Versions.Android.appcompat}")
     api("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -36,7 +37,7 @@ android {
         getByName("main").java.srcDirs("generated/androidMain/kotlin")
         getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")
         getByName("androidTest").java.srcDirs("src/androidTest/kotlin")
-        getByName("androidTest").res.srcDirs("src/androidTest/res")
+//        getByName("main").res.srcDirs("src/androidTest/res")
     }
 
     buildFeatures {

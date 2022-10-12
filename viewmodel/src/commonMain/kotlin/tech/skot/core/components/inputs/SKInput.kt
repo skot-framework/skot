@@ -68,16 +68,25 @@ open class SKInput(
             val formated = format(str)
             view.text = formated
             _value = formated
-            validate(formated).let { newValidity ->
-                validity = newValidity
-                if (modeErrorOnTap) {
-                    setError(validity.errorMessage)
-                } else {
-                    setError(null)
-                }
-                afterValidation?.invoke(newValidity)
-            }
+            updateValidityWith(formated)
         }
+    }
+
+    private fun updateValidityWith(value:String?) {
+        validate(value).let { newValidity ->
+            validity = newValidity
+            if (modeErrorOnTap) {
+                setError(validity.errorMessage)
+            } else {
+                setError(null)
+            }
+            afterValidation?.invoke(newValidity)
+        }
+    }
+
+    public fun updateValidy() {
+        updateValidityWith(value)
+        setError(validity.errorMessage)
     }
 
     protected val _error = Validity.Error(defaultErrorMessage)

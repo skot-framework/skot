@@ -11,6 +11,7 @@ interface SKInputVC: SKComponentVC {
         object Number : Type()
         object Phone : Type()
         object Password: Type()
+        object PasswordWithDefaultHintFont: Type()
         object NumberPassword : Type()
         object LongText : Type()
         object EMail: Type()

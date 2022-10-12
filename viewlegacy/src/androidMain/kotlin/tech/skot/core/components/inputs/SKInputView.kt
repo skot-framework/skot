@@ -1,5 +1,6 @@
 package tech.skot.core.components.inputs
 
+import android.graphics.Typeface
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
@@ -18,7 +19,7 @@ abstract class SKInputViewCommon<V : View>(
     override val proxy: SKInputViewProxyCommon<V>,
     activity: SKActivity,
     fragment: Fragment?,
-    view: V
+    view: V,
 ) : SKComponentView<V>(proxy, activity, fragment, view), SKInputRAI {
 
     abstract val editText: EditText
@@ -76,10 +77,11 @@ abstract class SKInputViewCommon<V : View>(
 
     override fun onType(type: SKInputVC.Type?) {
         if (type != null) {
-            editText.inputType =  when (type) {
+            editText.inputType = when (type) {
                 SKInputVC.Type.EMail -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS
                 SKInputVC.Type.Phone -> InputType.TYPE_CLASS_PHONE
                 SKInputVC.Type.Password -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                SKInputVC.Type.PasswordWithDefaultHintFont -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                 SKInputVC.Type.Number -> InputType.TYPE_CLASS_NUMBER
                 SKInputVC.Type.NumberPassword -> InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
                 SKInputVC.Type.LongText -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
@@ -87,13 +89,17 @@ abstract class SKInputViewCommon<V : View>(
                 SKInputVC.Type.AllCaps -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS
                 SKInputVC.Type.Normal -> InputType.TYPE_CLASS_TEXT
             }
+            if (type == SKInputVC.Type.PasswordWithDefaultHintFont) {
+                editText.typeface = Typeface.DEFAULT
+            }
         }
     }
 
     override fun onShowPassword(showPassword: Boolean?) {
         showPassword?.let {
             val selection = editText.selectionStart
-            editText.transformationMethod = if (it) null  else PasswordTransformationMethod.getInstance()
+            editText.transformationMethod =
+                if (it) null else PasswordTransformationMethod.getInstance()
             editText.setSelection(selection)
         }
 
@@ -123,7 +129,7 @@ class SKInputView(
     override val proxy: SKInputViewProxy,
     activity: SKActivity,
     fragment: Fragment?,
-    private val textInputLayout: TextInputLayout
+    private val textInputLayout: TextInputLayout,
 ) : SKInputViewCommon<TextInputLayout>(proxy, activity, fragment, textInputLayout) {
 
     override val editText: EditText = textInputLayout.editText!!
@@ -149,7 +155,7 @@ class SKSimpleInputView(
     override val proxy: SKSimpleInputViewProxy,
     activity: SKActivity,
     fragment: Fragment?,
-    override val editText: EditText
+    override val editText: EditText,
 ) : SKInputViewCommon<EditText>(proxy, activity, fragment, editText) {
 
 

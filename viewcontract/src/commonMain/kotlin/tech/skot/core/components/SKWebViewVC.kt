@@ -16,7 +16,7 @@ interface SKWebViewVC : SKComponentVC {
         val domStorageEnabled: Boolean = true,
         val javascriptOnFinished: String? = null,
         val shouldOverrideUrlLoading: ((skUri: SKUri) -> Boolean)? = null,
-        val onRequest: ((skUri: SKUri) -> Unit)? = null
+        val onRequest: ((skUri: SKUri) -> Unit)? = null,
     )
 
 
@@ -26,7 +26,8 @@ interface SKWebViewVC : SKComponentVC {
         val javascriptOnFinished: String? = null,
         val onError: (() -> Unit)? = null,
         val post: Map<String, String>? = null,
-        val headers: Map<String,String>? = null
+        val headers: Map<String,String>? = null,
+        val removeCookies:Boolean = false
     )
 
     abstract class RedirectParam {

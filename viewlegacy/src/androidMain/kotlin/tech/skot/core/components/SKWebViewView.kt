@@ -197,22 +197,32 @@ class SKWebViewView(
         oneRedirectionAskedForCurrentOpenUrl = false
         openingUrl = openUrl
         if (openUrl != null) {
-            val posts = openUrl.post
-            if (posts != null) {
-                val params = posts.map {
-                    "${it.key}=${URLEncoder.encode(it.value, "UTF-8")}"
+            if (openUrl.removeCookies) {
+                CookieManager.getInstance().removeAllCookies {
+                    openUrlNow(openUrl)
                 }
-                    .joinToString(separator = "&")
-                binding.postUrl(openUrl.url, params.toByteArray())
             } else {
-                openUrl.headers?.let {
-                    binding.loadUrl(openUrl.url,it)
-                } ?: run {
-                    binding.loadUrl(openUrl.url)
-                }
+                openUrlNow(openUrl)
+            }
+
+        }
+    }
+
+    private fun openUrlNow(openUrl: SKWebViewVC.OpenUrl) {
+        val posts = openUrl.post
+        if (posts != null) {
+            val params = posts.map {
+                "${it.key}=${URLEncoder.encode(it.value, "UTF-8")}"
+            }
+                .joinToString(separator = "&")
+            binding.postUrl(openUrl.url, params.toByteArray())
+        } else {
+            openUrl.headers?.let {
+                binding.loadUrl(openUrl.url,it)
+            } ?: run {
+                binding.loadUrl(openUrl.url)
             }
         }
-
     }
 
     fun onGoBackLD(goBack: SKWebViewVC.BackRequest?) {

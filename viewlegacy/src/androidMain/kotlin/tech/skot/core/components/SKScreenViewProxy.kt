@@ -77,13 +77,15 @@ abstract class SKScreenViewProxy<B : ViewBinding> : SKComponentViewProxy<B>(), S
 
     fun createBottomSheetFragment(
         expanded: Boolean,
-        skipCollapsed: Boolean
+        skipCollapsed: Boolean,
+        fullHeight : Boolean
     ): SKBottomSheetDialogFragment =
         SKBottomSheetDialogFragment().apply {
             arguments = Bundle().apply {
                 putLong(ScreensManager.SK_ARGUMENT_VIEW_KEY, key)
                 putBoolean(SK_BOTTOM_SHEET_DIALOG_EXPANDED, expanded)
                 putBoolean(SK_BOTTOM_SHEET_DIALOG_SKIP_COLLAPSED, skipCollapsed)
+                putBoolean(SK_BOTTOM_SHEET_DIALOG_FULL_HEIGHT, fullHeight)
             }
         }
 

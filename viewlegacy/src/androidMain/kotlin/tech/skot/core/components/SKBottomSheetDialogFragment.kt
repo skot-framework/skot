@@ -5,19 +5,18 @@ import android.content.DialogInterface
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import androidx.fragment.app.DialogFragment
+import android.view.WindowManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 const val SK_BOTTOM_SHEET_DIALOG_EXPANDED = "SK_BOTTOM_SHEET_DIALOG_EXPANDED"
 const val SK_BOTTOM_SHEET_DIALOG_SKIP_COLLAPSED = "SK_BOTTOM_SHEET_DIALOG_SKIP_COLLAPSED"
+const val SK_BOTTOM_SHEET_DIALOG_FULL_HEIGHT = "SK_BOTTOM_SHEET_FULL_HEIGHT"
 
 class SKBottomSheetDialogFragment() : BottomSheetDialogFragment() {
 
@@ -33,8 +32,28 @@ class SKBottomSheetDialogFragment() : BottomSheetDialogFragment() {
                 }
                 (this as? BottomSheetDialog)?.behavior?.skipCollapsed =
                     arguments?.getBoolean(SK_BOTTOM_SHEET_DIALOG_SKIP_COLLAPSED, true) ?: true
+
+
+                if (arguments?.getBoolean(SK_BOTTOM_SHEET_DIALOG_FULL_HEIGHT, true) == true) {
+                    this.setOnShowListener {
+                        val bottomSheetDialog = it as BottomSheetDialog
+                        val parentLayout =
+                            bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+                        parentLayout?.let { it ->
+                            setupFullHeight(it)
+                        }
+                    }
+                }
             }
     }
+
+
+    private fun setupFullHeight(bottomSheet: View) {
+        val layoutParams = bottomSheet.layoutParams
+        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
+        bottomSheet.layoutParams = layoutParams
+    }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

@@ -7,13 +7,12 @@ import android.text.method.LinkMovementMethod
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import tech.skot.core.SKLog
 import tech.skot.core.components.SKActivity
@@ -35,6 +34,7 @@ class SKSnackBarView(
     private var current: State? = null
 
     var anchor: View? = null
+    var container : View? = null
 
     init {
         lifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
@@ -53,8 +53,13 @@ class SKSnackBarView(
 
         if (state != current?.state) {
             if (state != null) {
-                Snackbar.make(baseView,  state.message.toCharSequence(context), Snackbar.LENGTH_INDEFINITE)
+                Snackbar.make(container?:baseView,  state.message.toCharSequence(context), Snackbar.LENGTH_INDEFINITE)
                     .apply {
+                        if(state.slideAnimation) {
+                            this.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
+                        }
+                        this.view.elevation = 16F
+
                         if (state.leftIcon != null || state.rightIcon != null || state.infiniteLines || state.centerText) {
                             try {
 
@@ -64,6 +69,7 @@ class SKSnackBarView(
                                             movementMethod = LinkMovementMethod.getInstance()
                                             highlightColor = Color.TRANSPARENT
                                         }
+
                                         if (state.infiniteLines) {
                                             this.isSingleLine = false
                                         }

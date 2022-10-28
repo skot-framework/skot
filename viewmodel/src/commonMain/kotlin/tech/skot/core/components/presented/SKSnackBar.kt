@@ -25,7 +25,8 @@ class SKSnackBar : SKComponent<SKSnackBarVC>() {
         background: Resource? = null,
         textColor: Color? = null,
         infiniteLines: Boolean = false,
-        centerText: Boolean = false
+        centerText: Boolean = false,
+        slideAnimation: Boolean = false
 
     ) {
         show(
@@ -38,7 +39,8 @@ class SKSnackBar : SKComponent<SKSnackBarVC>() {
             background,
             textColor,
             infiniteLines,
-            centerText
+            centerText,
+            slideAnimation
         )
     }
 
@@ -52,8 +54,8 @@ class SKSnackBar : SKComponent<SKSnackBarVC>() {
         background: Resource? = null,
         textColor: Color? = null,
         infiniteLines: Boolean = false,
-        centerText: Boolean = false
-
+        centerText: Boolean = false,
+        slideAnimation: Boolean = false
     ) {
         view.state = SKSnackBarVC.Shown(
             message = message,
@@ -69,7 +71,8 @@ class SKSnackBar : SKComponent<SKSnackBarVC>() {
             background = background,
             textColor = textColor,
             infiniteLines = infiniteLines,
-            centerText = centerText
+            centerText = centerText,
+            slideAnimation = slideAnimation
         )
         disappearJob?.cancel()
         disappearJob = launch {

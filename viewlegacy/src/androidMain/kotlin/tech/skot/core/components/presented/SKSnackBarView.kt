@@ -58,8 +58,6 @@ class SKSnackBarView(
                         if(state.slideAnimation) {
                             this.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
                         }
-                        this.view.elevation = 16F
-
                         if (state.leftIcon != null || state.rightIcon != null || state.infiniteLines || state.centerText) {
                             try {
 

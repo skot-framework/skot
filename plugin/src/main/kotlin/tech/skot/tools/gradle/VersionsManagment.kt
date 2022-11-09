@@ -24,7 +24,7 @@ val json by lazy {
     }
 }
 
-private fun Project.skComputeVersionCodeAndReleaseNote(branch:String, nbMaxCommitsInReleaseNote:Int) {
+private fun Project.skComputeVersionCodeAndReleaseNote(nbMaxCommitsInReleaseNote:Int) {
     task("compute_version_code_and_release_note") {
         doFirst {
             println("setting version Code from server")
@@ -43,12 +43,12 @@ private fun Project.skComputeVersionCodeAndReleaseNote(branch:String, nbMaxCommi
             val currentVersionCode = skVersionCode()
             if (lastUploadedInfos != null) {
                 skSetVersionCode(Math.max(lastUploadedInfos.buildNumber, currentVersionCode + 1))
-                val lastCommitHashes = commandLine("git", "show", "-s", "--format=%h", branch, "-$nbMaxCommitsInReleaseNote").split("\n").filter { it.isNotBlank() }
+                val lastCommitHashes = commandLine("git", "show", "-s", "--format=%h", "-$nbMaxCommitsInReleaseNote").split("\n").filter { it.isNotBlank() }
                 val lastUploadCommitIndex = lastCommitHashes.indexOf(lastUploadedInfos.commit)
                 val nbCommitsInNote = if (lastUploadCommitIndex != -1) {
                     lastUploadCommitIndex
                 } else {
-                    Math.min(nbMaxCommitsInReleaseNote, lastCommitHashes.size)
+                    Math.min(nbMaxCommitsInReleaseNote, 1)
                 }
                 val noteContent = commandLine("git", "show", "-s", "--format=%m%s%n%b%n", "-$nbCommitsInNote")
                 rootDir.toPath().writeStringTo("androidApp/distribution/release-note.txt", noteContent, true)
@@ -59,18 +59,27 @@ private fun Project.skComputeVersionCodeAndReleaseNote(branch:String, nbMaxCommi
     }
 }
 
-private fun Project.skSaveUploadedInfos(branch:String) {
+private fun Project.skSaveUploadedInfos() {
     task("save_uploaded_versions_infos") {
         doFirst {
-            val lastCommitHash = commandLine("git", "show", "-s", "--format=%h", branch).substringBefore("\n")
+            val lastCommitHash = commandLine("git", "show", "-s", "--format=%h").substringBefore("\n")
             commandLine("scripts/versions/saveLastUploadedInfos.sh", lastCommitHash)
         }
         group = "skot_versions"
     }
 }
 
+
+
+@Deprecated(
+    message = "The current branch is automatically selected no need of branchEnvVariable and defaultBranch anymore",
+    replaceWith = ReplaceWith("skVersionsTasks(nbMaxCommitsInReleaseNote)"),
+    level = DeprecationLevel.ERROR
+)
 fun Project.skVersionsTasks(branchEnvVariable:String, defaultBranch:String, nbMaxCommitsInReleaseNote:Int) {
-    val branch = System.getenv(branchEnvVariable)?.let { "origin/$it" } ?: "origin/$defaultBranch"
-    skComputeVersionCodeAndReleaseNote(branch, nbMaxCommitsInReleaseNote)
-    skSaveUploadedInfos(branch)
+    skVersionsTasks(nbMaxCommitsInReleaseNote)
+}
+fun Project.skVersionsTasks(nbMaxCommitsInReleaseNote:Int) {
+    skComputeVersionCodeAndReleaseNote(nbMaxCommitsInReleaseNote)
+    skSaveUploadedInfos()
 }

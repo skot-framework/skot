@@ -93,6 +93,19 @@ class SKWebViewView(
                     }
                     return super.shouldInterceptRequest(view, request)
                 }
+
+                override fun onReceivedHttpAuthRequest(
+                    view: WebView,
+                    handler: HttpAuthHandler,
+                    host: String,
+                    realm: String
+                ) {
+                    config.onReceivedHttpAuthRequest?.invoke(host)?.let {
+                        handler.proceed(it.first, it.second)
+                    }?: run{
+                        super.onReceivedHttpAuthRequest(view, handler, host, realm)
+                    }
+                }
             }
 
         } else {
@@ -163,6 +176,20 @@ class SKWebViewView(
                     openingUrl?.error(request?.url)
                     super.onReceivedError(view, request, error)
                 }
+
+                override fun onReceivedHttpAuthRequest(
+                    view: WebView,
+                    handler: HttpAuthHandler,
+                    host: String,
+                    realm: String
+                ) {
+                    config.onReceivedHttpAuthRequest?.invoke(host)?.let {
+                        handler.proceed(it.first, it.second)
+                    }?: run{
+                        super.onReceivedHttpAuthRequest(view, handler, host, realm)
+                    }
+                }
+
             }
         }
 

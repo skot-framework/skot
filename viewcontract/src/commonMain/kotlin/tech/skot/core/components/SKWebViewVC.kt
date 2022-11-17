@@ -17,6 +17,7 @@ interface SKWebViewVC : SKComponentVC {
         val javascriptOnFinished: String? = null,
         val shouldOverrideUrlLoading: ((skUri: SKUri) -> Boolean)? = null,
         val onRequest: ((skUri: SKUri) -> Unit)? = null,
+        val onReceivedHttpAuthRequest: ((host: String) -> Pair<String, String>)? = null,
     )
 
 

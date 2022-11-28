@@ -16,7 +16,7 @@ class SKListView(
     proxy: SKListViewProxy,
     activity: SKActivity,
     fragment: Fragment?,
-    private val recyclerView: RecyclerView
+    private val recyclerView: RecyclerView,
 ) : SKComponentView<RecyclerView>(proxy, activity, fragment, recyclerView) {
 
 
@@ -130,18 +130,23 @@ class SKListView(
     }
 
 
-    private val centerSmotthScroller:CenterSmoothScroller  by lazy{
-        CenterSmoothScroller(recyclerView.context)
-    }
     private class CenterSmoothScroller(context: Context) : LinearSmoothScroller(context) {
-        override fun calculateDtToFit(viewStart: Int, viewEnd: Int, boxStart: Int, boxEnd: Int, snapPreference: Int): Int = (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)
+        override fun calculateDtToFit(
+            viewStart: Int,
+            viewEnd: Int,
+            boxStart: Int,
+            boxEnd: Int,
+            snapPreference: Int,
+        ): Int = (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2)
     }
 
     fun scrollToPosition(scrollRequest: SKListViewProxy.ScrollRequest) {
         when (scrollRequest.mode) {
             SKListVC.ScrollMode.StartToStart -> {
                 binding.post {
-                    (binding.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(scrollRequest.position, 0)
+                    (binding.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(
+                        scrollRequest.position,
+                        0)
                 }
             }
             SKListVC.ScrollMode.Visible -> {
@@ -151,6 +156,7 @@ class SKListView(
             }
             SKListVC.ScrollMode.Center -> {
                 (binding.layoutManager as? LinearLayoutManager)?.apply {
+                    val centerSmotthScroller = CenterSmoothScroller(recyclerView.context)
                     centerSmotthScroller.targetPosition = scrollRequest.position
                     startSmoothScroll(centerSmotthScroller)
                 }
@@ -162,7 +168,7 @@ class SKListView(
 
     class DiffCallBack(
         private val oldList: List<Triple<SKComponentViewProxy<*>, Any, (() -> Unit)?>>,
-        private val newList: List<Triple<SKComponentViewProxy<*>, Any, (() -> Unit)?>>
+        private val newList: List<Triple<SKComponentViewProxy<*>, Any, (() -> Unit)?>>,
     ) : DiffUtil.Callback() {
         override fun getOldListSize(): Int {
             return oldList.size
@@ -194,7 +200,7 @@ abstract class SKListItemTouchHelperCallBack(private val listView: SKListView) :
 
     override fun getSwipeDirs(
         recyclerView: RecyclerView,
-        viewHolder: RecyclerView.ViewHolder
+        viewHolder: RecyclerView.ViewHolder,
     ): Int {
         val position = viewHolder.adapterPosition
         val item = if (position >= 0) listView.items.getOrNull(position) else null

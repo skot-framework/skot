@@ -12,7 +12,8 @@ interface SKBottomSheetVC : SKComponentVC {
         val onDismiss: (() -> Unit)? = null,
         val expanded: Boolean = true,
         val skipCollapsed: Boolean = true,
-        val fullHeight: Boolean = false
+        val fullHeight: Boolean = false,
+        val resizeOnKeyboard: Boolean = false
     )
 
     var state: Shown?

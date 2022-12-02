@@ -10,18 +10,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.fragment.app.DialogFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import tech.skot.viewlegacy.R
 
 const val SK_BOTTOM_SHEET_DIALOG_EXPANDED = "SK_BOTTOM_SHEET_DIALOG_EXPANDED"
 const val SK_BOTTOM_SHEET_DIALOG_SKIP_COLLAPSED = "SK_BOTTOM_SHEET_DIALOG_SKIP_COLLAPSED"
-const val SK_BOTTOM_SHEET_DIALOG_FULL_HEIGHT = "SK_BOTTOM_SHEET_FULL_HEIGHT"
+const val SK_BOTTOM_SHEET_DIALOG_FULL_HEIGHT = "SK_BOTTOM_SHEET_DIALOG_FULL_HEIGHT"
+const val SK_BOTTOM_SHEET_DIALOG_RESIZE_ON_KEYBOARD = "SK_BOTTOM_SHEET_DIALOG_RESIZE_ON_KEYBOARD"
 
 class SKBottomSheetDialogFragment() : BottomSheetDialogFragment() {
 
     private var screen: SKScreenView<*>? = null
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (arguments?.getBoolean(SK_BOTTOM_SHEET_DIALOG_RESIZE_ON_KEYBOARD, false) == true) {
+            setStyle(DialogFragment.STYLE_NORMAL, R.style.sk_bottomsheet_dialog_resize)
+        }
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return super.onCreateDialog(savedInstanceState)
@@ -44,6 +54,10 @@ class SKBottomSheetDialogFragment() : BottomSheetDialogFragment() {
                         }
                     }
                 }
+
+
+
+
             }
     }
 

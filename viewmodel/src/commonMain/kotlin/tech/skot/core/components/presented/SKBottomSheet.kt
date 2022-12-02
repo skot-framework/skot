@@ -15,7 +15,8 @@ class SKBottomSheet : SKComponent<SKBottomSheetVC>() {
         onDismiss: (() -> Unit)? = null,
         expanded: Boolean = true,
         skipCollapsed: Boolean = true,
-        fullHeight: Boolean = false
+        fullHeight: Boolean = false,
+        resizeOnKeyboard: Boolean = false
     ) {
         shownScreen?.presenterBottomSheet = null
         view.state =
@@ -24,7 +25,8 @@ class SKBottomSheet : SKComponent<SKBottomSheetVC>() {
                 onDismiss = onDismiss,
                 expanded = expanded,
                 skipCollapsed = skipCollapsed,
-                fullHeight = fullHeight
+                fullHeight = fullHeight,
+                resizeOnKeyboard = resizeOnKeyboard
             )
         screen.presenterBottomSheet = this
         shownScreen = screen

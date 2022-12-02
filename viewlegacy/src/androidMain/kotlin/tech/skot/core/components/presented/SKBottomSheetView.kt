@@ -22,7 +22,8 @@ class SKBottomSheetView(
                 (state.screen as SKScreenViewProxy<*>).createBottomSheetFragment(
                     expanded = state.expanded,
                     skipCollapsed = state.skipCollapsed,
-                    fullHeight = state.fullHeight
+                    fullHeight = state.fullHeight,
+                    resizeOnKeyboard = state.resizeOnKeyboard
                 ).apply {
                     show(this@SKBottomSheetView.fragmentManager, "SkBottomSheet")
 

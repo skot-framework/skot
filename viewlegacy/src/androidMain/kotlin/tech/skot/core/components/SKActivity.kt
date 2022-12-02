@@ -56,12 +56,12 @@ abstract class SKActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
 
-            featureInitializer.initializeIfNeeded(intent?.data?.toSKUri())
+            featureInitializer.initializeIfNeeded(intent?.data?.toSKUri(), intent?.action)
 
             val viewKey = getKeyForThisActivity(savedInstanceState)
 
             if (SKRootStackViewProxy.stateLD.value.screens.isEmpty()) {
-                featureInitializer.start()
+                featureInitializer.start(intent?.action)
             }
 
             if (!oneActivityAlreadyLaunched && viewKey != -1L) {

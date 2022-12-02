@@ -342,7 +342,11 @@ class Generator(
                         .addParameter(
                             ParameterSpec.builder(
                                 "start",
-                                LambdaTypeName.get(returnType = Unit::class.asTypeName())
+                                LambdaTypeName.get(
+                                    returnType = Unit::class.asTypeName(),
+                                    parameters = listOf(
+                                        ParameterSpec(name = "action", type = String::class.asTypeName().nullable())
+                                    ))
                                     .copy(suspending = true)
                             )
                                 .build()
@@ -516,8 +520,8 @@ class Generator(
                         .endControlFlow()
                         .addStatement(",")
 
-                        .beginControlFlow("start = ")
-                        .addStatement("start(startModel())")
+                        .beginControlFlow("start = { action ->")
+                        .addStatement("start(startModel(action), action)")
                         .endControlFlow()
                         .addStatement(",")
 

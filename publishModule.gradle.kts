@@ -14,7 +14,7 @@ afterEvaluate {
     configure<PublishingExtension> {
         publications.withType<MavenPublication> {
             pom {
-                name.set(project.name)
+                name.set("Skot Framework "+project.name)
                 description.set("description de ${project.name}")
                 url.set("https://github.com/skot-framework/skot")
                 licenses {

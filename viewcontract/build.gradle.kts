@@ -52,7 +52,7 @@ if (!localPublication) {
             artifact(javadocJar.get())
 
             pom {
-                name.set(project.name)
+                name.set("Skot Framework "+project.name)
                 description.set("${project.name} description")
                 url.set("https://github.com/skot-framework/skot")
                 licenses {

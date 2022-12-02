@@ -22,7 +22,6 @@ open class SKLruMemoryCache<K : Any, D : Any?>(size: Int, private val dataValidi
 
     private val mutex = Mutex()
     override suspend fun get(key: K): D {
-        println(datas.map { it.toString() }.joinToString(","))
         mutex.withLock {
             val now = currentTimeMillis()
             val currentDataForThisKey = datas.find { it?.key == key }

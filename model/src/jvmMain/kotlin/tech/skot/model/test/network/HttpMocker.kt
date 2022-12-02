@@ -3,6 +3,7 @@ package tech.skot.model.test.network
 import io.ktor.client.engine.mock.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import tech.skot.core.SKLog
 import tech.skot.model.test.network.HttpResponse.Companion._404
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -41,6 +42,11 @@ class HttpMocker() {
             HttpResponse(status = HttpStatusCode.BadRequest, content = content)
     }
 
+    fun HttpMocker.setResponse401(encodedPath: String, content: String = "") {
+        responsesForUrl[encodedPath] =
+            HttpResponse(status = HttpStatusCode.Unauthorized, content = content)
+    }
+
     fun setResponse404(encodedPath: String) {
         responsesForUrl[encodedPath] = _404
     }
@@ -55,7 +61,13 @@ class HttpMocker() {
             HttpResponse(status = HttpStatusCode.InternalServerError, content = content)
     }
 
-    private val calls: MutableList<HttpRequestData> = mutableListOf()
+    fun HttpMocker.setResponseWithException(encodedPath: String, throwable: Throwable) {
+        responsesForUrl[encodedPath] = HttpResponse(then = {
+            throw throwable
+        })
+    }
+
+    val calls: MutableList<HttpRequestData> = mutableListOf()
 
     fun init() {
         nextResponse = null
@@ -117,6 +129,7 @@ class HttpMocker() {
 
 
     fun request(request: HttpRequestData, scope: MockRequestHandleScope): HttpResponseData {
+        SKLog.network("HttpMocker request=$request")
         calls.add(request)
         val requestPath = request.url.encodedPath
         val response = mockHttp.nextResponse ?: mockHttp.responsesForUrl[requestPath]
@@ -134,6 +147,5 @@ class HttpMocker() {
 val mockHttp: HttpMocker = HttpMocker()
 
 val mockHttpEngine: MockEngine = MockEngine { request ->
-
     mockHttp.request(request, this)
 }

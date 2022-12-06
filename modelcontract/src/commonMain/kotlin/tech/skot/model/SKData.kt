@@ -91,11 +91,12 @@ fun <D : Any?, O : Any?> SKData<D>.map(transform: suspend (d: D) -> O): SKData<O
 
         override suspend fun get(validity: Long?): O {
             val toBeTransformedData = this@map.get(validity)
+            val timestamp = this@map._current?.timestamp ?: currentTimeMillis()
             return transform(toBeTransformedData).also {
-                trueCurrent = DatedData(it)
+                trueCurrent = DatedData(it, timestamp)
                 transformedCurrent = DatedData(
                     toBeTransformedData,
-                    this@map._current?.timestamp ?: currentTimeMillis()
+                    timestamp
                 )
             }
         }

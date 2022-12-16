@@ -5,17 +5,24 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 
 
-class SKPagerView(override val proxy:SKPagerViewProxy, activity: SKActivity, fragment: Fragment?, private val viewPager2: ViewPager2) : SKComponentView<ViewPager2>(proxy, activity, fragment, viewPager2) {
+class SKPagerView(
+    override val proxy: SKPagerViewProxy,
+    activity: SKActivity,
+    fragment: Fragment?,
+    private val viewPager2: ViewPager2,
+) : SKComponentView<ViewPager2>(proxy, activity, fragment, viewPager2) {
 
     fun onScreens(screens: List<SKScreenViewProxy<*>>) {
-        viewPager2.adapter = object : FragmentStateAdapter(fragmentManager, lifecycleOwner.lifecycle) {
-            override fun getItemCount() = screens.size
+        viewPager2.adapter =
+            object : FragmentStateAdapter(fragmentManager, lifecycleOwner.lifecycle) {
+                override fun getItemCount() = screens.size
 
-            override fun createFragment(position: Int): Fragment {
-                return screens[position].createFragment(canSetFullScreen = false)
+                override fun createFragment(position: Int): Fragment {
+                    return screens[position].createFragment(canSetFullScreen = false)
+                }
             }
-        }
     }
+
 
     fun onSelectedPageIndex(selectedPageIndex: Int) {
         viewPager2.post {
@@ -23,22 +30,26 @@ class SKPagerView(override val proxy:SKPagerViewProxy, activity: SKActivity, fra
         }
     }
 
+    private var swipedOnce: Boolean = false
+
     fun onOnSwipeToPage(onSwipeToPage: ((index: Int) -> Unit)?) {
-        //Attention, sans le post on a un pageSelected à 0 lancé au premier affichage
-        viewPager2.post {
-            viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    super.onPageSelected(position)
+        //Attention, on a un pageSelected à 0 lancé au premier affichage
+        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                if (swipedOnce || position != 0 || proxy.selectedPageIndex == 0) {
                     proxy.selectedPageIndex = position
                     onSwipeToPage?.invoke(position)
                 }
-            })
-        }
+                swipedOnce = true
+            }
+        })
 
 
     }
 
-    fun onSwipable(value:Boolean) {
+
+    fun onSwipable(value: Boolean) {
         viewPager2.isUserInputEnabled = value
     }
 

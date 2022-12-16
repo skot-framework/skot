@@ -14,7 +14,6 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import tech.skot.core.SKFeatureInitializer
-import tech.skot.core.SKLog
 import tech.skot.core.toSKUri
 import tech.skot.view.SKPermissionAndroid
 import tech.skot.view.SKPermissionsRequestResultAndroid
@@ -108,37 +107,39 @@ abstract class SKActivity : AppCompatActivity() {
     fun setFullScreen(
         fullScreen: Boolean,
         lightStatusBar: Boolean?,
-        onWindowInsets: ((windowInsets: WindowInsetsCompat) -> Unit)? = null
+        onWindowInsets: ((windowInsets: WindowInsetsCompat) -> Unit)? = null,
     ) {
 
         screen?.view?.let {
-            WindowInsetsControllerCompat(window, it).isAppearanceLightStatusBars =
-                lightStatusBar ?: themeWindowLightStatusBar
-            WindowCompat.setDecorFitsSystemWindows(window, !fullScreen)
-            loadingInsetsCounter++
-            val loadedInsets = ViewCompat.getRootWindowInsets(it)
-            if (loadedInsets != null) {
-                it.updatePadding(
-                    bottom = if (fullScreen) loadedInsets.getInsets(
-                        WindowInsetsCompat.Type.systemBars()
-                    ).bottom else 0
-                )
-                onWindowInsets?.invoke(loadedInsets)
-                it.requestApplyInsets()
-            } else {
-                val loadingIndex = loadingInsetsCounter
-                ViewCompat.setOnApplyWindowInsetsListener(it) { view, windowInsets ->
-                    if (loadingInsetsCounter == loadingIndex) {
-                        ViewCompat.setOnApplyWindowInsetsListener(it, null)
-                        it.updatePadding(
-                            bottom = if (fullScreen) windowInsets.getInsets(
-                                WindowInsetsCompat.Type.systemBars()
-                            ).bottom else 0
-                        )
-                    }
-                    onWindowInsets?.invoke(windowInsets)
+            it.post {
+                WindowInsetsControllerCompat(window, it).isAppearanceLightStatusBars =
+                    lightStatusBar ?: themeWindowLightStatusBar
+                WindowCompat.setDecorFitsSystemWindows(window, !fullScreen)
+                loadingInsetsCounter++
+                val loadedInsets = ViewCompat.getRootWindowInsets(it)
+                if (loadedInsets != null) {
+                    it.updatePadding(
+                        bottom = if (fullScreen) loadedInsets.getInsets(
+                            WindowInsetsCompat.Type.systemBars()
+                        ).bottom else 0
+                    )
+                    onWindowInsets?.invoke(loadedInsets)
                     it.requestApplyInsets()
-                    windowInsets
+                } else {
+                    val loadingIndex = loadingInsetsCounter
+                    ViewCompat.setOnApplyWindowInsetsListener(it) { view, windowInsets ->
+                        if (loadingInsetsCounter == loadingIndex) {
+                            ViewCompat.setOnApplyWindowInsetsListener(it, null)
+                            it.updatePadding(
+                                bottom = if (fullScreen) windowInsets.getInsets(
+                                    WindowInsetsCompat.Type.systemBars()
+                                ).bottom else 0
+                            )
+                        }
+                        onWindowInsets?.invoke(windowInsets)
+                        it.requestApplyInsets()
+                        windowInsets
+                    }
                 }
             }
         }
@@ -262,7 +263,7 @@ abstract class SKActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         ScreensManager.permissionsResults.post(
             SKPermissionsRequestResultAndroid(

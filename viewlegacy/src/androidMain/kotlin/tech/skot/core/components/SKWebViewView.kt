@@ -173,7 +173,8 @@ class SKWebViewView(
     private var oneRedirectionAskedForCurrentOpenUrl = false
 
     private fun SKWebViewVC.OpenUrl.finished(finishedUrl: String?) {
-        if (finishedUrl == url || finishedUrl == "$url/" || oneRedirectionAskedForCurrentOpenUrl) {
+        val escapedUrl = url.replace(" ", "%20")
+        if (finishedUrl == escapedUrl || finishedUrl == "$escapedUrl/" || oneRedirectionAskedForCurrentOpenUrl) {
             openingUrl = null
             onFinished?.invoke()
             javascriptOnFinished?.let {
@@ -198,10 +199,17 @@ class SKWebViewView(
         openingUrl = openUrl
         if (openUrl != null) {
             if (openUrl.removeCookies) {
+
                 CookieManager.getInstance().removeAllCookies {
+                    openUrl.cookie?.let {
+                        CookieManager.getInstance().setCookie(openUrl.url,it)
+                    }
                     openUrlNow(openUrl)
                 }
             } else {
+                openUrl.cookie?.let {
+                    CookieManager.getInstance().setCookie(openUrl.url,it)
+                }
                 openUrlNow(openUrl)
             }
 

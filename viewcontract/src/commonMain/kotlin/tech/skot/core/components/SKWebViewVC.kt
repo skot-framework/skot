@@ -27,7 +27,8 @@ interface SKWebViewVC : SKComponentVC {
         val onError: (() -> Unit)? = null,
         val post: Map<String, String>? = null,
         val headers: Map<String,String>? = null,
-        val removeCookies:Boolean = false
+        val removeCookies:Boolean = false,
+        val cookie:String? = null
     )
 
     abstract class RedirectParam {

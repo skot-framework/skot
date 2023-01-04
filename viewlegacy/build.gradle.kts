@@ -10,7 +10,6 @@ plugins {
 
 
 dependencies {
-    implementation(project(":viewcontract"))
     api("androidx.core:core:1.8.0")
     api("androidx.appcompat:appcompat:${Versions.Android.appcompat}")
     api("androidx.constraintlayout:constraintlayout:2.1.4")

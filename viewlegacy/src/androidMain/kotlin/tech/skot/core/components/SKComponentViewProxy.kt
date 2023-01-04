@@ -2,6 +2,7 @@ package tech.skot.core.components
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import tech.skot.core.view.SKPermission
 import tech.skot.core.view.Style
 import tech.skot.view.SKPermissionAndroid
 import tech.skot.view.live.SKMessage
+import tech.skot.view.notificationsSkPermission
 import java.util.concurrent.atomic.AtomicInteger
 
 
@@ -38,14 +40,14 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
     data class PermissionsRequest(
         val requestCode: Int,
         val permissions: List<SKPermissionAndroid>,
-        val onResult: (permissionsOk: List<SKPermissionAndroid>) -> Unit
+        val onResult: (permissionsOk: List<SKPermissionAndroid>) -> Unit,
     )
 
 
     protected val requestPermissionsMessage = SKMessage<PermissionsRequest>()
     override fun requestPermissions(
         permissions: List<SKPermission>,
-        onResult: (permissionsOk: List<SKPermission>) -> Unit
+        onResult: (permissionsOk: List<SKPermission>) -> Unit,
     ) {
         requestPermissionsMessage.post(
             PermissionsRequest(
@@ -68,19 +70,40 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
 
     }
 
+    override fun notificationsPermissionManaged(): Boolean {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+    }
+
+    override fun hasNotificationsPermission(): Boolean {
+        return hasPermission(notificationsSkPermission)
+    }
+
+    override fun requestNotificationsPermissions(onOk: () -> Unit, onKo: (() -> Unit)?) {
+        requestPermissions(
+            permissions = listOf(notificationsSkPermission),
+            onResult = {
+                if (it.isNotEmpty()) {
+                    onOk()
+                } else {
+                    onKo?.invoke()
+                }
+            }
+        )
+    }
+
 
     override var style: Style? = null
 
     abstract fun bindTo(
         activity: SKActivity,
         fragment: Fragment?,
-        binding: B
+        binding: B,
     ): SKComponentView<B>
 
     fun _bindTo(
         activity: SKActivity,
         fragment: Fragment?,
-        binding: B
+        binding: B,
     ) =
         bindTo(activity, fragment, binding).apply {
             displayMessageMessage.observe {
@@ -108,7 +131,7 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
     open fun inflate(
         layoutInflater: LayoutInflater,
         parent: ViewGroup?,
-        attachToParent: Boolean
+        attachToParent: Boolean,
     ): B {
         return layoutId?.let {
             val b = layoutInflater.inflate(it, parent, false)
@@ -117,17 +140,22 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
             }
             b.tag = this.hashCode()
             b as B
-        } ?: throw Exception("Vous devez implémenter layoutId ou bien la méthode inflate pour le composant ${this::class.simpleName}")
+        }
+            ?: throw Exception("Vous devez implémenter layoutId ou bien la méthode inflate pour le composant ${this::class.simpleName}")
     }
 
     fun bindToView(
         activity: SKActivity,
         fragment: Fragment?,
-        view: View
+        view: View,
     ) =
         _bindTo(activity, fragment, bindingOf(view))
 
-    fun inflateInParentAndBind(activity: SKActivity, fragment: Fragment?, parent: ViewGroup):SKComponentView<*> {
+    fun inflateInParentAndBind(
+        activity: SKActivity,
+        fragment: Fragment?,
+        parent: ViewGroup,
+    ): SKComponentView<*> {
         val inflater = (fragment?.layoutInflater ?: activity.layoutInflater).let { layoutInflater ->
             parent.context?.let { parentContext ->
                 layoutInflater.cloneInContext(
@@ -140,7 +168,7 @@ abstract class SKComponentViewProxy<B : Any> : SKComponentVC {
         return _bindTo(activity, fragment, inflate(inflater, parent, true))
     }
 
-    fun inflateAndBind(activity: SKActivity, fragment: Fragment?) : B {
+    fun inflateAndBind(activity: SKActivity, fragment: Fragment?): B {
         val inflater = (fragment?.layoutInflater ?: activity.layoutInflater)
         val inflated = inflate(inflater, null, false)
         _bindTo(activity, fragment, inflated)

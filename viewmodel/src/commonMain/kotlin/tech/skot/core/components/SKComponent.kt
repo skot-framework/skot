@@ -1,7 +1,6 @@
 package tech.skot.core.components
 
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
 import tech.skot.core.Poker
 import tech.skot.core.SKLog
 import tech.skot.core.view.SKPermission
@@ -35,7 +34,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
 
     fun launchNoCrash(
         start: CoroutineStart = CoroutineStart.DEFAULT,
-        block: suspend CoroutineScope.() -> Unit
+        block: suspend CoroutineScope.() -> Unit,
     ): Job =
         launch(noCrashExceptionHandler, start, block)
 
@@ -50,51 +49,70 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
     }
 
 
-
-    fun requestPermissions(permissions: List<SKPermission>, onResult:(grantedPermissions:List<SKPermission>)->Unit) {
+    fun requestPermissions(
+        permissions: List<SKPermission>,
+        onResult: (grantedPermissions: List<SKPermission>) -> Unit,
+    ) {
         view.requestPermissions(permissions = permissions, onResult = onResult)
     }
 
-    fun doWithPermission(permission:SKPermission, onKo:(()->Unit)? = null, onOk:()->Unit) {
-        requestPermissions(listOf(permission)) { grantedPermissions->
+    fun doWithPermission(permission: SKPermission, onKo: (() -> Unit)? = null, onOk: () -> Unit) {
+        requestPermissions(listOf(permission)) { grantedPermissions ->
             if (grantedPermissions.isNotEmpty()) {
                 onOk()
-            }
-            else {
+            } else {
                 onKo?.invoke()
             }
         }
     }
 
-    fun doWithPermissions(vararg permissions:SKPermission, onKo:(()->Unit)? = null, onOk:()->Unit) {
+    fun doWithPermissions(
+        vararg permissions: SKPermission,
+        onKo: (() -> Unit)? = null,
+        onOk: () -> Unit,
+    ) {
         val permissionsList = permissions.asList()
-        requestPermissions(permissionsList) { grantedPermissions->
+        requestPermissions(permissionsList) { grantedPermissions ->
             if (grantedPermissions.containsAll(permissionsList)) {
                 onOk()
-            }
-            else {
+            } else {
                 onKo?.invoke()
             }
         }
     }
 
-    fun hasPermission(vararg permission:SKPermission): Boolean {
+    fun hasPermission(vararg permission: SKPermission): Boolean {
         return view.hasPermission(*permission)
     }
 
-    fun displayMessageDebug(message:String) {
+    fun notificationsPermissionManaged(): Boolean {
+        return view.notificationsPermissionManaged()
+    }
+
+    fun hasNotificationsPermission(): Boolean {
+        return view.hasNotificationsPermission()
+    }
+
+    fun requestNotificationsPermissions(
+        onOk: () -> Unit,
+        onKo: (() -> Unit)?,
+    ) {
+        return view.requestNotificationsPermissions(onOk, onKo)
+    }
+
+    fun displayMessageDebug(message: String) {
         view.displayMessage(SKComponentVC.Message.Debug(message))
     }
 
-    fun displayMessageInfo(message:String) {
+    fun displayMessageInfo(message: String) {
         view.displayMessage(SKComponentVC.Message.Info(message))
     }
 
-    fun displayMessageWarning(message:String) {
+    fun displayMessageWarning(message: String) {
         view.displayMessage(SKComponentVC.Message.Warning(message))
     }
 
-    fun displayMessageError(message:String) {
+    fun displayMessageError(message: String) {
         view.displayMessage(SKComponentVC.Message.Error(message))
     }
 
@@ -104,7 +122,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
         withLoader: Boolean = false,
         specificErrorTreatment: ((ex: Exception) -> Unit)? = null,
         errorMessage: String? = null,
-        block: suspend CoroutineScope.() -> Unit
+        block: suspend CoroutineScope.() -> Unit,
     ): Job =
         if (withLoader && loader == null) {
             throw IllegalStateException("You have to override loader property to launchWithLoader")
@@ -132,7 +150,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
         context: CoroutineContext = EmptyCoroutineContext,
         start: CoroutineStart = CoroutineStart.DEFAULT,
         errorMessage: String? = null,
-        block: suspend CoroutineScope.() -> Unit
+        block: suspend CoroutineScope.() -> Unit,
     ): Job =
         launchWithOptions(
             context = context,
@@ -189,7 +207,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
         }
     }
 
-    fun cancelOnData(message:String? = null) {
+    fun cancelOnData(message: String? = null) {
         throw CancellationException(message)
     }
 
@@ -200,7 +218,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
         fallBackDataIfError: Boolean = false,
         treatErrors: Boolean = true,
         defaultErrorMessage: String? = null,
-        block: (d: D) -> Unit
+        block: (d: D) -> Unit,
     ) {
 
         class Treatment(val data: D)
@@ -258,8 +276,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
                     if (treatErrors) {
                         treatError(ex, defaultErrorMessage)
                     }
-                }
-                else {
+                } else {
                     throw ex
                 }
             }
@@ -270,10 +287,10 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
                             it.data.let { treatData(it) }
                         }
                     }
-                }
-                catch (ex:Exception) {
+                } catch (ex: Exception) {
                     if (ex !is CancellationException) {
-                        SKLog.e(ex,"Error in collect of an SKComponent.onData may be un treatment or in a map")
+                        SKLog.e(ex,
+                            "Error in collect of an SKComponent.onData may be un treatment or in a map")
                     }
 
                 }

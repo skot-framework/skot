@@ -21,6 +21,13 @@ interface SKComponentVC {
 
     fun hasPermission(vararg permission: SKPermission): Boolean
 
+    fun notificationsPermissionManaged():Boolean
+    fun hasNotificationsPermission():Boolean
+    fun requestNotificationsPermissions(
+        onOk:()->Unit,
+        onKo:(()->Unit)?
+    )
+
     /**
      * Style qui ne sera appliqué qu'en theme pour les items de SKBox
      */

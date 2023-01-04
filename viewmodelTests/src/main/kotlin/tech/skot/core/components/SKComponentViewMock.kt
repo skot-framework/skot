@@ -19,7 +19,8 @@ abstract class SKComponentViewMock : SKComponentVC {
 
     @Deprecated("Use displayMessageMessages and filter on type SKComponentVC.Message.Error")
     val displayErrorMessages: List<String>
-        get() = displayMessageMessages.filterIsInstance<SKComponentVC.Message.Error>().map { it.content }
+        get() = displayMessageMessages.filterIsInstance<SKComponentVC.Message.Error>()
+            .map { it.content }
 
     override fun displayErrorMessage(message: String) {
         displayMessageMessages.add(SKComponentVC.Message.Error(message))
@@ -28,7 +29,7 @@ abstract class SKComponentViewMock : SKComponentVC {
     var permissionsOk = emptyList<SKPermission>()
     override fun requestPermissions(
         permissions: List<SKPermission>,
-        onResult: (permissionsOk: List<SKPermission>) -> Unit
+        onResult: (permissionsOk: List<SKPermission>) -> Unit,
     ) {
         onResult(permissions.filter { permissionsOk.contains(it) })
     }
@@ -36,6 +37,25 @@ abstract class SKComponentViewMock : SKComponentVC {
     override fun hasPermission(vararg permission: SKPermission): Boolean {
         return permission.all {
             permissionsOk.contains(it)
+        }
+    }
+
+    var notificationsPermissionManaged: Boolean = false
+
+    override fun notificationsPermissionManaged(): Boolean {
+        return notificationsPermissionManaged
+    }
+
+    var hasNotificationsPermission: Boolean = false
+    override fun hasNotificationsPermission(): Boolean {
+        return hasNotificationsPermission
+    }
+
+    override fun requestNotificationsPermissions(onOk: () -> Unit, onKo: (() -> Unit)?) {
+        if (hasNotificationsPermission) {
+            onOk()
+        } else {
+            onKo?.invoke()
         }
     }
 

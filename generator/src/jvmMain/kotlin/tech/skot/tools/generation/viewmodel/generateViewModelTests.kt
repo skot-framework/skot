@@ -1,10 +1,7 @@
 package tech.skot.tools.generation.viewmodel
 
-import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.FunSpec
-import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import com.squareup.kotlinpoet.asTypeName
 import tech.skot.core.components.SKNoVM
 import tech.skot.tools.generation.AndroidClassNames
 import tech.skot.tools.generation.FrameworkClassNames
@@ -55,7 +52,8 @@ fun Generator.generateViewModelTests() {
                 addSuperclassConstructorParameter("component")
             }.writeTo(generatedJvmTestSources(modules.viewmodel))
         }
-        if (!it.vc.hasAnnotation<SKNoVM>() && !it.testViewModel().existsJvmTestInModule(modules.viewmodel)) {
+        // do not create class with suffix if prefix class already exists
+        if (!it.vc.hasAnnotation<SKNoVM>() && !it.testViewModel().existsJvmTestInModule(modules.viewmodel) && !it.oldTestViewModel().existsJvmTestInModule(modules.viewmodel)) {
             it.testViewModel().fileClassBuilder {
                 superclass(abstractTestScreen)
                 val componentVarName = if (it.isScreen) "screen" else "component"

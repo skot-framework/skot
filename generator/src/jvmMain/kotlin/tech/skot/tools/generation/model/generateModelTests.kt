@@ -39,8 +39,8 @@ fun Generator.generateModelTests() {
         }.writeTo(jvmTestSources(modules.model))
     }
     components.forEach {
-
-        if (it.hasModel() && !it.testModel().existsJvmTestInModule(modules.model)) {
+        // do not create class with suffix if prefix class already exists
+        if (it.hasModel() && !it.testModel().existsJvmTestInModule(modules.model) && !it.oldTestModel().existsJvmTestInModule(modules.model)) {
             it.testModel().fileClassBuilder {
                 superclass(abstractTestModel)
             }.writeTo(jvmTestSources(modules.model))

@@ -75,13 +75,6 @@ android {
     }
     compileSdk = Versions.Android.compileSdk
 
-    compileOptions {
-        // Flag to enable support for the new language APIs
-        isCoreLibraryDesugaringEnabled = true
-        // Sets Java compatibility to Java 8
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
 
     sourceSets {
         getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")

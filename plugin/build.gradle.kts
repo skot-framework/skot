@@ -22,13 +22,13 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
 }
 
-configurations {
-    all {
-        attributes {
-            attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 8)
-        }
-    }
-}
+//configurations {
+//    all {
+//        attributes {
+//            attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 8)
+//        }
+//    }
+//}
 
 val gradlePortal = false
 

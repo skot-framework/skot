@@ -36,11 +36,11 @@ kotlin {
             }
         }
 
-        val jvmTest by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
-            }
-        }
+//        val jvmTest by getting {
+//            dependencies {
+//                implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+//            }
+//        }
     }
 }
 

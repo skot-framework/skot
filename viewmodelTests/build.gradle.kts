@@ -29,9 +29,6 @@ kotlin {
             }
         }
 
-        val jvmTest by getting {
-            kotlin.srcDir("src/test/kotlin")
-        }
     }
 }
 

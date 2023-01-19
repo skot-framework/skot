@@ -108,11 +108,6 @@ android {
     }
 
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
     packagingOptions {
         if (gradle.startParameter.taskNames.any {
                 it.toUpperCase().contains("ANDROIDTEST")

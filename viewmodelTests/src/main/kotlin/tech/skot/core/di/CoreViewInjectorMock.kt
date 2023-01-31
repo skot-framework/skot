@@ -66,9 +66,9 @@ class CoreViewInjectorMock : CoreViewInjector {
 
     override fun webView(
         config: SKWebViewVC.Config,
-        openUrlInitial: SKWebViewVC.OpenUrl?
+        launchInitial: SKWebViewVC.Launch?
     ): SKWebViewVC {
-        return SKWebViewViewMock(config, openUrlInitial)
+        return SKWebViewViewMock(config, launchInitial)
     }
 
     override fun frame(screens: Set<SKScreenVC>, screenInitial: SKScreenVC?): SKFrameVC {

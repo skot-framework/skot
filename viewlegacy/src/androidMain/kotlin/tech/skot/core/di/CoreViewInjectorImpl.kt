@@ -58,8 +58,8 @@ class CoreViewInjectorImpl : CoreViewInjector {
     override fun skBox(itemsInitial: List<SKComponentVC>, hiddenInitial: Boolean?) =
         SKBoxViewProxy(itemsInitial as List<SKComponentViewProxy<*>>, hiddenInitial)
 
-    override fun webView(config: SKWebViewVC.Config, openUrlInitial: SKWebViewVC.OpenUrl?) =
-        SKWebViewViewProxy(config, openUrlInitial)
+    override fun webView(config: SKWebViewVC.Config, launchInitial: SKWebViewVC.Launch?) =
+        SKWebViewViewProxy(config, launchInitial)
 
     override fun frame(screens: Set<SKScreenVC>, screenInitial: SKScreenVC?) = SKFrameViewProxy(
         screens = screens as Set<SKScreenViewProxy<*>>,

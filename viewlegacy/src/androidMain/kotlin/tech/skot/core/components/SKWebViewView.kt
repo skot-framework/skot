@@ -168,12 +168,17 @@ class SKWebViewView(
 
     }
 
-    private var openingUrl: SKWebViewVC.OpenUrl? = null
+    private var openingUrl: SKWebViewVC.Launch? = null
 
     private var oneRedirectionAskedForCurrentOpenUrl = false
 
-    private fun SKWebViewVC.OpenUrl.finished(finishedUrl: String?) {
-        val escapedUrl = url.replace(" ", "%20")
+    private fun SKWebViewVC.Launch.finished(finishedUrl: String?) {
+        val escapedUrl =   if(this is SKWebViewVC.Launch.LoadData){
+              "data:text/html,$data"
+        }else{
+            url?.replace(" ", "%20")
+        }
+
         if (finishedUrl == escapedUrl || finishedUrl == "$escapedUrl/" || oneRedirectionAskedForCurrentOpenUrl) {
             openingUrl = null
             onFinished?.invoke()
@@ -185,7 +190,16 @@ class SKWebViewView(
 
     }
 
-    private fun SKWebViewVC.OpenUrl.error(requestedUri: Uri?) {
+    private fun SKWebViewVC.Launch.error(requestedUri: Uri?) {
+        when(this){
+            is SKWebViewVC.Launch.LoadData -> {}
+            is SKWebViewVC.Launch.OpenPostUrl -> launchError(requestedUri,this.url, this.onError)
+            is SKWebViewVC.Launch.OpenUrl -> launchError(requestedUri,this.url, this.onError)
+            is SKWebViewVC.Launch.OpenUrlWithHeader -> launchError(requestedUri,this.url, this.onError)
+        }
+    }
+
+    private fun launchError(requestedUri: Uri?, url : String?,  onError: (() -> Unit)?){
         requestedUri?.toString()?.let { requestUrl ->
             if (url == requestUrl) {
                 onError?.invoke()
@@ -194,41 +208,48 @@ class SKWebViewView(
         }
     }
 
-    fun onOpenUrl(openUrl: SKWebViewVC.OpenUrl?) {
+    fun onLaunch(launch: SKWebViewVC.Launch?) {
         oneRedirectionAskedForCurrentOpenUrl = false
-        openingUrl = openUrl
-        if (openUrl != null) {
-            if (openUrl.removeCookies) {
-
+        openingUrl = launch
+        if (launch != null) {
+            if (launch.removeCookies) {
                 CookieManager.getInstance().removeAllCookies {
-                    openUrl.cookie?.let {
-                        CookieManager.getInstance().setCookie(openUrl.url,it)
+                    launch.cookie?.let {
+                        CookieManager.getInstance().setCookie(launch.url,it)
                     }
-                    openUrlNow(openUrl)
+                    launchNow(launch)
                 }
             } else {
-                openUrl.cookie?.let {
-                    CookieManager.getInstance().setCookie(openUrl.url,it)
+                launch.cookie?.let {
+                    CookieManager.getInstance().setCookie(launch.url,it)
                 }
-                openUrlNow(openUrl)
+                launchNow(launch)
             }
 
         }
     }
 
-    private fun openUrlNow(openUrl: SKWebViewVC.OpenUrl) {
-        val posts = openUrl.post
-        if (posts != null) {
-            val params = posts.map {
-                "${it.key}=${URLEncoder.encode(it.value, "UTF-8")}"
+    private fun launchNow(launch: SKWebViewVC.Launch) {
+        when(launch){
+            is SKWebViewVC.Launch.LoadData -> {
+                if(launch.url != null){
+                    binding.loadDataWithBaseURL(launch.url, launch.data,null,null, null)
+                }else{
+                    binding.loadData(launch.data,null,null)
+                }
             }
-                .joinToString(separator = "&")
-            binding.postUrl(openUrl.url, params.toByteArray())
-        } else {
-            openUrl.headers?.let {
-                binding.loadUrl(openUrl.url,it)
-            } ?: run {
-                binding.loadUrl(openUrl.url)
+            is SKWebViewVC.Launch.OpenPostUrl -> {
+                val params = launch.post.map {
+                    "${it.key}=${URLEncoder.encode(it.value, "UTF-8")}"
+                }
+                    .joinToString(separator = "&")
+                binding.postUrl(launch.url, params.toByteArray())
+            }
+            is SKWebViewVC.Launch.OpenUrl -> {
+                binding.loadUrl(launch.url)
+            }
+            is SKWebViewVC.Launch.OpenUrlWithHeader -> {
+                binding.loadUrl(launch.url,launch.headers)
             }
         }
     }

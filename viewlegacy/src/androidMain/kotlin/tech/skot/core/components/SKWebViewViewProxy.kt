@@ -8,7 +8,7 @@ import tech.skot.viewlegacy.R
 
 class SKWebViewViewProxy(
     override val config: SKWebViewVC.Config = SKWebViewVC.Config(null),
-    openUrlInitial: SKWebViewVC.OpenUrl? = null
+    launchInitial: SKWebViewVC.Launch? = null
 ) : SKComponentViewProxy<WebView>(), SKWebViewVC {
 
     companion object {
@@ -18,8 +18,8 @@ class SKWebViewViewProxy(
     override val layoutId: Int?
         get() = LAYOUT_ID ?: R.layout.sk_webview
 
-    private val openUrlLD = MutableSKLiveData<SKWebViewVC.OpenUrl?>(openUrlInitial)
-    override var openUrl: SKWebViewVC.OpenUrl? by openUrlLD
+    private val launchLD = MutableSKLiveData<SKWebViewVC.Launch?>(launchInitial)
+    override var launch: SKWebViewVC.Launch? by launchLD
 
     private val goBackLD = MutableSKLiveData<SKWebViewVC.BackRequest?>(null)
     override var goBack: SKWebViewVC.BackRequest? by goBackLD
@@ -37,8 +37,8 @@ class SKWebViewViewProxy(
     override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: WebView) =
             SKWebViewView(this, activity, fragment, binding).apply {
                 onConfig(config)
-                openUrlLD.observe {
-                    onOpenUrl(it)
+                launchLD.observe {
+                    onLaunch(it)
                 }
                 goBackLD.observe {
                     onGoBackLD(it)

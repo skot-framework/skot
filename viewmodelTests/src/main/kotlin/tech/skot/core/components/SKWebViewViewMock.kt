@@ -1,9 +1,9 @@
 package tech.skot.core.components
 
 class SKWebViewViewMock(config: SKWebViewVC.Config,
-                        openUrlInitial: SKWebViewVC.OpenUrl?): SKComponentViewMock(), SKWebViewVC {
+                        launchInitial: SKWebViewVC.Launch?): SKComponentViewMock(), SKWebViewVC {
     override val config: SKWebViewVC.Config = config
-    override var openUrl: SKWebViewVC.OpenUrl? = openUrlInitial
+    override var launch: SKWebViewVC.Launch? = launchInitial
     override var goBack: SKWebViewVC.BackRequest? = null
 
     var requestGoForwardCount = 0

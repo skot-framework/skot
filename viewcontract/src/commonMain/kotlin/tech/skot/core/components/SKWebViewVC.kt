@@ -5,7 +5,7 @@ import tech.skot.core.SKUri
 @SKLayoutIsSimpleView
 interface SKWebViewVC : SKComponentVC {
     val config: Config
-    var openUrl: OpenUrl?
+    var launch: Launch?
     var goBack: BackRequest?
     fun requestGoForward()
     fun requestReload()
@@ -20,16 +20,64 @@ interface SKWebViewVC : SKComponentVC {
     )
 
 
-    data class OpenUrl(
-        val url: String,
-        val onFinished: (() -> Unit)? = null,
-        val javascriptOnFinished: String? = null,
-        val onError: (() -> Unit)? = null,
-        val post: Map<String, String>? = null,
-        val headers: Map<String,String>? = null,
-        val removeCookies:Boolean = false,
-        val cookie:String? = null
-    )
+    sealed class Launch(){
+        abstract val onFinished: (() -> Unit)?
+        abstract val javascriptOnFinished: String?
+        abstract val removeCookies:Boolean
+        abstract val cookie:String?
+        abstract val url: String?
+
+        data class OpenUrl(
+            override val url: String,
+            override val onFinished: (() -> Unit)? = null,
+            override val javascriptOnFinished: String? = null,
+            val onError: (() -> Unit)? = null,
+            override val removeCookies:Boolean = false,
+            override val cookie:String? = null
+        ) : Launch()
+
+        /**
+         * launch url with headers
+         */
+        data class OpenUrlWithHeader(
+            override val url: String,
+            override val onFinished: (() -> Unit)? = null,
+            override val javascriptOnFinished: String? = null,
+            val onError: (() -> Unit)? = null,
+            val headers: Map<String,String> = emptyMap(),
+            override val removeCookies:Boolean = false,
+            override val cookie:String? = null
+        ) : Launch()
+
+        /**
+         * launch url with post parameters
+         */
+        data class OpenPostUrl(
+            override val url: String,
+            override val onFinished: (() -> Unit)? = null,
+            override val javascriptOnFinished: String? = null,
+            val onError: (() -> Unit)? = null,
+            val post: Map<String, String> = emptyMap(),
+            override val removeCookies:Boolean = false,
+            override val cookie:String? = null
+        ) : Launch()
+
+
+        /**
+         * load data with url
+         * @param data, source code of the page
+         * @param url, the baseUrl
+         */
+        data class LoadData(
+            val data : String,
+            override val url: String?,
+            override val onFinished: (() -> Unit)? = null,
+            override val javascriptOnFinished: String? = null,
+            override val removeCookies:Boolean = false,
+            override val cookie:String? = null
+        ) : Launch()
+    }
+
 
     abstract class RedirectParam {
         abstract fun matches(url: String): Boolean

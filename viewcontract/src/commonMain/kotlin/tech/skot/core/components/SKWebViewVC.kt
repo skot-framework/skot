@@ -6,6 +6,9 @@ import tech.skot.core.SKUri
 interface SKWebViewVC : SKComponentVC {
     val config: Config
     var launch: Launch?
+    val openUrl: Launch.OpenUrl?
+        get() = launch as? Launch.OpenUrl?
+
     var goBack: BackRequest?
     fun requestGoForward()
     fun requestReload()

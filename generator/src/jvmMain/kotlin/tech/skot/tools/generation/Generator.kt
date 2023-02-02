@@ -512,7 +512,7 @@ class Generator(
                                 endControlFlow()
                             }
                         }
-                        .addStatement("initializeView()")
+                        .addStatement("initializeView(androidApplication)")
                         .endControlFlow()
                         .addStatement(",")
                         .beginControlFlow("onDeepLink = { uri, fromWebView ->")

@@ -55,9 +55,9 @@ kotlin {
 
         val androidTest by getting {
             dependencies {
-                implementation("androidx.test.espresso:espresso-core:3.4.0")
-                implementation("androidx.test:core-ktx:1.4.0")
-                implementation("androidx.test.ext:junit-ktx:1.1.3")
+                implementation("androidx.test.espresso:espresso-core:3.5.1")
+                implementation("androidx.test:core-ktx:1.5.0")
+                implementation("androidx.test.ext:junit-ktx:1.1.5")
                 implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
             }
         }
@@ -84,7 +84,7 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.0")
 }
 
 if (!localPublication) {

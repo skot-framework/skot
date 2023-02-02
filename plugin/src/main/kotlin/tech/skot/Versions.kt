@@ -14,7 +14,7 @@ public object Versions {
 
   public const val ktor: String = "2.2.2"
 
-  public const val kotlin: String = "1.7.20"
+  public const val kotlin: String = "1.8.0"
 
   public const val kotlinCoroutines: String = "1.6.4"
 
@@ -28,5 +28,5 @@ public object Versions {
 
   public const val android_app_compat: String = "1.4.1"
 
-  public const val sqldelight: String = "1.5.4"
+  public const val sqldelight: String = "1.5.5"
 }

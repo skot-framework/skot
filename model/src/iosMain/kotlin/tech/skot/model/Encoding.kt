@@ -1,6 +1,6 @@
 package tech.skot.model
 
-actual fun decodeBase64(str:String):String {
+actual fun decodeBase64(str:String, urlSafe:Boolean):String {
     return "TODO!!"
 }
 

@@ -6,11 +6,20 @@ import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
-actual fun decodeBase64(str: String): String {
-    return String(Base64.decode(str, Base64.URL_SAFE))
+actual fun decodeBase64(str: String, urlSafe: Boolean): String {
+    return String(
+        Base64.decode(
+            str, if (urlSafe) {
+                Base64.URL_SAFE
+            } else {
+                Base64.DEFAULT
+            }
+        )
+    )
 }
 
-actual fun encodeBase64(str: String) = Base64.encodeToString(str.toByteArray(), Base64.NO_WRAP or Base64.URL_SAFE)
+actual fun encodeBase64(str: String) =
+    Base64.encodeToString(str.toByteArray(), Base64.NO_WRAP or Base64.URL_SAFE)
 
 actual fun hashSHA256(str: String) = hashString("SHA-256", str)
 
@@ -18,8 +27,8 @@ actual fun hashSHA256(str: String) = hashString("SHA-256", str)
 private fun hashString(type: String, input: String): String {
     val HEX_CHARS = "0123456789ABCDEF"
     val bytes = MessageDigest
-            .getInstance(type)
-            .digest(input.toByteArray())
+        .getInstance(type)
+        .digest(input.toByteArray())
     val result = StringBuilder(bytes.size * 2)
 
     bytes.forEach {
@@ -32,7 +41,11 @@ private fun hashString(type: String, input: String): String {
 }
 
 
-actual fun aes128encrypt(textToEncrypt: String, secret: String, initializationVector: String): String {
+actual fun aes128encrypt(
+    textToEncrypt: String,
+    secret: String,
+    initializationVector: String,
+): String {
     val cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING")
     val keySpec = SecretKeySpec(secret.toByteArray().copyOf(32), "AES")
     val ivSpec = IvParameterSpec(initializationVector.toByteArray())

@@ -42,15 +42,7 @@ kotlin {
                 api("io.ktor:ktor-client-logging:${Versions.ktor}")
             }
         }
-
-
-        val commonTest by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-test-common:${Versions.kotlin}")
-                implementation("org.jetbrains.kotlin:kotlin-test-annotations-common:${Versions.kotlin}")
-            }
-        }
-
+        
 
         val androidMain by getting {
             dependencies {
@@ -83,6 +75,22 @@ kotlin {
 
         }
 
+
+        val androidInstrumentedTest by getting {
+            dependencies {
+                implementation("androidx.test.espresso:espresso-core:3.5.1")
+                implementation("androidx.test:core-ktx:1.5.0")
+                implementation("androidx.test.ext:junit-ktx:1.1.5")
+                implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+            }
+        }
+
+        val androidUnitTest by getting {
+            dependencies {
+               implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+            }
+        }
+
     }
 
 
@@ -91,21 +99,11 @@ kotlin {
 
 android {
     defaultConfig {
-        minSdkVersion(Versions.Android.minSdk)
+        minSdk = Versions.Android.minSdk
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments["clearPackageData"] = "true"
-
-        testOptions {
-            execution = "ANDROIDX_TEST_ORCHESTRATOR"
-        }
     }
-    compileSdkVersion(Versions.Android.compileSdk)
+    compileSdk = Versions.Android.compileSdk
 
-    sourceSets {
-        getByName("main").java.srcDirs("src/androidMain/kotlin")
-        getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")
-        getByName("androidTest").java.srcDir("src/androidTest/kotlin")
-    }
 
 
     packagingOptions {
@@ -123,9 +121,9 @@ dependencies {
 
     androidTestImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    androidTestImplementation("androidx.test:core-ktx:1.4.0")
-    androidTestImplementation("androidx.test.ext:junit-ktx:1.1.3")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test:core-ktx:1.5.0")
+    androidTestImplementation("androidx.test.ext:junit-ktx:1.1.5")
 }
 
 sqldelight {

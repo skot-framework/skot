@@ -53,7 +53,7 @@ kotlin {
             }
         }
 
-        val androidTest by getting {
+        val androidInstrumentedTest by getting {
             dependencies {
                 implementation("androidx.test.espresso:espresso-core:3.5.1")
                 implementation("androidx.test:core-ktx:1.5.0")
@@ -76,15 +76,10 @@ android {
     compileSdk = Versions.Android.compileSdk
 
 
-    sourceSets {
-        getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")
-        getByName("androidTest").java.srcDirs("src/androidTest/kotlin")
-    }
-
 }
 
 dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.0")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.1")
 }
 
 if (!localPublication) {

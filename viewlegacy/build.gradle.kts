@@ -1,3 +1,4 @@
+
 group = Versions.group
 version = Versions.version
 
@@ -10,14 +11,14 @@ plugins {
 
 
 dependencies {
-    api("androidx.core:core:1.8.0")
+    api("androidx.core:core:1.9.0")
     api("androidx.appcompat:appcompat:${Versions.Android.appcompat}")
     api("androidx.constraintlayout:constraintlayout:2.1.4")
     api("androidx.viewpager2:viewpager2:1.0.0")
     api("androidx.recyclerview:recyclerview:1.2.1")
-    api("com.google.android.material:material:1.6.1")
+    api("com.google.android.material:material:1.8.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
     androidTestImplementation(project(":viewlegacyTests"))
 }
 
@@ -26,17 +27,11 @@ android {
     defaultConfig {
         minSdk = Versions.Android.minSdk
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        compileSdk = Versions.Android.compileSdk
-        targetSdk = Versions.Android.targetSdk
     }
     compileSdk = Versions.Android.compileSdk
 
     sourceSets {
-        getByName("main").java.srcDirs("src/androidMain/kotlin")
-        getByName("main").java.srcDirs("generated/androidMain/kotlin")
-        getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")
-        getByName("androidTest").java.srcDirs("src/androidTest/kotlin")
-//        getByName("main").res.srcDirs("src/androidTest/res")
+        getByName("main").res.srcDirs("src/androidMain/res_tests")
     }
 
     buildFeatures {

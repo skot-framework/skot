@@ -31,9 +31,9 @@ android {
 
 dependencies {
     implementation((project(":viewlegacy")))
-    api("androidx.test.espresso:espresso-core:3.4.0")
-    api("androidx.test:core-ktx:1.4.0")
-    api("androidx.test.ext:junit-ktx:1.1.3")
+    api("androidx.test.espresso:espresso-core:3.5.1")
+    api("androidx.test:core-ktx:1.5.0")
+    api("androidx.test.ext:junit-ktx:1.1.5")
 }
 
 

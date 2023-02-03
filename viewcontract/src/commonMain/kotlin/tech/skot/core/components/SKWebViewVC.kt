@@ -27,7 +27,7 @@ interface SKWebViewVC : SKComponentVC {
         abstract val onFinished: (() -> Unit)?
         abstract val javascriptOnFinished: String?
         abstract val removeCookies:Boolean
-        abstract val cookie:String?
+        abstract val cookie:Pair<String,String>?
         abstract val url: String?
 
         data class OpenUrl(
@@ -36,7 +36,7 @@ interface SKWebViewVC : SKComponentVC {
             override val javascriptOnFinished: String? = null,
             val onError: (() -> Unit)? = null,
             override val removeCookies:Boolean = false,
-            override val cookie:String? = null
+            override val cookie:Pair<String,String>? = null
         ) : Launch()
 
         /**
@@ -49,7 +49,7 @@ interface SKWebViewVC : SKComponentVC {
             val onError: (() -> Unit)? = null,
             val headers: Map<String,String> = emptyMap(),
             override val removeCookies:Boolean = false,
-            override val cookie:String? = null
+            override val cookie:Pair<String,String>? = null
         ) : Launch()
 
         /**
@@ -62,7 +62,7 @@ interface SKWebViewVC : SKComponentVC {
             val onError: (() -> Unit)? = null,
             val post: Map<String, String> = emptyMap(),
             override val removeCookies:Boolean = false,
-            override val cookie:String? = null
+            override val cookie:Pair<String,String>? = null
         ) : Launch()
 
 
@@ -77,7 +77,7 @@ interface SKWebViewVC : SKComponentVC {
             override val onFinished: (() -> Unit)? = null,
             override val javascriptOnFinished: String? = null,
             override val removeCookies:Boolean = false,
-            override val cookie:String? = null
+            override val cookie:Pair<String,String>? = null
         ) : Launch()
     }
 

@@ -215,13 +215,13 @@ class SKWebViewView(
             if (launch.removeCookies) {
                 CookieManager.getInstance().removeAllCookies {
                     launch.cookie?.let {
-                        CookieManager.getInstance().setCookie(launch.url,it)
+                        CookieManager.getInstance().setCookie(it.first,it.second)
                     }
                     launchNow(launch)
                 }
             } else {
                 launch.cookie?.let {
-                    CookieManager.getInstance().setCookie(launch.url,it)
+                    CookieManager.getInstance().setCookie(it.first,it.second)
                 }
                 launchNow(launch)
             }

@@ -11,7 +11,7 @@ class TestSKWebView : SKTestView() {
     @Test
     fun testRedirection() {
         val proxy = SKWebViewViewProxy(
-            openUrlInitial = SKWebViewVC.OpenUrl(
+            launchInitial = SKWebViewVC.Launch.OpenUrl(
                 url = "https://www.casinomax.fr/actualites/casino-max-extra",
                 onFinished = {
                     SKLog.d("@@@@@@@ finished !!!")

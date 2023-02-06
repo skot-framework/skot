@@ -16,14 +16,6 @@ kotlin {
 
     android()
 
-    ios {
-        binaries {
-            framework {
-                baseName = "skViewModel"
-            }
-        }
-    }
-
     sourceSets {
         val commonMain by getting {
             dependencies {

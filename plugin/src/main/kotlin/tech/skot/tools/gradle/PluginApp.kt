@@ -53,6 +53,9 @@ class PluginApp : Plugin<Project> {
             exclude("META-INF/*")
         }
 
+        compileOptions {
+            isCoreLibraryDesugaringEnabled = true
+        }
 
 
     }
@@ -68,7 +71,7 @@ class PluginApp : Plugin<Project> {
             add("debugImplementation", "com.squareup.leakcanary:leakcanary-android:2.9.1")
         }
 
-        add("coreLibraryDesugaring", "com.android.tools:desugar_jdk_libs:1.1.5")
+        add("coreLibraryDesugaring", "com.android.tools:desugar_jdk_libs:2.0.2")
 
 
     }

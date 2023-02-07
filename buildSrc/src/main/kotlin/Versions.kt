@@ -15,7 +15,7 @@ object Versions {
 
     object Android {
 
-        const val gradle = "7.4.0"
+        const val gradle = "7.4.1"
 
         const val minSdk = 21
         const val compileSdk = 33

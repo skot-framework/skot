@@ -46,17 +46,8 @@ class PluginViewContract : Plugin<Project> {
     }
 
     private fun KotlinMultiplatformExtension.conf(project: Project) {
-        jvm("jvm")
-        android("android")
-        if (project.hasIosApp()) {
-            ios {
-                binaries {
-                    framework {
-                        baseName = "viewcontract"
-                    }
-                }
-            }
-        }
+        jvm()
+        android()
 
 
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")

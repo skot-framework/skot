@@ -41,17 +41,8 @@ class PluginViewModel: Plugin<Project> {
     }
 
     private fun KotlinMultiplatformExtension.conf(project: Project) {
-        android("android")
-        jvm("jvm")
-        if (project.hasIosApp()) {
-            ios {
-                binaries {
-                    framework {
-                        baseName = "viewmodel"
-                    }
-                }
-            }
-        }
+        android()
+        jvm()
 
 
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
@@ -62,6 +53,7 @@ class PluginViewModel: Plugin<Project> {
         sourceSets["commonMain"].dependencies {
             api(project("$parentProjectPath:viewcontract"))
             api(project("$parentProjectPath:modelcontract"))
+            api("${Versions.group}:core:${Versions.skot}")
             api("${Versions.group}:viewmodel:${Versions.skot}")
         }
 

@@ -14,7 +14,9 @@ kotlin {
 
     jvm()
 
-    android()
+    android {
+        publishLibraryVariants("release")
+    }
 
     sourceSets {
         val commonMain by getting {

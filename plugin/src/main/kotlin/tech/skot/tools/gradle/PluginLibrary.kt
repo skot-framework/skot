@@ -46,9 +46,9 @@ class PluginLibrary: Plugin<Project> {
 
     private fun KotlinMultiplatformExtension.conf() {
 
-        jvm("jvm")
+        jvm()
 
-        android("android")
+        android()
 
 //        sourceSets["commonMain"].kotlin.srcDir("src/contract/kotlin")
         sourceSets["commonMain"].dependencies {

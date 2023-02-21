@@ -55,6 +55,7 @@ class PluginApp : Plugin<Project> {
 
         compileOptions {
             isCoreLibraryDesugaringEnabled = true
+
         }
 
 

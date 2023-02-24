@@ -56,9 +56,8 @@ class PluginLibraryViewLegacy: Plugin<Project> {
     }
 
     private fun KotlinMultiplatformExtension.conf() {
-       android() {
-            publishLibraryVariants("release", "debug")
-            publishLibraryVariantsGroupedByFlavor = true
+        android {
+            publishLibraryVariants("release")
         }
     }
 

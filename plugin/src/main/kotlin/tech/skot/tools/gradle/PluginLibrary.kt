@@ -48,9 +48,12 @@ class PluginLibrary: Plugin<Project> {
 
         jvm()
 
-        android()
+        ios()
 
-//        sourceSets["commonMain"].kotlin.srcDir("src/contract/kotlin")
+        android {
+            publishLibraryVariants("release")
+        }
+
         sourceSets["commonMain"].dependencies {
             api(project(":viewcontract"))
         }

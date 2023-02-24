@@ -43,11 +43,6 @@ class PluginModel: Plugin<Project> {
                 }
             }
 
-            getByName("androidTest") {
-                java.srcDir("src/androidTest/kotlin")
-            }
-
-
         }
 
         packagingOptions {
@@ -94,10 +89,6 @@ class PluginModel: Plugin<Project> {
 
         sourceSets["jvmTest"].kotlin.srcDir("generated/jvmTest")
 
-        sourceSets["androidTest"].dependencies {
-            implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
-            implementation("org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}")
-        }
 
 
         sourceSets["androidMain"].kotlin.srcDir("generated/androidMain/kotlin")

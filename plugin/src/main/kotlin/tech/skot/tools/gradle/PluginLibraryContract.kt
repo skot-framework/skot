@@ -23,6 +23,8 @@ class PluginLibraryContract : Plugin<Project> {
     private fun KotlinMultiplatformExtension.conf(project: Project) {
         jvm()
 
+        ios()
+
         sourceSets["commonMain"].dependencies {
             api("${Versions.group}:viewcontract:${Versions.skot}")
         }

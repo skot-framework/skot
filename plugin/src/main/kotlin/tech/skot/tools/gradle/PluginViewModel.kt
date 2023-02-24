@@ -81,11 +81,6 @@ class PluginViewModel: Plugin<Project> {
             implementation("${Versions.group}:viewmodelTests:${Versions.skot}")
         }
 
-        sourceSets["androidTest"].dependencies {
-            implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
-            implementation("org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}")
-        }
-
         SKLibrary.addDependenciesToLibraries(this, (project.parent?.projectDir ?: project.rootDir).toPath(), "commonMain", "viewmodel")
         SKLibrary.addDependenciesToLibraries(this, (project.parent?.projectDir ?: project.rootDir).toPath(), "jvmTest", "viewmodelTests")
     }

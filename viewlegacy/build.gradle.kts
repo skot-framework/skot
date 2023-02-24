@@ -30,15 +30,6 @@ android {
     }
     compileSdk = Versions.Android.compileSdk
 
-    sourceSets {
-        getByName("main").res.srcDirs("src/androidMain/res_tests")
-    }
-
-    buildFeatures {
-        viewBinding = true
-    }
-
-
 }
 
 
@@ -59,6 +50,9 @@ kotlin {
     sourceSets["androidMain"].dependencies {
     }
 
+//    sourceSets["androidInstrumentedTest"].resources.srcDir("src/androidInstrumentedTest/res")
+
+    println("-----@@@@@@@---- ${sourceSets.asMap}")
 
 }
 

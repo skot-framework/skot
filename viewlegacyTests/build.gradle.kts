@@ -21,10 +21,7 @@ android {
         minSdk = Versions.Android.minSdk
     }
     compileSdk = Versions.Android.compileSdk
-
-    buildFeatures {
-        viewBinding = true
-    }
+    
 }
 
 

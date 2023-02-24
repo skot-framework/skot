@@ -10,7 +10,9 @@ version = Versions.version
 
 
 kotlin {
-    jvm("jvm")
+    jvm()
+
+    ios()
 
     sourceSets {
 

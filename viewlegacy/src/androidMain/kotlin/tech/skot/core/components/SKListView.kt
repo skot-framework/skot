@@ -23,6 +23,7 @@ class SKListView(
     inner class ViewHolder(idLayout: Int, parent: ViewGroup) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(idLayout, parent, false)
     ) {
+        var bindedOnce:Boolean = false
         var componentView: SKComponentView<*>? = null
     }
 
@@ -40,6 +41,10 @@ class SKListView(
                 val componentViewImpl =
                     proxy.first.bindToItemView(activity, fragment, holder.itemView)
                 holder.componentView = componentViewImpl
+                if (!holder.bindedOnce) {
+                    holder.bindedOnce = true
+                    componentViewImpl.onFirstBind()
+                }
                 mapProxyIndexComponentViewImpl[proxy.first] = componentViewImpl
             }
         }

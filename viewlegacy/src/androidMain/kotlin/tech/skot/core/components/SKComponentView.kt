@@ -61,6 +61,10 @@ abstract class SKComponentView<B : Any>(
 
     }
 
+    open fun onFirstBind() {
+
+    }
+
 
     fun <D> SKMessage<D>.observe(onReceive: (D) -> Unit) {
         setObserver(lifecycleOwner = lifecycleOwner, onReceive)

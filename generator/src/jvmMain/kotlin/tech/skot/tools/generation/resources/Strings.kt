@@ -4,13 +4,17 @@ import com.squareup.kotlinpoet.*
 import org.jetbrains.kotlin.util.capitalizeDecapitalize.decapitalizeAsciiOnly
 import tech.skot.tools.generation.*
 import java.nio.file.Files
-import java.util.stream.Collectors
+import kotlin.io.path.exists
+import kotlin.streams.toList
 
 
 fun Generator.generateStrings() {
 
-    val values = rootPath.resolve(modules.view).resolve("src/androidMain/res_referenced/values")
-
+    val values =
+        (listOf(rootPath.resolve(modules.view).resolve("src/androidMain/res_referenced/values"))
+                + variantsCombinaison.map {
+            rootPath.resolve(modules.view).resolve("src/androidMain/res${it}_referenced/values")
+        }).filter { it.exists() }
 
 
     println("strings .........")
@@ -21,17 +25,16 @@ fun Generator.generateStrings() {
     }.map { "%" + it }.joinToString(separator = "_")
 
     val pairsStringsPatterns =
-        if (!Files.exists(values)) {
-            emptyList()
-        } else {
-
-            Files.list(values).flatMap {
-                it.getDocumentElement().childElements().stream().filter { it.tagName == "string" }
-                    .map {
-                        Pair(it.getAttribute("name"), it.textContent.patterns())
-                    }
-            }.collect(Collectors.toList())
+        values.flatMap {
+            Files.list(it).toList()
+        }.flatMap {
+            println("File will be parsed : $it")
+            it.getDocumentElement().childElements().filter { it.tagName == "string" }
+                .map {
+                    Pair(it.getAttribute("name"), it.textContent.patterns())
+                }
         }
+
 
     val strings = pairsStringsPatterns.map { it.first }
 
@@ -72,7 +75,7 @@ fun Generator.generateStrings() {
 //        .addModifiers(KModifier.OVERRIDE)
 //        .build()
 
-    fun TypeSpec.Builder.stringsImplTypeSpecBuilder(override:Boolean) {
+    fun TypeSpec.Builder.stringsImplTypeSpecBuilder(override: Boolean) {
         if (override) {
             addSuperinterface(stringsInterface)
         }
@@ -115,9 +118,9 @@ fun Generator.generateStrings() {
             strings.map {
                 PropertySpec.builder(it.toStringsPropertyName(), String::class)
                     .apply {
-                     if (override) {
-                         addModifiers(KModifier.OVERRIDE)
-                     }
+                        if (override) {
+                            addModifiers(KModifier.OVERRIDE)
+                        }
                     }
                     .getter(
                         FunSpec.getterBuilder()

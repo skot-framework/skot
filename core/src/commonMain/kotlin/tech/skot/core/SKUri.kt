@@ -22,6 +22,10 @@ data class SKUri(
             }
         }
     }
+
+    val path:String by lazy {
+        pathSegments.joinToString("/", prefix = "/")
+    }
 }
 
 expect fun String.toSKUri(): SKUri?

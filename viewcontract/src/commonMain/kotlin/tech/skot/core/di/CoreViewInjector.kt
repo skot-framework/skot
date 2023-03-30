@@ -12,11 +12,28 @@ interface CoreViewInjector {
     fun snackBar(): SKSnackBarVC
     fun bottomSheet(): SKBottomSheetVC
     fun dialog(): SKDialogVC
-    fun windowPopup() : SKWindowPopupVC
-    fun pager(screens:List<SKScreenVC>, onSwipeToPage:((index:Int)->Unit)?, initialSelectedPageIndex:Int, swipable:Boolean): SKPagerVC
-    fun pagerWithTabs(pager:SKPagerVC, tabConfigs:List<SKPagerWithTabsVC.TabConfig>, tabsVisibility : SKPagerWithTabsVC.Visibility): SKPagerWithTabsVC
-    fun skList(layoutMode:SKListVC.LayoutMode, reverse:Boolean, animate:Boolean, animateItem:Boolean): SKListVC
-    fun skBox(itemsInitial:List<SKComponentVC>, hiddenInitial: Boolean?): SKBoxVC
+    fun windowPopup(): SKWindowPopupVC
+    fun pager(
+        screens: List<SKScreenVC>,
+        onUserSwipeToPage: ((index: Int) -> Unit)?,
+        initialSelectedPageIndex: Int,
+        swipable: Boolean,
+    ): SKPagerVC
+
+    fun pagerWithTabs(
+        pager: SKPagerVC,
+        tabConfigs: List<SKPagerWithTabsVC.TabConfig>,
+        tabsVisibility: SKPagerWithTabsVC.Visibility,
+    ): SKPagerWithTabsVC
+
+    fun skList(
+        layoutMode: SKListVC.LayoutMode,
+        reverse: Boolean,
+        animate: Boolean,
+        animateItem: Boolean,
+    ): SKListVC
+
+    fun skBox(itemsInitial: List<SKComponentVC>, hiddenInitial: Boolean?): SKBoxVC
     fun webView(config: SKWebViewVC.Config, launchInitial: SKWebViewVC.Launch?): SKWebViewVC
     fun frame(screens: Set<SKScreenVC>, screenInitial: SKScreenVC?): SKFrameVC
     fun loader(): SKLoaderVC
@@ -25,29 +42,29 @@ interface CoreViewInjector {
         onInputText: (newText: String?) -> Unit,
         type: SKInputVC.Type?,
         maxSize: Int?,
-        onFocusChange: ((hasFocus:Boolean) -> Unit)?,
+        onFocusChange: ((hasFocus: Boolean) -> Unit)?,
         onDone: ((text: String?) -> Unit)?,
         hintInitial: String?,
         textInitial: String?,
         errorInitial: String?,
         hiddenInitial: Boolean?,
         enabledInitial: Boolean?,
-        showPasswordInitial: Boolean?
-    ) : SKInputVC
+        showPasswordInitial: Boolean?,
+    ): SKInputVC
 
     fun inputSimple(
         onInputText: (newText: String?) -> Unit,
         type: SKInputVC.Type?,
         maxSize: Int?,
-        onFocusChange: ((hasFocus:Boolean) -> Unit)?,
+        onFocusChange: ((hasFocus: Boolean) -> Unit)?,
         onDone: ((text: String?) -> Unit)?,
         hintInitial: String?,
         textInitial: String?,
         errorInitial: String?,
         hiddenInitial: Boolean?,
         enabledInitial: Boolean?,
-        showPasswordInitial: Boolean?
-    ) : SKSimpleInputVC
+        showPasswordInitial: Boolean?,
+    ): SKSimpleInputVC
 
     fun combo(
         hint: String?,
@@ -57,8 +74,8 @@ interface CoreViewInjector {
         selectedInitial: SKComboVC.Choice?,
         enabledInitial: Boolean?,
         hiddenInitial: Boolean?,
-        dropDownDisplayedInitial:Boolean,
-        oldSchoolModeHint: Boolean
+        dropDownDisplayedInitial: Boolean,
+        oldSchoolModeHint: Boolean,
     ): SKComboVC
 
     fun inputWithSuggestions(
@@ -69,9 +86,9 @@ interface CoreViewInjector {
         selectedInitial: SKComboVC.Choice?,
         enabledInitial: Boolean?,
         hiddenInitial: Boolean?,
-        dropDownDisplayedInitial:Boolean,
-        onInputText:(input:String?) -> Unit,
-        oldSchoolModeHint: Boolean
+        dropDownDisplayedInitial: Boolean,
+        onInputText: (input: String?) -> Unit,
+        oldSchoolModeHint: Boolean,
     ): SKInputWithSuggestionsVC
 
 
@@ -80,14 +97,14 @@ interface CoreViewInjector {
         labelInitial: String?,
         enabledInitial: Boolean?,
         hiddenInitial: Boolean?,
-        debounce:Long?
-    ):SKButtonVC
+        debounce: Long?,
+    ): SKButtonVC
 
     fun imageButton(
         onTapInitial: (() -> Unit)?,
         iconInitial: Icon,
         enabledInitial: Boolean?,
         hiddenInitial: Boolean?,
-        debounce:Long?
-    ):SKImageButtonVC
+        debounce: Long?,
+    ): SKImageButtonVC
 }

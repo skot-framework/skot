@@ -7,7 +7,7 @@ import tech.skot.view.live.MutableSKLiveData
 
 class SKPagerViewProxy(
     initialScreens: List<SKScreenViewProxy<*>>,
-    override val onSwipeToPage: ((index: Int) -> Unit)?,
+    override val onUserSwipeToPage:((index:Int)->Unit)?,
     initialSelectedPageIndex: Int,
     override val swipable: Boolean
 ) : SKComponentViewProxy<ViewPager2>(), SKPagerVC {
@@ -34,7 +34,7 @@ class SKPagerViewProxy(
         binding: ViewPager2
     ) =
         SKPagerView(this, activity, fragment, binding).apply {
-            onOnSwipeToPage(onSwipeToPage)
+            onOnUserSwipeToPage(onUserSwipeToPage)
             onSwipable(swipable)
             selectedPageIndexLD.observe {
                 onSelectedPageIndex(it)

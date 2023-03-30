@@ -1,6 +1,8 @@
 package tech.skot.core.components
 
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 
@@ -30,24 +32,48 @@ class SKPagerView(
         }
     }
 
-    private var swipedOnce: Boolean = false
 
-    fun onOnSwipeToPage(onSwipeToPage: ((index: Int) -> Unit)?) {
-        //Attention, on a un pageSelected à 0 lancé au premier affichage
+    private var onUserSwipeCallBack: ViewPager2.OnPageChangeCallback? = null
+    fun onOnUserSwipeToPage(onSwipeToPage: ((index: Int) -> Unit)?) {
+        var userSwipe: Boolean = false
         viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageScrollStateChanged(state: Int) {
+                when (state) {
+                    ViewPager2.SCROLL_STATE_DRAGGING -> userSwipe = true
+                    ViewPager2.SCROLL_STATE_IDLE -> userSwipe = false
+                }
+            }
+
             override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                if (swipedOnce || position != 0 || proxy.selectedPageIndex == 0) {
+                if (userSwipe) {
                     proxy.selectedPageIndex = position
                     onSwipeToPage?.invoke(position)
                 }
-                swipedOnce = true
             }
-        })
-
+        }.also { onUserSwipeCallBack = it })
 
     }
 
+    init {
+        lifecycleOwner.skLifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
+                super.onDestroy(owner)
+                unregisterCallBack()
+            }
+        })
+    }
+
+    private fun unregisterCallBack() {
+        onUserSwipeCallBack?.let {
+            viewPager2.unregisterOnPageChangeCallback(it)
+            onUserSwipeCallBack = null
+        }
+    }
+
+    override fun onRecycle() {
+        super.onRecycle()
+        unregisterCallBack()
+    }
 
     fun onSwipable(value: Boolean) {
         viewPager2.isUserInputEnabled = value

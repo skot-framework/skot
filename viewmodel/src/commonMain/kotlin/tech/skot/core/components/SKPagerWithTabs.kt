@@ -7,7 +7,7 @@ import tech.skot.core.view.skSpannedString
 
 class SKPagerWithTabs(
     initialPages: List<TabPage> = emptyList(),
-    onSwipeToPage: ((index: Int) -> Unit)? = null,
+    onUserSwipeToPage: ((index: Int) -> Unit)? = null,
     initialSelectedPageIndex: Int = 0,
     swipable: Boolean = false,
     initialTabsVisibility: SKPagerWithTabsVC.Visibility = SKPagerWithTabsVC.Visibility.Visible
@@ -30,7 +30,7 @@ class SKPagerWithTabs(
 
     val pager = SKPager(
         initialScreens = initialPages.map { it.screen },
-        onSwipeToPage = onSwipeToPage,
+        onUserSwipeToPage = onUserSwipeToPage,
         initialSelectedPageIndex = initialSelectedPageIndex,
         swipable = swipable
     )

@@ -1,7 +1,7 @@
 object Versions {
 
     const val group = "tech.skot"
-    const val version = "1.2.8"
+    const val version = "1.2.9"
 
     const val kotlin = "1.8.0"
     const val kotlinCoroutines = "1.6.4"

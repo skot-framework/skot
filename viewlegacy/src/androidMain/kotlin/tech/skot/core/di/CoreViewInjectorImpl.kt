@@ -25,12 +25,12 @@ class CoreViewInjectorImpl : CoreViewInjector {
 
     override fun pager(
         screens: List<SKScreenVC>,
-        onSwipeToPage: ((index: Int) -> Unit)?,
+        onUserSwipeToPage:  ((index: Int) -> Unit)?,
         initialSelectedPageIndex: Int,
         swipable: Boolean
     ) = SKPagerViewProxy(
         initialScreens = screens as List<SKScreenViewProxy<*>>,
-        onSwipeToPage = onSwipeToPage,
+        onUserSwipeToPage = onUserSwipeToPage,
         initialSelectedPageIndex = initialSelectedPageIndex,
         swipable = swipable
     )

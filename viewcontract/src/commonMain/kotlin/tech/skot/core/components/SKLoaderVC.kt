@@ -1,6 +1,6 @@
 package tech.skot.core.components
 
-@SKLegacyViewIncluded
+//@SKLegacyViewIncluded
 @SKLayoutIsSimpleView
 interface SKLoaderVC : SKComponentVC {
     var visible: Boolean

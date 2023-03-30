@@ -122,14 +122,15 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
         withLoader: Boolean = false,
         specificErrorTreatment: ((ex: Exception) -> Unit)? = null,
         errorMessage: String? = null,
+        specificLoader:SKLoader? = null,
         block: suspend CoroutineScope.() -> Unit,
     ): Job =
-        if (withLoader && loader == null) {
+        if (withLoader && specificLoader == null && loader == null) {
             throw IllegalStateException("You have to override loader property to launchWithLoader")
         } else {
             launch(context, start) {
                 if (withLoader) {
-                    loader?.workStarted()
+                    (specificLoader ?: loader)?.workStarted()
                 }
                 try {
                     block()
@@ -139,7 +140,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
                     }
                 } finally {
                     if (withLoader) {
-                        loader?.workEnded()
+                        (specificLoader ?: loader)?.workEnded()
                     }
                 }
 
@@ -150,6 +151,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
         context: CoroutineContext = EmptyCoroutineContext,
         start: CoroutineStart = CoroutineStart.DEFAULT,
         errorMessage: String? = null,
+        specificLoader:SKLoader? = null,
         block: suspend CoroutineScope.() -> Unit,
     ): Job =
         launchWithOptions(
@@ -157,6 +159,7 @@ abstract class SKComponent<out V : SKComponentVC> : CoroutineScope {
             start = start,
             errorMessage = errorMessage,
             withLoader = true,
+            specificLoader = specificLoader,
             block = block
         )
 

@@ -60,6 +60,21 @@ class SKWebViewView(
                     return super.shouldOverrideUrlLoading(view, request)
                 }
 
+                override fun onReceivedHttpAuthRequest(
+                    view: WebView?,
+                    handler: HttpAuthHandler?,
+                    host: String?,
+                    realm: String?
+                ) {
+                    config.onHttpAuthRequest?.invoke(host, realm) { login, password ->
+                        if(login == null || password == null){
+                           super.onReceivedHttpAuthRequest(view, handler, host, realm)
+                        }else {
+                            handler?.proceed(login, password)
+                        }
+                    } ?: super.onReceivedHttpAuthRequest(view, handler, host, realm)
+                }
+
                 override fun onPageFinished(view: WebView?, url: String?) {
                     openingUrl?.finished(url)
                     config.javascriptOnFinished?.let {
@@ -96,7 +111,22 @@ class SKWebViewView(
             }
 
         } else {
+
+
+
+
             webView.webViewClient = object : WebViewClient() {
+                override fun onReceivedHttpAuthRequest(
+                    view: WebView?,
+                    handler: HttpAuthHandler?,
+                    host: String?,
+                    realm: String?
+                ) {
+                    config.onHttpAuthRequest?.invoke(host, realm) { login, password ->
+                        handler?.proceed(login, password)
+                    }
+                }
+
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
 
                     url?.let { Uri.parse(url).toSKUri() }?.let { skUri ->

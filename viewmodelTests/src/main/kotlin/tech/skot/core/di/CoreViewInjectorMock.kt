@@ -45,9 +45,10 @@ class CoreViewInjectorMock : CoreViewInjector {
 
     override fun pagerWithTabs(
         pager: SKPagerVC,
+        onUserTabClick: ((index: Int) -> Unit)?,
         tabConfigs: List<SKPagerWithTabsVC.TabConfig>,
         visibility : SKPagerWithTabsVC.Visibility): SKPagerWithTabsVC {
-        return SKPagerWithTabsViewMock(pager, tabConfigs, visibility)
+        return SKPagerWithTabsViewMock(pager, onUserTabClick, tabConfigs, visibility)
     }
 
 

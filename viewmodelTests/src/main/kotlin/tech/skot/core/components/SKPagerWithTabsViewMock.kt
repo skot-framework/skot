@@ -7,12 +7,14 @@ import kotlin.test.fail
 
 class SKPagerWithTabsViewMock(
     pager: SKPagerVC,
+    onUserTabClick: ((index: Int) -> Unit)?,
     tabConfigs: List<SKPagerWithTabsVC.TabConfig>,
     tabsVisibility: SKPagerWithTabsVC.Visibility
 ) : SKComponentViewMock(), SKPagerWithTabsVC {
     override val pager: SKPagerVC = pager
     override var tabConfigs: List<SKPagerWithTabsVC.TabConfig> = tabConfigs
     override var tabsVisibility: SKPagerWithTabsVC.Visibility = tabsVisibility
+    override val onUserTabClick = onUserTabClick
 
 
 }

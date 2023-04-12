@@ -38,11 +38,13 @@ class CoreViewInjectorImpl : CoreViewInjector {
 
     override fun pagerWithTabs(
         pager: SKPagerVC,
+        onUserTabClick: ((index: Int) -> Unit)?,
         tabConfigs: List<SKPagerWithTabsVC.TabConfig>,
         tabsVisibility: SKPagerWithTabsVC.Visibility
     ) =
         SKPagerWithTabsViewProxy(
             pager = pager as SKPagerViewProxy,
+            onUserTabClick = onUserTabClick,
             initialTabConfigs = tabConfigs,
             initialTabsVisibility = tabsVisibility
         )

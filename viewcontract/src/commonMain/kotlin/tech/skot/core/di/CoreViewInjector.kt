@@ -22,6 +22,7 @@ interface CoreViewInjector {
 
     fun pagerWithTabs(
         pager: SKPagerVC,
+        onUserTabClick: ((index: Int) -> Unit)?,
         tabConfigs: List<SKPagerWithTabsVC.TabConfig>,
         tabsVisibility: SKPagerWithTabsVC.Visibility,
     ): SKPagerWithTabsVC

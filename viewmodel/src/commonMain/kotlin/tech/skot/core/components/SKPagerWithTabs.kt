@@ -3,11 +3,11 @@ package tech.skot.core.components
 import tech.skot.core.di.coreViewInjector
 import tech.skot.core.view.Icon
 import tech.skot.core.view.SKSpannedString
-import tech.skot.core.view.skSpannedString
 
 class SKPagerWithTabs(
     initialPages: List<TabPage> = emptyList(),
     onUserSwipeToPage: ((index: Int) -> Unit)? = null,
+    onUserTabClick: ((index: Int) -> Unit)? = null,
     initialSelectedPageIndex: Int = 0,
     swipable: Boolean = false,
     initialTabsVisibility: SKPagerWithTabsVC.Visibility = SKPagerWithTabsVC.Visibility.Visible
@@ -89,7 +89,12 @@ class SKPagerWithTabs(
     }
 
     override val view =
-        coreViewInjector.pagerWithTabs(pager.view, mapTabConfig(initialPages), initialTabsVisibility)
+        coreViewInjector.pagerWithTabs(
+            pager = pager.view,
+            onUserTabClick = onUserTabClick,
+            tabConfigs = mapTabConfig(initialPages),
+            tabsVisibility = initialTabsVisibility
+        )
 
     override fun onRemove() {
         pager.onRemove()

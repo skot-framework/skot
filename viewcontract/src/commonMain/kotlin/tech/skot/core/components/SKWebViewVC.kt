@@ -24,7 +24,7 @@ interface SKWebViewVC : SKComponentVC {
 
 
     sealed class Launch(){
-        abstract val onFinished: (() -> Unit)?
+        abstract val onFinished: ((title : String?) -> Unit)?
         abstract val javascriptOnFinished: String?
         abstract val removeCookies:Boolean
         abstract val cookie:Pair<String,String>?
@@ -32,7 +32,7 @@ interface SKWebViewVC : SKComponentVC {
 
         data class OpenUrl(
             override val url: String,
-            override val onFinished: (() -> Unit)? = null,
+            override val onFinished: ((title : String?) -> Unit)? = null,
             override val javascriptOnFinished: String? = null,
             val onError: (() -> Unit)? = null,
             override val removeCookies:Boolean = false,
@@ -44,7 +44,7 @@ interface SKWebViewVC : SKComponentVC {
          */
         data class OpenUrlWithHeader(
             override val url: String,
-            override val onFinished: (() -> Unit)? = null,
+            override val onFinished: ((title : String?) -> Unit)? = null,
             override val javascriptOnFinished: String? = null,
             val onError: (() -> Unit)? = null,
             val headers: Map<String,String> = emptyMap(),
@@ -57,7 +57,7 @@ interface SKWebViewVC : SKComponentVC {
          */
         data class OpenPostUrl(
             override val url: String,
-            override val onFinished: (() -> Unit)? = null,
+            override val onFinished: ((title : String?) -> Unit)? = null,
             override val javascriptOnFinished: String? = null,
             val onError: (() -> Unit)? = null,
             val post: Map<String, String> = emptyMap(),
@@ -74,7 +74,7 @@ interface SKWebViewVC : SKComponentVC {
         data class LoadData(
             val data : String,
             override val url: String?,
-            override val onFinished: (() -> Unit)? = null,
+            override val onFinished: ((title : String?) -> Unit)? = null,
             override val javascriptOnFinished: String? = null,
             override val removeCookies:Boolean = false,
             override val cookie:Pair<String,String>? = null

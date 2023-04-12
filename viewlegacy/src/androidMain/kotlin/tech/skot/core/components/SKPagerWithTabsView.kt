@@ -24,6 +24,13 @@ class SKPagerWithTabsView(
         tabLayoutMediator = TabLayoutMediator(
             tabLayout, viewPager2
         ) { tab, index ->
+            tab.view.setOnTouchListener { v, event ->
+                if(!tab.isSelected) {
+                    proxy.onUserTabClick?.invoke(tab.position)
+                    proxy.pager.selectedPageIndex = tab.position
+                }
+                false
+            }
             when (val tabConfig = tabConfigs.get(index)) {
                 is SKPagerWithTabsVC.TabConfig.Icon -> {
                     tab.setIcon(tabConfig.icon.res)

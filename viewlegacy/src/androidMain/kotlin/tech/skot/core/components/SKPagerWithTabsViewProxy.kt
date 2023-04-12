@@ -8,6 +8,7 @@ import tech.skot.view.live.MutableSKLiveData
 
 class SKPagerWithTabsViewProxy(
     override val pager: SKPagerViewProxy,
+    override val onUserTabClick: ((index: Int) -> Unit)?,
     initialTabConfigs: List<SKPagerWithTabsVC.TabConfig>,
     initialTabsVisibility: SKPagerWithTabsVC.Visibility,
 ) : SKComponentViewProxy<View>(), SKPagerWithTabsVC {

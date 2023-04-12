@@ -5,6 +5,7 @@ import tech.skot.core.view.SKSpannedString
 @SKLayoutIsSimpleView
 interface SKPagerWithTabsVC : SKComponentVC {
     val pager: SKPagerVC
+    val onUserTabClick: ((index: Int) -> Unit)?
     var tabConfigs: List<TabConfig>
     var tabsVisibility: Visibility
 

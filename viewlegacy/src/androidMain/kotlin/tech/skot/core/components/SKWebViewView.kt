@@ -211,7 +211,7 @@ class SKWebViewView(
 
         if (finishedUrl == escapedUrl || finishedUrl == "$escapedUrl/" || oneRedirectionAskedForCurrentOpenUrl) {
             openingUrl = null
-            onFinished?.invoke()
+            onFinished?.invoke(webView.title)
             javascriptOnFinished?.let {
                 webView.evaluateJavascript(it, null)
             }

@@ -15,4 +15,9 @@ class SKWebViewViewMock(config: SKWebViewVC.Config,
     override fun requestReload() {
         requestReloadCount++
     }
+
+    var requestEvaluateJavascript= 0
+    override fun evaluateJavascript(js: String, onResult: (String) -> Unit) {
+        requestEvaluateJavascript++
+    }
 }

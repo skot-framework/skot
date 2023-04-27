@@ -13,6 +13,11 @@ class SKWebView(config: SKWebViewVC.Config, launch: SKWebViewVC.Launch?) :
         view.goBack = SKWebViewVC.BackRequest(onCantBack)
     }
 
+    fun evaluateJavascript(js : String, onResult :(String)-> Unit){
+        view.evaluateJavascript(js, onResult)
+    }
+
+
     fun forward() {
         view.requestGoForward()
     }

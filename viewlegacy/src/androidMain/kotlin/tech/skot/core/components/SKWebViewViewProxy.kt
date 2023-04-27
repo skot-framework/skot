@@ -34,6 +34,11 @@ class SKWebViewViewProxy(
         requestReloadMessage.post(Unit)
     }
 
+    private val requestEvaluateJavascript = SKMessage<Pair<String,(String) -> Unit>>()
+    override fun evaluateJavascript(js: String, onResult: (String) -> Unit) {
+        requestEvaluateJavascript.post(Pair(js, onResult))
+    }
+
     override fun bindTo(activity: SKActivity, fragment: Fragment?, binding: WebView) =
             SKWebViewView(this, activity, fragment, binding).apply {
                 onConfig(config)
@@ -48,6 +53,9 @@ class SKWebViewViewProxy(
                 }
                 requestReloadMessage.observe {
                     onRequestReload()
+                }
+                requestEvaluateJavascript.observe {
+                    onEvaluateJavascript(it.first, it.second)
                 }
             }
 

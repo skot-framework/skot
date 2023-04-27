@@ -133,9 +133,10 @@ class PluginTools : Plugin<Project> {
                         try {
                             project.javaexec {
                                 workingDir = project.rootDir
-                                main = "com.pinterest.ktlint.Main"
+                                mainClass.set("com.pinterest.ktlint.Main")
                                 classpath = sourceSet.runtimeClasspath
                                 args = listOf("-F", srcs, "--disabled_rules=parameter-list-wrapping")
+                                jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED")
                             }
                         }
                         catch (ex:Exception) {

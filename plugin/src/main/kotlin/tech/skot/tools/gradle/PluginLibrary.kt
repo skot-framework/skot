@@ -48,7 +48,7 @@ class PluginLibrary: Plugin<Project> {
 
         jvm()
 
-        ios()
+        //ios()
 
         android {
             publishLibraryVariants("release")

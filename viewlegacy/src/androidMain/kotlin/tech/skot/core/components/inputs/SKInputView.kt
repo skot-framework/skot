@@ -34,7 +34,7 @@ abstract class SKInputViewCommon<V : View>(
 
     override fun onOnFocusChange(onFocusChange: ((Boolean) -> Unit)?) {
         if (onFocusChange != null) {
-            editText.setOnFocusChangeListener { v, hasFocus ->
+            editText.setOnFocusChangeListener { _, hasFocus ->
                 onFocusChange.invoke(hasFocus)
             }
         }

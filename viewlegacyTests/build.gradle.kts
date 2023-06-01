@@ -13,6 +13,11 @@ kotlin {
     android("android") {
         publishLibraryVariants("release", "debug")
         publishLibraryVariantsGroupedByFlavor = true
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "1.8"
+            }
+        }
     }
 }
 
@@ -21,7 +26,9 @@ android {
         minSdk = Versions.Android.minSdk
     }
     compileSdk = Versions.Android.compileSdk
-    
+    namespace = "tech.skot.viewlegacytests"
+
+
 }
 
 

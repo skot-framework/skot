@@ -8,11 +8,13 @@ import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import tech.skot.Versions
+import tech.skot.Versions.kotlin
 
 open class SKPluginModelContractExtension {
     var buildFiles: List<Any>? = null
 }
 
+@Suppress("UnstableApiUsage")
 class PluginModelContract : Plugin<Project> {
 
     override fun apply(project: Project) {
@@ -24,6 +26,7 @@ class PluginModelContract : Plugin<Project> {
         project.extensions.findByType(LibraryExtension::class)?.conf(project, extension)
 
         project.extensions.findByType(KotlinMultiplatformExtension::class)?.conf(project)
+
 
 
         project.afterEvaluate {
@@ -61,6 +64,9 @@ class PluginModelContract : Plugin<Project> {
         androidBaseConfig(project)
 
 
+
+
+
         sourceSets {
             getByName("main").java.srcDirs("generated/androidMain/kotlin")
 //            getByName("main").java.srcDirs("generated/commonMain/kotlin")
@@ -75,7 +81,13 @@ class PluginModelContract : Plugin<Project> {
 
     private fun KotlinMultiplatformExtension.conf(project: Project) {
         jvm()
-        android()
+        android {
+            compilations.all {
+                kotlinOptions {
+                    jvmTarget = "1.8"
+                }
+            }
+        }
 
 
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")

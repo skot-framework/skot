@@ -4,6 +4,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 
 class SKLifecycle(private val parent: Lifecycle) : Lifecycle() {
+
+
     override fun addObserver(observer: LifecycleObserver) {
         parent.addObserver(observer)
     }
@@ -14,13 +16,11 @@ class SKLifecycle(private val parent: Lifecycle) : Lifecycle() {
 
     var recycled: Boolean = false
 
-    override fun getCurrentState(): State {
-        return if (recycled) {
+    override val currentState: State
+        get() = if (recycled) {
             State.DESTROYED
         } else {
             parent.currentState
         }
-    }
-
 }
 

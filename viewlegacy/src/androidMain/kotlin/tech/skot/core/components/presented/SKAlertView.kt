@@ -78,17 +78,17 @@ class SKAlertView(override val proxy: SKAlertViewProxy, activity: SKActivity, fr
                             setPositiveButton(
                                 state.mainButton.label,
                                 state.mainButton.action?.let { action ->
-                                    DialogInterface.OnClickListener { p0, p1 -> action() }
+                                    DialogInterface.OnClickListener { _, _ -> action() }
                                 })
 
                             state.secondaryButton?.let { button ->
                                 setNegativeButton(button.label, button.action?.let { action ->
-                                    DialogInterface.OnClickListener { p0, p1 -> action() }
+                                    DialogInterface.OnClickListener { _, _ -> action() }
                                 })
                             }
                             state.neutralButton?.let { button ->
                                 setNeutralButton(button.label, button.action?.let { action ->
-                                    DialogInterface.OnClickListener { p0, p1 -> action() }
+                                    DialogInterface.OnClickListener { _, _ -> action() }
                                 })
                             }
                         }

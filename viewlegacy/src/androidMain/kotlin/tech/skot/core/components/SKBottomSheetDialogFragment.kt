@@ -69,6 +69,7 @@ class SKBottomSheetDialogFragment() : BottomSheetDialogFragment() {
     }
 
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         (view?.parent as? View?)?.apply {

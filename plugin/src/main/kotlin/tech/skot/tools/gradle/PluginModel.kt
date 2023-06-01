@@ -12,6 +12,7 @@ import tech.skot.Versions
 //    var message: String? = null
 //}
 
+@Suppress("UnstableApiUsage")
 class PluginModel: Plugin<Project> {
 
     override fun apply(project: Project) {
@@ -45,17 +46,20 @@ class PluginModel: Plugin<Project> {
 
         }
 
-        packagingOptions {
-            exclude("META-INF/*.kotlin_module")
-            exclude("META-INF/*")
+        packaging {
+            resources.excludes.add("META-INF/*.kotlin_module")
+            resources.excludes.add("META-INF/*")
         }
-
-
-
     }
 
     private fun KotlinMultiplatformExtension.conf(project: Project) {
-        android()
+        android {
+            compilations.all {
+                kotlinOptions {
+                    jvmTarget = "1.8"
+                }
+            }
+        }
         jvm()
 
 

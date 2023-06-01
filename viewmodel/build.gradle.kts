@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -18,6 +20,11 @@ kotlin {
 
     android {
         publishLibraryVariants("release")
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "1.8"
+            }
+        }
     }
 
     sourceSets {
@@ -42,6 +49,8 @@ android {
         minSdk = Versions.Android.minSdk
     }
     compileSdk = Versions.Android.compileSdk
+    namespace = "tech.skot.viewmodel"
+
 
     sourceSets {
         getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")

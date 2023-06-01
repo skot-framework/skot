@@ -127,7 +127,7 @@ abstract class SKActivity : AppCompatActivity() {
                     it.requestApplyInsets()
                 } else {
                     val loadingIndex = loadingInsetsCounter
-                    ViewCompat.setOnApplyWindowInsetsListener(it) { view, windowInsets ->
+                    ViewCompat.setOnApplyWindowInsetsListener(it) { _, windowInsets ->
                         if (loadingInsetsCounter == loadingIndex) {
                             ViewCompat.setOnApplyWindowInsetsListener(it, null)
                             it.updatePadding(

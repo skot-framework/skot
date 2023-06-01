@@ -13,6 +13,7 @@ version = Versions.version
 kotlin {
     jvm("jvm")
 
+
     sourceSets {
         val jvmMain by getting {
 
@@ -84,3 +85,8 @@ if (!localPublication) {
     }
 }
 
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}

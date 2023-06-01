@@ -3,17 +3,16 @@ package tech.skot.tools.gradle
 import com.android.build.gradle.LibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import tech.skot.Versions
-import kotlin.reflect.KClass
 
 //open class SKPluginLibraryExtension {
 //    var message: String? = null
 //}
 
+@Suppress("UnstableApiUsage")
 class PluginLibrary: Plugin<Project> {
 
     override fun apply(project: Project) {
@@ -32,9 +31,9 @@ class PluginLibrary: Plugin<Project> {
     private fun LibraryExtension.conf() {
 
         defaultConfig {
-            minSdkVersion(Versions.android_minSdk)
+            minSdk = Versions.android_minSdk
         }
-        compileSdkVersion(Versions.android_compileSdk)
+        compileSdk = Versions.android_compileSdk
 
         sourceSets {
             getByName("main").java.srcDirs("src/androidMain/kotlin")
@@ -51,6 +50,11 @@ class PluginLibrary: Plugin<Project> {
         //ios()
 
         android {
+                compilations.all {
+                    kotlinOptions {
+                        jvmTarget = "1.8"
+                    }
+                }
             publishLibraryVariants("release")
         }
 

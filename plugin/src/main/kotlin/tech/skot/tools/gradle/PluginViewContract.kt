@@ -12,6 +12,7 @@ import tech.skot.tools.gradle.SKLibrary.Companion.addDependenciesToLibraries
 //open class SKPluginViewContractExtension {
 //}
 
+@Suppress("UnstableApiUsage")
 class PluginViewContract : Plugin<Project> {
 
     override fun apply(project: Project) {
@@ -47,7 +48,13 @@ class PluginViewContract : Plugin<Project> {
 
     private fun KotlinMultiplatformExtension.conf(project: Project) {
         jvm()
-        android()
+        android {
+            compilations.all {
+                kotlinOptions {
+                    jvmTarget = "1.8"
+                }
+            }
+        }
 
 
         sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")

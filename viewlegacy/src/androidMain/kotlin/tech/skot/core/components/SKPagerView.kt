@@ -55,7 +55,7 @@ class SKPagerView(
     }
 
     init {
-        lifecycleOwner.skLifecycle.addObserver(object : DefaultLifecycleObserver {
+        lifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onDestroy(owner: LifecycleOwner) {
                 super.onDestroy(owner)
                 unregisterCallBack()

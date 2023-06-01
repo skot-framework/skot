@@ -1,3 +1,5 @@
+import java.util.Locale
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -20,6 +22,11 @@ kotlin {
 
     android {
         publishLibraryVariants("release")
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "1.8"
+            }
+        }
     }
 
 
@@ -90,14 +97,15 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileSdk = Versions.Android.compileSdk
+    namespace = "tech.skot.model"
 
 
 
-    packagingOptions {
+    packaging {
         if (gradle.startParameter.taskNames.any {
-                it.toUpperCase().contains("ANDROIDTEST")
+                it.uppercase(Locale.getDefault()).contains("ANDROIDTEST")
             }) {
-            exclude("META-INF/*")
+            resources.excludes.add("META-INF/*")
         }
     }
 

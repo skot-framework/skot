@@ -5,6 +5,7 @@ import kotlinx.serialization.json.Json
 import org.gradle.api.Project
 import tech.skot.tools.generation.writeStringTo
 import java.nio.file.Files
+import kotlin.math.max
 
 fun Project.skVersionCodePropertiesPath() = rootProject.rootDir.toPath().resolve("skot_version_code.properties")
 
@@ -17,6 +18,9 @@ fun Project.skSetVersionCode(newVersionCode:Int) {
 
 @Serializable
 data class UploadedInfos(val commit:String?, val buildNumber:Int)
+
+@Serializable
+data class ParseUploadedInfosResponse(val result : UploadedInfos)
 val json by lazy {
     Json {
         ignoreUnknownKeys = true
@@ -34,15 +38,21 @@ private fun Project.skComputeVersionCodeAndReleaseNote(nbMaxCommitsInReleaseNote
                     val strInfos = commandLine("scripts/versions/getLastUploadedInfos.sh")
 //                    val tab = strInfos.split("_")
 //                    UploadedInfos(tab[0], tab[1].toInt())
-                    json.decodeFromString(UploadedInfos.serializer(), strInfos)
+                    if(strInfos.contains("result")){
+                        //back4app version server
+                        json.decodeFromString(ParseUploadedInfosResponse.serializer(), strInfos).result
+                    }else {
+                        //ua version server
+                        json.decodeFromString(UploadedInfos.serializer(), strInfos)
+                    }
                 }
-                catch (exception:kotlin.Exception) {
+                catch (exception: Exception) {
                     null
                 }
             println("--fetched last uploaded infos = $lastUploadedInfos")
             val currentVersionCode = skVersionCode()
             if (lastUploadedInfos != null) {
-                skSetVersionCode(Math.max(lastUploadedInfos.buildNumber, currentVersionCode + 1))
+                skSetVersionCode(max(lastUploadedInfos.buildNumber, currentVersionCode + 1))
                 val lastCommitHashes = commandLine("git", "show", "-s", "--format=%h", "-$nbMaxCommitsInReleaseNote").split("\n").filter { it.isNotBlank() }
                 val lastUploadCommitIndex = lastCommitHashes.indexOf(lastUploadedInfos.commit)
                 val nbCommitsInNote = if (lastUploadCommitIndex != -1) {

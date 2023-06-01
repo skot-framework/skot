@@ -3,17 +3,16 @@ package tech.skot.tools.gradle
 import com.android.build.gradle.LibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import tech.skot.Versions
-import kotlin.reflect.KClass
 
 //open class SKPluginViewModelExtension {
 //    var message: String? = null
 //}
 
+@Suppress("UnstableApiUsage")
 class PluginViewModel: Plugin<Project> {
 
     override fun apply(project: Project) {
@@ -41,7 +40,13 @@ class PluginViewModel: Plugin<Project> {
     }
 
     private fun KotlinMultiplatformExtension.conf(project: Project) {
-        android()
+        android {
+            compilations.all {
+                kotlinOptions {
+                    jvmTarget = "1.8"
+                }
+            }
+        }
         jvm()
 
 

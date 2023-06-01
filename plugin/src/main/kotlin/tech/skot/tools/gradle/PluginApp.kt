@@ -7,7 +7,6 @@ import org.gradle.kotlin.dsl.DependencyHandlerScope
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.project
-import tech.skot.Versions
 
 //open class SKPluginAppExtension {
 //    var message: String? = null
@@ -48,9 +47,9 @@ class PluginApp : Plugin<Project> {
 
         androidBaseConfig(project)
 
-        packagingOptions {
-            exclude("META-INF/*.kotlin_module")
-            exclude("META-INF/*")
+        packaging {
+            resources.excludes.add("META-INF/*.kotlin_module")
+            resources.excludes.add("META-INF/*")
         }
 
         compileOptions {

@@ -3,6 +3,7 @@ package tech.skot.tools.gradle
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginConvention
+import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.Delete
 import org.gradle.kotlin.dsl.*
 import tech.skot.Versions
@@ -42,8 +43,8 @@ class PluginTools : Plugin<Project> {
             dependencies(project)
         }
 
-        val javaPluginConvention = project.convention.getPlugin(JavaPluginConvention::class.java)
-        val sourceSet = javaPluginConvention.sourceSets["main"]
+        val javaPluginExtension = project.extensions.getByType(JavaPluginExtension::class)
+        val sourceSet = javaPluginExtension.sourceSets["main"]
 
 
         val trueProjectDir = project.parent?.projectDir ?: project.rootDir
@@ -107,13 +108,13 @@ class PluginTools : Plugin<Project> {
                 } else {
                     println("génération .........")
                     project.javaexec {
-                        main = "tech.skot.tools.generation.GenerateKt"
+                        mainClass.set( "tech.skot.tools.generation.GenerateKt")
                         classpath = sourceSet.runtimeClasspath
                         args = listOf(
                             app.packageName,
                             app.startScreen,
                             app.rootState.toString(),
-                            app.baseActivity ?: "null",
+                            app.baseActivity,
                             (project.parent?.projectDir ?: project.rootDir).toPath().toString(),
                             app.feature ?: "null",
                             app.baseActivityVar ?: "null",

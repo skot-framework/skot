@@ -1,10 +1,10 @@
 package tech.skot.tools.gradle
 
 import com.android.build.gradle.LibraryExtension
-import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.*
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import tech.skot.Versions
 import tech.skot.tools.gradle.SKLibrary.Companion.addDependenciesToViewLegacy
 
@@ -19,6 +19,8 @@ class PluginViewLegacy: Plugin<Project> {
 //        project.plugins.apply("com.github.ben-manes.versions")
 
         project.extensions.findByType(LibraryExtension::class)?.android(project)
+        project.extensions.findByType(KotlinMultiplatformExtension::class)?.conf(project)
+
 
         project.dependencies {
             dependencies(project)
@@ -27,8 +29,21 @@ class PluginViewLegacy: Plugin<Project> {
 
     }
 
+    private fun KotlinMultiplatformExtension.conf(project: Project) {
+       android {
+           jvm()
+            compilations.all {
+                kotlinOptions {
+                    jvmTarget = "1.8"
+                }
+            }
+        }
+    }
 
-    private fun LibraryExtension.android(project: Project) {
+
+
+        private fun LibraryExtension.android(project: Project) {
+
 
         sourceSets.getByName("main") {
             java.srcDir("src/androidMain/kotlin")
@@ -65,12 +80,13 @@ class PluginViewLegacy: Plugin<Project> {
 
 
 
+
     }
 
 
 
 
-    private fun DependencyHandlerScope.dependencies(project: Project) {
+        private fun DependencyHandlerScope.dependencies(project: Project) {
 
         val parentProjectPath = project.parent?.path ?: ""
 

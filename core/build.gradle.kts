@@ -18,6 +18,11 @@ kotlin {
 
     android {
         publishLibraryVariants("release")
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "1.8"
+            }
+        }
     }
 
 
@@ -71,8 +76,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileSdk = Versions.Android.compileSdk
-
-
+    namespace = "tech.skot.core"
 }
 
 

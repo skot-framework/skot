@@ -8,9 +8,7 @@ import org.gradle.kotlin.dsl.get
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import tech.skot.Versions
 
-//open class SKPluginViewModelExtension {
-//    var message: String? = null
-//}
+
 
 @Suppress("UnstableApiUsage")
 class PluginViewModel: Plugin<Project> {

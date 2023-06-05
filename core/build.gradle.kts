@@ -11,7 +11,7 @@ version = Versions.version
 
 
 kotlin {
-
+    jvmToolchain(8)
     jvm()
 
     ios()

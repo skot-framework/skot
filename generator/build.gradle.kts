@@ -9,7 +9,6 @@ group = Versions.group
 version = Versions.version
 
 
-
 //configurations {
 //    all {
 //        attributes {
@@ -24,6 +23,9 @@ version = Versions.version
 
 kotlin {
     jvm("jvm")
+    jvmToolchain(8)
+
+
     sourceSets {
         val jvmMain by getting {
             dependencies {
@@ -35,12 +37,6 @@ kotlin {
                 implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:${Versions.kotlin}")
             }
         }
-
-//        val jvmTest by getting {
-//            dependencies {
-//                implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
-//            }
-//        }
     }
 }
 
@@ -64,7 +60,7 @@ if (!localPublication) {
 //                artifact(sourceJar.get())
 
                 pom {
-                    name.set("Skot Framework "+project.name)
+                    name.set("Skot Framework " + project.name)
                     description.set("${project.name} description")
                     url.set("https://github.com/skot-framework/skot")
                     licenses {
@@ -94,11 +90,16 @@ if (!localPublication) {
 
     signing {
         useInMemoryPgpKeys(
-                publication.signingKeyId,
-                publication.signingKey,
-                publication.signingPassword
+            publication.signingKeyId,
+            publication.signingKey,
+            publication.signingPassword
         )
         this.sign(publishing.publications)
     }
 }
 
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}

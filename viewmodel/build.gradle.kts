@@ -13,6 +13,7 @@ version = Versions.version
 
 
 kotlin {
+    jvmToolchain(8)
 
     jvm()
 
@@ -50,6 +51,8 @@ android {
     }
     compileSdk = Versions.Android.compileSdk
     namespace = "tech.skot.viewmodel"
+
+
 
 
     sourceSets {

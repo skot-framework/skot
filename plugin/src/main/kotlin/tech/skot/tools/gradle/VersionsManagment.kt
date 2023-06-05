@@ -52,6 +52,7 @@ private fun Project.skComputeVersionCodeAndReleaseNote(nbMaxCommitsInReleaseNote
             println("--fetched last uploaded infos = $lastUploadedInfos")
             val currentVersionCode = skVersionCode()
             if (lastUploadedInfos != null) {
+                println("getLastUploadedInfos buildNumber = ${lastUploadedInfos.buildNumber}")
                 skSetVersionCode(max(lastUploadedInfos.buildNumber, currentVersionCode + 1))
                 val lastCommitHashes = commandLine("git", "show", "-s", "--format=%h", "-$nbMaxCommitsInReleaseNote").split("\n").filter { it.isNotBlank() }
                 val lastUploadCommitIndex = lastCommitHashes.indexOf(lastUploadedInfos.commit)
@@ -73,7 +74,9 @@ private fun Project.skSaveUploadedInfos() {
     task("save_uploaded_versions_infos") {
         doFirst {
             val lastCommitHash = commandLine("git", "show", "-s", "--format=%h").substringBefore("\n")
-            commandLine("scripts/versions/saveLastUploadedInfos.sh", lastCommitHash)
+            println("save_uploaded_versions_infos lastCommitHash = $lastCommitHash")
+            val str = commandLine("scripts/versions/saveLastUploadedInfos.sh", lastCommitHash)
+            println("save_uploaded_versions_infos response = $str")
         }
         group = "skot_versions"
     }

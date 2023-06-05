@@ -27,8 +27,6 @@ android {
     }
     compileSdk = Versions.Android.compileSdk
     namespace = "tech.skot.viewlegacytests"
-
-
 }
 
 

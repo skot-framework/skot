@@ -39,7 +39,7 @@ data class ComponentDef(
         .joinToString(separator = "").substring(1)
 
     fun binding(viewModuleAndroidPackage: String) =
-        ClassName("$viewModuleAndroidPackage.databinding", name.suffix("Binding"))
+        ClassName("$viewModuleAndroidPackage.view.databinding", name.suffix("Binding"))
 
     fun viewImpl() = ClassName(packageName, name.suffix("View"))
     fun viewMock() = ClassName(packageName, name.suffix("ViewMock"))

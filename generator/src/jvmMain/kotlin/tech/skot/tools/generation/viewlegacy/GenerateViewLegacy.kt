@@ -8,8 +8,7 @@ import java.nio.file.Files
 fun Generator.generateViewLegacy() {
 
     println("generate ViewLegacy .....")
-    val viewModuleAndroidPackage =
-        getAndroidPackageName(rootPath.resolve(modules.view).resolve("src/androidMain"))
+    val viewModuleAndroidPackage = this.appPackage
 
     if (!baseActivity.existsAndroidInModule(modules.view)) {
         baseActivity.fileClassBuilder(

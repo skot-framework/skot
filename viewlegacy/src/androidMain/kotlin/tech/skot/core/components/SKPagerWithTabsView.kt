@@ -1,6 +1,7 @@
 package tech.skot.core.components
 
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
@@ -21,11 +22,13 @@ class SKPagerWithTabsView(
 
     fun onLabels(tabConfigs: List<SKPagerWithTabsVC.TabConfig>) {
         tabLayoutMediator?.takeIf { it.isAttached }?.detach()
+
         tabLayoutMediator = TabLayoutMediator(
             tabLayout, viewPager2
         ) { tab, index ->
+
             tab.view.setOnTouchListener { v, event ->
-                if(!tab.isSelected) {
+                if(!tab.isSelected && event.action == MotionEvent.ACTION_UP) {
                     proxy.onUserTabClick?.invoke(tab.position)
                     proxy.pager.selectedPageIndex = tab.position
                 }

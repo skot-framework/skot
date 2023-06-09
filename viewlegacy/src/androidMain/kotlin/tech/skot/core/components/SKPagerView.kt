@@ -1,10 +1,12 @@
 package tech.skot.core.components
 
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import tech.skot.core.SKLog
 
 
 class SKPagerView(
@@ -14,20 +16,28 @@ class SKPagerView(
     private val viewPager2: ViewPager2,
 ) : SKComponentView<ViewPager2>(proxy, activity, fragment, viewPager2) {
 
-    fun onScreens(screens: List<SKScreenViewProxy<*>>) {
-        viewPager2.adapter =
-            object : FragmentStateAdapter(fragmentManager, lifecycleOwner.lifecycle) {
-                override fun getItemCount() = screens.size
+    private val adapter = object : FragmentStateAdapter(fragmentManager, lifecycleOwner.lifecycle) {
+        override fun getItemCount() = proxy.screens.size
 
-                override fun createFragment(position: Int): Fragment {
-                    return screens[position].createFragment(canSetFullScreen = false)
-                }
-            }
+        override fun createFragment(position: Int): Fragment {
+            return (proxy.screens[position] as SKScreenViewProxy<*>).createFragment(canSetFullScreen = false)
+        }
+    }
+    init {
+        viewPager2.adapter = adapter
+    }
+
+
+    fun onScreens(screens: List<SKScreenViewProxy<*>>) {
+        adapter.notifyDataSetChanged()
+        viewPager2.doOnLayout {
+            viewPager2.setCurrentItem(proxy.selectedPageIndex, false)
+        }
     }
 
 
     fun onSelectedPageIndex(selectedPageIndex: Int) {
-        viewPager2.post {
+        viewPager2.doOnLayout {
             viewPager2.currentItem = selectedPageIndex
         }
     }
@@ -49,6 +59,7 @@ class SKPagerView(
                     proxy.selectedPageIndex = position
                     onSwipeToPage?.invoke(position)
                 }
+                SKLog.d("SkPager page selected $position on ${viewPager2.adapter?.itemCount}")
             }
         }.also { onUserSwipeCallBack = it })
 

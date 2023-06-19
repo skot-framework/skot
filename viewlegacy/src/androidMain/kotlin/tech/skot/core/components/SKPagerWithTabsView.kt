@@ -34,7 +34,7 @@ class SKPagerWithTabsView(
                 }
                 false
             }
-            when (val tabConfig = tabConfigs.get(index)) {
+            when (val tabConfig = tabConfigs.getOrNull(index)) {
                 is SKPagerWithTabsVC.TabConfig.Icon -> {
                     tab.setIcon(tabConfig.icon.res)
                     tab.tabLabelVisibility = TabLayout.TAB_LABEL_VISIBILITY_UNLABELED
@@ -62,6 +62,8 @@ class SKPagerWithTabsView(
                 is SKPagerWithTabsVC.TabConfig.SpannableTitle -> {
                     tab.text = tabConfig.title.toCharSequence(context)
                 }
+
+                null -> Unit
             }
         }.apply {
             this.attach()
@@ -74,7 +76,7 @@ class SKPagerWithTabsView(
     }
 
     private fun automaticShowTabs() {
-        if (viewPager2.adapter?.itemCount ?: 0 > 1) {
+        if ((viewPager2.adapter?.itemCount ?: 0) > 1) {
             tabLayout.setVisible(true)
         } else {
             tabLayout.setVisible(false)

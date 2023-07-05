@@ -16,20 +16,21 @@ class SKPagerView(
     private val viewPager2: ViewPager2,
 ) : SKComponentView<ViewPager2>(proxy, activity, fragment, viewPager2) {
 
-    private val adapter = object : FragmentStateAdapter(fragmentManager, lifecycleOwner.lifecycle) {
-        override fun getItemCount() = proxy.screens.size
+    var screens: List<SKScreenViewProxy<*>> = emptyList()
 
-        override fun createFragment(position: Int): Fragment {
-            return (proxy.screens[position] as SKScreenViewProxy<*>).createFragment(canSetFullScreen = false)
-        }
-    }
-    init {
-        viewPager2.adapter = adapter
-    }
 
 
     fun onScreens(screens: List<SKScreenViewProxy<*>>) {
-        adapter.notifyDataSetChanged()
+        this.screens = screens
+       val adapter = object : FragmentStateAdapter(fragmentManager, lifecycleOwner.lifecycle) {
+            override fun getItemCount() = screens.size
+
+            override fun createFragment(position: Int): Fragment {
+                return (screens[position] as SKScreenViewProxy<*>).createFragment(canSetFullScreen = false)
+            }
+
+        }
+        viewPager2.adapter = adapter
         viewPager2.doOnLayout {
             viewPager2.setCurrentItem(proxy.selectedPageIndex, false)
         }

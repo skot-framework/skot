@@ -7,6 +7,7 @@ import android.text.method.LinkMovementMethod
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -55,6 +56,8 @@ class SKSnackBarView(
             if (state != null) {
                 Snackbar.make(container?:baseView,  state.message.toCharSequence(context), Snackbar.LENGTH_INDEFINITE)
                     .apply {
+                        isGestureInsetBottomIgnored = state.isGestureInsetBottomIgnored
+
                         if(state.slideAnimation) {
                             this.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
                         }
@@ -109,14 +112,20 @@ class SKSnackBarView(
                             })
 
                         }
+                        anchor?.let { setAnchorView(it) }
                         when (val position = state.position) {
-                            SKSnackBarVC.Position.Bottom -> {}
+                            SKSnackBarVC.Position.Bottom -> {
+                                view.apply {
+                                    (layoutParams as? MarginLayoutParams)?.let {
+                                        it.bottomMargin = 0
+                                        layoutParams = it
+                                    }
+                                }
+                            }
                             is SKSnackBarVC.Position.BottomWithCustomMargin -> {
                                 view.apply {
-                                    (layoutParams as? FrameLayout.LayoutParams)?.let {
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    (layoutParams as? MarginLayoutParams)?.let {
                                             it.bottomMargin = position.margin.toPx.toInt()
-                                        }
                                         layoutParams = it
                                     }
                                 }
@@ -165,7 +174,7 @@ class SKSnackBarView(
 
                         }
                         current = State(state, this)
-                        anchor?.let { setAnchorView(it) }
+
                         show()
                     }
             } else {

@@ -81,7 +81,7 @@ class SKWebViewView(
                     view: WebView?,
                     request: WebResourceRequest?
                 ): WebResourceResponse? {
-                    request?.url?.toSKUri()?.let { skUri ->
+                    request?.url?.takeIf { it.isHierarchical }?.toSKUri()?.let { skUri ->
                         try {
                            config.onRequest?.invoke(skUri)
                         } catch (ex: Exception) {

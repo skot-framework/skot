@@ -19,16 +19,15 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":core"))
-                api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
-                api("org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.serialization}")
-                api("org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinxDateTime}")
+                api(libs.jetbrains.kotlin.stdlib)
+                api(libs.kotlinx.coroutines.core)
+                api(libs.jetbrains.kotlinx.serialization.core)
+                api(libs.kotlinx.datetime)
             }
         }
         val jvmTest by getting {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
-                implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+                implementation(libs.jetbrains.kotlin.test.junit)
             }
         }
     }

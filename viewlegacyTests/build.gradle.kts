@@ -25,7 +25,7 @@ android {
     defaultConfig {
         minSdk = Versions.Android.minSdk
     }
-    compileSdk = Versions.Android.compileSdk
+    compileSdk = 33
     namespace = "tech.skot.viewlegacytests"
 }
 
@@ -33,7 +33,7 @@ android {
 
 dependencies {
     implementation((project(":viewlegacy")))
-    api("androidx.test.espresso:espresso-core:3.5.1")
-    api("androidx.test:core-ktx:1.5.0")
-    api("androidx.test.ext:junit-ktx:1.1.5")
+    api(libs.espresso.core)
+    api(libs.core.ktx)
+    api(libs.junit.ktx)
 }

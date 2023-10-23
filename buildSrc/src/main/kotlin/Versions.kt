@@ -1,7 +1,7 @@
 object Versions {
 
     const val group = "com.github.useradgents.skot"
-    const val version = "1.2.21-ua"
+    const val version = "1.2.22-ua"
 
     const val kotlin = "1.8.21"
     const val kotlinCoroutines = "1.6.4"
@@ -15,11 +15,11 @@ object Versions {
 
     object Android {
 
-        const val gradle = "8.0.2"
+        const val gradle = "8.4.0"
 
         const val minSdk = 21
-        const val compileSdk = 33
-        const val targetSdk = 33
+        const val compileSdk = 34
+        const val targetSdk = 34
 
         const val appcompat = "1.6.1"
     }

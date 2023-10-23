@@ -10,23 +10,23 @@ plugins {
 
 dependencies {
 
-    api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}")
+    api(libs.jetbrains.kotlin.stdlib)
+    api(libs.kotlinx.coroutines.android)
 
-    api("androidx.appcompat:appcompat:${Versions.Android.appcompat}")
+    api(libs.appcompat)
 
-    api("org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}")
+    api(libs.kotlin.test)
 
-    api("androidx.test.espresso:espresso-core:3.3.0")
-    api("androidx.test.espresso:espresso-contrib:3.3.0")
-    api("androidx.test.espresso:espresso-web:3.3.0")
-    api("androidx.test:rules:1.3.0")
-    api("androidx.arch.core:core-testing:2.1.0")
+    api(libs.espresso.core)
+    api(libs.espresso.contrib)
+    api(libs.espresso.web)
+    api(libs.test.rules)
+    api(libs.core.testing)
 
-    api("io.ktor:ktor-server-netty:${Versions.ktor}")
-    api("io.ktor:ktor-client-android:${Versions.ktor}")
+    api(libs.ktor.server.netty)
+    api(libs.ktor.client.android)
 
-    api("androidx.test:runner:1.3.0")
+    api(libs.test.runner)
     implementation(project(":core"))
 }
 
@@ -54,14 +54,14 @@ kotlin {
 
     sourceSets["commonMain"].kotlin.srcDir("generated/commonMain/kotlin")
     sourceSets["commonMain"].dependencies {
-        api("org.jetbrains.kotlin:kotlin-stdlib-common:${Versions.kotlin}")
-        api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
+        api(libs.jetbrains.kotlin.stdlib)
+        api(libs.kotlinx.coroutines.core)
     }
 
 
     sourceSets["androidMain"].dependencies {
-        api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
-        api("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}")
+        api(libs.jetbrains.kotlin.stdlib)
+        api(libs.kotlinx.coroutines.android)
     }
 
 

@@ -12,14 +12,14 @@ plugins {
 
 
 dependencies {
-    api("com.android.tools.build:gradle:${Versions.Android.gradle}")
-    api("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
-    api("org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
+    api(libs.gradle)
+    api(libs.kotlin.gradle.plugin)
+    api(libs.kotlin.serialization)
+    implementation(libs.kotlinx.serialization.json)
 
-    api("com.squareup:kotlinpoet:${Versions.kotlinpoet}")
+    api(libs.kotlinpoet)
 
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+    testImplementation(libs.jetbrains.kotlin.test.junit)
 }
 
 //configurations {
@@ -178,7 +178,7 @@ fun buildVersionsFile() {
         .addStringConst("serialization", Versions.serialization)
         .addStringConst("kotlinxDateTime", Versions.kotlinxDateTime)
         .addStringConst("ktor", Versions.ktor)
-        .addStringConst("kotlin", Versions.kotlin)
+        .addStringConst("kotlin", libs.jetbrains.kotlin.stdlib.toString())
         .addStringConst("kotlinCoroutines", Versions.kotlinCoroutines)
         .addStringConst("kotlinpoet", Versions.kotlinpoet)
         .addIntConst("android_minSdk", Versions.Android.minSdk)

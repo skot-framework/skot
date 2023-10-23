@@ -11,14 +11,14 @@ plugins {
 
 
 dependencies {
-    api("androidx.core:core:1.10.1")
-    api("androidx.appcompat:appcompat:${Versions.Android.appcompat}")
-    api("androidx.constraintlayout:constraintlayout:2.1.4")
-    api("androidx.viewpager2:viewpager2:1.0.0")
-    api("androidx.recyclerview:recyclerview:1.3.0")
-    api("com.google.android.material:material:1.9.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    api(libs.core)
+    api(libs.appcompat)
+    api(libs.constraintlayout)
+    api(libs.viewpager2)
+    api(libs.recyclerview)
+    api(libs.material)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.lifecycle.runtime.ktx)
     androidTestImplementation(project(":viewlegacyTests"))
 }
 
@@ -28,7 +28,7 @@ android {
         minSdk = Versions.Android.minSdk
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-    compileSdk = Versions.Android.compileSdk
+    compileSdk = 33
     namespace = "tech.skot.viewlegacy"
 
 

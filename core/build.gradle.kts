@@ -11,7 +11,6 @@ version = Versions.version
 
 
 kotlin {
-    jvmToolchain(8)
     jvm()
 
     ios()
@@ -29,21 +28,23 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
+                api(libs.kotlinx.coroutines.core)
                 api(kotlin("reflect"))
-                api("org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinxDateTime}")
+                api(libs.kotlinx.datetime)
             }
         }
 
 
         val jvmMain by getting {
-
+            dependencies {
+                api(libs.bundles.kotlinx.coroutines)
+            }
         }
 
         val androidMain by getting {
             dependencies {
-                api("com.jakewharton.timber:timber:5.0.1")
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}")
+                api(libs.timber)
+                api(libs.bundles.kotlinx.coroutines)
 
             }
         }
@@ -51,16 +52,16 @@ kotlin {
 
         val jvmTest by getting {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+                implementation(libs.jetbrains.kotlin.test.junit)
             }
         }
 
         val androidInstrumentedTest by getting {
             dependencies {
-                implementation("androidx.test.espresso:espresso-core:3.5.1")
-                implementation("androidx.test:core-ktx:1.5.0")
-                implementation("androidx.test.ext:junit-ktx:1.1.5")
-                implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+                implementation(libs.espresso.core)
+                implementation(libs.core.ktx)
+                implementation(libs.junit.ktx)
+                implementation(libs.jetbrains.kotlin.test.junit)
             }
         }
 
@@ -73,6 +74,6 @@ android {
         minSdk = Versions.Android.minSdk
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-    compileSdk = Versions.Android.compileSdk
+    compileSdk = 33
     namespace = "tech.skot.core"
 }

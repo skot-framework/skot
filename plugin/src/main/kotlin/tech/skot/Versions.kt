@@ -4,7 +4,7 @@ import kotlin.Int
 import kotlin.String
 
 public object Versions {
-  public const val skot: String = "1.2.21-ua"
+  public const val skot: String = "1.2.22-ua"
 
   public const val group: String = "com.github.useradgents.skot"
 
@@ -14,7 +14,7 @@ public object Versions {
 
   public const val ktor: String = "2.3.0"
 
-  public const val kotlin: String = "1.8.21"
+  public const val kotlin: String = "map(valueof(DependencyValueSource))"
 
   public const val kotlinCoroutines: String = "1.6.4"
 
@@ -22,9 +22,9 @@ public object Versions {
 
   public const val android_minSdk: Int = 21
 
-  public const val android_compileSdk: Int = 33
+  public const val android_compileSdk: Int = 34
 
-  public const val android_targetSdk: Int = 33
+  public const val android_targetSdk: Int = 34
 
   public const val android_app_compat: String = "1.6.1"
 

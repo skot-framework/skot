@@ -35,36 +35,36 @@ kotlin {
             dependencies {
                 api(project(":core"))
                 api(project(":modelcontract"))
-                api("com.squareup.sqldelight:runtime:${Versions.sqldelight}")
-                api("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
-                api("io.ktor:ktor-client-core:${Versions.ktor}")
-                api("io.ktor:ktor-client-auth:${Versions.ktor}")
-                api("io.ktor:ktor-client-logging:${Versions.ktor}")
+                api(libs.sqldelight.runtime)
+                api(libs.kotlinx.serialization.json)
+                api(libs.ktor.client.core)
+                api(libs.ktor.ktor.client.auth)
+                api(libs.ktor.ktor.client.logging)
             }
         }
         
 
         val androidMain by getting {
             dependencies {
-                api("com.squareup.sqldelight:android-driver:${Versions.sqldelight}")
-                api("io.ktor:ktor-client-okhttp:${Versions.ktor}")
+                api(libs.sqldelight.android.driver)
+                api(libs.ktor.ktor.client.okhttp)
             }
         }
 
         val jvmMain by getting {
             dependencies {
-                api("com.squareup.sqldelight:sqlite-driver:${Versions.sqldelight}")
-                api("io.ktor:ktor-client-okhttp:${Versions.ktor}")
-                api("io.ktor:ktor-client-mock-jvm:${Versions.ktor}")
-                api("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}")
+                api(libs.sqldelight.sqlite.driver)
+                api(libs.ktor.ktor.client.okhttp)
+                api(libs.ktor.ktor.client.mock.jvm)
+                api(libs.jetbrains.kotlin.test.junit)
+                api(libs.kotlinx.coroutines.test)
             }
         }
 
         val jvmTest by getting {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}")
+                implementation(libs.jetbrains.kotlin.test.junit)
+                implementation(libs.kotlinx.coroutines.test)
             }
 
         }
@@ -72,16 +72,16 @@ kotlin {
 
         val androidInstrumentedTest by getting {
             dependencies {
-                implementation("androidx.test.espresso:espresso-core:3.5.1")
-                implementation("androidx.test:core-ktx:1.5.0")
-                implementation("androidx.test.ext:junit-ktx:1.1.5")
-                implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+                implementation(libs.espresso.core)
+                implementation(libs.core.ktx)
+                implementation(libs.junit.ktx)
+                implementation(libs.jetbrains.kotlin.test.junit)
             }
         }
 
         val androidUnitTest by getting {
             dependencies {
-               implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+               implementation(libs.jetbrains.kotlin.test.junit)
             }
         }
 
@@ -96,7 +96,7 @@ android {
         minSdk = Versions.Android.minSdk
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-    compileSdk = Versions.Android.compileSdk
+    compileSdk = 33
     namespace = "tech.skot.model"
 
 
@@ -114,11 +114,11 @@ android {
 
 dependencies {
 
-    androidTestImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
-    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.test:core-ktx:1.5.0")
-    androidTestImplementation("androidx.test.ext:junit-ktx:1.1.5")
+    androidTestImplementation(libs.jetbrains.kotlin.test.junit)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.core.ktx)
+    androidTestImplementation(libs.junit.ktx)
 }
 
 sqldelight {

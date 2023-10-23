@@ -23,18 +23,17 @@ version = Versions.version
 
 kotlin {
     jvm("jvm")
-    jvmToolchain(8)
 
 
     sourceSets {
         val jvmMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
+                implementation(libs.jetbrains.kotlin.stdlib)
                 api(project(":viewcontract"))
                 implementation(project(":modelcontract"))
-                api("com.squareup:kotlinpoet:${Versions.kotlinpoet}")
+                api(libs.kotlinpoet)
                 api(kotlin("reflect"))
-                implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:${Versions.kotlin}")
+                implementation(libs.jetbrains.kotlin.compiler.embeddable)
             }
         }
     }

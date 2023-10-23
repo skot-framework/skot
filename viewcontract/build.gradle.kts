@@ -18,15 +18,15 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":core"))
-                api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
+                api(libs.jetbrains.kotlin.stdlib)
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
 
 
         val jvmTest by getting {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
+                implementation(libs.jetbrains.kotlin.test.junit)
             }
         }
     }

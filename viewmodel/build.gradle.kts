@@ -13,7 +13,6 @@ version = Versions.version
 
 
 kotlin {
-    jvmToolchain(8)
 
     jvm()
 
@@ -41,15 +40,15 @@ kotlin {
 }
 
 dependencies {
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}")
+    testImplementation(libs.jetbrains.kotlin.test.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
 
 android {
     defaultConfig {
         minSdk = Versions.Android.minSdk
     }
-    compileSdk = Versions.Android.compileSdk
+    compileSdk = 33
     namespace = "tech.skot.viewmodel"
 
 
